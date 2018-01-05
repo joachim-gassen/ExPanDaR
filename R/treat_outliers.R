@@ -11,7 +11,7 @@ treat_vector_outliers <- function(x, truncate, percentile) {
 }
 
 
-#' @title A function to treat outliers in numerical data
+#' @title Treats Outliers in Numerical Data
 #'
 #' @description
 #' Treats numerical outliers either by winsorizing or by truncating.

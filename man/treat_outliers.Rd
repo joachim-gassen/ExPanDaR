@@ -2,7 +2,7 @@
 % Please edit documentation in R/treat_outliers.R
 \name{treat_outliers}
 \alias{treat_outliers}
-\title{A function to treat outliers in numerical data}
+\title{Treats Outliers in Numerical Data}
 \usage{
 treat_outliers(x, percentile = 0.01, truncate = FALSE, byvec = NULL)
 }

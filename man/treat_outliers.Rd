@@ -7,13 +7,13 @@
 treat_outliers(x, percentile = 0.01, truncate = FALSE, byvec = NULL)
 }
 \arguments{
-\item{x}{A numeric vector or matrix.}
+\item{x}{Data that is coercible into a numeric vector or matrix.}
 
 \item{percentile}{A numeric scalar.
   The percentile below which observations
   are considered to be outliers. Is treated symmetrical so that
 \code{c(percentile, 1-percentile)} are used as boundaries.
-  Defaults to 0.01.}
+  Defaults to 0.01 and needs to be > 0 and < 0.5.}
 
 \item{truncate}{A logical scalar. If TRUE then data are truncated
 (i.e., set to NA if out of bounds). Defaults to FALSE.}
@@ -31,6 +31,12 @@ Treats numerical outliers either by winsorizing or by truncating.
 \examples{
 treat_outliers(seq(1:100), 0.05)
 treat_outliers(seq(1:100), truncate = TRUE, 0.05)
-summary(treat_outliers(data.frame(a = seq(1:100), b = rnorm(100)), percentile = 0.05))
+
+df <- data.frame(a = seq(1:100), b = rnorm(100), c = sample(LETTERS, 100, replace=TRUE))
+winsorized_df <- df
+winsorized_df[sapply(df,is.numeric)] <- treat_outliers(df[sapply(df,is.numeric)])
+summary(df)
+summary(winsorized_df)
+
 hist(treat_outliers(rnorm(1000)), breaks=100)
 }

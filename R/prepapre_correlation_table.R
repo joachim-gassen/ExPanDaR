@@ -8,7 +8,7 @@
 #'   or logical and at least five observations.
 #' @param digits The number of digits that you want to report.
 #' @param bold Indicate the p-Value for for identifying significant correlations
-#'   in bold brint. Defaults to 0.05. If set to NA, no bold print is being used.
+#'   in bold brint. Defaults to 0.05. If set to 0, no bold print is being used.
 #' @param format The format that you want knitr::kable to produce ("html" or "latex")
 #' @return A list containing four items:
 #' \itemize{
@@ -30,8 +30,8 @@ prepare_correlation_table <- function(df, digits = 2, bold = 0.05, format = "htm
     stop("'df' needs to contain at least two variables and five observations of numerical data")
   if (!is.numeric(digits) | length(digits) != 1 | digits <= 0 | digits >= 5)
     stop("argument 'digits' needs to be a numerical scalar with 0 < digits <= 5")
-  if (!is.numeric(bold) | length(bold) != 1 | bold <= 0 | bold >= 1)
-    stop("argument 'bold' needs to be a numerical scalar with 0 < bold < 1")
+  if (!is.numeric(bold) | length(bold) != 1 | bold < 0 | bold >= 1)
+    stop("argument 'bold' needs to be a numerical scalar with 0 <= bold < 1")
 
   pcorr <- Hmisc::rcorr(as.matrix(df), type="pearson")
   scorr <- Hmisc::rcorr(as.matrix(df), type="spearman")
@@ -51,14 +51,19 @@ prepare_correlation_table <- function(df, digits = 2, bold = 0.05, format = "htm
   LETTERS702 <- c(LETTERS, sapply(LETTERS, function(x) paste0(x, LETTERS)))
   colnames(fted_correl_r) <- LETTERS702[1:ncol(correl_r)]
   rownames(fted_correl_r) <- paste0(LETTERS702[1:ncol(correl_r)], ": ",rownames(correl_r))
-  kr <- knitr::kable(fted_correl_r, align = rep("r", ncol(correl_r)),
-                     caption = "Correlations[note]", format, escape = FALSE)
-  kr <- kableExtra::add_footnote(kr, paste("This table reports Pearson correlations above and spearman correlations below the diagonal.",
+  kr <- knitr::kable(fted_correl_r, align = rep("r", ncol(correl_r)), format, escape = FALSE)
+
+  # __TO_DO__: The below is based on the githug version of kableExtra, undocumented and likely to change
+  # Also, it would be nice to avoid that tfoot does not screw up the auto width of the full table
+
+  kr <- kableExtra::add_footnote_adv(kr, general_title = "",
+                                     general = paste("This table reports Pearson correlations above and Spearman correlations below the diagonal.",
                                            ifelse(max(correl_n) == min(correl_n),
                                                   sprintf("Number of observations: %d.", min(correl_n)),
                                                   sprintf("The number of observations ranges from %d to %d.", min(correl_n), max(correl_n))),
-                                           sprintf("Correlations with significance levels below %.0f%% appear in bold print.", bold*100)),
-                                 notation = "symbol")
+                                           ifelse(bold > 0,
+                                                  sprintf("Correlations with significance levels below %.0f%% appear in bold print.", bold*100),
+                                                  "")))
 
   list(df_corr = as.data.frame(correl_r),
        df_prob = as.data.frame(correl_p),

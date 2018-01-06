@@ -2,4 +2,5 @@
 
 export(prepare_correlation_table)
 export(prepare_descriptive_table)
+export(prepare_ext_obs_table)
 export(treat_outliers)

@@ -10,5 +10,5 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
-    knitr, kableExtra, Hmisc
+    knitr, kableExtra, Hmisc, devtools
 RoxygenNote: 6.0.1.9000

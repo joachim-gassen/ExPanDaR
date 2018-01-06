@@ -13,7 +13,7 @@ or logical and at least five observations.}
 \item{digits}{The number of digits that you want to report.}
 
 \item{bold}{Indicate the p-Value for for identifying significant correlations
-in bold brint. Defaults to 0.05. If set to NA, no bold print is being used.}
+in bold brint. Defaults to 0.05. If set to 0, no bold print is being used.}
 
 \item{format}{The format that you want knitr::kable to produce ("html" or "latex")}
 }

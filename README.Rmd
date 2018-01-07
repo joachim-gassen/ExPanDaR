@@ -1,0 +1,129 @@
+---
+title: "ExPanDaR: An Intro"
+author: "Joachim Gassen"
+date: "January 7, 2018"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align="center", table.align="center")
+library(ExPanDaR)
+library(knitr)
+library(kableExtra)
+```
+
+## ExPanDaR Package Functions
+
+You are visiting the gihub repository of the ExPanDaR (Exploare Panel Data with R) package. ExPanDaR is a small and extremely early stage package which will develop into the package facilitating the use of the ExPanD web app. ExPanD is a shiny based app designed to allow users with little or no statistical programming experience the opportunity to explore panel data. In addition, it will serve as a frontend to assess the robustness of empirical archival research work.
+
+While the main purpose of ExPanD is to allow dynamic panel data exploration using the ExPanD web app, the auxilliary functions of the ExPanDaR package can also be used for rapid prototyping data analysis.
+
+### Descriptive Statistics
+
+For example, you can use them for preparing descriptive statistics:
+
+```{r descriptive_statistics_table}
+t <- prepare_descriptive_table(mtcars)
+t$kable_ret  %>%
+  kable_styling("condensed", full_width = F, position = "center")
+```
+
+Those who are working with me know that I am a big fan of correlation tables.
+
+```{r correlation_table}
+t<- prepare_correlation_table(mtcars, bold = 0.01, format="html")
+t$kable_ret %>%
+  kable_styling("condensed", full_width = F, position = "center")
+```
+
+In fact, I like them so much that I sometimes use a graphic variant based on the corrplot package. See for yourself. 
+
+``` {r correlation_graph}
+prepare_correlation_graph(mtcars)
+```
+
+One thing that comes very handy when dealing with outliers is a quick way to observe extreme values. 
+
+```{r extreme_observations}
+t <- prepare_ext_obs_table(data.frame(name = rownames(mtcars), hp = mtcars$hp), row.names = T)
+t$kable_ret %>%
+  kable_styling("condensed", full_width = F, position = "center")
+```
+
+### Visuals
+
+Additional visuals are available for exploring time trends. For comparing variables... 
+```{r time_trend_plot}
+df <- data.frame(year =floor(time(EuStockMarkets)), EuStockMarkets)
+graph <- prepare_trend_graph(df, "year")
+graph$plot
+```
+
+... and for eyeballing the distributional properties of a single variable over time.
+
+```{r quantile_plot}
+df <- data.frame(year = floor(time(EuStockMarkets)), DAX = EuStockMarkets[,"DAX"])
+graph <- prepare_quantile_trend_graph(df, "year", c(0.05, 0.25, 0.5, 0.75, 0.95))
+graph$plot
+```
+
+And, of course, the mother of all plots, the scatter plot.
+
+```{r scatter_plot}
+df <- data.frame(year = as.numeric(time(EuStockMarkets)), EuStockMarkets[, c("DAX", "FTSE")])
+prepare_scatter_plot(df, x="DAX", y="FTSE", color="year")
+```
+
+### Regression Tables
+
+And, if you happen to be a fan of starred numbers, you can also quickly produce regression tables. Both, by mixing different models...
+
+```{r regressions}
+df <- data.frame(year = as.factor(floor(time(EuStockMarkets))), EuStockMarkets)
+dvs <- list("DAX", "SMI", "CAC", "FTSE")
+idvs <- list(c("SMI", "CAC", "FTSE"), 
+             c("DAX", "CAC", "FTSE"), 
+             c("SMI", "DAX", "FTSE"), 
+             c("SMI", "CAC", "DAX"))
+feffects <- list("year", "year", "year", "year")
+clusters <- list("year", "year", "year", "year")
+t <- prepare_regression_table(df, dvs, idvs, feffects, clusters)
+htmltools::HTML(t$table)
+```
+
+... or by applying one model on different sub-samples.
+
+```{r sub-sample_regressions}
+t <- prepare_regression_table(df, "DAX", c("SMI", "CAC", "FTSE"), byvar="year")
+htmltools::HTML(t$table)
+```
+
+### Use-case example
+
+Finally a "working" example for a quick and dirty analysis using hypothetical college admission data as provided by (https://stats.idre.ucla.edu/r/dae/logit-regression/).
+For the sake of completeness I use logit and OLS analyses. GPA and GRE are self-explanatory I guess and rank is an ordered factor capturing the reputation of the prior degree granting institution.
+
+```{r logit_regression}
+df <- read.csv("https://stats.idre.ucla.edu/stat/data/binary.csv")
+t <- prepare_descriptive_table(df)
+
+t$kable_ret  %>%
+  kable_styling("condensed", full_width = F)
+
+t<- prepare_correlation_table(df, bold = 0.01, format="html")
+t$kable_ret %>%
+  kable_styling("condensed", full_width = F)
+
+df$rank <- as.factor(df$rank)
+df$numadmit <- df$admit
+df$admit <- as.factor(df$admit)
+prepare_scatter_plot(df, x="gpa", y="gre", color="rank", size="admit")
+
+df$fact_admit <- as.factor(df$admit)
+
+t <- prepare_regression_table(df, list("admit", "numadmit"), 
+                              list(c("gre", "gpa", "rank"), c("gre", "gpa", "rank")))
+htmltools::HTML(t$table)
+```
+
+All these functions are rather simple wrappers around established R functions. They can easily be modified to fit your needs and taste. Enjoy!

@@ -28,7 +28,8 @@ and plots the quantiles of the numeric variables
 by the ordered factor.
 }
 \examples{
-df <- data.frame(year = floor(time(EuStockMarkets)), DAX = EuStockMarkets[,"DAX"])
+df <- data.frame(year = floor(stats::time(datasets::EuStockMarkets)),
+                 DAX = datasets::EuStockMarkets[,"DAX"])
 graph <- prepare_quantile_trend_graph(df, "year", c(0.05, 0.25, 0.5, 0.75, 0.95))
 graph$plot
 }

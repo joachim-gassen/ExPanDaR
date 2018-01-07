@@ -11,7 +11,7 @@
 #'   in bold brint. Defaults to 0.05. If set to 0, no bold print is being used.
 #' @param format The format that you want knitr::kable to produce ("html" or "latex")
 #' @return A list containing four items:
-#' \itemize{
+#' \describe{
 #'  \item{"df_corr"}{A data frame containg the correlations}
 #'  \item{"df_prob"}{A data frame containg the p-values of the correlations}
 #'  \item{"df_n"}{A data frame containg the number of observations used for the correlations}

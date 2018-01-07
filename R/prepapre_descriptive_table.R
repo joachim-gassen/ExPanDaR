@@ -13,7 +13,7 @@
 #' @param format character scalar that is handed over to knitr::kabel
 #'   (e.g., "html" or "latex").
 #' @return A list containing two items.
-#' \itemize{
+#' \describe{
 #'  \item{"df"}{A data frame containg the descriptive table}
 #'  \item{"kable_ret"}{The return value provided by kable() containing the formatted table}
 #' }

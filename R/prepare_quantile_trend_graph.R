@@ -11,13 +11,14 @@
 #' @param quantiles a numerical vector containing the quantiles that are to be plotted
 #'
 #' @return A list containing two items:
-#' \itemize{
+#' \describe{
 #'  \item{"df"}{A data frame containg the plotted means and standard errors}
 #'  \item{"plot}{The plot as returned by ggplot}
 #' }
 #'
 #' @examples
-#' df <- data.frame(year = floor(time(EuStockMarkets)), DAX = EuStockMarkets[,"DAX"])
+#' df <- data.frame(year = floor(stats::time(datasets::EuStockMarkets)),
+#'                  DAX = datasets::EuStockMarkets[,"DAX"])
 #' graph <- prepare_quantile_trend_graph(df, "year", c(0.05, 0.25, 0.5, 0.75, 0.95))
 #' graph$plot
 #' @export
@@ -29,7 +30,7 @@ prepare_quantile_trend_graph <- function(df, xvar, quantiles = c(0.05, 0.25, 0.5
               function(x){by(df[,2], df[, xvar], stats::quantile, na.rm=TRUE,x)})
   q <- data.frame(as.numeric(rownames(q)),q)
   colnames(q)[1] <- xvar
-  colnames(q)[2:(length(quantiles) + 1)] <- paste0(rep("q", length(quantiles)), quantiles*100)
+  colnames(q)[2:(length(quantiles) + 1)] <- sprintf("q%02d", quantiles*100)
   gg <- tidyr::gather_(data = q,
                        key_col = "quantile",
                        value_col = colnames(df)[!(xvar == colnames(df))],

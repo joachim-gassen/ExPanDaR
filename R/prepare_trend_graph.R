@@ -9,7 +9,7 @@
 #' @param xvar a string countaining the column name of the ordered factor
 #'
 #' @return A list containing two items:
-#' \itemize{
+#' \describe{
 #'  \item{"df"}{A data frame containg the plotted means and standard errors}
 #'  \item{"plot}{The plot as returned by ggplot}
 #' }

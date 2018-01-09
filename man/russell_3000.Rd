@@ -3,7 +3,7 @@
 \docType{data}
 \name{russell_3000}
 \alias{russell_3000}
-\title{Accounting and Return Data for a sample of Russell 3000 Firms (2012-2015)}
+\title{Accounting and Annual Stock Return Data for a Sample of Russell 3000 Firms (2013-2016)}
 \format{An object of class \code{"data.frame"}.}
 \source{
 Has been collected using the \code{\link[tidyquant]{tq_get}} function family in Summer 2017.

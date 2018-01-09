@@ -7,7 +7,9 @@
 treat_outliers(x, percentile = 0.01, truncate = FALSE, byvec = NULL)
 }
 \arguments{
-\item{x}{Data that is coercible into a numeric vector or matrix.}
+\item{x}{Data that is coercible into a numeric vector or matrix.
+If it is a data frame then only all numerical and logical variables
+of the data frame are coerced into a matrix.}
 
 \item{percentile}{A numeric scalar.
   The percentile below which observations

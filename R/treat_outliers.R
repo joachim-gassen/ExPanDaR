@@ -62,7 +62,7 @@ treat_outliers <- function(x, percentile = 0.01, truncate = FALSE, byvec = NULL)
   }
 
   if (is.null(byvec)) {
-    if (is.vector(x)) treat_vector_outliers(x, truncate, percentile)
+    if (is.vector(x)) retx <- treat_vector_outliers(x, truncate, percentile)
     else retx <- apply(x, 2, function(vx) treat_vector_outliers(vx, truncate, percentile))
   }
   else {

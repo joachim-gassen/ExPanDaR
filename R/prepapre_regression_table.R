@@ -5,13 +5,13 @@ estimate_model <- function(df, dl) {
   clusters <- dl$clusters
   fe_str <- gsub("_","",paste(feffects, collapse = ", ")) # stargaze chokes on _
   cl_str <- gsub("_","",paste(clusters, collapse = ", ")) # stargaze chokes on _
-  if ((feffects != "" & clusters != "") & (!is.factor(df[,dv]))) {
+  if ((feffects[1] != "" & clusters[1] != "") & (!is.factor(df[,dv]))) {
     f <- stats::as.formula(paste(dv, "~", paste(idvs, collapse = " + "), " | ",
                           paste(feffects, collapse = " + "), " | 0 | ", paste(clusters, collapse = " + ")))
-  } else if (!is.factor(df[,dv]) & feffects != "") {
+  } else if (!is.factor(df[,dv]) & feffects[1] != "") {
     f <- stats::as.formula(paste(dv, "~", paste(idvs, collapse = " + "), " | ",
                           paste(feffects, collapse = " + ")))
-  } else if (!is.factor(df[,dv]) & clusters != "") {
+  } else if (!is.factor(df[,dv]) & clusters[1] != "") {
     f <- stats::as.formula(paste(dv, "~", paste(idvs, collapse = " + "), " | 0 | 0 | ",
                           paste(clusters, collapse = " + ")))
   } else {
@@ -73,15 +73,19 @@ estimate_model <- function(df, dl) {
 
 prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dvs)),
                                      clusters = rep("", length(dvs)), byvar = "", format = "html") {
+
   if (byvar != "") if(!is.factor(df[,byvar])) stop("'byvar' needs to be a factor.")
   if ((length(dvs) > 1) & byvar != "") stop("you cannot subset multiple models in one table")
+  if (is.list(dvs))
+    if ((length(dvs) != length(idvs)) | (length(dvs) != length(feffects)) | (length(dvs) != length(clusters)))
+      stop("'dvs', 'idvs', 'feffects' and 'clusters' need to be of equal lenghth.")
   datalist <- list()
   if (byvar != "") {
     datalist <- list(dvs = dvs,
                           idvs = idvs,
                           feffects = feffects,
                           clusters = clusters)
-    mby <- lapply(levels(df[,byvar]), function(x) estimate_model(df[df[,byvar] == x,], datalist))
+    mby <- lapply(unique(df[,byvar]), function(x) estimate_model(df[df[,byvar] == x,], datalist))
     models <- list()
     models[[1]] <- estimate_model(df, datalist)
     for (i in 2:(length(mby) + 1))

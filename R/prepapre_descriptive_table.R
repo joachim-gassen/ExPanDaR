@@ -44,5 +44,7 @@ prepare_descriptive_table <- function(df, digits = c(0, 3, 3, 3, 3, 3, 3, 3), fo
   t$N <- as.integer(t$N)
   t <- t[which(!is.na(digits))]
   digits <- digits[!is.na(digits)]
-  list(df = t, kable_ret = knitr::kable(t, format, digits, caption = "Descriptive Statistics"))
+  list(df = t, kable_ret = knitr::kable(t, format, digits,
+                                        format.args = list(big.mark = ","),
+                                        caption = "Descriptive Statistics"))
 }

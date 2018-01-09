@@ -56,7 +56,7 @@ prepare_correlation_table <- function(df, digits = 2, bold = 0.05, format = "htm
   # __TO_DO__: The below is based on the githug version of kableExtra, undocumented and likely to change
   # Also, it would be nice to avoid that tfoot does not screw up the auto width of the full table
 
-  kr <- kableExtra::add_footnote_adv(kr, general_title = "",
+  kr <- kableExtra::footnote(kr, general_title = "",
                                      general = paste("This table reports Pearson correlations above and Spearman correlations below the diagonal.",
                                            ifelse(max(correl_n) == min(correl_n),
                                                   sprintf("Number of observations: %d.", min(correl_n)),

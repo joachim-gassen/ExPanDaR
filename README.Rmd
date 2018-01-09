@@ -14,64 +14,97 @@ library(kableExtra)
 
 ## ExPanDaR Package Functions
 
-You are visiting the gihub repository of the ExPanDaR (Exploare Panel Data with R) package. ExPanDaR is a small and extremely early stage package which will develop into the package facilitating the use of the ExPanD web app. ExPanD is a shiny based app designed to allow users with little or no statistical programming experience the opportunity to explore panel data. In addition, it will serve as a frontend to assess the robustness of empirical archival research work.
+You are visiting the gihub repository of the ExPanDaR (Explore Panel Data with R) package. ExPanDaR is a small and extremly early stage R package that is being developed to provide the code base for the ExPanD web app. ExPanD is a shiny based app designed to enable users with little or no statistical programming experience to explore panel data. In addition, it will serve as a front end to assess the robustness of empirical archival research work.
 
-While the main purpose of ExPanD is to allow dynamic panel data exploration using the ExPanD web app, the auxilliary functions of the ExPanDaR package can also be used for rapid prototyping data analysis.
+The auxiliary functions of the ExPanDaR package can also be used for rapid prototyping data analysis. The functions provided by ExPanDaR are designed to support analysis steps that are common with empirical archival research projects in the area of accounting and finance (which happens to be my field).
 
-### Descriptive Statistics
+To see what ExPanDaR has to offer, let's take a quick tour.
 
-For example, you can use them for preparing descriptive statistics:
+### Data Preparation
+
+The ExPanDaR package expects you to start with a data frame containing your panel data (meaning data with a cross-sectional dimension and something like a time dimension). However, you can also use some functions on simple cross-sectional data. ExPanDaR expects the cross-sectional identifiers to be factors and the time-series identifier to be an ordered factor. For this walk-through I will use the data set russel_3000, which comes with the package. It contains some financial reporting and capital market data of Russell 3000 firms from Google Finance and Yahoo Finance and has been collected using the tidyquant package in the summer of 2017. The data was collected to showcase the functions of ExPanDaR in its natural habitat but I would advise against using this data for scientific work.
+
+First, let's eyeball how frequently observations are missing in the data set.
+
+```{r missing_obs}
+data("russell_3000")
+prepare_missing_values_graph(russell_3000, period = "period")
+```
+
+OK. This does not look to bad. Only 2013 seems odd, as some variables are completely missing. Guess why? They are calculated using lagged values of total assets. So, in the following, let's focus on the variables that we care about and the sample on the years 2014 to 2016 (a short panel, I know). Also, let's take a quick look at the descriptive statistics.
 
 ```{r descriptive_statistics_table}
-t <- prepare_descriptive_table(mtcars)
+r3 <- russell_3000[russell_3000$period > "FY2013",
+                   c("coid", "coname", "period", "sector", "toas", "mktcap", "lntoas",
+            "eq_ta", "int_ta", "roe", "nioa", "cfoa", "accoa", "return")]
+t <- prepare_descriptive_table(r3)
 t$kable_ret  %>%
   kable_styling("condensed", full_width = F, position = "center")
 ```
 
-Those who are working with me know that I am a big fan of correlation tables.
 
-```{r correlation_table}
-t<- prepare_correlation_table(mtcars, bold = 0.01, format="html")
-t$kable_ret %>%
-  kable_styling("condensed", full_width = F, position = "center")
-```
-
-In fact, I like them so much that I sometimes use a graphic variant based on the corrplot package. See for yourself. 
-
-``` {r correlation_graph}
-prepare_correlation_graph(mtcars)
-```
-
-One thing that comes very handy when dealing with outliers is a quick way to observe extreme values. 
+Take a look at the minima and the maxima of some of the variables (e.g., return on equity (roe)). This does not look nice. One thing that comes very handy when dealing with outliers is a quick way to observe extreme values. 
 
 ```{r extreme_observations}
-t <- prepare_ext_obs_table(data.frame(name = rownames(mtcars), hp = mtcars$hp), row.names = T)
+t <- prepare_ext_obs_table(na.omit(r3[c("coname", "period", "roe")]))
 t$kable_ret %>%
   kable_styling("condensed", full_width = F, position = "center")
 ```
+In a real life research situation, you might want to take a break and check your data as well as the actual financial statements to see what is going on. In most cases, you will see that 
+the outliers are caused by very small denominators (lagged equity values in this case). To reduce the effect of these outliers on your analysis, you can winsorize (or truncate) them.
+
+```{r winsorizing}
+r3win <- as.data.frame(treat_outliers(r3, percentile = 0.01))
+t <- prepare_ext_obs_table(na.omit(r3win[c("coname", "period", "roe")]))
+t$kable_ret %>%
+  kable_styling("condensed", full_width = F, position = "center")
+```
+
+### Descriptive Statistics
+
+Still rather extreme values (Return on equity = 322 %) but let's move on and look at the winsorized descriptive statistics.
+
+```{r descriptive_statistics_table_winsorized}
+t <- prepare_descriptive_table(r3win)
+t$kable_ret  %>%
+  kable_styling("condensed", full_width = F, position = "center")
+```
+
+This looks better. I am sure that you won't care but I am a big fan of correlation tables.
+
+```{r correlation_table}
+t<- prepare_correlation_table(r3win, bold = 0.01, format="html")
+t$kable_ret %>%
+  kable_styling("condensed", full_width = F, position = "center")
+```
+
+In fact, I like correlations so much that I sometimes use a graphic variant based on the corrplot package. See for yourself. 
+
+``` {r correlation_graph}
+prepare_correlation_graph(r3win)
+```
+
+
 
 ### Visuals
 
 Additional visuals are available for exploring time trends. For comparing variables... 
 ```{r time_trend_plot}
-df <- data.frame(year =floor(time(EuStockMarkets)), EuStockMarkets)
-graph <- prepare_trend_graph(df, "year")
+graph <- prepare_trend_graph(r3win[c("period", "nioa", "cfoa", "accoa")], "period")
 graph$plot
 ```
 
 ... and for eyeballing the distributional properties of a single variable over time.
 
 ```{r quantile_plot}
-df <- data.frame(year = floor(time(EuStockMarkets)), DAX = EuStockMarkets[,"DAX"])
-graph <- prepare_quantile_trend_graph(df, "year", c(0.05, 0.25, 0.5, 0.75, 0.95))
+graph <- prepare_quantile_trend_graph(r3win[c("period", "return")], "period", c(0.05, 0.25, 0.5, 0.75, 0.95))
 graph$plot
 ```
 
-And, of course, the mother of all plots, the scatter plot.
+And, of course, the mother of all plots, the scatter plot. Do you see the structural break around nioa == 0? Accountants like that kind of stuff.
 
 ```{r scatter_plot}
-df <- data.frame(year = as.numeric(time(EuStockMarkets)), EuStockMarkets[, c("DAX", "FTSE")])
-prepare_scatter_plot(df, x="DAX", y="FTSE", color="year")
+prepare_scatter_plot(r3win, x="nioa", y="return", color="sector", size="lntoas", loess = 1)
 ```
 
 ### Regression Tables
@@ -79,51 +112,27 @@ prepare_scatter_plot(df, x="DAX", y="FTSE", color="year")
 And, if you happen to be a fan of starred numbers, you can also quickly produce regression tables. Both, by mixing different models...
 
 ```{r regressions}
-df <- data.frame(year = as.factor(floor(time(EuStockMarkets))), EuStockMarkets)
-dvs <- list("DAX", "SMI", "CAC", "FTSE")
-idvs <- list(c("SMI", "CAC", "FTSE"), 
-             c("DAX", "CAC", "FTSE"), 
-             c("SMI", "DAX", "FTSE"), 
-             c("SMI", "CAC", "DAX"))
-feffects <- list("year", "year", "year", "year")
-clusters <- list("year", "year", "year", "year")
-t <- prepare_regression_table(df, dvs, idvs, feffects, clusters)
+dvs <- list("return", "return", "return", "return", "return", "return")
+idvs <- list(c("nioa"), 
+             c("cfoa"), 
+             c("cfoa", "accoa"), 
+             c("cfoa", "accoa"), 
+             c("cfoa", "accoa"), 
+             c("cfoa", "accoa")) 
+feffects <- list("period", "period", "period", c("period", "sector"), c("period", "coid"), c("period", "coid"))
+clusters <- list("", "", "", "period", c("period", "sector"), c("period", "coid"))
+t <- prepare_regression_table(r3win, dvs, idvs, feffects, clusters)
 htmltools::HTML(t$table)
 ```
 
 ... or by applying one model on different sub-samples.
 
 ```{r sub-sample_regressions}
-t <- prepare_regression_table(df, "DAX", c("SMI", "CAC", "FTSE"), byvar="year")
+t <- prepare_regression_table(r3win, "return", c("cfoa", "accoa"), byvar="period")
 htmltools::HTML(t$table)
 ```
 
-### Use-case example
 
-Finally a "working" example for a quick and dirty analysis using hypothetical college admission data as provided by (https://stats.idre.ucla.edu/r/dae/logit-regression/).
-For the sake of completeness I use logit and OLS analyses. GPA and GRE are self-explanatory I guess and rank is an ordered factor capturing the reputation of the prior degree granting institution.
+### Conclusion
 
-```{r logit_regression}
-df <- read.csv("https://stats.idre.ucla.edu/stat/data/binary.csv")
-t <- prepare_descriptive_table(df)
-
-t$kable_ret  %>%
-  kable_styling("condensed", full_width = F)
-
-t<- prepare_correlation_table(df, bold = 0.01, format="html")
-t$kable_ret %>%
-  kable_styling("condensed", full_width = F)
-
-df$rank <- as.factor(df$rank)
-df$numadmit <- df$admit
-df$admit <- as.factor(df$admit)
-prepare_scatter_plot(df, x="gpa", y="gre", color="rank", size="admit")
-
-df$fact_admit <- as.factor(df$admit)
-
-t <- prepare_regression_table(df, list("admit", "numadmit"), 
-                              list(c("gre", "gpa", "rank"), c("gre", "gpa", "rank")))
-htmltools::HTML(t$table)
-```
-
-All these functions are rather simple wrappers around established R functions. They can easily be modified to fit your needs and taste. Enjoy!
+This is all there is (currently). All these functions are rather simple wrappers around established R functions. They can easily be modified to fit your needs and taste. Enjoy!

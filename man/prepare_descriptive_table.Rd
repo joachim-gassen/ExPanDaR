@@ -19,7 +19,7 @@ column. If you provide NA, then the column is ommited from the output.}
 }
 \value{
 A list containing two items.
-\itemize{
+\describe{
  \item{"df"}{A data frame containg the descriptive table}
  \item{"kable_ret"}{The return value provided by kable() containing the formatted table}
 }

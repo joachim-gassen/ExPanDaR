@@ -16,7 +16,7 @@ interest. Most likely it will also contain the variables identifying an observat
 }
 \value{
 A list containing two items:
-\itemize{
+\describe{
  \item{"df"}{A data frame containg the top/bottom n observations}
  \item{"kable_ret"}{The return value provided by \code{knitr::kable()} containing the formatted table}
 }

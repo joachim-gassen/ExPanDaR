@@ -18,6 +18,10 @@ A ggplot2 graph
 \description{
 Displays a heatmap of missing value frequency across the panel
 }
+\details{
+This was inspireed by a blog post of Rense Nieuenhuis. Thanks!
+  http://www.rensenieuwenhuis.nl/r-sessions-30-visualizing-missing-values/
+}
 \examples{
 df <- data.frame(year = as.ordered(floor(time(EuStockMarkets))), EuStockMarkets)
 period <- "year"

@@ -6,8 +6,13 @@
 #'
 #' @param df Data frame containing at least two variables that are either numeric
 #'   or logical and at least five observations.
-#' @return The graph as prepared by corrplot
-#'
+#' @return The function directly renders the graph as produced by corrplot.
+#' In addition, it returns a list containing three items:
+#' \describe{
+#'  \item{"df_corr"}{A data frame containg the correlations}
+#'  \item{"df_prob"}{A data frame containg the p-values of the correlations}
+#'  \item{"df_n"}{A data frame containg the number of observations used for the correlations}
+#' }
 #' @examples
 #' prepare_correlation_graph(mtcars)
 #' @export
@@ -28,4 +33,5 @@ prepare_correlation_graph <- function(df) {
   correl_p[lower.tri(correl_p)] <- scorr$P[lower.tri(scorr$P)]
   corrplot::corrplot(pcorr$r, type = "upper", method="ellipse", tl.pos="lt", tl.col="black", bg="grey90", addgrid.col="white")
   corrplot::corrplot(scorr$r, add=TRUE, type = "lower", diag=FALSE, tl.pos="n", cl.pos="n", method="ellipse", bg="grey90", addgrid.col="white")
+  return(list(df_corr = correl_r, df_prob = correl_p, df_n = correl_n))
 }

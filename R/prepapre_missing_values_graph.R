@@ -8,7 +8,7 @@
 #' @param period A string containing the name of the factor indicating the time dimension.
 #' @return A ggplot2 graph
 #'
-#' @detail
+#' @details
 #'   This was inspireed by a blog post of Rense Nieuenhuis. Thanks!
 #'   http://www.rensenieuwenhuis.nl/r-sessions-30-visualizing-missing-values/
 #'

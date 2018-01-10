@@ -81,7 +81,7 @@ t$kable_ret %>%
 In fact, I like correlations so much that I sometimes use a graphic variant based on the corrplot package. See for yourself. 
 
 ``` {r correlation_graph}
-prepare_correlation_graph(r3win)
+ret <- prepare_correlation_graph(r3win)
 ```
 
 

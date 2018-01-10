@@ -22,7 +22,11 @@ To see what ExPanDaR has to offer, let's take a quick tour.
 
 ### Data Preparation
 
-The ExPanDaR package expects you to start with a data frame containing your panel data (meaning data with a cross-sectional dimension and something like a time dimension). However, you can also use some functions on simple cross-sectional data. ExPanDaR expects the cross-sectional identifiers to be factors and the time-series identifier to be an ordered factor. For this walk-through I will use the data set russel_3000, which comes with the package. It contains some financial reporting and capital market data of Russell 3000 firms from Google Finance and Yahoo Finance and has been collected using the tidyquant package in the summer of 2017. The data was collected to showcase the functions of ExPanDaR in its natural habitat but I would advise against using this data for scientific work.
+The ExPanDaR package expects you to start with a data frame containing your panel data (meaning data with a cross-sectional dimension and something like a time dimension). However, you can also use some functions on simple cross-sectional data. ExPanDaR expects the cross-sectional identifiers to be factors and the time-series identifier to be an ordered factor. For this walk-through I will use the data set russel_3000, which comes with the package. It contains some financial reporting and capital market data of Russell 3000 firms from Google Finance and Yahoo Finance and has been collected using the tidyquant package in the summer of 2017. The data was collected to showcase the functions of ExPanDaR in its natural habitat but I would advise against using this data for scientific work. These are the variables included in the data.
+
+``` {r variables}
+kable(data.frame(Variable=names(russell_3000), Definition=Hmisc::label(russell_3000)), row.names = FALSE) 
+```
 
 First, let's eyeball how frequently observations are missing in the data set.
 
@@ -31,11 +35,11 @@ data("russell_3000")
 prepare_missing_values_graph(russell_3000, period = "period")
 ```
 
-OK. This does not look to bad. Only 2013 seems odd, as some variables are completely missing. Guess why? They are calculated using lagged values of total assets. So, in the following, let's focus on the variables that we care about and the sample on the years 2014 to 2016 (a short panel, I know). Also, let's take a quick look at the descriptive statistics.
+OK. This does not look too bad. Only FY2013 seems odd, as some variables are completely missing. Guess why? They are calculated using lagged values of total assets. So, in the following, let's focus on the variables that we care about and on the fiscal years 2014 to 2016 (a short panel, I know). Time to check the descriptive statistics.
 
 ```{r descriptive_statistics_table}
 r3 <- russell_3000[russell_3000$period > "FY2013",
-                   c("coid", "coname", "period", "sector", "toas", "mktcap", "lntoas",
+                   c("coid", "coname", "period", "sector", "toas", "sales","mktcap", 
             "eq_ta", "int_ta", "roe", "nioa", "cfoa", "accoa", "return")]
 t <- prepare_descriptive_table(r3)
 t$kable_ret  %>%
@@ -62,7 +66,7 @@ t$kable_ret %>%
 
 ### Descriptive Statistics
 
-Still rather extreme values (Return on equity = 322 %) but let's move on and look at the winsorized descriptive statistics.
+Still rather extreme values (Return on equity = 217 %) but let's move on and look at the winsorized descriptive statistics.
 
 ```{r descriptive_statistics_table_winsorized}
 t <- prepare_descriptive_table(r3win)
@@ -104,7 +108,7 @@ graph$plot
 And, of course, the mother of all plots, the scatter plot. Do you see the structural break around nioa == 0? Accountants like that kind of stuff.
 
 ```{r scatter_plot}
-prepare_scatter_plot(r3win, x="nioa", y="return", color="sector", size="lntoas", loess = 1)
+prepare_scatter_plot(r3win, x="nioa", y="return", color="sector", size="toas", loess = 1)
 ```
 
 ### Regression Tables

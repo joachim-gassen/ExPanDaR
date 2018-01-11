@@ -127,12 +127,7 @@ fluidPage(
   hr(),
 
   fluidRow(
-    column(2, uiOutput("ui_scatter_plot"),
-           hr(),
-           uiOutput("ui_loess"),
-           helpText("Select whether you want a LOESS smoothed line to be displayed",
-             "and whether you want it to be based on dot size weights",
-             "(Note: This will take a while to compute).")),
+    column(2, uiOutput("ui_scatter_plot")),
     column(10,
            div(
              style = "position:relative",

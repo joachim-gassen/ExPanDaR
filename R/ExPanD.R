@@ -9,8 +9,8 @@
 #'   identify the cross-section in your data. The according variables should be factors.
 #' @param ts_id A character scalar identify the name of the variables that
 #'   identifies the time series in your data. The according variables needs to be anordered vector.
-#' @param config_list a list containing the startupo configuraion for ExPanD to display.
-#'   Take a look at \code{data(ExPanD_config_russell_3000)} to understand the format.
+#' @param config_list a list containing the startup configuraion for ExPanD to display.
+#'   Take a look at \code{data(ExPanD_config_russell_3000)} for the format.
 #' @param ... Additional parameters that are passed on to \code{\link[shiny]{runApp}}.
 
 #' @examples

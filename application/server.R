@@ -34,6 +34,7 @@ if (simple_call_mode) {
   ca_variable$type[which(ca_variable$var_name == shiny_ts_id)] <- "ts_id"
   ca_variable$can_be_na <-
     ifelse(ca_variable$type == "cs_id" | ca_variable$type == "ts_id", 0, 1)
+
   if (!is.null(shiny_config_list)) app_config <- shiny_config_list
   else app_config <- list(
     sample = ca_sample$ds_id[1],
@@ -69,7 +70,7 @@ if (simple_call_mode) {
     scatter_size = ca_variable$var_name[ca_variable$type == "numeric"][3],
     scatter_color = ca_variable$var_name[ca_variable$type == "factor"][1],
     scatter_group_by = "All",
-    scatter_loess = 0,
+    scatter_loess = TRUE,
     scatter_sample = TRUE,
     reg_y = ca_variable$var_name[ca_variable$type == "numeric"][2],
     reg_x = ca_variable$var_name[ca_variable$type == "numeric"][1],
@@ -127,7 +128,7 @@ default_config <- list(
   scatter_size = "None",
   scatter_color = "None",
   scatter_group_by = "All",
-  scatter_loess = 0,
+  scatter_loess = FALSE,
   scatter_sample = TRUE,
   reg_y = "None",
   reg_x = "None",
@@ -326,10 +327,10 @@ function(input, output, session) {
 
     # Balance sample if requested by user
     if (uc$balanced_panel) {
-      smp <- group_by_at(smp, vars(one_of(sample_definition$var_name[sample_definition$type  == "cs_id"]))) %>%
-        mutate(nobs = n())
+      smp <- dplyr::group_by_at(smp, dplyr::vars(dplyr::one_of(sample_definition$var_name[sample_definition$type  == "cs_id"]))) %>%
+        dplyr::mutate(nobs = n())
       max_nobs <- max(smp$nobs)
-      smp <- as.data.frame(select(filter(smp, nobs == max_nobs), -nobs))
+      smp <- as.data.frame(dplyr::select(dplyr::filter(smp, nobs == max_nobs), -nobs))
     }
 
     # Outlier treatment as requested by user
@@ -468,7 +469,7 @@ function(input, output, session) {
   observe({uc$scatter_size <<- req(input$scatter_size)})
   observe({uc$scatter_color <<- req(input$scatter_color)})
   observe({uc$scatter_group_by <<- req(input$scatter_group_by)})
-  observe({uc$scatter_loess <<- input$scatter_loess})
+  observe({if (is.logical(input$scatter_loess)) uc$scatter_loess <<- input$scatter_loess})
   observe({if (is.logical(input$scatter_sample)) uc$scatter_sample <<- input$scatter_sample})
   observe({uc$reg_y <<- req(input$reg_y)})
   observe({uc$reg_x <<- req(input$reg_x)})
@@ -696,27 +697,17 @@ function(input, output, session) {
                   selected = isolate(uc$scatter_color)),
       checkboxInput("scatter_sample",
                     label = "Sample 1,000 observations to display if number of observations is higher",
-                    value = uc$scatter_sample))
+                    value = isolate(uc$scatter_sample)),
+      checkboxInput("scatter_loess",
+                    label="Display Loess smoother",
+                    value = isolate(uc$scatter_loess)),
+      helpText("(Note: This might take a while to compute for large samples)"))
     if (uc$group_factor != "None")
       mytags <- append(mytags, list(hr(),
                                     selectInput("scatter_group_by", label = "Select group to subset to",
                                                 c("All", sort(levels(as.factor(df[,uc$group_factor])))),
                                                 selected = isolate(uc$scatter_group_by))))
     tagList(mytags)
-  })
-
-  output$ui_loess <- renderUI({
-    req (uc$scatter_size)
-    loess <- "1"
-    if (uc$scatter_size != "None")  loess <- "2"
-    switch(loess,
-           "1"= radioButtons("scatter_loess", "Loess smoother",
-                             choices=c("No"=0, "Yes"=1),
-                             selected = uc$scatter_loess),
-           "2"= radioButtons("scatter_loess", "Loess smoother",
-                             choices=c("No"=0, "Yes, unweighted"=1,
-                                       "Yes, weighted by dot size" =2),
-                             selected = uc$scatter_loess))
   })
 
   output$ui_regression <- renderUI({
@@ -942,7 +933,7 @@ function(input, output, session) {
   })
 
   output$scatter_plot <- renderPlot({
-    req(uc$scatter_x,uc$scatter_y,uc$scatter_size,uc$scatter_color,uc$scatter_loess)
+    req(uc$scatter_x,uc$scatter_y,uc$scatter_size,uc$scatter_color)
     if (DEBUG) tictoc::tic("rendering scatter_plot")
     scatter_df <- create_analysis_sample()
     if (uc$scatter_group_by != "All")
@@ -952,10 +943,11 @@ function(input, output, session) {
     scatter_df <- scatter_df[,varlist[!grepl("None", varlist)]]
     scatter_df <- scatter_df[complete.cases(scatter_df),]
     if (uc$scatter_sample & (nrow(scatter_df) > 1000)) scatter_df <- dplyr::sample_n(scatter_df, 1000)
-    scatter_color <- ifelse (uc$scatter_color == "None", "", uc$scatter_color)
-    scatter_size <- ifelse (uc$scatter_size == "None", "", uc$scatter_size)
+    scatter_color <- ifelse(uc$scatter_color == "None", "", uc$scatter_color)
+    scatter_size <- ifelse(uc$scatter_size == "None", "", uc$scatter_size)
+    scatter_loess <- ifelse(uc$scatter_loess, 1, 0)
     plot <- prepare_scatter_plot(scatter_df, uc$scatter_x, uc$scatter_y,
-                                 scatter_color, scatter_size, uc$scatter_loess)
+                                 scatter_color, scatter_size, scatter_loess)
     if (DEBUG) message(do.call(tictoc::toc.outmsg, tictoc::toc(quiet = TRUE)))
     plot
   })

@@ -91,12 +91,20 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
     for (i in 2:(length(mby) + 1))
       models[[i]] <- mby[[i-1]]
   } else {
-    for (i in 1:length(dvs))
-      datalist[[i]] <- list(dvs = dvs[[i]],
-                            idvs = idvs[[i]],
-                            feffects = feffects[[i]],
-                            clusters = clusters[[i]])
-    models <- lapply(datalist, function (x) estimate_model(df, x))
+    if (is.list(dvs)) {
+      for (i in 1:length(dvs))
+        datalist[[i]] <- list(dvs = dvs[[i]],
+                              idvs = idvs[[i]],
+                              feffects = feffects[[i]],
+                              clusters = clusters[[i]])
+      models <- lapply(datalist, function (x) estimate_model(df, x))
+    } else {
+      datalist <- list(dvs = dvs,
+                            idvs = idvs,
+                            feffects = feffects,
+                            clusters = clusters)
+      models <- list(estimate_model(df, datalist))
+    }
   }
   fe_str <- "Fixed effects"
   cl_str <- "Std. errors clustered"

@@ -18,6 +18,7 @@
 #' Use the \code{\link[Hmisc]{label}} command to add label defining the variables to your data frame if you want
 #'   to have nice floatting variable descriptions in the descriptive table.
 
+
 #' @export
 
 ExPanD <- function(df, cs_id, ts_id, ...)

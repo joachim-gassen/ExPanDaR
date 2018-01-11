@@ -3,6 +3,8 @@ if (DEBUG) sample_count <- 0
 
 # if (DEBUG) browser()
 
+`%>%` <- dplyr::`%>%`
+
 quote_escape <- function(string) {
   t <- gsub("\"", "&#34;", string)
   t <- gsub("\'", "&#39;", t)
@@ -17,6 +19,21 @@ if (simple_call_mode) {
                             ds_description = "User defined data set",
                             stringsAsFactors = FALSE)
   ca_sample <- data.frame(ds_id = shiny_df_name, shiny_df)
+  ca_variable <- data.frame(
+    var_name = names(shiny_df),
+    var_def = Hmisc::label(shiny_df),
+    stringsAsFactors = FALSE
+  )
+
+  ca_variable$type <- NA
+  ca_variable$type[which(sapply(shiny_df, is.factor))] <- "factor"
+  ca_variable$type[which(sapply(shiny_df, is.logical))] <- "logical"
+  ca_variable$type[which(sapply(shiny_df, is.numeric))] <- "numeric"
+  ca_variable$type[which(ca_variable$var_name %in% shiny_cs_id)] <- "cs_id"
+  ca_variable$type[which(ca_variable$var_name == shiny_ts_id)] <- "ts_id"
+  ca_variable$can_be_na <-
+    ifelse(ca_variable$type == "cs_id" | ca_variable$type == "ts_id", 0, 1)
+
   app_config <- list(
     sample = ca_sample$ds_id[1],
     subset_factor = "Full Sample",
@@ -27,52 +44,39 @@ if (simple_call_mode) {
     outlier_factor = "None",
     udvars = NULL,
     delvars = NULL,
-    bar_chart_var1 = "None",
-    bar_chart_var2 = "None",
+    bar_chart_var1 = shiny_ts_id,
+    bar_chart_var2 = ca_variable$var_name[ca_variable$type == "factor"][1],
     bar_chart_group_by = "All",
     bar_chart_relative = FALSE,
     desc_group_by = "All",
-    hist_var = "None",
+    hist_var = ca_variable$var_name[ca_variable$type == "factor"][1],
     hist_group_by = "All",
     hist_nr_of_breaks = 20,
-    ext_obs_var = "None",
+    ext_obs_var = ca_variable$var_name[ca_variable$type == "numeric"][1],
     ext_obs_group_by = "All",
     ext_obs_period_by = "All",
-    trend_graph_var1 = "None",
+    trend_graph_var1 = ca_variable$var_name[ca_variable$type == "numeric"][1],
     trend_graph_var2 = "None",
     trend_graph_var3 = "None",
     trend_graph_group_by = "All",
-    quantile_trend_graph_var = "None",
+    quantile_trend_graph_var = ca_variable$var_name[ca_variable$type == "numeric"][1],
     quantile_trend_graph_quantiles = c("0.05", "0.25", "0.50", "0.75", "0.95"),
     quantile_trend_graph_group_by = "All",
     corrplot_group_by = "All",
-    scatter_x = "None",
-    scatter_y = "None",
-    scatter_size = "None",
-    scatter_color = "None",
+    scatter_x = ca_variable$var_name[ca_variable$type == "numeric"][1],
+    scatter_y = ca_variable$var_name[ca_variable$type == "numeric"][2],
+    scatter_size = ca_variable$var_name[ca_variable$type == "numeric"][3],
+    scatter_color = ca_variable$var_name[ca_variable$type == "factor"][1],
     scatter_group_by = "All",
     scatter_loess = 0,
     scatter_sample = TRUE,
-    reg_y = "None",
-    reg_x = "None",
+    reg_y = ca_variable$var_name[ca_variable$type == "numeric"][2],
+    reg_x = ca_variable$var_name[ca_variable$type == "numeric"][1],
     reg_fe1 = "None",
     reg_fe2 = "None",
     reg_by = "None",
     cluster = 1
   )
-  ca_variable <- data.frame(
-    var_name = names(shiny_df),
-    var_def = Hmisc::label(shiny_df),
-    stringsAsFactors = FALSE
-  )
-  ca_variable$type <- NA
-  ca_variable$type[which(sapply(shiny_df, is.factor))] <- "factor"
-  ca_variable$type[which(sapply(shiny_df, is.logical))] <- "logical"
-  ca_variable$type[which(sapply(shiny_df, is.numeric))] <- "numeric"
-  ca_variable$type[which(ca_variable$var_name %in% shiny_cs_id)] <- "cs_id"
-  ca_variable$type[which(ca_variable$var_name == shiny_ts_id)] <- "ts_id"
-  ca_variable$can_be_na <-
-    ifelse(ca_variable$type == "cs_id" | ca_variable$type == "ts_id", 0, 1)
 }
 
 if (!simple_call_mode) {
@@ -152,7 +156,7 @@ function(input, output, session) {
     if (!uc$scatter_x %in% numeric_names) uc$scatter_x = numeric_names[1]
     if (!uc$scatter_y %in% numeric_names) uc$scatter_y = numeric_names[2]
     if (!uc$scatter_size %in% numeric_names) uc$scatter_size = "None"
-    if (!uc$scatter_color %in% sample_definition$var_name) uc$scatter_color = "None"
+    if (!uc$scatter_color %in% union(factor_names, numeric_names)) uc$scatter_color = "None"
     if (!uc$reg_y %in% numeric_names) uc$reg_y = numeric_names[1]
     uc$reg_x <- intersect(uc$reg_x, numeric_names)
     if (length(uc$reg_x) == 0) uc$reg_x = numeric_names[2]
@@ -554,21 +558,26 @@ function(input, output, session) {
 
   output$ui_descriptive_table <- renderUI({
     df <- create_analysis_sample()
-    mytags <- list(h3("Descriptive Statistics"),
-                   helpText("Select Tab to choose the analysis set of variables",
-                            "or the base set of variables (to define new variables).",
-                            "Hover over variable names with mouse to see variable definitions."),
-                   hr())
+    if (simple_call_mode)
+      mytags <- list(h3("Descriptive Statistics"),
+                   helpText("Hover over variable names with mouse to see variable definitions."))
+    else
+      mytags <- list(h3("Descriptive Statistics"),
+                     helpText("Hover over variable names with mouse to see variable definitions."),
+                     helpText("Select Tab to choose the analysis set of variables",
+                              "or the base set of variables (to define new variables)."),
+                     hr())
     if (uc$group_factor != "None")
       mytags <- append(mytags, list(selectInput("desc_group_by", label = "Select group to subset to",
                                                 c("All", sort(levels(as.factor(df[,uc$group_factor])))),
                                                 selected = isolate(uc$desc_group_by)), hr()))
-    mytags <- append(mytags, list(helpText("Click here to delete selected variables from the analysis sample."),
-                                  actionButton("delete_vars", "Delete Variables"),
-                                  hr(),
-                                  helpText("Click here to delete all user defined variables",
-                                           "and to restore the original variable set of the analysis sample."),
-                                  actionButton("restore_analysis_sample", "Restore Sample")))
+    if (!simple_call_mode)
+      mytags <- append(mytags, list(helpText("Click here to delete selected variables from the analysis sample."),
+                                    actionButton("delete_vars", "Delete Variables"),
+                                    hr(),
+                                    helpText("Click here to delete all user defined variables",
+                                             "and to restore the original variable set of the analysis sample."),
+                                    actionButton("restore_analysis_sample", "Restore Sample")))
     tagList(mytags)
   })
 
@@ -767,7 +776,7 @@ function(input, output, session) {
       ggplot2::ggplot(df, ggplot2::aes(df[,uc$bar_chart_var1])) +
       ggplot2::geom_bar(ggplot2::aes(fill=df[,uc$bar_chart_var2]), position = "fill") +
       ggplot2::labs(x = uc$bar_chart_var1, fill = uc$bar_chart_var2, y = "Percent") +
-      ggplot2::scale_y_continuous(labels = percent_format())
+      ggplot2::scale_y_continuous(labels = scales::percent_format())
     else ggplot2::ggplot(df, ggplot2::aes(df[,uc$bar_chart_var1])) +
       ggplot2::geom_bar() + ggplot2::labs(x = uc$bar_chart_var1)
   })
@@ -777,26 +786,26 @@ function(input, output, session) {
     expr = {
       df <- create_analysis_sample()
       rowtips = as.character(sample_definition[c(lnumeric$col, llogical$col), "var_def"])
-      datatable({
+      DT::datatable({
           if (uc$desc_group_by == "All") prepare_descriptive_table(df[,c(lnumeric$col, llogical$col)])$df
           else prepare_descriptive_table(df[df[, uc$group_factor] == uc$desc_group_by, c(lnumeric$col, llogical$col)])$df
         },
         colnames=c('Variable'=1), selection=list(mode = 'multiple', target = 'row'),
         options= list(dom='t', paging=FALSE, ordering=FALSE),
-        callback = JS("var tips =[", paste("'", quote_escape(rowtips), "'", collapse=", ", sep=""), "],
+        callback = DT::JS("var tips =[", paste("'", quote_escape(rowtips), "'", collapse=", ", sep=""), "],
                       firstColumn = $('#descriptive_table_analysis tr td:first-child');
                       for (var i = 0; i < tips.length; i++) {
                       $(firstColumn[i]).attr('title', tips[i]);
                       }")
       ) %>%
-        formatCurrency(1, currency ="", interval=3, mark=',', digits=0) %>%
-        formatCurrency('Mean', currency = "", interval=3, mark=',', digits=3) %>%
-        formatCurrency('Std. dev.', currency = "", interval=3, mark=',', digits=3) %>%
-        formatCurrency('Min.', currency = "", interval=3, mark=',', digits=3) %>%
-        formatCurrency('25 %', currency = "", interval=3, mark=',', digits=3) %>%
-        formatCurrency('Median', currency = "", interval=3, mark=',', digits=3) %>%
-        formatCurrency('75 %', currency = "", interval=3, mark=',', digits=3) %>%
-        formatCurrency('Max.', currency = "", interval=3, mark=',', digits=3)
+        DT::formatCurrency(1, currency ="", interval=3, mark=',', digits=0) %>%
+        DT::formatCurrency('Mean', currency = "", interval=3, mark=',', digits=3) %>%
+        DT::formatCurrency('Std. dev.', currency = "", interval=3, mark=',', digits=3) %>%
+        DT::formatCurrency('Min.', currency = "", interval=3, mark=',', digits=3) %>%
+        DT::formatCurrency('25 %', currency = "", interval=3, mark=',', digits=3) %>%
+        DT::formatCurrency('Median', currency = "", interval=3, mark=',', digits=3) %>%
+        DT::formatCurrency('75 %', currency = "", interval=3, mark=',', digits=3) %>%
+        DT::formatCurrency('Max.', currency = "", interval=3, mark=',', digits=3)
     }
   )
 
@@ -806,7 +815,7 @@ function(input, output, session) {
       df <- create_base_sample()
       rowtips = as.character(bs_definition[bs_definition$type == "numeric" |
                                              bs_definition$type == "logical", "var_def"])
-      datatable({
+      DT::datatable({
         if (uc$desc_group_by == "All") prepare_descriptive_table(df[,c(as.character(bs_definition[bs_definition$type == "numeric" |
                                                                                        bs_definition$type == "logical", "var_name"]))])$df
         else prepare_descriptive_table(df[df[, uc$group_factor] == uc$desc_group_by, c(as.character(bs_definition[bs_definition$type == "numeric" |
@@ -814,20 +823,20 @@ function(input, output, session) {
       },
       colnames=c('Variable'=1), selection=list(mode = 'none'),
       options= list(dom='t', paging=FALSE, ordering=FALSE),
-      callback = JS("var tips =[", paste("'", quote_escape(rowtips), "'", collapse=", ", sep=""), "],
+      callback = DT::JS("var tips =[", paste("'", quote_escape(rowtips), "'", collapse=", ", sep=""), "],
                       firstColumn = $('#descriptive_table_base tr td:first-child');
                       for (var i = 0; i < tips.length; i++) {
                       $(firstColumn[i]).attr('title', tips[i]);
                       }")
        )%>%
-        formatCurrency(1, currency ="", interval=3, mark=',', digits=0) %>%
-        formatCurrency('Mean', currency = "", interval=3, mark=',', digits=3) %>%
-        formatCurrency('Std. dev.', currency = "", interval=3, mark=',', digits=3) %>%
-        formatCurrency('Min.', currency = "", interval=3, mark=',', digits=3) %>%
-        formatCurrency('25 %', currency = "", interval=3, mark=',', digits=3) %>%
-        formatCurrency('Median', currency = "", interval=3, mark=',', digits=3) %>%
-        formatCurrency('75 %', currency = "", interval=3, mark=',', digits=3) %>%
-        formatCurrency('Max.', currency = "", interval=3, mark=',', digits=3)
+        DT::formatCurrency(1, currency ="", interval=3, mark=',', digits=0) %>%
+        DT::formatCurrency('Mean', currency = "", interval=3, mark=',', digits=3) %>%
+        DT::formatCurrency('Std. dev.', currency = "", interval=3, mark=',', digits=3) %>%
+        DT::formatCurrency('Min.', currency = "", interval=3, mark=',', digits=3) %>%
+        DT::formatCurrency('25 %', currency = "", interval=3, mark=',', digits=3) %>%
+        DT::formatCurrency('Median', currency = "", interval=3, mark=',', digits=3) %>%
+        DT::formatCurrency('75 %', currency = "", interval=3, mark=',', digits=3) %>%
+        DT::formatCurrency('Max.', currency = "", interval=3, mark=',', digits=3)
     }
   )
 
@@ -942,10 +951,10 @@ function(input, output, session) {
     scatter_df <- scatter_df[,varlist[!grepl("None", varlist)]]
     scatter_df <- scatter_df[complete.cases(scatter_df),]
     if (uc$scatter_sample & (nrow(scatter_df) > 1000)) scatter_df <- dplyr::sample_n(scatter_df, 1000)
+    scatter_color <- ifelse (uc$scatter_color == "None", "", uc$scatter_color)
+    scatter_size <- ifelse (uc$scatter_size == "None", "", uc$scatter_size)
     plot <- prepare_scatter_plot(scatter_df, uc$scatter_x, uc$scatter_y,
-                                 ifelse(uc$scatter_color != "None", uc$scatter_color, NULL),
-                                 ifelse(uc$scatter_size != "None", uc$scatter_size, NULL),
-                                 uc$scatter_loess)
+                                 scatter_color, scatter_size, uc$scatter_loess)
     if (DEBUG) message(do.call(tictoc::toc.outmsg, tictoc::toc(quiet = TRUE)))
     plot
   })
@@ -999,10 +1008,10 @@ function(input, output, session) {
     df <- droplevels(df[complete.cases(df),])
     feffect <- ""
     if (uc$reg_fe1 != "None") {
-      feffects <- uc$reg_fe1
+      feffect <- uc$reg_fe1
       if (uc$reg_fe2 != "None") feffect <- c(feffect, uc$reg_fe2)
     }
-    else if (uc$reg_fe2 != "None") feffects <- uc$reg_fe2
+    else if (uc$reg_fe2 != "None") feffect <- uc$reg_fe2
     cluster <- ""
     if (uc$cluster == 2) cluster <- uc$reg_fe1
     if (uc$cluster == 3) cluster <- uc$reg_fe2

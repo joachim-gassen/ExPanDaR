@@ -69,7 +69,7 @@ fluidPage(
     )
   )},
 
-  hr(),
+  if(!simple_call_mode) hr(),
 
   fluidRow(
     column(2,

@@ -4,7 +4,7 @@
 \alias{ExPanD}
 \title{Explore Panal Data (ExPanD)}
 \usage{
-ExPanD(df, cs_id, ts_id, ...)
+ExPanD(df, cs_id, ts_id, config_list = NULL, ...)
 }
 \arguments{
 \item{df}{A data that containing the panel data that you want to explore}
@@ -14,6 +14,11 @@ identify the cross-section in your data. The according variables should be facto
 
 \item{ts_id}{A character scalar identify the name of the variables that
 identifies the time series in your data. The according variables needs to be anordered vector.}
+
+\item{config_list}{a list containing the startupo configuraion for ExPanD to display.
+Take a look at \code{data(ExPanD_config_russell_3000)} to understand the format.}
+
+\item{...}{Additional parameters that are passed on to \code{\link[shiny]{runApp}}.}
 }
 \description{
 A shiny based app that uses ExPanDaR functionality for interactive
@@ -26,5 +31,7 @@ Use the \code{\link[Hmisc]{label}} command to add label defining the variables t
 \examples{
 data(russell_3000)
 ExPanD(russell_3000, c("coid", "coname"), "period")
+data(ExPanD_config_russell_3000)
+ExPanD(russell_3000, c("coid", "coname"), "period", ExPanD_config_russell_3000)
 
 }

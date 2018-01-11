@@ -19,3 +19,22 @@
 #' prepare_missing_values_graph(russell_3000, period = "period")
 #'
 "russell_3000"
+
+#' Default Configuration to use with ExPanD and the Russell 3000 Data Set
+#'
+#' List to use as a \code{list_config} parameter when starting \code{ExPanD()}.
+#'
+#' @docType data
+#'
+#' @usage data(ExPanD_config_russell_3000)
+#'
+#' @format An object of class \code{"list"}.
+#'
+#' @keywords ExPanD, config
+#'
+#' @examples
+#' data(russell_3000)
+#' data(ExPanD_config_russell_3000)
+#' ExPanD(russell_3000, c("coid", "coname"), "period", ExPanD_config_russell_3000)
+#'
+"ExPanD_config_russell_3000"

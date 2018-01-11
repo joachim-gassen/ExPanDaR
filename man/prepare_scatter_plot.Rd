@@ -4,7 +4,7 @@
 \alias{prepare_scatter_plot}
 \title{Prepares a Scatter Plot}
 \usage{
-prepare_scatter_plot(df, x, y, color = NULL, size = NULL, loess = 0)
+prepare_scatter_plot(df, x, y, color = "", size = "", loess = 0)
 }
 \arguments{
 \item{df}{Data frame containing at most four numerical variables}

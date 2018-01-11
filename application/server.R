@@ -1,7 +1,8 @@
 DEBUG <- TRUE
-if (DEBUG) sample_count <- 0
+store_encrypted <- FALSE
+store_key <- PKI::PKI.digest(charToRaw("What a wonderful key"), "SHA256")
 
-# if (DEBUG) browser()
+if (DEBUG) sample_count <- 0
 
 `%>%` <- dplyr::`%>%`
 
@@ -33,8 +34,8 @@ if (simple_call_mode) {
   ca_variable$type[which(ca_variable$var_name == shiny_ts_id)] <- "ts_id"
   ca_variable$can_be_na <-
     ifelse(ca_variable$type == "cs_id" | ca_variable$type == "ts_id", 0, 1)
-
-  app_config <- list(
+  if (!is.null(shiny_config_list)) app_config <- shiny_config_list
+  else app_config <- list(
     sample = ca_sample$ds_id[1],
     subset_factor = "Full Sample",
     subset_value = "All",
@@ -1029,9 +1030,11 @@ function(input, output, session) {
       key <- PKI.digest(charToRaw("What a wonderful key"), "SHA256")
       tryCatch(
         {
-          encrypted <- readRDS(in_file$datapath)
-          decrypted <- PKI.decrypt(encrypted, key, "aes256")
-          config_list <- unserialize(decrypted)
+          if (store_encrypted) {
+            encrypted <- readRDS(in_file$datapath)
+            decrypted <- PKI.decrypt(encrypted, key, "aes256")
+            config_list <- unserialize(decrypted)
+          } else config_list <- readRDS(in_file$datapath)
           isolate(parse_config(config_list))
         }, error = function(cond) {
           session$sendCustomMessage(type = 'testmessage', message = paste("Unable to read", in_file$datapath))
@@ -1042,10 +1045,11 @@ function(input, output, session) {
   output$download <- downloadHandler(
     filename = function() { "ExPanD.RDS" },
     content = function(file) {
-      key <- PKI.digest(charToRaw("What a wonderful key"), "SHA256")
-      raw <- serialize(reactiveValuesToList(uc), NULL)
-      encrypted <- PKI.encrypt(raw, key, "aes256")
-      saveRDS(encrypted, file)
+      if (store_encrypted) {
+        raw <- serialize(reactiveValuesToList(uc), NULL)
+        encrypted <- PKI.encrypt(raw, key, "aes256")
+        saveRDS(encrypted, file)
+      } else saveRDS(reactiveValuesToList(uc), file)
     }
   )
 }

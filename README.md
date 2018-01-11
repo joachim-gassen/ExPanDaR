@@ -25,8 +25,8 @@ kable(data.frame(Variable=names(russell_3000), Definition=Hmisc::label(russell_3
 | coid        | Company identifier                                                               |
 | period      | Fiscal year                                                                      |
 | coname      | Company name                                                                     |
-| sic         | Standard industry classifier                                                     |
-| sector      | Industry sector                                                                  |
+| sector      | Sector                                                                           |
+| industry    | Industry                                                                         |
 | toas        | Total assets at period end (M US-$)                                              |
 | sales       | Sales of the period (M US-$)                                                     |
 | equity      | Total equity at period end (M US-$)                                              |
@@ -34,7 +34,7 @@ kable(data.frame(Variable=names(russell_3000), Definition=Hmisc::label(russell_3
 | debt\_ta    | Total debt (% total assets)                                                      |
 | eq\_ta      | Total equity (% total assets)                                                    |
 | gw\_ta      | Goodwill (% total assets)                                                        |
-| int\_ta     | Intangible assets (% total assets)                                               |
+| oint\_ta    | Other intangible assets (% total assets)                                         |
 | ppe\_ta     | Property, plant and equipment (% total assets)                                   |
 | ca\_ta      | Current assets (% total assets)                                                  |
 | cash\_ta    | Cash (% total assets)                                                            |
@@ -59,12 +59,12 @@ prepare_missing_values_graph(russell_3000, period = "period")
 
 <img src="README_files/figure-markdown_github/missing_obs-1.png" style="display: block; margin: auto;" />
 
-OK. This does not look to bad. Only FY2013 seems odd, as some variables are completely missing. Guess why? They are calculated using lagged values of total assets. So, in the following, let's focus on the variables that we care about and the sample on the fiscal years 2014 to 2016 (a short panel, I know). Also, let's take a quick look at the descriptive statistics.
+OK. This does not look too bad. Only FY2013 seems odd, as some variables are completely missing. Guess why? They are calculated using lagged values of total assets. So, in the following, let's focus on the variables that we care about and on the fiscal years 2014 to 2016 (a short panel, I know). Time to check the descriptive statistics.
 
 ``` r
 r3 <- russell_3000[russell_3000$period > "FY2013",
                    c("coid", "coname", "period", "sector", "toas", "sales","mktcap", 
-            "eq_ta", "int_ta", "roe", "nioa", "cfoa", "accoa", "return")]
+            "eq_ta", "roe", "nioa", "cfoa", "accoa", "return")]
 t <- prepare_descriptive_table(r3)
 t$kable_ret  %>%
   kable_styling("condensed", full_width = F, position = "center")
@@ -110,25 +110,25 @@ Max.
 toas
 </td>
 <td style="text-align:right;">
-6,703
+6,664
 </td>
 <td style="text-align:right;">
-9,036.222
+8,817.822
 </td>
 <td style="text-align:right;">
-37,725.783
+35,926.884
 </td>
 <td style="text-align:right;">
 0.800
 </td>
 <td style="text-align:right;">
-467.435
+464.957
 </td>
 <td style="text-align:right;">
-1,629.320
+1,615.220
 </td>
 <td style="text-align:right;">
-5,135.450
+5,142.557
 </td>
 <td style="text-align:right;">
 861,395.000
@@ -139,25 +139,25 @@ toas
 sales
 </td>
 <td style="text-align:right;">
-6,707
+6,668
 </td>
 <td style="text-align:right;">
-5,189.938
+5,117.248
 </td>
 <td style="text-align:right;">
-19,245.733
+18,804.014
 </td>
 <td style="text-align:right;">
 0.010
 </td>
 <td style="text-align:right;">
-300.975
+299.330
 </td>
 <td style="text-align:right;">
-968.610
+960.745
 </td>
 <td style="text-align:right;">
-3,170.275
+3,175.418
 </td>
 <td style="text-align:right;">
 485,651.000
@@ -168,13 +168,13 @@ sales
 mktcap
 </td>
 <td style="text-align:right;">
-6,677
+6,662
 </td>
 <td style="text-align:right;">
-10,038.695
+10,055.857
 </td>
 <td style="text-align:right;">
-37,394.508
+37,434.753
 </td>
 <td style="text-align:right;">
 18.670
@@ -186,7 +186,7 @@ mktcap
 1,860.000
 </td>
 <td style="text-align:right;">
-5,890.000
+5,900.000
 </td>
 <td style="text-align:right;">
 753,720.000
@@ -197,13 +197,13 @@ mktcap
 eq\_ta
 </td>
 <td style="text-align:right;">
-6,703
+6,664
 </td>
 <td style="text-align:right;">
 0.426
 </td>
 <td style="text-align:right;">
-0.314
+0.315
 </td>
 <td style="text-align:right;">
 -5.262
@@ -212,10 +212,10 @@ eq\_ta
 0.275
 </td>
 <td style="text-align:right;">
-0.439
+0.440
 </td>
 <td style="text-align:right;">
-0.614
+0.615
 </td>
 <td style="text-align:right;">
 1.172
@@ -223,54 +223,25 @@ eq\_ta
 </tr>
 <tr>
 <td style="text-align:left;">
-int\_ta
-</td>
-<td style="text-align:right;">
-5,157
-</td>
-<td style="text-align:right;">
-0.098
-</td>
-<td style="text-align:right;">
-0.117
-</td>
-<td style="text-align:right;">
--0.008
-</td>
-<td style="text-align:right;">
-0.018
-</td>
-<td style="text-align:right;">
-0.057
-</td>
-<td style="text-align:right;">
-0.139
-</td>
-<td style="text-align:right;">
-0.871
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 roe
 </td>
 <td style="text-align:right;">
-6,539
+6,500
 </td>
 <td style="text-align:right;">
--0.182
+-0.184
 </td>
 <td style="text-align:right;">
-12.896
+12.934
 </td>
 <td style="text-align:right;">
 -978.000
 </td>
 <td style="text-align:right;">
--0.014
+-0.015
 </td>
 <td style="text-align:right;">
-0.087
+0.086
 </td>
 <td style="text-align:right;">
 0.173
@@ -284,13 +255,13 @@ roe
 nioa
 </td>
 <td style="text-align:right;">
-6,540
+6,501
 </td>
 <td style="text-align:right;">
 0.002
 </td>
 <td style="text-align:right;">
-0.192
+0.193
 </td>
 <td style="text-align:right;">
 -5.383
@@ -313,13 +284,13 @@ nioa
 cfoa
 </td>
 <td style="text-align:right;">
-6,540
+6,501
 </td>
 <td style="text-align:right;">
 0.066
 </td>
 <td style="text-align:right;">
-0.167
+0.168
 </td>
 <td style="text-align:right;">
 -4.241
@@ -342,7 +313,7 @@ cfoa
 accoa
 </td>
 <td style="text-align:right;">
-6,540
+6,501
 </td>
 <td style="text-align:right;">
 -0.064
@@ -371,7 +342,7 @@ accoa
 return
 </td>
 <td style="text-align:right;">
-6,115
+6,100
 </td>
 <td style="text-align:right;">
 0.097
@@ -386,10 +357,10 @@ return
 -0.138
 </td>
 <td style="text-align:right;">
-0.065
+0.064
 </td>
 <td style="text-align:right;">
-0.269
+0.268
 </td>
 <td style="text-align:right;">
 6.346
@@ -575,7 +546,7 @@ Allegion plc
 FY2015
 </td>
 <td style="text-align:right;">
-2.171
+2.182
 </td>
 </tr>
 <tr>
@@ -586,7 +557,7 @@ Allegion plc
 FY2016
 </td>
 <td style="text-align:right;">
-2.171
+2.182
 </td>
 </tr>
 <tr>
@@ -597,7 +568,7 @@ Advanced Micro Devices, Inc.
 FY2015
 </td>
 <td style="text-align:right;">
-2.171
+2.182
 </td>
 </tr>
 <tr>
@@ -608,7 +579,7 @@ Argos Therapeutics, Inc.
 FY2016
 </td>
 <td style="text-align:right;">
-2.171
+2.182
 </td>
 </tr>
 <tr>
@@ -619,7 +590,7 @@ Array BioPharma Inc.
 FY2014
 </td>
 <td style="text-align:right;">
-2.171
+2.182
 </td>
 </tr>
 <tr>
@@ -641,7 +612,7 @@ Winmark Corporation
 FY2015
 </td>
 <td style="text-align:right;">
--2.771
+-2.772
 </td>
 </tr>
 <tr>
@@ -652,7 +623,7 @@ Workiva Inc.
 FY2016
 </td>
 <td style="text-align:right;">
--2.771
+-2.772
 </td>
 </tr>
 <tr>
@@ -663,7 +634,7 @@ Workhorse Group, Inc.
 FY2016
 </td>
 <td style="text-align:right;">
--2.771
+-2.772
 </td>
 </tr>
 <tr>
@@ -674,7 +645,7 @@ Wynn Resorts, Limited
 FY2014
 </td>
 <td style="text-align:right;">
--2.771
+-2.772
 </td>
 </tr>
 <tr>
@@ -685,7 +656,7 @@ Wynn Resorts, Limited
 FY2015
 </td>
 <td style="text-align:right;">
--2.771
+-2.772
 </td>
 </tr>
 </tbody>
@@ -740,28 +711,28 @@ Max.
 toas
 </td>
 <td style="text-align:right;">
-6,703
+6,664
 </td>
 <td style="text-align:right;">
-7,390.704
+7,343.392
 </td>
 <td style="text-align:right;">
-18,408.996
+18,170.457
 </td>
 <td style="text-align:right;">
-45.622
+45.479
 </td>
 <td style="text-align:right;">
-467.435
+464.957
 </td>
 <td style="text-align:right;">
-1,629.320
+1,615.220
 </td>
 <td style="text-align:right;">
-5,135.450
+5,142.557
 </td>
 <td style="text-align:right;">
-129,488.840
+127,894.870
 </td>
 </tr>
 <tr>
@@ -769,28 +740,28 @@ toas
 sales
 </td>
 <td style="text-align:right;">
-6,707
+6,668
 </td>
 <td style="text-align:right;">
-4,471.466
+4,427.692
 </td>
 <td style="text-align:right;">
-11,393.165
+11,137.037
 </td>
 <td style="text-align:right;">
-0.680
+0.670
 </td>
 <td style="text-align:right;">
-300.975
+299.330
 </td>
 <td style="text-align:right;">
-968.610
+960.745
 </td>
 <td style="text-align:right;">
-3,170.275
+3,175.418
 </td>
 <td style="text-align:right;">
-83,089.900
+80,666.340
 </td>
 </tr>
 <tr>
@@ -798,16 +769,16 @@ sales
 mktcap
 </td>
 <td style="text-align:right;">
-6,677
+6,662
 </td>
 <td style="text-align:right;">
-8,738.255
+8,752.487
 </td>
 <td style="text-align:right;">
-23,169.558
+23,193.551
 </td>
 <td style="text-align:right;">
-86.428
+86.227
 </td>
 <td style="text-align:right;">
 621.020
@@ -816,7 +787,7 @@ mktcap
 1,860.000
 </td>
 <td style="text-align:right;">
-5,890.000
+5,900.000
 </td>
 <td style="text-align:right;">
 174,450.000
@@ -827,7 +798,7 @@ mktcap
 eq\_ta
 </td>
 <td style="text-align:right;">
-6,703
+6,664
 </td>
 <td style="text-align:right;">
 0.433
@@ -836,16 +807,16 @@ eq\_ta
 0.263
 </td>
 <td style="text-align:right;">
--0.455
+-0.456
 </td>
 <td style="text-align:right;">
 0.275
 </td>
 <td style="text-align:right;">
-0.439
+0.440
 </td>
 <td style="text-align:right;">
-0.614
+0.615
 </td>
 <td style="text-align:right;">
 0.931
@@ -853,60 +824,31 @@ eq\_ta
 </tr>
 <tr>
 <td style="text-align:left;">
-int\_ta
-</td>
-<td style="text-align:right;">
-5,157
-</td>
-<td style="text-align:right;">
-0.097
-</td>
-<td style="text-align:right;">
-0.111
-</td>
-<td style="text-align:right;">
-0.000
-</td>
-<td style="text-align:right;">
-0.018
-</td>
-<td style="text-align:right;">
-0.057
-</td>
-<td style="text-align:right;">
-0.139
-</td>
-<td style="text-align:right;">
-0.576
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 roe
 </td>
 <td style="text-align:right;">
-6,539
+6,500
 </td>
 <td style="text-align:right;">
 0.034
 </td>
 <td style="text-align:right;">
-0.515
+0.517
 </td>
 <td style="text-align:right;">
--2.771
+-2.772
 </td>
 <td style="text-align:right;">
--0.014
+-0.015
 </td>
 <td style="text-align:right;">
-0.087
+0.086
 </td>
 <td style="text-align:right;">
 0.173
 </td>
 <td style="text-align:right;">
-2.171
+2.182
 </td>
 </tr>
 <tr>
@@ -914,16 +856,16 @@ roe
 nioa
 </td>
 <td style="text-align:right;">
-6,540
+6,501
 </td>
 <td style="text-align:right;">
 0.005
 </td>
 <td style="text-align:right;">
-0.154
+0.155
 </td>
 <td style="text-align:right;">
--0.715
+-0.718
 </td>
 <td style="text-align:right;">
 -0.003
@@ -935,7 +877,7 @@ nioa
 0.074
 </td>
 <td style="text-align:right;">
-0.294
+0.295
 </td>
 </tr>
 <tr>
@@ -943,7 +885,7 @@ nioa
 cfoa
 </td>
 <td style="text-align:right;">
-6,540
+6,501
 </td>
 <td style="text-align:right;">
 0.068
@@ -972,16 +914,16 @@ cfoa
 accoa
 </td>
 <td style="text-align:right;">
-6,540
+6,501
 </td>
 <td style="text-align:right;">
--0.063
+-0.064
 </td>
 <td style="text-align:right;">
 0.086
 </td>
 <td style="text-align:right;">
--0.423
+-0.426
 </td>
 <td style="text-align:right;">
 -0.091
@@ -1001,7 +943,7 @@ accoa
 return
 </td>
 <td style="text-align:right;">
-6,115
+6,100
 </td>
 <td style="text-align:right;">
 0.088
@@ -1016,13 +958,13 @@ return
 -0.138
 </td>
 <td style="text-align:right;">
-0.065
+0.064
 </td>
 <td style="text-align:right;">
-0.269
+0.268
 </td>
 <td style="text-align:right;">
-1.576
+1.577
 </td>
 </tr>
 </tbody>
@@ -1067,9 +1009,6 @@ H
 <th style="text-align:right;">
 I
 </th>
-<th style="text-align:right;">
-J
-</th>
 </tr>
 </thead>
 <tbody>
@@ -1089,16 +1028,13 @@ A: toas
 <span style=" font-weight: bold;  ">-0.16</span>
 </td>
 <td style="text-align:right;">
-<span style="   ">0.02</span>
-</td>
-<td style="text-align:right;">
 <span style=" font-weight: bold;  ">0.09</span>
 </td>
 <td style="text-align:right;">
 <span style=" font-weight: bold;  ">0.10</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.06</span>
+<span style=" font-weight: bold;  ">0.07</span>
 </td>
 <td style="text-align:right;">
 <span style=" font-weight: bold;  ">0.08</span>
@@ -1112,7 +1048,7 @@ A: toas
 B: sales
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.83</span>
+<span style=" font-weight: bold;  ">0.84</span>
 </td>
 <td style="text-align:right;">
 </td>
@@ -1123,16 +1059,13 @@ B: sales
 <span style=" font-weight: bold;  ">-0.15</span>
 </td>
 <td style="text-align:right;">
-<span style="   ">-0.01</span>
-</td>
-<td style="text-align:right;">
 <span style=" font-weight: bold;  ">0.11</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.13</span>
+<span style=" font-weight: bold;  ">0.14</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.11</span>
+<span style=" font-weight: bold;  ">0.12</span>
 </td>
 <td style="text-align:right;">
 <span style=" font-weight: bold;  ">0.07</span>
@@ -1155,9 +1088,6 @@ C: mktcap
 </td>
 <td style="text-align:right;">
 <span style=" font-weight: bold;  ">-0.08</span>
-</td>
-<td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.06</span>
 </td>
 <td style="text-align:right;">
 <span style=" font-weight: bold;  ">0.12</span>
@@ -1191,9 +1121,6 @@ D: eq\_ta
 <td style="text-align:right;">
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">-0.10</span>
-</td>
-<td style="text-align:right;">
 <span style=" font-weight: bold;  ">-0.04</span>
 </td>
 <td style="text-align:right;">
@@ -1211,41 +1138,7 @@ D: eq\_ta
 </tr>
 <tr>
 <td style="text-align:left;">
-E: int\_ta
-</td>
-<td style="text-align:right;">
-<span style="   ">0.03</span>
-</td>
-<td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.06</span>
-</td>
-<td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.05</span>
-</td>
-<td style="text-align:right;">
-<span style=" font-weight: bold;  ">-0.06</span>
-</td>
-<td style="text-align:right;">
-</td>
-<td style="text-align:right;">
-<span style="   ">0.02</span>
-</td>
-<td style="text-align:right;">
-<span style="   ">0.01</span>
-</td>
-<td style="text-align:right;">
-<span style="   ">0.00</span>
-</td>
-<td style="text-align:right;">
-<span style="   ">0.02</span>
-</td>
-<td style="text-align:right;">
-<span style="   ">-0.02</span>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-F: roe
+E: roe
 </td>
 <td style="text-align:right;">
 <span style=" font-weight: bold;  ">0.26</span>
@@ -1258,9 +1151,6 @@ F: roe
 </td>
 <td style="text-align:right;">
 <span style=" font-weight: bold;  ">-0.13</span>
-</td>
-<td style="text-align:right;">
-<span style="   ">0.03</span>
 </td>
 <td style="text-align:right;">
 </td>
@@ -1279,7 +1169,7 @@ F: roe
 </tr>
 <tr>
 <td style="text-align:left;">
-G: nioa
+F: nioa
 </td>
 <td style="text-align:right;">
 <span style=" font-weight: bold;  ">0.17</span>
@@ -1292,9 +1182,6 @@ G: nioa
 </td>
 <td style="text-align:right;">
 <span style=" font-weight: bold;  ">0.10</span>
-</td>
-<td style="text-align:right;">
-<span style="   ">0.03</span>
 </td>
 <td style="text-align:right;">
 <span style=" font-weight: bold;  ">0.79</span>
@@ -1313,7 +1200,7 @@ G: nioa
 </tr>
 <tr>
 <td style="text-align:left;">
-H: cfoa
+G: cfoa
 </td>
 <td style="text-align:right;">
 <span style=" font-weight: bold;  ">0.09</span>
@@ -1326,9 +1213,6 @@ H: cfoa
 </td>
 <td style="text-align:right;">
 <span style=" font-weight: bold;  ">0.07</span>
-</td>
-<td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.05</span>
 </td>
 <td style="text-align:right;">
 <span style=" font-weight: bold;  ">0.50</span>
@@ -1347,7 +1231,7 @@ H: cfoa
 </tr>
 <tr>
 <td style="text-align:left;">
-I: accoa
+H: accoa
 </td>
 <td style="text-align:right;">
 <span style=" font-weight: bold;  ">0.20</span>
@@ -1357,9 +1241,6 @@ I: accoa
 </td>
 <td style="text-align:right;">
 <span style=" font-weight: bold;  ">0.12</span>
-</td>
-<td style="text-align:right;">
-<span style="   ">-0.02</span>
 </td>
 <td style="text-align:right;">
 <span style="   ">-0.02</span>
@@ -1381,13 +1262,13 @@ I: accoa
 </tr>
 <tr>
 <td style="text-align:left;">
-J: return
+I: return
 </td>
 <td style="text-align:right;">
 <span style=" font-weight: bold;  ">0.04</span>
 </td>
 <td style="text-align:right;">
-<span style="   ">0.03</span>
+<span style=" font-weight: bold;  ">0.03</span>
 </td>
 <td style="text-align:right;">
 <span style=" font-weight: bold;  ">0.17</span>
@@ -1396,13 +1277,10 @@ J: return
 <span style="   ">0.01</span>
 </td>
 <td style="text-align:right;">
-<span style="   ">0.01</span>
-</td>
-<td style="text-align:right;">
 <span style=" font-weight: bold;  ">0.17</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.19</span>
+<span style=" font-weight: bold;  ">0.20</span>
 </td>
 <td style="text-align:right;">
 <span style=" font-weight: bold;  ">0.14</span>
@@ -1417,7 +1295,7 @@ J: return
 <tfoot>
 <tr>
 <td style="padding: 0; border: 0;" colspan="100%">
-<sup></sup> This table reports Pearson correlations above and Spearman correlations below the diagonal. The number of observations ranges from 4743 to 6707. Correlations with significance levels below 1% appear in bold print.
+<sup></sup> This table reports Pearson correlations above and Spearman correlations below the diagonal. The number of observations ranges from 6093 to 6668. Correlations with significance levels below 1% appear in bold print.
 </td>
 </tr>
 </tfoot>
@@ -1456,9 +1334,9 @@ And, of course, the mother of all plots, the scatter plot. Do you see the struct
 prepare_scatter_plot(r3win, x="nioa", y="return", color="sector", size="toas", loess = 1)
 ```
 
-    ## Warning: Removed 599 rows containing non-finite values (stat_smooth).
+    ## Warning: Removed 575 rows containing non-finite values (stat_smooth).
 
-    ## Warning: Removed 599 rows containing missing values (geom_point).
+    ## Warning: Removed 575 rows containing missing values (geom_point).
 
 <img src="README_files/figure-markdown_github/scatter_plot-1.png" style="display: block; margin: auto;" />
 
@@ -1543,7 +1421,7 @@ return
 nioa
 </td>
 <td>
-0.377<sup>\*\*\*</sup>
+0.376<sup>\*\*\*</sup>
 </td>
 <td>
 </td>
@@ -1596,10 +1474,10 @@ cfoa
 <td>
 </td>
 <td>
-0.356<sup>\*\*\*</sup>
+0.355<sup>\*\*\*</sup>
 </td>
 <td>
-0.380<sup>\*\*\*</sup>
+0.379<sup>\*\*\*</sup>
 </td>
 <td>
 0.466<sup>\*\*\*</sup>
@@ -1608,7 +1486,7 @@ cfoa
 0.840<sup>\*\*\*</sup>
 </td>
 <td>
-0.841<sup>\*\*\*</sup>
+0.840<sup>\*\*\*</sup>
 </td>
 </tr>
 <tr>
@@ -1657,7 +1535,7 @@ accoa
 <td>
 </td>
 <td>
-0.317<sup>\*\*\*</sup>
+0.318<sup>\*\*\*</sup>
 </td>
 <td>
 0.297<sup>\*</sup>
@@ -1686,7 +1564,7 @@ accoa
 (0.457)
 </td>
 <td>
-(0.472)
+(0.471)
 </td>
 </tr>
 <tr>
@@ -1760,13 +1638,10 @@ period, coid
 Observations
 </td>
 <td>
-6,108
+6,093
 </td>
 <td>
-6,108
-</td>
-<td>
-6,108
+6,093
 </td>
 <td>
 6,093
@@ -1775,7 +1650,10 @@ Observations
 6,093
 </td>
 <td>
-6,108
+6,093
+</td>
+<td>
+6,093
 </td>
 </tr>
 <tr>
@@ -1786,7 +1664,7 @@ R<sup>2</sup>
 0.052
 </td>
 <td>
-0.046
+0.045
 </td>
 <td>
 0.050
@@ -1798,7 +1676,7 @@ R<sup>2</sup>
 0.335
 </td>
 <td>
-0.336
+0.335
 </td>
 </tr>
 <tr>
@@ -1806,7 +1684,7 @@ R<sup>2</sup>
 Adjusted R<sup>2</sup>
 </td>
 <td>
-0.052
+0.051
 </td>
 <td>
 0.045
@@ -1821,7 +1699,7 @@ Adjusted R<sup>2</sup>
 -0.047
 </td>
 <td>
--0.046
+-0.047
 </td>
 </tr>
 <tr>
@@ -1912,16 +1790,16 @@ FY2015
 cfoa
 </td>
 <td>
-0.371<sup>\*\*\*</sup>
+0.370<sup>\*\*\*</sup>
 </td>
 <td>
-0.079
+0.078
 </td>
 <td>
-0.277<sup>\*\*\*</sup>
+0.275<sup>\*\*\*</sup>
 </td>
 <td>
-0.683<sup>\*\*\*</sup>
+0.682<sup>\*\*\*</sup>
 </td>
 </tr>
 <tr>
@@ -1957,13 +1835,13 @@ cfoa
 accoa
 </td>
 <td>
-0.347<sup>\*\*\*</sup>
+0.349<sup>\*\*\*</sup>
 </td>
 <td>
-0.109
+0.111
 </td>
 <td>
-0.615<sup>\*\*\*</sup>
+0.616<sup>\*\*\*</sup>
 </td>
 <td>
 0.031
@@ -2011,7 +1889,7 @@ Constant
 0.018<sup>\*</sup>
 </td>
 <td>
-0.093<sup>\*\*\*</sup>
+0.092<sup>\*\*\*</sup>
 </td>
 </tr>
 <tr>
@@ -2085,16 +1963,16 @@ No
 Observations
 </td>
 <td>
-6,108
+6,093
 </td>
 <td>
-1,827
+1,822
 </td>
 <td>
-2,088
+2,083
 </td>
 <td>
-2,193
+2,188
 </td>
 </tr>
 <tr>
@@ -2108,7 +1986,7 @@ R<sup>2</sup>
 0.001
 </td>
 <td>
-0.028
+0.029
 </td>
 <td>
 0.058
@@ -2125,7 +2003,7 @@ Adjusted R<sup>2</sup>
 -0.00004
 </td>
 <td>
-0.027
+0.028
 </td>
 <td>
 0.057

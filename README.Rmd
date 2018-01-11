@@ -40,7 +40,7 @@ OK. This does not look too bad. Only FY2013 seems odd, as some variables are com
 ```{r descriptive_statistics_table}
 r3 <- russell_3000[russell_3000$period > "FY2013",
                    c("coid", "coname", "period", "sector", "toas", "sales","mktcap", 
-            "eq_ta", "int_ta", "roe", "nioa", "cfoa", "accoa", "return")]
+            "eq_ta", "roe", "nioa", "cfoa", "accoa", "return")]
 t <- prepare_descriptive_table(r3)
 t$kable_ret  %>%
   kable_styling("condensed", full_width = F, position = "center")

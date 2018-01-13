@@ -11,7 +11,11 @@ You are visiting the gihub repository of the ExPanDaR (Explore Panel Data with R
 If you want to try ExPanD just run the following in your R session
 
 ``` r
-devtools::install_github("joachim-gassen/ExPanDaR")
+if (!require("devtools")) {
+  install.packages("devtools")
+  library("devtools")
+}
+install_github("joachim-gassen/ExPanDaR")
 library(ExPanDaR)
 data(russell_3000)
 ExPanD(russell_3000, c("coid", "coname"), "period", ExPanD_config_russell_3000)
@@ -1045,28 +1049,28 @@ A: toas
 <td style="text-align:right;">
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.77</span>
+<span style=" font-weight: bold;    ">0.77</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.79</span>
+<span style=" font-weight: bold;    ">0.79</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">-0.16</span>
+<span style=" font-weight: bold;    ">-0.16</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.09</span>
+<span style=" font-weight: bold;    ">0.09</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.10</span>
+<span style=" font-weight: bold;    ">0.10</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.07</span>
+<span style=" font-weight: bold;    ">0.07</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.08</span>
+<span style=" font-weight: bold;    ">0.08</span>
 </td>
 <td style="text-align:right;">
-<span style="   ">-0.00</span>
+<span style="     ">-0.00</span>
 </td>
 </tr>
 <tr>
@@ -1074,30 +1078,30 @@ A: toas
 B: sales
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.84</span>
+<span style=" font-weight: bold;    ">0.84</span>
 </td>
 <td style="text-align:right;">
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.76</span>
+<span style=" font-weight: bold;    ">0.76</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">-0.15</span>
+<span style=" font-weight: bold;    ">-0.15</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.11</span>
+<span style=" font-weight: bold;    ">0.11</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.14</span>
+<span style=" font-weight: bold;    ">0.14</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.12</span>
+<span style=" font-weight: bold;    ">0.12</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.07</span>
+<span style=" font-weight: bold;    ">0.07</span>
 </td>
 <td style="text-align:right;">
-<span style="   ">0.01</span>
+<span style="     ">0.01</span>
 </td>
 </tr>
 <tr>
@@ -1105,30 +1109,30 @@ B: sales
 C: mktcap
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.80</span>
+<span style=" font-weight: bold;    ">0.80</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.74</span>
+<span style=" font-weight: bold;    ">0.74</span>
 </td>
 <td style="text-align:right;">
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">-0.08</span>
+<span style=" font-weight: bold;    ">-0.08</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.12</span>
+<span style=" font-weight: bold;    ">0.12</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.15</span>
+<span style=" font-weight: bold;    ">0.15</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.14</span>
+<span style=" font-weight: bold;    ">0.14</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.06</span>
+<span style=" font-weight: bold;    ">0.06</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.04</span>
+<span style=" font-weight: bold;    ">0.04</span>
 </td>
 </tr>
 <tr>
@@ -1136,30 +1140,30 @@ C: mktcap
 D: eq\_ta
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">-0.42</span>
+<span style=" font-weight: bold;    ">-0.42</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">-0.36</span>
+<span style=" font-weight: bold;    ">-0.36</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">-0.20</span>
+<span style=" font-weight: bold;    ">-0.20</span>
 </td>
 <td style="text-align:right;">
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">-0.04</span>
+<span style=" font-weight: bold;    ">-0.04</span>
 </td>
 <td style="text-align:right;">
-<span style="   ">-0.01</span>
+<span style="     ">-0.01</span>
 </td>
 <td style="text-align:right;">
-<span style="   ">-0.02</span>
+<span style="     ">-0.02</span>
 </td>
 <td style="text-align:right;">
-<span style="   ">0.03</span>
+<span style="     ">0.03</span>
 </td>
 <td style="text-align:right;">
-<span style="   ">0.03</span>
+<span style="     ">0.03</span>
 </td>
 </tr>
 <tr>
@@ -1167,30 +1171,30 @@ D: eq\_ta
 E: roe
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.26</span>
+<span style=" font-weight: bold;    ">0.26</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.38</span>
+<span style=" font-weight: bold;    ">0.38</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.34</span>
+<span style=" font-weight: bold;    ">0.34</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">-0.13</span>
+<span style=" font-weight: bold;    ">-0.13</span>
 </td>
 <td style="text-align:right;">
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.50</span>
+<span style=" font-weight: bold;    ">0.50</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.37</span>
+<span style=" font-weight: bold;    ">0.37</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.28</span>
+<span style=" font-weight: bold;    ">0.28</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.09</span>
+<span style=" font-weight: bold;    ">0.09</span>
 </td>
 </tr>
 <tr>
@@ -1198,30 +1202,30 @@ E: roe
 F: nioa
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.17</span>
+<span style=" font-weight: bold;    ">0.17</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.35</span>
+<span style=" font-weight: bold;    ">0.35</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.33</span>
+<span style=" font-weight: bold;    ">0.33</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.10</span>
+<span style=" font-weight: bold;    ">0.10</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.79</span>
+<span style=" font-weight: bold;    ">0.79</span>
 </td>
 <td style="text-align:right;">
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.80</span>
+<span style=" font-weight: bold;    ">0.80</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.49</span>
+<span style=" font-weight: bold;    ">0.49</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.15</span>
+<span style=" font-weight: bold;    ">0.15</span>
 </td>
 </tr>
 <tr>
@@ -1229,30 +1233,30 @@ F: nioa
 G: cfoa
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.09</span>
+<span style=" font-weight: bold;    ">0.09</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.29</span>
+<span style=" font-weight: bold;    ">0.29</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.27</span>
+<span style=" font-weight: bold;    ">0.27</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.07</span>
+<span style=" font-weight: bold;    ">0.07</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.50</span>
+<span style=" font-weight: bold;    ">0.50</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.66</span>
+<span style=" font-weight: bold;    ">0.66</span>
 </td>
 <td style="text-align:right;">
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">-0.09</span>
+<span style=" font-weight: bold;    ">-0.09</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.12</span>
+<span style=" font-weight: bold;    ">0.12</span>
 </td>
 </tr>
 <tr>
@@ -1260,30 +1264,30 @@ G: cfoa
 H: accoa
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.20</span>
+<span style=" font-weight: bold;    ">0.20</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.14</span>
+<span style=" font-weight: bold;    ">0.14</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.12</span>
+<span style=" font-weight: bold;    ">0.12</span>
 </td>
 <td style="text-align:right;">
-<span style="   ">-0.02</span>
+<span style="     ">-0.02</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.34</span>
+<span style=" font-weight: bold;    ">0.34</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.38</span>
+<span style=" font-weight: bold;    ">0.38</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">-0.30</span>
+<span style=" font-weight: bold;    ">-0.30</span>
 </td>
 <td style="text-align:right;">
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.06</span>
+<span style=" font-weight: bold;    ">0.06</span>
 </td>
 </tr>
 <tr>
@@ -1291,28 +1295,28 @@ H: accoa
 I: return
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.04</span>
+<span style=" font-weight: bold;    ">0.04</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.03</span>
+<span style=" font-weight: bold;    ">0.03</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.17</span>
+<span style=" font-weight: bold;    ">0.17</span>
 </td>
 <td style="text-align:right;">
-<span style="   ">0.01</span>
+<span style="     ">0.01</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.17</span>
+<span style=" font-weight: bold;    ">0.17</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.20</span>
+<span style=" font-weight: bold;    ">0.20</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.14</span>
+<span style=" font-weight: bold;    ">0.14</span>
 </td>
 <td style="text-align:right;">
-<span style=" font-weight: bold;  ">0.07</span>
+<span style=" font-weight: bold;    ">0.07</span>
 </td>
 <td style="text-align:right;">
 </td>
@@ -1340,11 +1344,6 @@ Additional visuals are available for exploring time trends. For comparing variab
 
 ``` r
 graph <- prepare_trend_graph(r3win[c("period", "nioa", "cfoa", "accoa")], "period")
-```
-
-    ## Warning: package 'bindrcpp' was built under R version 3.3.3
-
-``` r
 graph$plot
 ```
 

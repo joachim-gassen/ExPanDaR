@@ -19,7 +19,11 @@ You are visiting the gihub repository of the ExPanDaR (Explore Panel Data with R
 If you want to try ExPanD just run the following in your R session
 
 ```{r eval=FALSE}
-devtools::install_github("joachim-gassen/ExPanDaR")
+if (!require("devtools")) {
+  install.packages("devtools")
+  library("devtools")
+}
+install_github("joachim-gassen/ExPanDaR")
 library(ExPanDaR)
 data(russell_3000)
 ExPanD(russell_3000, c("coid", "coname"), "period", ExPanD_config_russell_3000)

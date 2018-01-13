@@ -14,7 +14,7 @@ library(kableExtra)
 
 ## Explore Panel Data with R (ExPanDaR)
 
-You are visiting the gihub repository of the ExPanDaR (Explore Panel Data with R) package. ExPanDaR is a small and extremly early stage R package that is being developed to provide the code base for the ExPanD web app. ExPanD is a shiny based app designed to enable users with little or no statistical programming experience to explore panel data. In addition, it serves as a front end to assess the robustness of empirical archival research work.
+You are visiting the github repository of the ExPanDaR (Explore Panel Data with R) package. ExPanDaR is a small and extremly early stage R package that is being developed to provide the code base for the ExPanD web app. ExPanD is a shiny based app designed to enable users with little or no statistical programming experience to explore panel data. In addition, it serves as a front end to assess the robustness of empirical archival research work.
 
 If you want to try ExPanD just run the following in your R session
 

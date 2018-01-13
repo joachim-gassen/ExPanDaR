@@ -51,7 +51,7 @@ estimate_model <- function(df, dl) {
 #' }
 #'
 #' @details
-#' Depending on whether the dependent variable is numeric or a factor with two levels, the models are estimated
+#' This is a wrapper function calling the stargazer package. Depending on whether the dependent variable is numeric or a factor with two levels, the models are estimated
 #'   using \code{\link[lfe]{felm}} or \link[stats]{glm} (with \code{family = binomial(link="logit")}).
 #'   Fixed effects and clustered standard errors are only supported with continous dependent variables.
 #'

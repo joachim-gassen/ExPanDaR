@@ -1,12 +1,38 @@
 ExPanDaR: An Intro
 ================
 Joachim Gassen
-January 7, 2018
+January 13, 2018
+
+Explore Panel Data with R (ExPanDaR)
+------------------------------------
+
+You are visiting the gihub repository of the ExPanDaR (Explore Panel Data with R) package. ExPanDaR is a small and extremly early stage R package that is being developed to provide the code base for the ExPanD web app. ExPanD is a shiny based app designed to enable users with little or no statistical programming experience to explore panel data. In addition, it serves as a front end to assess the robustness of empirical archival research work.
+
+If you want to try ExPanD just run the following in your R session
+
+``` r
+devtools::install_github("joachim-gassen/ExPanDaR")
+library(ExPanDaR)
+data(russell_3000)
+ExPanD(russell_3000, c("coid", "coname"), "period", ExPanD_config_russell_3000)
+```
+
+Or, if you do not like financial accounting data (who doesn't?), you can try your luck with something somewhat more intuitive.
+
+``` r
+if (!require("gapminder")) {
+  install.packages("gapminder")
+  library("gapminder")
+}
+data(gapminder)
+gapminder$year <- ordered(gapminder$year)
+ExPanD(gapminder, "country", "year")
+```
+
+Enjoy!
 
 ExPanDaR Package Functions
 --------------------------
-
-You are visiting the gihub repository of the ExPanDaR (Explore Panel Data with R) package. ExPanDaR is a small and extremly early stage R package that is being developed to provide the code base for the ExPanD web app. ExPanD is a shiny based app designed to enable users with little or no statistical programming experience to explore panel data. In addition, it will serve as a front end to assess the robustness of empirical archival research work.
 
 The auxiliary functions of the ExPanDaR package can also be used for rapid prototyping data analysis. The functions provided by ExPanDaR are designed to support analysis steps that are common with empirical archival research projects in the area of accounting and finance (which happens to be my field).
 
@@ -1314,6 +1340,11 @@ Additional visuals are available for exploring time trends. For comparing variab
 
 ``` r
 graph <- prepare_trend_graph(r3win[c("period", "nioa", "cfoa", "accoa")], "period")
+```
+
+    ## Warning: package 'bindrcpp' was built under R version 3.3.3
+
+``` r
 graph$plot
 ```
 

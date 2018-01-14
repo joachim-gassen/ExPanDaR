@@ -35,6 +35,10 @@ A numeric vector or matrix containing the outlier-treated \code{x}.
 \description{
 Treats numerical outliers either by winsorizing or by truncating.
 }
+\details{
+All members of the numerical matrix are checked for finiteness and are
+  set to NA if they are not finite.
+}
 \examples{
 treat_outliers(seq(1:100), 0.05)
 treat_outliers(seq(1:100), truncate = TRUE, 0.05)
@@ -49,7 +53,6 @@ winsorized_df <- df
 winsorized_df <- treat_outliers(df, 0.05, by="c")
 by(df, df$c, summary)
 by(winsorized_df, df$c, summary)
-
 
 hist(treat_outliers(rnorm(1000)), breaks=100)
 }

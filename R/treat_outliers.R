@@ -35,6 +35,10 @@ treat_vector_outliers <- function(x, truncate, percentile) {
 #' @return A numeric vector or matrix containing the outlier-treated \code{x}.
 #'   if a data frame was provided in 'x', a data frame with its numeric variables
 #'   replaced by their outlier-treated values.
+#'
+#' @details All members of the numerical matrix are checked for finiteness and are
+#'   set to NA if they are not finite.
+#'
 #' @examples
 #' treat_outliers(seq(1:100), 0.05)
 #' treat_outliers(seq(1:100), truncate = TRUE, 0.05)
@@ -50,7 +54,6 @@ treat_vector_outliers <- function(x, truncate, percentile) {
 #' by(df, df$c, summary)
 #' by(winsorized_df, df$c, summary)
 #'
-#'
 #' hist(treat_outliers(rnorm(1000)), breaks=100)
 #' @export
 
@@ -62,10 +65,13 @@ treat_outliers <- function(x, percentile = 0.01, truncate = FALSE, by = NULL) {
   }
   x_is_df <- is.data.frame(x)
   x_is_vector <- is.vector(x)
+  x_is_matrix <- is.matrix(x)
+  if (!x_is_df & !x_is_vector & !x_is_matrix) stop("'x' is of invalid type")
   if (x_is_df) {
     df <- x
     x <- x[sapply(x, is.numeric)]
   }
+  if (x_is_matrix | x_is_vector) x <- as.data.frame(x)
 
   if(!is.numeric(as.matrix(x)))
     stop("bad value for 'x': needs to be coercible into a numeric vector or matrix")
@@ -73,16 +79,15 @@ treat_outliers <- function(x, percentile = 0.01, truncate = FALSE, by = NULL) {
     stop("bad value for 'truncate': Needs to be a logical scalar")
   }
 
-  if (is.null(by)) {
-    if (x_is_vector) retx <- data.frame(treat_vector_outliers(x, truncate, percentile))
-    else retx <- apply(x, 2, function(vx) treat_vector_outliers(vx, truncate, percentile))
-  }
+  x <- do.call(data.frame, lapply(x, function(xv) replace(xv, !is.finite(xv), NA)))
+
+  if (is.null(by))
+    retx <- as.data.frame(lapply(x, function(vx) treat_vector_outliers(vx, truncate, percentile)))
   else {
     if (is.character(by) & ! x_is_df) stop("'by' is a string but no data frame provided.")
     if (is.character(by)) byvec <- df[, by] else byvec <- by
     if (anyNA(byvec)) stop("by vector contains NA values")
-    if (length(byvec) != nrow(as.matrix(x))) stop("by vector number of rows differs from x")
-    if (x_is_vector) x <- data.frame(x)
+    if (length(byvec) != nrow(x)) stop("by vector number of rows differs from x")
     oldrownames <- rownames(x)
     rownames(x) <- 1:nrow(x)
     retx <- do.call(rbind,
@@ -94,6 +99,6 @@ treat_outliers <- function(x, percentile = 0.01, truncate = FALSE, by = NULL) {
   if (x_is_df) {
     df[colnames(retx)] <- retx
     return(df)
-  } else return(retx)
+  } else return(as.matrix(retx))
 }
 

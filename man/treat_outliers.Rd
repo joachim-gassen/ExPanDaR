@@ -4,11 +4,11 @@
 \alias{treat_outliers}
 \title{Treats Outliers in Numerical Data}
 \usage{
-treat_outliers(x, percentile = 0.01, truncate = FALSE, byvec = NULL)
+treat_outliers(x, percentile = 0.01, truncate = FALSE, by = NULL)
 }
 \arguments{
 \item{x}{Data that is coercible into a numeric vector or matrix.
-If it is a data frame then only all numerical and logical variables
+If it is a data frame then all numerical variables
 of the data frame are coerced into a matrix.}
 
 \item{percentile}{A numeric scalar.
@@ -20,12 +20,17 @@ of the data frame are coerced into a matrix.}
 \item{truncate}{A logical scalar. If TRUE then data are truncated
 (i.e., set to NA if out of bounds). Defaults to FALSE.}
 
-\item{byvec}{NULL or a factor vector containing groups
-by which the outlier treatment is applied. Defaults to NULL.
-If provided, it needs to be such so that \code{length(byvec) == nrows(as.matrix(x))}.}
+\item{by}{NULL or a either a factor vector or a character string
+identifying a factor variable in the data frame provided by x.
+The factor indicated by 'by' is being used to identify groups
+by which the outlier treatment is applied. Defaults to NULL (no grouping).
+If provided, the resulting vector must not contain NAs and needs to be such so that
+\code{length(byvec) == nrows(as.matrix(x))}.}
 }
 \value{
 A numeric vector or matrix containing the outlier-treated \code{x}.
+  if a data frame was provided in 'x', a data frame with its numeric variables
+  replaced by their outlier-treated values.
 }
 \description{
 Treats numerical outliers either by winsorizing or by truncating.
@@ -34,11 +39,17 @@ Treats numerical outliers either by winsorizing or by truncating.
 treat_outliers(seq(1:100), 0.05)
 treat_outliers(seq(1:100), truncate = TRUE, 0.05)
 
-df <- data.frame(a = seq(1:100), b = rnorm(100), c = sample(LETTERS, 100, replace=TRUE))
+df <- data.frame(a = seq(1:1000), b = rnorm(1000), c = sample(LETTERS[1:5], 1000, replace=TRUE))
 winsorized_df <- df
-winsorized_df[sapply(df,is.numeric)] <- treat_outliers(df[sapply(df,is.numeric)])
+winsorized_df <- treat_outliers(df)
 summary(df)
 summary(winsorized_df)
+
+winsorized_df <- df
+winsorized_df <- treat_outliers(df, 0.05, by="c")
+by(df, df$c, summary)
+by(winsorized_df, df$c, summary)
+
 
 hist(treat_outliers(rnorm(1000)), breaks=100)
 }

@@ -17,7 +17,7 @@ treat_vector_outliers <- function(x, truncate, percentile) {
 #' Treats numerical outliers either by winsorizing or by truncating.
 #'
 #' @param x Data that is coercible into a numeric vector or matrix.
-#'   If it is a data frame then only all numerical and logical variables
+#'   If it is a data frame then all numerical variables
 #'   of the data frame are coerced into a matrix.
 #' @param percentile A numeric scalar.
 #'   The percentile below which observations
@@ -26,53 +26,74 @@ treat_vector_outliers <- function(x, truncate, percentile) {
 #'   Defaults to 0.01 and needs to be > 0 and < 0.5.
 #' @param truncate A logical scalar. If TRUE then data are truncated
 #'   (i.e., set to NA if out of bounds). Defaults to FALSE.
-#' @param byvec NULL or a factor vector containing groups
-#'   by which the outlier treatment is applied. Defaults to NULL.
-#'   If provided, it needs to be such so that \code{length(byvec) == nrows(as.matrix(x))}.
+#' @param by NULL or a either a factor vector or a character string
+#'   identifying a factor variable in the data frame provided by x.
+#'   The factor indicated by 'by' is being used to identify groups
+#'   by which the outlier treatment is applied. Defaults to NULL (no grouping).
+#'   If provided, the resulting vector must not contain NAs and needs to be such so that
+#'   \code{length(byvec) == nrows(as.matrix(x))}.
 #' @return A numeric vector or matrix containing the outlier-treated \code{x}.
+#'   if a data frame was provided in 'x', a data frame with its numeric variables
+#'   replaced by their outlier-treated values.
 #' @examples
 #' treat_outliers(seq(1:100), 0.05)
 #' treat_outliers(seq(1:100), truncate = TRUE, 0.05)
 #'
-#' df <- data.frame(a = seq(1:100), b = rnorm(100), c = sample(LETTERS, 100, replace=TRUE))
+#' df <- data.frame(a = seq(1:1000), b = rnorm(1000), c = sample(LETTERS[1:5], 1000, replace=TRUE))
 #' winsorized_df <- df
-#' winsorized_df[sapply(df,is.numeric)] <- treat_outliers(df[sapply(df,is.numeric)])
+#' winsorized_df <- treat_outliers(df)
 #' summary(df)
 #' summary(winsorized_df)
+#'
+#' winsorized_df <- df
+#' winsorized_df <- treat_outliers(df, 0.05, by="c")
+#' by(df, df$c, summary)
+#' by(winsorized_df, df$c, summary)
+#'
 #'
 #' hist(treat_outliers(rnorm(1000)), breaks=100)
 #' @export
 
-treat_outliers <- function(x, percentile = 0.01, truncate = FALSE, byvec = NULL) {
+treat_outliers <- function(x, percentile = 0.01, truncate = FALSE, by = NULL) {
   if(!is.numeric(percentile) | length(percentile) != 1)
     stop("bad value for 'percentile': Needs to be a numeric scalar")
   if (percentile <= 0 | percentile >= 0.5) {
     stop("bad value for 'percentile': Needs to be > 0 and < 0.5")
   }
-  x_is_df <- FALSE
-  if (is.data.frame(x)) {
-    x_is_df <- TRUE
+  x_is_df <- is.data.frame(x)
+  x_is_vector <- is.vector(x)
+  if (x_is_df) {
     df <- x
-    x <- x[sapply(x, is.logical) | sapply(x, is.numeric)]
+    x <- x[sapply(x, is.numeric)]
   }
+
   if(!is.numeric(as.matrix(x)))
     stop("bad value for 'x': needs to be coercible into a numeric vector or matrix")
   if(length(truncate) != 1 || !is.logical(truncate)) {
     stop("bad value for 'truncate': Needs to be a logical scalar")
   }
 
-  if (is.null(byvec)) {
-    if (is.vector(x)) retx <- treat_vector_outliers(x, truncate, percentile)
+  if (is.null(by)) {
+    if (x_is_vector) retx <- data.frame(treat_vector_outliers(x, truncate, percentile))
     else retx <- apply(x, 2, function(vx) treat_vector_outliers(vx, truncate, percentile))
   }
   else {
+    if (is.character(by) & ! x_is_df) stop("'by' is a string but no data frame provided.")
+    if (is.character(by)) byvec <- df[, by] else byvec <- by
+    if (anyNA(byvec)) stop("by vector contains NA values")
     if (length(byvec) != nrow(as.matrix(x))) stop("by vector number of rows differs from x")
-    if (is.vector(x)) do.call(rbind, by(x, byvec, treat_vector_outliers(x, percentile, truncate)))
-    else retx <- do.call(rbind,
-            by(x, byvec, function (mx) apply(mx, 2, function(vx) treat_vector_outliers(vx, truncate, percentile))))
+    if (x_is_vector) x <- data.frame(x)
+    oldrownames <- rownames(x)
+    rownames(x) <- 1:nrow(x)
+    retx <- do.call(rbind,
+                    by(x, byvec, function (mx) apply(mx, 2, function(vx) treat_vector_outliers(vx, truncate, percentile))))
+    retx <- as.data.frame(retx[order(as.numeric(rownames(retx))),])
+    rownames(retx) <- oldrownames
   }
-  if (! x_is_df) retx else {
+  if (x_is_vector) return(retx[,1])
+  if (x_is_df) {
     df[colnames(retx)] <- retx
-    df
-  }
+    return(df)
+  } else return(retx)
 }
+

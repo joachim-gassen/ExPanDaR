@@ -30,7 +30,7 @@ prepare_scatter_plot <- function(df, x, y, color = "", size = "", loess = 0) {
   size_there <- (size != "")
   vars <- c(x, y, color, size)
   vars <- vars[which(vars != "")]
-  df <- df[stats::complete.cases(vars),vars]
+  df <- df[stats::complete.cases(df[,vars]),vars]
   alpha <- min(1,1/((1 + (max(0,log(nrow(df)) - log(1000))))))
   if (loess < 2) scatter <- ggplot2::ggplot(df, ggplot2::aes_string(x = x, y = y))
   else scatter <- ggplot2::ggplot(df, ggplot2::aes_string(x = x, y = y, weight=size))

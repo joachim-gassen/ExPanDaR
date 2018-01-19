@@ -85,7 +85,7 @@ treat_outliers <- function(x, percentile = 0.01, truncate = FALSE, by = NULL) {
     retx <- as.data.frame(lapply(x, function(vx) treat_vector_outliers(vx, truncate, percentile)))
   else {
     if (is.character(by) & ! x_is_df) stop("'by' is a string but no data frame provided.")
-    if (is.character(by)) byvec <- df[, by] else byvec <- by
+    if (is.character(by)) byvec <- as.vector(df[, by]) else byvec <- as.vector(by)
     if (anyNA(byvec)) stop("by vector contains NA values")
     if (length(byvec) != nrow(x)) stop("by vector number of rows differs from x")
     oldrownames <- rownames(x)

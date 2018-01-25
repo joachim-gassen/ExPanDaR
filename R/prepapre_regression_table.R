@@ -46,7 +46,7 @@ estimate_model <- function(df, dl) {
 #'
 #' @return A list contining two items
 #' \describe{
-#'  \item{"models"}{A list containg the model results}
+#'  \item{"models"}{A list containg the model results and byvalues if appropriate}
 #'  \item{"table"}{The output of \link[stargazer]{stargazer} containing the table}
 #' }
 #'
@@ -88,9 +88,9 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
     bylevels <- unique(df[,byvar])[order(unique(df[,byvar]))]
     mby <- lapply(bylevels, function(x) estimate_model(df[df[,byvar] == x,], datalist))
     models <- list()
-    models[[1]] <- estimate_model(df, datalist)
+    models[[1]] <- append(estimate_model(df, datalist), byvalue = "Full")
     for (i in 2:(length(mby) + 1))
-      models[[i]] <- mby[[i-1]]
+      models[[i]] <- append(mby[[i-1]], byvalue = bylevels[i-1])
   } else {
     if (is.list(dvs)) {
       for (i in 1:length(dvs))

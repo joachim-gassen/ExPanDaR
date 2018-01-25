@@ -113,12 +113,14 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
   fe_str <- "Fixed effects"
   cl_str <- "Std. errors clustered"
   m <- list()
+  ret <- list()
   for (i in 1:length(models)) {
     if (models[[i]]$fe_str != "")  fe_str <- c(fe_str, models[[i]]$fe_str)
     else fe_str <- c(fe_str, "None")
     if (models[[i]]$cl_str != "")  cl_str <- c(cl_str, models[[i]]$cl_str)
     else cl_str <- c(cl_str, "No")
-    m[[i]] <- models[[i]]
+    m[[i]] <- models[[i]]$model
+    ret[[i]] <- models[[i]]
   }
   if (byvar != "") {
     labels <- gsub("_", "", c("Full Sample", levels(df[,byvar])))
@@ -134,5 +136,5 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
                                          omit.stat = c("f", "ser"),
                                          add.lines=list(fe_str, cl_str),
                                          dep.var.labels=unlist(dvs)))
-  list(models = m, table = htmlout)
+  list(models = ret, table = htmlout)
 }

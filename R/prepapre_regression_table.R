@@ -118,7 +118,7 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
     else fe_str <- c(fe_str, "None")
     if (models[[i]]$cl_str != "")  cl_str <- c(cl_str, models[[i]]$cl_str)
     else cl_str <- c(cl_str, "No")
-    m[[i]] <- models[[i]]$model
+    m[[i]] <- models[[i]]
   }
   if (byvar != "") {
     labels <- gsub("_", "", c("Full Sample", levels(df[,byvar])))

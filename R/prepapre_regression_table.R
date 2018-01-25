@@ -85,7 +85,7 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
                           idvs = idvs,
                           feffects = feffects,
                           clusters = clusters)
-    bylevels <- unique(df[,byvar])[order(unique(df[,byvar]))]
+    bylevels <- unique(as.character(df[,byvar]))[order(unique(df[,byvar]))]
     mby <- lapply(bylevels, function(x) estimate_model(df[df[,byvar] == x,], datalist))
     models <- list()
     models[[1]] <- estimate_model(df, datalist)

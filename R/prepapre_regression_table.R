@@ -58,7 +58,7 @@ estimate_model <- function(df, dl) {
 #' @examples
 #' df <- data.frame(year = as.factor(floor(stats::time(datasets::EuStockMarkets))),
 #'                  datasets::EuStockMarkets)
-#' dvs = list("DAX", "SMI", "CAC", "FTSE")
+#' dvs = c("DAX", "SMI", "CAC", "FTSE")
 #' idvs = list(c("SMI", "CAC", "FTSE"),
 #'             c("DAX", "CAC", "FTSE"),
 #'             c("SMI", "DAX", "FTSE"),
@@ -95,7 +95,7 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
       models[[i]]$byvalue <- bylevels[i-1]
     }
   } else {
-    if (is.list(dvs)) {
+    if (length(dvs) > 1) {
       for (i in 1:length(dvs))
         datalist[[i]] <- list(dvs = dvs[[i]],
                               idvs = idvs[[i]],

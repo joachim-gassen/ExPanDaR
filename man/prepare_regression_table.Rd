@@ -26,7 +26,7 @@ format (e.g., "html", "text", or "latex").}
 \value{
 A list contining two items
 \describe{
- \item{"models"}{A list containg the model results}
+ \item{"models"}{A list containg the model results and byvalues if appropriate}
  \item{"table"}{The output of \link[stargazer]{stargazer} containing the table}
 }
 }
@@ -41,7 +41,7 @@ This is a wrapper function calling the stargazer package. Depending on whether t
 \examples{
 df <- data.frame(year = as.factor(floor(stats::time(datasets::EuStockMarkets))),
                  datasets::EuStockMarkets)
-dvs = list("DAX", "SMI", "CAC", "FTSE")
+dvs = c("DAX", "SMI", "CAC", "FTSE")
 idvs = list(c("SMI", "CAC", "FTSE"),
             c("DAX", "CAC", "FTSE"),
             c("SMI", "DAX", "FTSE"),

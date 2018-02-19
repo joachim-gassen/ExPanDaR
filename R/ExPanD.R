@@ -36,4 +36,5 @@ ExPanD <- function(df, cs_id, ts_id, config_list = NULL, ...)
   app_dir <- system.file("application", package = "ExPanDaR")
   save(list = ls(pattern = "shiny"), file = paste0(app_dir, "/shiny_data.Rda"))
   shiny::runApp(appDir = system.file("application", package = "ExPanDaR"), ...)
+  unlink(paste0(app_dir, "/shiny_data.Rda"))
 }

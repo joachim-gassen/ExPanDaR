@@ -12,7 +12,7 @@ quote_escape <- function(string) {
   t
 }
 
-load("shiny_data.Rda")
+load("shiny_data.Rda", envir = environment())
 
 if (is.data.frame(shiny_df))
   simple_call_mode <- TRUE else simple_call_mode <- FALSE

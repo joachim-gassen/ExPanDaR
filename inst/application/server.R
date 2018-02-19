@@ -1,3 +1,5 @@
+library(ExPanDaR)
+
 DEBUG <- TRUE
 store_encrypted <- FALSE
 store_key <- PKI::PKI.digest(charToRaw("What a wonderful key"), "SHA256")

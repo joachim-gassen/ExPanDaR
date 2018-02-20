@@ -58,47 +58,62 @@ treat_vector_outliers <- function(x, truncate, percentile) {
 #' @export
 
 treat_outliers <- function(x, percentile = 0.01, truncate = FALSE, by = NULL) {
-  if(!is.numeric(percentile) | length(percentile) != 1)
+  x_is_df <- is.data.frame(x)
+  x_is_vector <- is.vector(x)
+  x_is_matrix <- is.matrix(x)
+  if (!x_is_df & !x_is_vector & !x_is_matrix)
+    stop("'x' is of invalid type")
+  if (x_is_vector) lenx <- length(x)
+  else lenx <- nrow(x)
+
+  if (!is.numeric(percentile) || (length(percentile) != 1))
     stop("bad value for 'percentile': Needs to be a numeric scalar")
   if (percentile <= 0 | percentile >= 0.5) {
     stop("bad value for 'percentile': Needs to be > 0 and < 0.5")
   }
-  x_is_df <- is.data.frame(x)
-  x_is_vector <- is.vector(x)
-  x_is_matrix <- is.matrix(x)
-  if (!x_is_df & !x_is_vector & !x_is_matrix) stop("'x' is of invalid type")
+
+  if (length(truncate) != 1 || !is.logical(truncate))
+    stop("bad value for 'truncate': Needs to be a logical scalar")
+
+  if (!is.null(by)) {
+    if (is.character(by) & !x_is_df)
+      stop("'by' is a string but no data frame provided.")
+    if (is.character(by)) by <- as.vector(df[, by])
+    else by <- as.vector(by)
+    if (anyNA(by))
+      stop("by vector contains NA values")
+    if (length(by) != lenx)
+      stop("by vector number of rows differs from x")
+  }
+
   if (x_is_df) {
     df <- x
     x <- x[sapply(x, is.numeric)]
   }
-  if (x_is_matrix | x_is_vector) x <- as.data.frame(x)
-
-  if(!is.numeric(as.matrix(x)))
-    stop("bad value for 'x': needs to be coercible into a numeric vector or matrix")
-  if(length(truncate) != 1 || !is.logical(truncate)) {
-    stop("bad value for 'truncate': Needs to be a logical scalar")
-  }
-
-  x <- do.call(data.frame, lapply(x, function(xv) replace(xv, !is.finite(xv), NA)))
-
+  if (x_is_matrix | x_is_vector)
+    x <- as.data.frame(x)
+  if (!is.numeric(as.matrix(x)))
+    stop("bad value for 'x': needs to contain numeric vector or matrix")
+  x <- do.call(data.frame, lapply(x, function(xv) replace(xv,
+                                                          !is.finite(xv), NA)))
   if (is.null(by))
-    retx <- as.data.frame(lapply(x, function(vx) treat_vector_outliers(vx, truncate, percentile)))
+    retx <- as.data.frame(lapply(x, function(vx) treat_vector_outliers(vx,
+                                                                       truncate, percentile)))
   else {
-    if (is.character(by) & ! x_is_df) stop("'by' is a string but no data frame provided.")
-    if (is.character(by)) byvec <- as.vector(df[, by]) else byvec <- as.vector(by)
-    if (anyNA(byvec)) stop("by vector contains NA values")
-    if (length(byvec) != nrow(x)) stop("by vector number of rows differs from x")
-    oldrownames <- rownames(x)
-    rownames(x) <- 1:nrow(x)
+    old_order <- (1:lenx)[order(by)]
     retx <- do.call(rbind,
-                    by(x, byvec, function (mx) apply(mx, 2, function(vx) treat_vector_outliers(vx, truncate, percentile))))
-    retx <- as.data.frame(retx[order(as.numeric(rownames(retx))),])
-    rownames(retx) <- oldrownames
+                    by(x, by,
+                       function(mx)
+                         apply(mx, 2,
+                               function(vx) treat_vector_outliers(vx, truncate, percentile))))
+    retx <- as.data.frame(retx[order(old_order),])
   }
-  if (x_is_vector) return(retx[,1])
+  if (x_is_vector)
+    return(retx[, 1])
   if (x_is_df) {
     df[colnames(retx)] <- retx
     return(df)
-  } else return(as.matrix(retx))
+  }
+  else return(as.matrix(retx))
 }
 

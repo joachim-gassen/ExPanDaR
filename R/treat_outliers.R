@@ -78,7 +78,7 @@ treat_outliers <- function(x, percentile = 0.01, truncate = FALSE, by = NULL) {
   if (!is.null(by)) {
     if (is.character(by) & !x_is_df)
       stop("'by' is a string but no data frame provided.")
-    if (is.character(by)) by <- as.vector(df[, by])
+    if (is.character(by)) by <- as.vector(x[, by])
     else by <- as.vector(by)
     if (anyNA(by))
       stop("by vector contains NA values")

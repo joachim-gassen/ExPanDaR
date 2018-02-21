@@ -1,8 +1,11 @@
 library(ExPanDaR)
+library(PKI)
 
-DEBUG <- TRUE
-store_encrypted <- FALSE
-store_key <- PKI::PKI.digest(charToRaw("What a wonderful key"), "SHA256")
+load("shiny_data.Rda")
+
+DEBUG <- shiny_debug
+
+key <- PKI::PKI.digest(charToRaw(shiny_key_phrase), "SHA256")
 
 if (DEBUG) sample_count <- 0
 
@@ -13,8 +16,6 @@ quote_escape <- function(string) {
   t <- gsub("\'", "&#39;", t)
   t
 }
-
-load("shiny_data.Rda")
 
 if (exists("shiny_df") && is.data.frame(shiny_df))
   simple_call_mode <- TRUE else simple_call_mode <- FALSE
@@ -1023,10 +1024,9 @@ function(input, output, session) {
   observe({
     in_file <- req(input$upload)
     if (!is.null(in_file)) {
-      key <- PKI.digest(charToRaw("What a wonderful key"), "SHA256")
       tryCatch(
         {
-          if (store_encrypted) {
+          if (shiny_store_encrypted) {
             encrypted <- readRDS(in_file$datapath)
             decrypted <- PKI.decrypt(encrypted, key, "aes256")
             config_list <- unserialize(decrypted)
@@ -1041,7 +1041,7 @@ function(input, output, session) {
   output$download <- downloadHandler(
     filename = function() { "ExPanD.RDS" },
     content = function(file) {
-      if (store_encrypted) {
+      if (shiny_store_encrypted) {
         raw <- serialize(reactiveValuesToList(uc), NULL)
         encrypted <- PKI.encrypt(raw, key, "aes256")
         saveRDS(encrypted, file)

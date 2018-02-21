@@ -16,12 +16,21 @@ fluidPage(
       #regression table > tfoot > tr > td {
       padding:0px 5px;
       }"))),
-  titlePanel("ExPanD - Explore panel data interactively"),
+  titlePanel(shiny_title),
+  if(!is.null(shiny_abstract)) {
+    fluidRow(
+      column (12,
+              HTML(shiny_abstract),
+              p(),
+              hr()
+      )
+    )},
 
   fluidRow(
     column (12,
-            p("This is a web app to explore panel data.",
-              "Developed by Martin Bierey and Joachim Gassen, Humboldt-Universität zu Berlin,",
+            p("Based on the ExPanD app of the",
+              HTML("<a href=http://www.github.com/joachim-gassen/ExPanDaR>ExPanDaR R package</a>"),
+              "developed by Joachim Gassen, Humboldt-Universität zu Berlin,",
               HTML("<a href=\"mailto:gassen@wiwi.hu-berlin.de\">gassen@wiwi.hu-berlin.de</a>.")),
             hr()
     )

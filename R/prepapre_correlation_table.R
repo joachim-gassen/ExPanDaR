@@ -52,7 +52,7 @@ prepare_correlation_table <- function(df, digits = 2, bold = 0.05, format = "htm
   LETTERS702 <- c(LETTERS, sapply(LETTERS, function(x) paste0(x, LETTERS)))
   colnames(fted_correl_r) <- LETTERS702[1:ncol(correl_r)]
   rownames(fted_correl_r) <- paste0(LETTERS702[1:ncol(correl_r)], ": ",rownames(correl_r))
-  kr <- knitr::kable(fted_correl_r, align = rep("r", ncol(correl_r)), format, ...)
+  kr <- knitr::kable(fted_correl_r, align = rep("r", ncol(correl_r)), format, escape = FALSE, ...)
 
   # __TO_DO__: The below is based on the githug version of kableExtra, undocumented and likely to change
   # Also, it would be nice to avoid that tfoot does not screw up the auto width of the full table
@@ -64,7 +64,8 @@ prepare_correlation_table <- function(df, digits = 2, bold = 0.05, format = "htm
                                                   sprintf("The number of observations ranges from %d to %d.", min(correl_n), max(correl_n))),
                                            ifelse(bold > 0,
                                                   sprintf("Correlations with significance levels below %.0f%% appear in bold print.", bold*100),
-                                                  "")))
+                                                  "")),
+                             threeparttable = TRUE)
 
   list(df_corr = as.data.frame(correl_r),
        df_prob = as.data.frame(correl_p),

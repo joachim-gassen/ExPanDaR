@@ -43,6 +43,8 @@ estimate_model <- function(df, dl) {
 #' @param byvar A factorial variable to estimate the model on (only possible if only one model is being estimated).
 #' @param format A character scalar that is passed on \link[stargazer]{stargazer} as \code{type} to determine the presentation
 #'   format (e.g., "html", "text", or "latex").
+#' @param drop_underscore A quick'n'dirty hahk to address a bug in stargazer that triggers it to choke on underscores in variable names.
+#'   If not NULL, all underscores in variable names will be replaced by the given string,
 #'
 #' @return A list contining two items
 #' \describe{
@@ -72,13 +74,27 @@ estimate_model <- function(df, dl) {
 #' @export
 
 prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dvs)),
-                                     clusters = rep("", length(dvs)), byvar = "", format = "html") {
+                                     clusters = rep("", length(dvs)), byvar = "", format = "html", drop_underscore = NULL) {
 
   if (byvar != "") if(!is.factor(df[,byvar])) stop("'byvar' needs to be a factor.")
   if ((length(dvs) > 1) & byvar != "") stop("you cannot subset multiple models in one table")
   if (is.list(dvs))
     if ((length(dvs) != length(idvs)) | (length(dvs) != length(feffects)) | (length(dvs) != length(clusters)))
       stop("'dvs', 'idvs', 'feffects' and 'clusters' need to be of equal lenghth.")
+  if (!is.null(drop_underscore)) {
+    names(df) <- gsub("_", drop_underscore, names(df))
+    dvs <- gsub("_", drop_underscore, dvs)
+    if (is.list(idvs))
+      idvs <- lapply(idvs, function(x) gsub("_", drop_underscore, x))
+    else idvs <- gsub("_", drop_underscore, idvs)
+    if (is.list(feffects))
+      feffects <- lapply(feffects, function(x) gsub("_", drop_underscore, x))
+    else feffects <- gsub("_", drop_underscore, feffects)
+    if (is.list(cluster))
+      clusters <- lapply(clusters, function(x) gsub("_", drop_underscore, x))
+    else clusters <- gsub("_", drop_underscore, clusters)
+    byvar <- gsub("_", drop_underscore, byvar)
+  }
   datalist <- list()
   if (byvar != "") {
     datalist <- list(dvs = dvs,

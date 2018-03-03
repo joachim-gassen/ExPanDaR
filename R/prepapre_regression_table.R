@@ -56,6 +56,8 @@ estimate_model <- function(df, dl) {
 #' This is a wrapper function calling the stargazer package. Depending on whether the dependent variable is numeric or a factor with two levels, the models are estimated
 #'   using \code{\link[lfe]{felm}} or \link[stats]{glm} (with \code{family = binomial(link="logit")}).
 #'   Fixed effects and clustered standard errors are only supported with continous dependent variables.
+#'   If run with \code{byvar}, only levels that have more observations than coefficients are estimated.
+#'
 #'
 #' @examples
 #' df <- data.frame(year = as.factor(floor(stats::time(datasets::EuStockMarkets))),
@@ -71,6 +73,11 @@ estimate_model <- function(df, dl) {
 #' t$table
 #' t <- prepare_regression_table(df, "DAX", c("SMI", "CAC", "FTSE"), byvar="year")
 #' print(t$table)
+#' x <- rnorm(1000)
+#' byvar <- rep(1:10, 100)
+#' y <- byvar*x + rnorm(1000)
+#' df <- data.frame(byvar = as.factor(byvar), x, y)
+#' t <- prepare_regression_table(sample(df, 10), "y", "x", byvar = "byvar")
 #' @export
 
 prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dvs)),
@@ -101,7 +108,13 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
                           idvs = idvs,
                           feffects = feffects,
                           clusters = clusters)
+    vars <- c(byvar, dvs, idvs, feffects, clusters)
+    vars <- vars[which(!vars %in% "")]
+    df <- df[stats::complete.cases(df[, vars]), vars]
     bylevels <- unique(as.character(df[,byvar]))[order(unique(df[,byvar]))]
+    n_by_level <- unlist(lapply(bylevels, function(x) nrow(df[df[,byvar] == x,])))
+    bylevels <- bylevels[n_by_level > length(idvs) + 1]
+    if (length(bylevels) < 1) stop("no by levels with sufficient degrees of freedom to estimate model")
     mby <- lapply(bylevels, function(x) estimate_model(df[df[,byvar] == x,], datalist))
     models <- list()
     models[[1]] <- estimate_model(df, datalist)

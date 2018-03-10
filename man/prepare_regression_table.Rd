@@ -5,7 +5,8 @@
 \title{Prepares a Regression Table}
 \usage{
 prepare_regression_table(df, dvs, idvs, feffects = rep("", length(dvs)),
-  clusters = rep("", length(dvs)), byvar = "", format = "html")
+  clusters = rep("", length(dvs)), byvar = "", format = "html",
+  drop_underscore = NULL)
 }
 \arguments{
 \item{df}{Data frame containing the data to estimate the models on.}
@@ -22,6 +23,9 @@ prepare_regression_table(df, dvs, idvs, feffects = rep("", length(dvs)),
 
 \item{format}{A character scalar that is passed on \link[stargazer]{stargazer} as \code{type} to determine the presentation
 format (e.g., "html", "text", or "latex").}
+
+\item{drop_underscore}{A quick'n'dirty hahk to address a bug in stargazer that triggers it to choke on underscores in variable names.
+If not NULL, all underscores in variable names will be replaced by the given string,}
 }
 \value{
 A list contining two items
@@ -37,6 +41,7 @@ Builds a regression table based on a set of user-specifed models or a single mod
 This is a wrapper function calling the stargazer package. Depending on whether the dependent variable is numeric or a factor with two levels, the models are estimated
   using \code{\link[lfe]{felm}} or \link[stats]{glm} (with \code{family = binomial(link="logit")}).
   Fixed effects and clustered standard errors are only supported with continous dependent variables.
+  If run with \code{byvar}, only levels that have more observations than coefficients are estimated.
 }
 \examples{
 df <- data.frame(year = as.factor(floor(stats::time(datasets::EuStockMarkets))),
@@ -52,4 +57,9 @@ t <- prepare_regression_table(df, dvs, idvs, feffects, clusters)
 t$table
 t <- prepare_regression_table(df, "DAX", c("SMI", "CAC", "FTSE"), byvar="year")
 print(t$table)
+x <- rnorm(1000)
+byvar <- rep(1:10, 100)
+y <- byvar*x + rnorm(1000)
+df <- data.frame(byvar = as.factor(byvar), x, y)
+t <- prepare_regression_table(sample(df, 10), "y", "x", byvar = "byvar")
 }

@@ -1,6 +1,6 @@
 load("shiny_data.Rda")
 
-if (exists("shiny_df") && is.data.frame(shiny_df))
+if (exists("shiny_df") && !exists("siny_var_def"))
   simple_call_mode <- TRUE else simple_call_mode <- FALSE
 
 fluidPage(

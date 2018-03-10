@@ -4,7 +4,8 @@
 \alias{prepare_correlation_table}
 \title{Prepares a Correlation Table}
 \usage{
-prepare_correlation_table(df, digits = 2, bold = 0.05, format = "html")
+prepare_correlation_table(df, digits = 2, bold = 0.05, format = "html",
+  ...)
 }
 \arguments{
 \item{df}{Data frame containing at least two variables that are either numeric
@@ -16,6 +17,8 @@ or logical and at least five observations.}
 in bold brint. Defaults to 0.05. If set to 0, no bold print is being used.}
 
 \item{format}{The format that you want knitr::kable to produce ("html" or "latex")}
+
+\item{...}{Additional parameters that are passed on to knitr::kable}
 }
 \value{
 A list containing four items:

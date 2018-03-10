@@ -11,7 +11,7 @@ prepare_quantile_trend_graph(df, xvar, quantiles = c(0.05, 0.25, 0.5, 0.75,
 \item{df}{Data frame containing the ordered factor and the numerical variable
 to be plotted}
 
-\item{xvar}{a string countaining column name of the ordered factor}
+\item{xvar}{a string containing the column name of the ordered factor}
 
 \item{quantiles}{a numerical vector containing the quantiles that are to be plotted}
 }

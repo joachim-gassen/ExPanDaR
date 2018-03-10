@@ -4,19 +4,38 @@
 \alias{ExPanD}
 \title{Explore Panal Data (ExPanD)}
 \usage{
-ExPanD(df, cs_id, ts_id, config_list = NULL, ...)
+ExPanD(df, cs_id, ts_id, config_list = NULL,
+  title = "ExPanD - Explore panel data interactively", abstract = NULL,
+  df_id = deparse(substitute(df)), df_name = "User provided data",
+  store_encrypted = FALSE, key_phrase = "What a wonderful key",
+  debug = FALSE, ...)
 }
 \arguments{
-\item{df}{A data that containing the panel data that you want to explore}
+\item{df}{A data that or a list of dataframes containing the panel data that you want to explore}
 
-\item{cs_id}{A character vector containing the names of the variables that
+\item{cs_id}{A character vector or a list of character vectors containing the names of the variables that
 identify the cross-section in your data. The according variables should be factors.}
 
-\item{ts_id}{A character scalar identify the name of the variables that
-identifies the time series in your data. The according variables needs to be anordered vector.}
+\item{ts_id}{A character scalar or a character vector identifing the name of the variable that
+identifies the time series in your data. The according variable needs to be an ordered vector.}
 
 \item{config_list}{a list containing the startup configuraion for ExPanD to display.
 Take a look at \code{data(ExPanD_config_russell_3000)} for the format.}
+
+\item{title}{the title to display in the shiny web app.}
+
+\item{abstract}{As introductory text to display in the shiny web app. Needs to be formatted as clean HTML.}
+
+\item{df_name}{A character string or a vector of character strings
+characterizing the dataframe(s) provided in df in the user frontend}
+
+\item{store_encrypted}{Do you want the user-side saved config files to be encrypted?
+A security measure to avoid that users can inject arbitrary code in the config list.}
+
+\item{key_phrase}{The key phrase to use for encryption.
+Potentially a good idea to change this from the default if you want to encrypt.}
+
+\item{debug}{Do you want ExPanD to echo some timing information to the console/log file?}
 
 \item{...}{Additional parameters that are passed on to \code{\link[shiny]{runApp}}.}
 }
@@ -29,9 +48,10 @@ Use the \code{\link[Hmisc]{label}} command to add label defining the variables t
   to have nice floatting variable descriptions in the descriptive table.
 }
 \examples{
-data(russell_3000)
-ExPanD(russell_3000, c("coid", "coname"), "period")
-data(ExPanD_config_russell_3000)
-ExPanD(russell_3000, c("coid", "coname"), "period", ExPanD_config_russell_3000)
-
+\dontrun{
+  data(russell_3000)
+  ExPanD(russell_3000, c("coid", "coname"), "period")
+  data(ExPanD_config_russell_3000)
+  ExPanD(russell_3000, c("coid", "coname"), "period", ExPanD_config_russell_3000)
+}
 }

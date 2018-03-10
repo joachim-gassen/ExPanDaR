@@ -17,26 +17,72 @@ quote_escape <- function(string) {
   t
 }
 
-if (exists("shiny_df") && is.data.frame(shiny_df))
+if (exists("shiny_df") && !exists("siny_var_def"))
   simple_call_mode <- TRUE else simple_call_mode <- FALSE
 
 if (simple_call_mode) {
-  data_source <- data.frame(ds_id = shiny_df_name,
-                            ds_description = "User defined data set",
+  data_source <- data.frame(ds_id = shiny_df_id,
+                            ds_description = shiny_df_name,
                             stringsAsFactors = FALSE)
-  ca_sample <- data.frame(ds_id = shiny_df_name, shiny_df)
-  ca_variable <- data.frame(
-    var_name = names(shiny_df),
-    var_def = Hmisc::label(shiny_df),
-    stringsAsFactors = FALSE
-  )
+
+  clear_labels <- function(x) {
+    for(i in 1 : length(x)) {
+      class(x[[i]]) <- setdiff(class(x[[i]]), 'labelled')
+      attr(x[[i]],"label") <- NULL
+    }
+    return(x)
+  }
+
+  if(is.data.frame(shiny_df)) {
+    ca_sample <- data.frame(ds_id = shiny_df_id, shiny_df)
+  } else {
+    # The below will comlain about coercing factors to characters in most instances
+    # As factors are identified by ca_variable later, we can safely ignore these warnings
+    ca_sample <- suppressWarnings(dplyr::bind_rows(lapply(seq_along(shiny_df),
+                                         function (x) data.frame(ds_id = shiny_df_id[x], clear_labels(shiny_df[[x]])))))
+    rownames(ca_sample) <- NULL
+  }
+
+  if(is.data.frame(shiny_df)) {
+    ca_variable <- data.frame(
+      ds_id = shiny_df_id,
+      var_name = names(shiny_df),
+      var_def = Hmisc::label(shiny_df),
+      stringsAsFactors = FALSE
+    )
+  } else {
+    ca_variable <- do.call(rbind,
+                           lapply(seq_along(shiny_df),
+                                  function (x) data.frame(
+                                    ds_id = shiny_df_id[x],
+                                    var_name = names(shiny_df[[x]]),
+                                    var_def = Hmisc::label(shiny_df[[x]]),
+                                    stringsAsFactors = FALSE
+                                  )))
+    rownames(ca_variable) <- NULL
+  }
 
   ca_variable$type <- NA
-  ca_variable$type[which(sapply(shiny_df, is.factor))] <- "factor"
-  ca_variable$type[which(sapply(shiny_df, is.logical))] <- "logical"
-  ca_variable$type[which(sapply(shiny_df, is.numeric))] <- "numeric"
-  ca_variable$type[which(ca_variable$var_name %in% shiny_cs_id)] <- "cs_id"
-  ca_variable$type[which(ca_variable$var_name == shiny_ts_id)] <- "ts_id"
+  if(is.data.frame(shiny_df)) {
+    ca_variable$type[which(sapply(shiny_df, is.factor))] <- "factor"
+    ca_variable$type[which(sapply(shiny_df, is.logical))] <- "logical"
+    ca_variable$type[which(sapply(shiny_df, is.numeric))] <- "numeric"
+
+    ca_variable$type[which(ca_variable$var_name %in% shiny_cs_id)] <- "cs_id"
+    ca_variable$type[which(ca_variable$var_name == shiny_ts_id)] <- "ts_id"
+  } else {
+    for (ds in 1:nrow(data_source)) {
+      ca_variable$type[ca_variable$ds_id == data_source$ds_id[ds]][sapply(shiny_df[[ds]], is.factor)] <- "factor"
+      ca_variable$type[ca_variable$ds_id == data_source$ds_id[ds]][sapply(shiny_df[[ds]], is.logical)] <- "logical"
+      ca_variable$type[ca_variable$ds_id == data_source$ds_id[ds]][sapply(shiny_df[[ds]], is.numeric)] <- "numeric"
+
+      ca_variable$type[ca_variable$ds_id == data_source$ds_id[ds] &
+                         ca_variable$var_name %in% shiny_cs_id[[ds]]] <- "cs_id"
+      ca_variable$type[ca_variable$ds_id == data_source$ds_id[ds] &
+                         ca_variable$var_name == shiny_ts_id[[ds]]] <- "ts_id"
+    }
+  }
+
   ca_variable$can_be_na <-
     ifelse(ca_variable$type == "cs_id" | ca_variable$type == "ts_id", 0, 1)
 
@@ -51,34 +97,34 @@ if (simple_call_mode) {
     outlier_factor = "None",
     udvars = NULL,
     delvars = NULL,
-    bar_chart_var1 = shiny_ts_id,
-    bar_chart_var2 = ca_variable$var_name[ca_variable$type == "factor"][1],
+    bar_chart_var1 = shiny_ts_id[1],
+    bar_chart_var2 = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "factor"][1],
     bar_chart_group_by = "All",
     bar_chart_relative = FALSE,
     desc_group_by = "All",
-    hist_var = ca_variable$var_name[ca_variable$type == "factor"][1],
+    hist_var = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "factor"][1],
     hist_group_by = "All",
     hist_nr_of_breaks = 20,
-    ext_obs_var = ca_variable$var_name[ca_variable$type == "numeric"][1],
+    ext_obs_var = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][1],
     ext_obs_group_by = "All",
     ext_obs_period_by = "All",
-    trend_graph_var1 = ca_variable$var_name[ca_variable$type == "numeric"][1],
+    trend_graph_var1 = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][1],
     trend_graph_var2 = "None",
     trend_graph_var3 = "None",
     trend_graph_group_by = "All",
-    quantile_trend_graph_var = ca_variable$var_name[ca_variable$type == "numeric"][1],
+    quantile_trend_graph_var = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][1],
     quantile_trend_graph_quantiles = c("0.05", "0.25", "0.50", "0.75", "0.95"),
     quantile_trend_graph_group_by = "All",
     corrplot_group_by = "All",
-    scatter_x = ca_variable$var_name[ca_variable$type == "numeric"][1],
-    scatter_y = ca_variable$var_name[ca_variable$type == "numeric"][2],
-    scatter_size = ca_variable$var_name[ca_variable$type == "numeric"][3],
-    scatter_color = ca_variable$var_name[ca_variable$type == "factor"][1],
+    scatter_x = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][1],
+    scatter_y = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][2],
+    scatter_size = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][3],
+    scatter_color = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "factor"][1],
     scatter_group_by = "All",
     scatter_loess = TRUE,
     scatter_sample = TRUE,
-    reg_y = ca_variable$var_name[ca_variable$type == "numeric"][2],
-    reg_x = ca_variable$var_name[ca_variable$type == "numeric"][1],
+    reg_y = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][2],
+    reg_x = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][1],
     reg_fe1 = "None",
     reg_fe2 = "None",
     reg_by = "None",
@@ -191,7 +237,7 @@ function(input, output, session) {
   })
 
   create_ca_sample <- reactive({
-    cas_definition <<- ca_variable
+    cas_definition <<- ca_variable[ca_variable$ds_id == uc$sample, ]
     if("label" %in% names(cas_definition)) {
       cas_definition$var_def <<- cas_definition$label
     }

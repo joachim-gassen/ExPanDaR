@@ -8,7 +8,7 @@
 \source{
 Has been collected using the \code{\link[tidyquant]{tq_get}} function family in Summer 2017.
  The data has been collected for the sole purpose to showcase the functions of the \code{ExPanDaR} package.
- Use in scientific studies is strongly discouraged.
+ Use in scientific studies is not advised without prior cleaning/checking.
 }
 \usage{
 data(russell_3000)

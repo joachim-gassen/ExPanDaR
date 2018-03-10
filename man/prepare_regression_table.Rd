@@ -24,7 +24,7 @@ prepare_regression_table(df, dvs, idvs, feffects = rep("", length(dvs)),
 \item{format}{A character scalar that is passed on \link[stargazer]{stargazer} as \code{type} to determine the presentation
 format (e.g., "html", "text", or "latex").}
 
-\item{drop_underscore}{A quick'n'dirty hahk to address a bug in stargazer that triggers it to choke on underscores in variable names.
+\item{drop_underscore}{A quick'n'dirty hack to address a bug in stargazer that triggers it to choke on underscores in variable names.
 If not NULL, all underscores in variable names will be replaced by the given string,}
 }
 \value{
@@ -57,9 +57,4 @@ t <- prepare_regression_table(df, dvs, idvs, feffects, clusters)
 t$table
 t <- prepare_regression_table(df, "DAX", c("SMI", "CAC", "FTSE"), byvar="year")
 print(t$table)
-x <- rnorm(1000)
-byvar <- rep(1:10, 100)
-y <- byvar*x + rnorm(1000)
-df <- data.frame(byvar = as.factor(byvar), x, y)
-t <- prepare_regression_table(sample(df, 10), "y", "x", byvar = "byvar")
 }

@@ -43,7 +43,7 @@ estimate_model <- function(df, dl) {
 #' @param byvar A factorial variable to estimate the model on (only possible if only one model is being estimated).
 #' @param format A character scalar that is passed on \link[stargazer]{stargazer} as \code{type} to determine the presentation
 #'   format (e.g., "html", "text", or "latex").
-#' @param drop_underscore A quick'n'dirty hahk to address a bug in stargazer that triggers it to choke on underscores in variable names.
+#' @param drop_underscore A quick'n'dirty hack to address a bug in stargazer that triggers it to choke on underscores in variable names.
 #'   If not NULL, all underscores in variable names will be replaced by the given string,
 #'
 #' @return A list contining two items
@@ -73,11 +73,6 @@ estimate_model <- function(df, dl) {
 #' t$table
 #' t <- prepare_regression_table(df, "DAX", c("SMI", "CAC", "FTSE"), byvar="year")
 #' print(t$table)
-#' x <- rnorm(1000)
-#' byvar <- rep(1:10, 100)
-#' y <- byvar*x + rnorm(1000)
-#' df <- data.frame(byvar = as.factor(byvar), x, y)
-#' t <- prepare_regression_table(sample(df, 10), "y", "x", byvar = "byvar")
 #' @export
 
 prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dvs)),
@@ -97,7 +92,7 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
     if (is.list(feffects))
       feffects <- lapply(feffects, function(x) gsub("_", drop_underscore, x))
     else feffects <- gsub("_", drop_underscore, feffects)
-    if (is.list(cluster))
+    if (is.list(clusters))
       clusters <- lapply(clusters, function(x) gsub("_", drop_underscore, x))
     else clusters <- gsub("_", drop_underscore, clusters)
     byvar <- gsub("_", drop_underscore, byvar)

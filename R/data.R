@@ -12,7 +12,7 @@
 #'
 #' @source Has been collected using the \code{\link[tidyquant]{tq_get}} function family in Summer 2017.
 #'  The data has been collected for the sole purpose to showcase the functions of the \code{ExPanDaR} package.
-#'  Use in scientific studies is strongly discouraged.
+#'  Use in scientific studies is not advised without prior cleaning/checking.
 #'
 #' @examples
 #' data(russell_3000)
@@ -35,6 +35,7 @@
 #' @examples
 #' data(russell_3000)
 #' data(ExPanD_config_russell_3000)
-#' ExPanD(russell_3000, c("coid", "coname"), "period", ExPanD_config_russell_3000)
-#'
+#' \dontrun{
+#'   ExPanD(russell_3000, c("coid", "coname"), "period", ExPanD_config_russell_3000)
+#' }
 "ExPanD_config_russell_3000"

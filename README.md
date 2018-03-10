@@ -576,7 +576,7 @@ Allegion plc
 FY2015
 </td>
 <td style="text-align:right;">
-2.182
+2.181673
 </td>
 </tr>
 <tr>
@@ -587,7 +587,7 @@ Allegion plc
 FY2016
 </td>
 <td style="text-align:right;">
-2.182
+2.181673
 </td>
 </tr>
 <tr>
@@ -598,7 +598,7 @@ Advanced Micro Devices, Inc.
 FY2015
 </td>
 <td style="text-align:right;">
-2.182
+2.181673
 </td>
 </tr>
 <tr>
@@ -609,7 +609,7 @@ Argos Therapeutics, Inc.
 FY2016
 </td>
 <td style="text-align:right;">
-2.182
+2.181673
 </td>
 </tr>
 <tr>
@@ -620,7 +620,7 @@ Array BioPharma Inc.
 FY2014
 </td>
 <td style="text-align:right;">
-2.182
+2.181673
 </td>
 </tr>
 <tr>
@@ -642,7 +642,7 @@ Winmark Corporation
 FY2015
 </td>
 <td style="text-align:right;">
--2.772
+-2.771685
 </td>
 </tr>
 <tr>
@@ -653,7 +653,7 @@ Workiva Inc.
 FY2016
 </td>
 <td style="text-align:right;">
--2.772
+-2.771685
 </td>
 </tr>
 <tr>
@@ -664,7 +664,7 @@ Workhorse Group, Inc.
 FY2016
 </td>
 <td style="text-align:right;">
--2.772
+-2.771685
 </td>
 </tr>
 <tr>
@@ -675,7 +675,7 @@ Wynn Resorts, Limited
 FY2014
 </td>
 <td style="text-align:right;">
--2.772
+-2.771685
 </td>
 </tr>
 <tr>
@@ -686,7 +686,7 @@ Wynn Resorts, Limited
 FY2015
 </td>
 <td style="text-align:right;">
--2.772
+-2.771685
 </td>
 </tr>
 </tbody>
@@ -1344,6 +1344,12 @@ Additional visuals are available for exploring time trends. For comparing variab
 
 ``` r
 graph <- prepare_trend_graph(r3win[c("period", "nioa", "cfoa", "accoa")], "period")
+```
+
+    ## Warning: attributes are not identical across measure variables;
+    ## they will be dropped
+
+``` r
 graph$plot
 ```
 
@@ -1363,10 +1369,6 @@ And, of course, the mother of all plots, the scatter plot. Do you see the struct
 ``` r
 prepare_scatter_plot(r3win, x="nioa", y="return", color="sector", size="toas", loess = 1)
 ```
-
-    ## Warning: Removed 575 rows containing non-finite values (stat_smooth).
-
-    ## Warning: Removed 575 rows containing missing values (geom_point).
 
 <img src="README_files/figure-markdown_github/scatter_plot-1.png" style="display: block; margin: auto;" />
 

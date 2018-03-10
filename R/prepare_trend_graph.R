@@ -23,6 +23,8 @@
 
 
 prepare_trend_graph <- function(df, xvar) {
+  # Make devtools:check() and CRAN happy
+  value <- se <- NULL
   gf <- tidyr::gather_(data = df,
                        key_col = "variable",
                        value_col = "value",

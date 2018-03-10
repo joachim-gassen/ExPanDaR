@@ -19,6 +19,8 @@
 #' @export
 
 prepare_missing_values_graph <- function(df, period) {
+  # Make devtools:check() and CRAN happy
+  value <- NULL
   if(! is.data.frame(df)) stop("df needs to be a dataframe")
   if (! period %in% names(df)) stop("'period' needs to be present in data frame 'df'")
   df <- cbind(df[period], df[sapply(df, is.logical) | sapply(df, is.numeric)])

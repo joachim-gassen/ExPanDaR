@@ -4,11 +4,10 @@
 \alias{ExPanD}
 \title{Explore Panal Data (ExPanD)}
 \usage{
-ExPanD(df, cs_id, ts_id, config_list = NULL,
+ExPanD(df, cs_id, ts_id, var_def = NULL, config_list = NULL,
   title = "ExPanD - Explore panel data interactively", abstract = NULL,
-  df_id = deparse(substitute(df)), df_name = "User provided data",
-  store_encrypted = FALSE, key_phrase = "What a wonderful key",
-  debug = FALSE, ...)
+  df_name = "User provided data", store_encrypted = FALSE,
+  key_phrase = "What a wonderful key", debug = FALSE, ...)
 }
 \arguments{
 \item{df}{A data that or a list of dataframes containing the panel data that you want to explore}
@@ -19,15 +18,22 @@ identify the cross-section in your data. The according variables should be facto
 \item{ts_id}{A character scalar or a character vector identifing the name of the variable that
 identifies the time series in your data. The according variable needs to be an ordered vector.}
 
+\item{var_def}{if you specify a dataframe containing variable names and variable definitions,
+ExPanD will use these on the provided sample(s) to create the analysis sample. In that case,
+the user gets the opportunity to extend these variable definitions within the app.
+See the details section for the structure of the \code{var_def} dataframe. If NULL (default) than the sample(s)
+provided by df will be used as anaylsis sample(s) directly.}
+
 \item{config_list}{a list containing the startup configuraion for ExPanD to display.
-Take a look at \code{data(ExPanD_config_russell_3000)} for the format.}
+Take a look at \code{data(ExPanD_config_russell_3000)} for the format. The easiest way to generate
+a config list is to customize the display within the app and then save the configuration locally.}
 
 \item{title}{the title to display in the shiny web app.}
 
-\item{abstract}{As introductory text to display in the shiny web app. Needs to be formatted as clean HTML.}
+\item{abstract}{An introductory text to display in the shiny web app. Needs to be formatted as clean HTML.}
 
 \item{df_name}{A character string or a vector of character strings
-characterizing the dataframe(s) provided in df in the user frontend}
+characterizing the dataframe(s) provided in \code{df} (will be used in the selection menu of the app)}
 
 \item{store_encrypted}{Do you want the user-side saved config files to be encrypted?
 A security measure to avoid that users can inject arbitrary code in the config list.}
@@ -40,12 +46,28 @@ Potentially a good idea to change this from the default if you want to encrypt.}
 \item{...}{Additional parameters that are passed on to \code{\link[shiny]{runApp}}.}
 }
 \description{
-A shiny based app that uses ExPanDaR functionality for interactive
+A shiny based web app that uses ExPanDaR functionality for interactive
  panel data exploration
 }
 \details{
-Use the \code{\link[Hmisc]{label}} command to add label defining the variables to your data frame if you want
-  to have nice floatting variable descriptions in the descriptive table.
+Use the \code{\link[Hmisc]{label}} command to add label defining the variables
+  to your data frame if you want to have nice floatting variable descriptions
+  in the descriptive table.
+
+A \code{var_def} dataframe can contain the following variables
+\describe{
+ \item{"var_name"}{Required: The names of the variables that are to be calculated}
+ \item{"var_def"}{Required: The code that is passed to the dataframe (grouped by cross-sectional units)
+   in calls to \code{\link[dplyr]{mutate}} as right hand side to calculate the respective variable.
+   Be sure to set order_by when creating lead/lag variables}
+ \item{"type"}{Required: One of the strings "cs_id", "ts_id", "factor", "logical" or "numeric"
+   indicating the type of the variable. Please note that at least one variable has to be assigned
+   as a cross-sectional identifier ("cs_id") and exactly one ordered factor has to be assigned
+   as the time-series identifier ("ts_id").}
+ \item{"can_be_na"}{Optional: If included, then all variables with this value set to FALSE are
+   required to be non missing in the dataset. This reduces the number of observations.
+   If missing, it defaults to all variables other than cs_id and ts_id being TRUE}
+}
 }
 \examples{
 \dontrun{

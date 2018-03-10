@@ -14,8 +14,9 @@ List to use as a \code{list_config} parameter when starting \code{ExPanD()}.
 \examples{
 data(russell_3000)
 data(ExPanD_config_russell_3000)
-ExPanD(russell_3000, c("coid", "coname"), "period", ExPanD_config_russell_3000)
-
+\dontrun{
+  ExPanD(russell_3000, c("coid", "coname"), "period", ExPanD_config_russell_3000)
+}
 }
 \keyword{ExPanD,}
 \keyword{config}

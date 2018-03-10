@@ -31,3 +31,8 @@ the plot as returned by ggplot
 \description{
 Reads a data frame containing at most four numerical variables and prepares a scatter plot.
 }
+\examples{
+df <- data.frame(year = floor(stats::time(datasets::EuStockMarkets)),
+                 datasets::EuStockMarkets[, c("DAX", "FTSE")])
+prepare_scatter_plot(df, x="DAX", y="FTSE", color="year")
+}

@@ -1,5 +1,6 @@
 library(ExPanDaR)
 library(PKI)
+library(dplyr)
 
 load("shiny_data.Rda")
 
@@ -17,22 +18,22 @@ quote_escape <- function(string) {
   t
 }
 
-if (exists("shiny_df") && !exists("siny_var_def"))
+clear_labels <- function(x) {
+  for(i in 1 : length(x)) {
+    class(x[[i]]) <- setdiff(class(x[[i]]), 'labelled')
+    attr(x[[i]],"label") <- NULL
+  }
+  return(x)
+}
+
+data_source <- data.frame(ds_id = shiny_df_id,
+                          ds_description = shiny_df_name,
+                          stringsAsFactors = FALSE)
+
+if (is.null(shiny_var_def))
   simple_call_mode <- TRUE else simple_call_mode <- FALSE
 
 if (simple_call_mode) {
-  data_source <- data.frame(ds_id = shiny_df_id,
-                            ds_description = shiny_df_name,
-                            stringsAsFactors = FALSE)
-
-  clear_labels <- function(x) {
-    for(i in 1 : length(x)) {
-      class(x[[i]]) <- setdiff(class(x[[i]]), 'labelled')
-      attr(x[[i]],"label") <- NULL
-    }
-    return(x)
-  }
-
   if(is.data.frame(shiny_df)) {
     ca_sample <- data.frame(ds_id = shiny_df_id, shiny_df)
   } else {
@@ -82,68 +83,119 @@ if (simple_call_mode) {
                          ca_variable$var_name == shiny_ts_id[[ds]]] <- "ts_id"
     }
   }
-
   ca_variable$can_be_na <-
     ifelse(ca_variable$type == "cs_id" | ca_variable$type == "ts_id", 0, 1)
-
-  if (!is.null(shiny_config_list)) app_config <- shiny_config_list
-  else app_config <- list(
-    sample = ca_sample$ds_id[1],
-    subset_factor = "Full Sample",
-    subset_value = "All",
-    group_factor = "None",
-    balanced_panel = FALSE,
-    outlier_treatment = "1",
-    outlier_factor = "None",
-    udvars = NULL,
-    delvars = NULL,
-    bar_chart_var1 = shiny_ts_id[1],
-    bar_chart_var2 = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "factor"][1],
-    bar_chart_group_by = "All",
-    bar_chart_relative = FALSE,
-    desc_group_by = "All",
-    hist_var = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "factor"][1],
-    hist_group_by = "All",
-    hist_nr_of_breaks = 20,
-    ext_obs_var = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][1],
-    ext_obs_group_by = "All",
-    ext_obs_period_by = "All",
-    trend_graph_var1 = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][1],
-    trend_graph_var2 = "None",
-    trend_graph_var3 = "None",
-    trend_graph_group_by = "All",
-    quantile_trend_graph_var = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][1],
-    quantile_trend_graph_quantiles = c("0.05", "0.25", "0.50", "0.75", "0.95"),
-    quantile_trend_graph_group_by = "All",
-    corrplot_group_by = "All",
-    scatter_x = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][1],
-    scatter_y = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][2],
-    scatter_size = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][3],
-    scatter_color = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "factor"][1],
-    scatter_group_by = "All",
-    scatter_loess = TRUE,
-    scatter_sample = TRUE,
-    reg_y = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][2],
-    reg_x = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][1],
-    reg_fe1 = "None",
-    reg_fe2 = "None",
-    reg_by = "None",
-    cluster = 1
-  )
 }
 
 if (!simple_call_mode) {
-  stop("Sorry: Complex call modes not implemented yet.")
+  if(is.data.frame(shiny_df)) {
+    base_data <- data.frame(ds_id = shiny_df_id, shiny_df)
+    base_variable <- data.frame(var_name = names(base_data),
+                            var_def = Hmisc::label(base_data),
+                            stringsAsFactors = FALSE)
+  } else {
+    for (ds in 1:length(shiny_df)) {
+      if (ds == 1) base_variable <- data.frame(var_name = names(shiny_df[[ds]]),
+                                           var_def = Hmisc::label(shiny_df[[ds]]),
+                                           stringsAsFactors = FALSE)
+      else base_variable <- unique(rbind(base_variable, data.frame(var_name = names(shiny_df[[ds]]),
+                                                    var_def = Hmisc::label(shiny_df[[ds]]),
+                                                    stringsAsFactors = FALSE)))
+    }
+    base_data <- suppressWarnings(
+      dplyr::bind_rows(lapply(seq_along(shiny_df),
+                              function (x) data.frame(ds_id = shiny_df_id[x], shiny_df[[x]]))))
+    chars <- sapply(base_data, is.character)
+    if(length(which(chars)) > 0)
+      base_data[chars] <- lapply(base_data[chars], as.factor)
+    rownames(base_data) <- NULL
+  }
+  bd <<- base_data
+  base_variable$type <- NA
 
-  # Not run: Initialize global data
-  data_source <- readRDS("app_data/data_source.RDS")
-  data_item <- readRDS("app_data/data_item.RDS")
-  ca_variable <- readRDS("app_data/ca_variable.RDS")
-  ca_sample <- readRDS("app_data/ca_sample.RDS")
-  base_data <- readRDS("app_data/base_data.RDS")
-  app_config <- readRDS("app_data/config.RDS")
-  if (DEBUG) sample_count <<- 0
+  base_variable$type[sapply(base_data[,-1], is.factor)] <- "factor"
+  base_variable$type[sapply(base_data[,-1], is.logical)] <- "logical"
+  base_variable$type[sapply(base_data[,-1], is.numeric)] <- "numeric"
+
+  base_variable$type[which(base_variable$var_name %in% unlist(shiny_cs_id))] <- "cs_id"
+  base_variable$type[which(base_variable$var_name == unique(shiny_ts_id))] <- "ts_id"
+
+  base_variable$can_be_na <-
+    ifelse(base_variable$type == "cs_id" | base_variable$type == "ts_id", 0, 1)
+
+  di <<- base_variable
+  cs_id <- shiny_var_def$var_name[shiny_var_def$type == "cs_id"]
+  ts_id <- shiny_var_def$var_name[shiny_var_def$type == "ts_id"]
+
+  code <- paste0("base_data %>% group_by(ds_id, ",
+                 paste(cs_id, collapse=", "),
+                 ") %>%")
+
+  vars_to_assign <- shiny_var_def[shiny_var_def$var_name != shiny_var_def$var_def,]
+  if (length(vars_to_assign$var_name) > 0) {
+    assignments <- paste0(vars_to_assign$var_name, " = ", vars_to_assign$var_def, ",")
+    assignments[length(assignments)] <- substr(assignments[length(assignments)], 1, nchar(assignments[length(assignments)])-1)
+    code <- c(code, "mutate(", assignments, ") %>%")
+  }
+
+  code <- c(code, paste0("select(ds_id, ", paste(shiny_var_def$var_name, collapse = ", "), ") -> samples"))
+  eval(parse(text = code))
+
+  keys <- c("ds_id", cs_id, ts_id)
+  if (anyDuplicated(samples[,keys])) stop("prepare_samples: Found duplicate data in panel sample. Fix that")
+
+  ca_sample <- as.data.frame(samples)
+  ca <<- ca_sample
+  ca_variable <- data.frame(ds_id = rep(data_source$ds_id, each = nrow(shiny_var_def)), shiny_var_def)
+  if (is.null(ca_variable$can_be_na)) ca_variable$can_be_na <-
+    ifelse(ca_variable$type == "cs_id" | ca_variable$type == "ts_id", 0, 1)
+  cv <<- ca_variable
+  if (DEBUG) cat (sprintf("ca_sample has %d obs.\n", nrow(samples)))
 }
+
+if (!is.null(shiny_config_list)) app_config <- shiny_config_list else app_config <- list(
+  sample = ca_sample$ds_id[1],
+  subset_factor = "Full Sample",
+  subset_value = "All",
+  group_factor = "None",
+  balanced_panel = FALSE,
+  outlier_treatment = "1",
+  outlier_factor = "None",
+  udvars = NULL,
+  delvars = NULL,
+  bar_chart_var1 = shiny_ts_id[1],
+  bar_chart_var2 = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "factor"][1],
+  bar_chart_group_by = "All",
+  bar_chart_relative = FALSE,
+  desc_group_by = "All",
+  hist_var = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "factor"][1],
+  hist_group_by = "All",
+  hist_nr_of_breaks = 20,
+  ext_obs_var = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][1],
+  ext_obs_group_by = "All",
+  ext_obs_period_by = "All",
+  trend_graph_var1 = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][1],
+  trend_graph_var2 = "None",
+  trend_graph_var3 = "None",
+  trend_graph_group_by = "All",
+  quantile_trend_graph_var = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][1],
+  quantile_trend_graph_quantiles = c("0.05", "0.25", "0.50", "0.75", "0.95"),
+  quantile_trend_graph_group_by = "All",
+  corrplot_group_by = "All",
+  scatter_x = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][1],
+  scatter_y = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][2],
+  scatter_size = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][3],
+  scatter_color = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "factor"][1],
+  scatter_group_by = "All",
+  scatter_loess = TRUE,
+  scatter_sample = TRUE,
+  reg_y = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][2],
+  reg_x = ca_variable$var_name[ca_variable$ds_id == ca_sample$ds_id[1] & ca_variable$type == "numeric"][1],
+  reg_fe1 = "None",
+  reg_fe2 = "None",
+  reg_by = "None",
+  cluster = 1
+)
 
 default_config <- list(
   sample = ca_sample$ds_id[1],
@@ -189,7 +241,6 @@ default_config <- list(
   cluster = 1
 )
 
-
 # Define the server for the Shiny app
 function(input, output, session) {
   uc <- reactiveValues()
@@ -225,9 +276,7 @@ function(input, output, session) {
   }
 
   create_base_sample <- reactive({
-    bsd <- data.frame(var_name = data_item$data_item,
-                      var_def = data_item$di_description,
-                      type = data_item$type,
+    bsd <- data.frame(base_variable,
                       can_be_na = 1)
     bs <- base_data[base_data$ds_id == uc$sample, as.character(bsd$var_name)]
 
@@ -237,7 +286,7 @@ function(input, output, session) {
   })
 
   create_ca_sample <- reactive({
-    cas_definition <<- ca_variable[ca_variable$ds_id == uc$sample, ]
+    cas_definition <<- ca_variable[ca_variable$ds_id == uc$sample, -1]
     if("label" %in% names(cas_definition)) {
       cas_definition$var_def <<- cas_definition$label
     }

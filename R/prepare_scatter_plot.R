@@ -20,7 +20,7 @@
 #'
 #' @examples
 #' df <- data.frame(year = floor(stats::time(datasets::EuStockMarkets)),
-#'                  datasets::EuStockMarkets[, c("DAX, "FTSE")])
+#'                  datasets::EuStockMarkets[, c("DAX", "FTSE")])
 #' prepare_scatter_plot(df, x="DAX", y="FTSE", color="year")
 #' @export
 

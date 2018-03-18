@@ -70,7 +70,7 @@ pull_worldbank_data <- function() {
   wb_data_def$type = c("cs_id", "factor", "cs_id",
                        rep("factor", 4), "ts_id",
                        rep("numeric", ncol(wb_data) - 8))
-  wb_data[,1:7] <- lapply(wb_data[,1:6], as.factor)
+  wb_data[,1:7] <- lapply(wb_data[,1:7], as.factor)
   wb_data$year <- as.ordered(as.numeric(wb_data$year))
   return(list(wb_data, wb_data_def))
 }

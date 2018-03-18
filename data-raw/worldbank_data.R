@@ -92,5 +92,5 @@ if (refresh) {
 } else load("data/worldbank_var_def.RData")
 
 load("data/ExPanD_config_worldbank.RData")
-ExPanD(wb_data, df_def = wb_data_def, var_def = wb_var_def, long_def = TRUE,
+ExPanD(worldbank, df_def = worldbank_data_def, var_def = worldbank_var_def,
        cs_id = "country", ts_id = "year", config_list = ExPanD_config_worldbank)

@@ -22,6 +22,14 @@ Data collected from the World Bank API using the package \code{wbstats}.
 data(worldbank)
 prepare_missing_values_graph(worldbank, period = "year")
 
+data(worldbank_data_def)
+data(worldbank_var_def)
+data(ExPanD_config_worldbank)
+\dontrun{
+  ExPanD(worldbank, "country", "year", df_def = worldbank_data_def,
+    var_def = worldbank_var_def, config_list = ExPanD_config_worldbank)
+}
+
 }
 \keyword{country}
 \keyword{data}

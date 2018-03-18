@@ -9,7 +9,7 @@
 data(ExPanD_config_russell_3000)
 }
 \description{
-List to use as a \code{list_config} parameter when starting \code{ExPanD()}.
+List to use as a \code{list_config} parameter when starting \link{ExPanD}.
 }
 \examples{
 data(russell_3000)

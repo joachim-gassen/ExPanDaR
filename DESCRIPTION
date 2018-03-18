@@ -4,18 +4,21 @@ Title: Explore Panel Data with R
 Version: 0.1.0
 Author: Joachim Gassen
 Maintainer: Joachim Gassen <gassen@wiwi.hu-berlin.de>
-Description: This package provides a set of functions for exploring panel data. 
-    It uses a shiny-based frontend (the "ExPanD" app) to showcase its exploration tools 
-    and standardized datastructure interfaces which make it easy to use the front-end for various datasets.
-    It allows the use of multiple data alternative sources for constructing the exploration sample. 
-    A data exploration is stored as a a list of choices. Using the ExPanDaR app, users can store 
-    this list locally. If the function are called directly from within R code the list 
-    (and its permutations) can be used to systematically assess the robustness of certain 
-    research designs and findings. 
+Description: This package provides a set of functions for exploratory data analysis 
+    of panel data. It uses a shiny-based frontend (the "ExPanD" app) to showcase its 
+    exploration tools and standardized data structure interfaces that make it easy 
+    to use ExPanD on various datasets.
+    It allows the use of multiple samples to construct exploration and hold-out 
+    samples. In addition, it can separate base data from the analysis sample, 
+    thereby also allowing users of the ExPanD app to generate additional variables
+    interactively. A data exploration can be stored as a a list of choices using 
+    the ExPanD app.
+    The functions of this package can also be used directly in R code to support 
+    your exploratory data analysis workflow. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
     knitr, kableExtra, Hmisc, devtools, tidyr, dplyr, ggplot2, corrplot, lfe, stargazer, scales, shiny, 
-    DT, PKI, tictoc
+    DT, PKI, tictoc, CodeDepends
 RoxygenNote: 6.0.1.9000

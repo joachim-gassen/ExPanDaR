@@ -15,6 +15,7 @@ if (DEBUG) sample_count <- 0
 quote_escape <- function(string) {
   t <- gsub("\"", "&#34;", string)
   t <- gsub("\'", "&#39;", t)
+  t <- gsub("\n", "&#10;", t)
   t
 }
 
@@ -45,22 +46,32 @@ if (simple_call_mode) {
   }
 
   if(is.data.frame(shiny_df)) {
-    ca_variable <- data.frame(
-      ds_id = shiny_df_id,
-      var_name = names(shiny_df),
-      var_def = Hmisc::label(shiny_df),
-      stringsAsFactors = FALSE
-    )
+    if (is.null(shiny_df_def)) {
+      ca_variable <- data.frame(
+        ds_id = shiny_df_id,
+        var_name = names(shiny_df),
+        var_def = Hmisc::label(shiny_df),
+        stringsAsFactors = FALSE
+      )
+    } else {
+      ca_variable <- data.frame(ds_id = shiny_df_id, shiny_df_def)
+    }
   } else {
-    ca_variable <- do.call(rbind,
-                           lapply(seq_along(shiny_df),
-                                  function (x) data.frame(
-                                    ds_id = shiny_df_id[x],
-                                    var_name = names(shiny_df[[x]]),
-                                    var_def = Hmisc::label(shiny_df[[x]]),
-                                    stringsAsFactors = FALSE
-                                  )))
-    rownames(ca_variable) <- NULL
+    if (is.null(shiny_df_def)) {
+      ca_variable <- do.call(rbind,
+                             lapply(seq_along(shiny_df),
+                                    function (x) data.frame(
+                                      ds_id = shiny_df_id[x],
+                                      var_name = names(shiny_df[[x]]),
+                                      var_def = Hmisc::label(shiny_df[[x]]),
+                                      stringsAsFactors = FALSE
+                                    )))
+      rownames(ca_variable) <- NULL
+    } else {
+      ca_variable <- dplyr::bind_rows(lapply(seq_along(shiny_def_df),
+                                             function (x) data.frame(ds_id = shiny_df_id[x],
+                                                                     shiny_def_df[[x]])))
+    }
   }
 
   ca_variable$type <- NA
@@ -90,17 +101,21 @@ if (simple_call_mode) {
 if (!simple_call_mode) {
   if(is.data.frame(shiny_df)) {
     base_data <- data.frame(ds_id = shiny_df_id, shiny_df)
-    base_variable <- data.frame(var_name = names(base_data),
-                            var_def = Hmisc::label(base_data),
-                            stringsAsFactors = FALSE)
+    if (is.null(shiny_df_def)) {
+      base_variable <- data.frame(var_name = names(base_data),
+                                  var_def = Hmisc::label(base_data),
+                                  stringsAsFactors = FALSE)
+    } else base_variable <- shiny_df_def
+
   } else {
     for (ds in 1:length(shiny_df)) {
-      if (ds == 1) base_variable <- data.frame(var_name = names(shiny_df[[ds]]),
-                                           var_def = Hmisc::label(shiny_df[[ds]]),
-                                           stringsAsFactors = FALSE)
-      else base_variable <- unique(rbind(base_variable, data.frame(var_name = names(shiny_df[[ds]]),
-                                                    var_def = Hmisc::label(shiny_df[[ds]]),
-                                                    stringsAsFactors = FALSE)))
+      if (is.null(shiny_df_def)) {
+        bv <- data.frame(var_name = names(shiny_df[[ds]]),
+                         var_def = Hmisc::label(shiny_df[[ds]]),
+                         stringsAsFactors = FALSE)
+      } else bv <- shiny_df_def[[ds]]
+      if (ds == 1) base_variable <- bv
+      else base_variable <- unique(rbind(base_variable, bv))
     }
     base_data <- suppressWarnings(
       dplyr::bind_rows(lapply(seq_along(shiny_df),
@@ -110,7 +125,6 @@ if (!simple_call_mode) {
       base_data[chars] <- lapply(base_data[chars], as.factor)
     rownames(base_data) <- NULL
   }
-  bd <<- base_data
   base_variable$type <- NA
 
   base_variable$type[sapply(base_data[,-1], is.factor)] <- "factor"
@@ -123,7 +137,6 @@ if (!simple_call_mode) {
   base_variable$can_be_na <-
     ifelse(base_variable$type == "cs_id" | base_variable$type == "ts_id", 0, 1)
 
-  di <<- base_variable
   cs_id <- shiny_var_def$var_name[shiny_var_def$type == "cs_id"]
   ts_id <- shiny_var_def$var_name[shiny_var_def$type == "ts_id"]
 
@@ -145,12 +158,20 @@ if (!simple_call_mode) {
   if (anyDuplicated(samples[,keys])) stop("prepare_samples: Found duplicate data in panel sample. Fix that")
 
   ca_sample <- as.data.frame(samples)
-  ca <<- ca_sample
-  ca_variable <- data.frame(ds_id = rep(data_source$ds_id, each = nrow(shiny_var_def)), shiny_var_def)
+  ca_variable <- data.frame(ds_id = rep(data_source$ds_id, each = nrow(shiny_var_def)),
+                            shiny_var_def)
   if (is.null(ca_variable$can_be_na)) ca_variable$can_be_na <-
     ifelse(ca_variable$type == "cs_id" | ca_variable$type == "ts_id", 0, 1)
-  cv <<- ca_variable
-  if (DEBUG) cat (sprintf("ca_sample has %d obs.\n", nrow(samples)))
+  if (shiny_long_def) {
+    for (i in 1:nrow(ca_variable)) {
+      vars <- CodeDepends::getInputs(parse(text = ca_variable$var_def[i]))@inputs
+      if (length(vars) > 1) var_defs <- c(ca_variable$var_def[i], rep("", length(vars) - 1)) else var_defs <- ca_variable$var_def[i]
+      ca_variable$var_def[i] <- paste(var_defs,
+                                   paste0(vars, ": ",
+                                          base_variable$var_def[base_variable$var_name %in% vars]),
+                                   collapse = "\n", sep = "\n")
+    }
+  }
 }
 
 if (!is.null(shiny_config_list)) app_config <- shiny_config_list else app_config <- list(
@@ -287,9 +308,6 @@ function(input, output, session) {
 
   create_ca_sample <- reactive({
     cas_definition <<- ca_variable[ca_variable$ds_id == uc$sample, -1]
-    if("label" %in% names(cas_definition)) {
-      cas_definition$var_def <<- cas_definition$label
-    }
     return(ca_sample[ca_sample$ds_id == uc$sample, as.character(cas_definition$var_name)])
   })
 
@@ -300,6 +318,14 @@ function(input, output, session) {
     else type <- "factor"
     can_be_na <- 1
     new_def <- data.frame(var_name = udv_name, var_def = udv_def, type, can_be_na, stringsAsFactors = FALSE)
+    if (shiny_long_def) {
+      vars <- CodeDepends::getInputs(parse(text = udv_def))@inputs
+      if (length(vars) > 1) udv_defs <- c(udv_def, rep("", length(vars) - 1)) else udv_defs <- udv_dev
+      new_def <- paste(udv_defs, paste0(vars, ": ",
+                                    bs_definition$var_def[bs_definition$var_name %in% vars]),
+                       collapse = "\n", sep = "\n")
+      new_def <- data.frame(var_name = udv_name, var_def = new_def, type, can_be_na, stringsAsFactors = FALSE)
+    }
     if (!is.null(uc$udvars)) {
       uc$udvars <<- rbind(uc$udvars, udv)
       udv_sample <<- cbind(udv_sample, udv_vector)
@@ -365,6 +391,14 @@ function(input, output, session) {
         else if (is.logical(udv_sample[,ncol(udv_sample)])) type <- "logical"
         else type <- "factor"
         new_def <- cbind(x[1], x[2], type, 1)
+        if (shiny_long_def) {
+          vars <- CodeDepends::getInputs(parse(text = x[2]))@inputs
+          if (length(vars) > 1) var_defs <- c(x[2], rep("", length(vars) - 1)) else var_defs <- x[2]
+          var_def <- paste(var_defs, paste0(vars, ": ",
+                                        bs_definition$var_def[bs_definition$var_name %in% vars]),
+                           collapse = "\n", sep = "\n")
+          new_def <- cbind(x[1], var_def, type, 1)
+        }
         if (is.null(udv_definition)) udv_definition <<- data.frame(new_def, stringsAsFactors = FALSE)
         else udv_definition <<- rbind(udv_definition, new_def)
       }
@@ -381,7 +415,7 @@ function(input, output, session) {
     if (length(isolate(uc$udvars)) != 0) create_udv_sample()
   }
 
-  parse_config(app_config)
+  observe(parse_config(app_config))
 
   create_var_categories <- function(sd) {
     for (type in c("cs_id", "ts_id", "numeric", "logical", "factor")) {
@@ -448,6 +482,7 @@ function(input, output, session) {
     isolate(check_vars())
 
     if (DEBUG) message(do.call(tictoc::toc.outmsg, tictoc::toc(quiet = TRUE)))
+    if (DEBUG) stored_as <<- droplevels(smp)
     return(droplevels(smp))
   })
 
@@ -887,7 +922,7 @@ function(input, output, session) {
         callback = DT::JS("var tips =[", paste("'", quote_escape(rowtips), "'", collapse=", ", sep=""), "],
                       firstColumn = $('#descriptive_table_analysis tr td:first-child');
                       for (var i = 0; i < tips.length; i++) {
-                      $(firstColumn[i]).attr('title', tips[i]);
+                      $(firstColumn[i]).attr('title', jQuery('<div />').html(tips[i]).text());
                       }")
       ) %>%
         DT::formatCurrency(1, currency ="", interval=3, mark=',', digits=0) %>%
@@ -918,7 +953,7 @@ function(input, output, session) {
       callback = DT::JS("var tips =[", paste("'", quote_escape(rowtips), "'", collapse=", ", sep=""), "],
                       firstColumn = $('#descriptive_table_base tr td:first-child');
                       for (var i = 0; i < tips.length; i++) {
-                      $(firstColumn[i]).attr('title', tips[i]);
+                      $(firstColumn[i]).attr('title', jQuery('<div />').html(tips[i]).text());
                       }")
        )%>%
         DT::formatCurrency(1, currency ="", interval=3, mark=',', digits=0) %>%

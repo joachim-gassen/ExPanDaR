@@ -20,7 +20,7 @@ of the data frame are coerced into a matrix.}
 \item{truncate}{A logical scalar. If TRUE then data are truncated
 (i.e., set to NA if out of bounds). Defaults to FALSE.}
 
-\item{by}{NULL or a either a factor vector or a character string
+\item{by}{NULL or either a factor vector or a character string
 identifying a factor variable in the data frame provided by x.
 The factor indicated by 'by' is being used to identify groups
 by which the outlier treatment is applied. Defaults to NULL (no grouping).

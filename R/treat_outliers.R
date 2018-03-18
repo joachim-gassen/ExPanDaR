@@ -26,7 +26,7 @@ treat_vector_outliers <- function(x, truncate, percentile) {
 #'   Defaults to 0.01 and needs to be > 0 and < 0.5.
 #' @param truncate A logical scalar. If TRUE then data are truncated
 #'   (i.e., set to NA if out of bounds). Defaults to FALSE.
-#' @param by NULL or a either a factor vector or a character string
+#' @param by NULL or either a factor vector or a character string
 #'   identifying a factor variable in the data frame provided by x.
 #'   The factor indicated by 'by' is being used to identify groups
 #'   by which the outlier treatment is applied. Defaults to NULL (no grouping).

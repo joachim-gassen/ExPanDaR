@@ -5,4 +5,4 @@
 .DS_Store
 inst/application/shiny_data.Rda
 
-
+inst/doc

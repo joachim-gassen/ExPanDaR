@@ -12,6 +12,15 @@ if (DEBUG) sample_count <- 0
 
 `%>%` <- dplyr::`%>%`
 
+bs_definition <- NULL
+cas_definition <- NULL
+correl_n <- NULL
+correl_p <- NULL
+correl_r <- NULL
+sample_definition <- NULL
+udv_definition <- NULL
+udv_sample <- NULL
+
 quote_escape <- function(string) {
   t <- gsub("\"", "&#34;", string)
   t <- gsub("\'", "&#39;", t)
@@ -423,12 +432,11 @@ function(input, output, session) {
         col = which(sd$type == type),
         name = sd$var_name[sd$type == type],
         stringsAsFactors = FALSE
-      ), envir = globalenv())
+      ), envir = parent.env(parent.env(environment())))
     }
   }
 
   create_analysis_sample <- reactive({
-    # showReactLog(time = TRUE)
     if (DEBUG) sample_count <<- sample_count + 1
     if (DEBUG) tictoc::tic("create_analysis_sample")
 
@@ -983,8 +991,9 @@ function(input, output, session) {
       if (req(uc$ext_obs_group_by) != "All")
         df <- df[df[, uc$group_factor] == uc$ext_obs_group_by, vars]
       df <- droplevels(df[complete.cases(df),])
-      prepare_ext_obs_table(df)$kable_ret %>%
-        kableExtra::kable_styling()
+      tab <- prepare_ext_obs_table(df)
+      cat(tab$kable_ret %>%
+            kableExtra::kable_styling())
     }
   )
 

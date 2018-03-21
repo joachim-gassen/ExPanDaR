@@ -2,10 +2,10 @@ library(shinycssloaders)
 
 load("shiny_data.Rda")
 
-user_provided_data <- !is.null(shiny_df)
+server_side_data <- !is.null(shiny_df)
 simple_call_mode <- is.null(shiny_var_def)
 
-if (!user_provided_data) shiny_abstract <- "Welcome to ExPanD! To start exploring panel data, please upload a panel data file. Currently supported formats are Excel, CSV, RData, RDS, STATA and SAS."
+if (!server_side_data) shiny_abstract <- "Welcome to ExPanD! To start exploring panel data, please upload a panel data file. Currently supported formats are Excel, CSV, RData, RDS, STATA and SAS."
 fluidPage(
   # this provides css information for the regression table to assure proper spacing
   tags$head(
@@ -39,7 +39,7 @@ fluidPage(
     )
   ),
 
-  if(!user_provided_data) {
+  if(!server_side_data) {
     fluidRow(
       column (4, uiOutput("ui_sample")),
       column (4, uiOutput("ui_select_ids")),

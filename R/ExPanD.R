@@ -8,18 +8,19 @@
 #' @param cs_id A character vector or a list of character vectors containing the
 #'   names of the variables that identify the cross-section in your data. The
 #'   according variables should be factors.
+#'   Can only be NULL if df_def is provided indstead.
 #' @param ts_id A character scalar or a character vector identifing the name of
 #'   the variable that identifies the time series in your data. The according
 #'   variable needs to be an ordered vector.
+#'   Can only be NULL if df_def is provided indstead.
 #' @param df_def An optional dataframe (or a list of dataframes) containing
-#'   variable names, definitions and types. If NULL (the default) ExPanD will
-#'   look for labels in df to read the definitions and will determine the
-#'   variable type (factor, numeric, logical) based on the class of the data.
-#'   See the details section for further information.
+#'   variable names, definitions and types. If NULL (the default) ExPanD
+#'   determine the variable type (factor, numeric, logical) based on the
+#'   class of the data. See the details section for further information.
 #' @param var_def if you specify a dataframe containing variable names and
 #'   variable definitions, ExPanD will use these on the provided sample(s) to
 #'   create the analysis sample. In that case, the user gets the opportunity to
-#'   extend these variable definitions within the app. See the details section
+#'   add additional variables in the app. See the details section
 #'   for the structure of the \code{var_def} dataframe. If NULL (default) than
 #'   the sample(s) provided by df will be used as anaylsis sample(s) directly.
 #' @param config_list a list containing the startup configuraion for ExPanD to
@@ -50,16 +51,19 @@
 #'
 #' @details
 #'
-#' If you do not provide data defintions in \code{df_def}, ExPanD uses labels
-#' set via \code{\link[Hmisc]{label}} in your dataframe as variable definitions.
-#' Variable definitions are shown as tooltips in the descriptive table of the
+#' If you start ExPanD without any options, it will start with an upload
+#' dialog so that the user can upload a data file (formats are as provided
+#' by the \code{rio} package) for anaylsis.
+#'
+#' If you provide variable defintions in \code{df_def} and/or \code{var_def},
+#' ExPanD displays these as tooltips in the descriptive table of the
 #' ExPanD app.
 #'
 #' When you provide \code{var_def}, ExPanD starts up in the "advanced mode". The
 #' advanced mode uses (a) base sample(s) (the one(s) you provide via \code{df})
-#' and the variable definitions in  \code{var_def} to generate an analysis
+#' and the variable definitions in \code{var_def} to generate an analysis
 #' sample based on the active base sample. In the advanced mode, the app user
-#' can generate additional variables interactively.
+#' can generate additional variables from within the app.
 #'
 #' A \code{df_def} or \code{var_def} dataframe can contain the following
 #' variables
@@ -73,8 +77,8 @@
 #' \item{"type"}{Required: One of the strings "cs_id", "ts_id", "factor",
 #' "logical" or "numeric" indicating the type of the variable. Please note that
 #' at least one variable has to be assigned as a cross-sectional identifier
-#' ("cs_id") and exactly one ordered factor has to be assigned as the
-#' time-series identifier ("ts_id").}
+#' ("cs_id") and exactly one variable which is coercible into an ordered factor
+#' has to be assigned as the time-series identifier ("ts_id").}
 #' \item{"can_be_na"}{Optional: If included,
 #' then all variables with this value set to FALSE are required to be non
 #' missing in the dataset. This reduces the number of observations. If missing,
@@ -82,8 +86,10 @@
 #'
 #' @examples
 #' \dontrun{
+#'   ExPanD()
 #'   data(russell_3000)
 #'   ExPanD(russell_3000, c("coid", "coname"), "period")
+#'   ExPanD(russell_3000, df_def = russell_3000_data_def)
 #'   data(ExPanD_config_russell_3000)
 #'   ExPanD(df = russell_3000, cs_id = c("coid", "coname"), ts_id = "period",
 #'     config_list = ExPanD_config_russell_3000)
@@ -91,10 +97,12 @@
 #'   test_sample <- setdiff(1:nrow(russell_3000), exploratory_sample)
 #'   ExPanD(df = list(russell_3000[exploratory_sample, ], russell_3000[test_sample, ]),
 #'     cs_id = list(c("coid", "coname"), c("coid", "coname")), ts_id = c("period", "period"),
-#'     df_name = c("Exploratory sample", "Test sample"))}
+#'     df_name = c("Exploratory sample", "Test sample"))
+#'   ExPanD(worldbank, df_def = worldbank_data_def, var_def = worldbank_var_def,
+#'     config_list = ExPanD_config_worldbank)}
 #' @export
 
-ExPanD <- function(df, cs_id, ts_id,
+ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
                    df_def = NULL, var_def = NULL, config_list = NULL,
                    title = "ExPanD - Explore panel data interactively",
                    abstract = NULL,
@@ -103,10 +111,15 @@ ExPanD <- function(df, cs_id, ts_id,
                    store_encrypted = FALSE,
                    key_phrase = "What a wonderful key",
                    debug = FALSE, ...) {
-  if (!is.data.frame(df) && !is.list(df)) stop("df is neither a dataframe nor a list of dataframes")
-  if (!is.data.frame(df) && length(which(!sapply(df, is.data.frame))) > 0) stop("df is a list containing non-dataframe members")
-  if (!is.data.frame(df) && length(df) != length(cs_id)) stop("df is a list but cs_id does not have length of list")
-  if (!is.data.frame(df) && length(df) != length(ts_id)) stop("df is a list but ts_id does not have length of list")
+  if (!is.null(df) && !is.data.frame(df) && !is.list(df)) stop("df is neither a dataframe nor a list of dataframes")
+  if (!is.null(df)) {
+    if (is.null(df_def) && (is.null(cs_id) || is.null(ts_id))) stop("df is provided but not df_def and either cs_id or ts_id is NULL")
+    if (!is.null(df_def) && (!is.null(cs_id) || !is.null(ts_id))) stop("provide either df_def or cs_id and ts_id but not both")
+    if (!is.data.frame(df) && length(which(!sapply(df, is.data.frame))) > 0) stop("df is a list containing non-dataframe members")
+    if (!is.data.frame(df) && !is.null(cs_id) && length(df) != length(cs_id)) stop("df is a list but cs_id does not have length of list")
+    if (!is.data.frame(df) && !is.null(ts_id) && length(df) != length(ts_id)) stop("df is a list but ts_id does not have length of list")
+    if (!is.data.frame(df) && !is.null(df_def) && length(df) != length(df_def)) stop("df is a list but ts_id does not have length of list")
+  }
   shiny_df <- df
   shiny_cs_id <- cs_id
   shiny_ts_id <- ts_id

@@ -1,8 +1,11 @@
+library(shinycssloaders)
+
 load("shiny_data.Rda")
 
-if (is.null(shiny_var_def))
-  simple_call_mode <- TRUE else simple_call_mode <- FALSE
+user_provided_data <- !is.null(shiny_df)
+simple_call_mode <- is.null(shiny_var_def)
 
+if (!user_provided_data) shiny_abstract <- "Welcome to ExPanD! To start exploring panel data, please upload a panel data file. Currently supported formats are Excel, CSV, RData, RDS, STATA and SAS."
 fluidPage(
   # this provides css information for the regression table to assure proper spacing
   tags$head(
@@ -36,7 +39,12 @@ fluidPage(
     )
   ),
 
-  fluidRow(
+  if(!user_provided_data) {
+    fluidRow(
+      column (4, uiOutput("ui_sample")),
+      column (4, uiOutput("ui_select_ids")),
+      column (4, uiOutput("ui_balanced_panel"))
+    ) } else fluidRow(
     column (6, uiOutput("ui_sample")),
     column (6, uiOutput("ui_balanced_panel"))
   ),
@@ -61,7 +69,7 @@ fluidPage(
     column (2,
             uiOutput("ui_bar_chart")
     ),
-    column (10, plotOutput("bar_chart"))
+    column (10, withSpinner(plotOutput("bar_chart")))
   ),
 
   hr(),
@@ -99,7 +107,7 @@ fluidPage(
 
   fluidRow(
     column(2, uiOutput("ui_histogram")),
-    column(10, plotOutput("histogram"))
+    column(10, withSpinner(plotOutput("histogram")))
   ),
 
   hr(),
@@ -113,14 +121,14 @@ fluidPage(
 
   fluidRow(
     column(2, uiOutput("ui_trend_graph")),
-    column(10, plotOutput("trend_graph"))
+    column(10, withSpinner(plotOutput("trend_graph")))
   ),
 
   hr(),
 
   fluidRow(
     column(2, uiOutput("ui_quantile_trend_graph")),
-    column(10, plotOutput("quantile_trend_graph", height="600px"))
+    column(10, withSpinner(plotOutput("quantile_trend_graph", height="600px")))
   ),
 
   hr(),
@@ -142,9 +150,9 @@ fluidPage(
     column(10,
            div(
              style = "position:relative",
-             plotOutput("scatter_plot",
+             withSpinner(plotOutput("scatter_plot",
                         hover = hoverOpts("plot_hover", delay = 100, delayType = "debounce"),
-                        height="600px"),
+                        height="600px")),
              uiOutput("hover_info")
            ))
   ),
@@ -177,7 +185,7 @@ fluidPage(
 
   fluidRow(
     column(12, align="center",
-           helpText("Martin Bierey and Joachim Gassen, Humboldt-Universität zu Berlin, January 2018")
+           helpText("Joachim Gassen, Humboldt-Universität zu Berlin, March 2018")
            )
     )
 )

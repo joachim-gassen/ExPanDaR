@@ -19,7 +19,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
-    knitr, kableExtra, devtools, tidyr, dplyr, ggplot2, corrplot, lfe, stargazer, scales, shiny, 
+    knitr, kableExtra, devtools, Hmisc, tidyr, dplyr, ggplot2, corrplot, lfe, stargazer, scales, shiny, 
     DT, PKI, tictoc, CodeDepends
 RoxygenNote: 6.0.1.9000
 Suggests: 

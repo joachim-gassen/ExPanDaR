@@ -2,6 +2,8 @@ library(ExPanDaR)
 library(PKI)
 library(dplyr)
 
+options(shiny.maxRequestSize = 1024^3)
+
 load("shiny_data.Rda")
 
 key <- PKI::PKI.digest(charToRaw(shiny_key_phrase), "SHA256")

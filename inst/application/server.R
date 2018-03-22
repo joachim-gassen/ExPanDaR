@@ -521,19 +521,27 @@ function(input, output, session) {
   observeEvent(input$infile, {
     input_file <- input$infile
     input_file_format <- tools::file_ext(input_file$name)
-    if (is.null(input_file))
-      return(NULL)
-    else {
-      shiny_df <- rio::import(file = input_file$datapath,
-                        format = input_file_format)
-      shiny_df_id <- input_file$name
-
-      ret <- load_sample(shiny_df, shiny_df_id, "User uploaded data")
-
-      data_source <<- ret[[1]]
-      ca_sample <<- ret[[2]]
-      ca_variable <<- ret[[3]]
+    if (is.null(input_file)) return(NULL)
+    shiny_df <- try(rio::import(file = input_file$datapath,
+                                format = input_file_format))
+    if (class(shiny_df) == "try-error") {
+      warning("rio::import failed. Trying with encoding = 'latin1'")
+      shiny_df <- try(rio::import(file = input_file$datapath,
+                                  format = input_file_format,
+                                  encoding = 'latin1'))
+      if (class(shiny_df) == "try-error") {
+        warning("This also did not work out. Informing user.")
+        session$sendCustomMessage(type = 'testmessage', message = paste("Unable to parse", input_file$name))
+        return(NULL)
+      }
     }
+    shiny_df_id <- input_file$name
+
+    ret <- load_sample(shiny_df, shiny_df_id, "User uploaded data")
+
+    data_source <<- ret[[1]]
+    ca_sample <<- ret[[2]]
+    ca_variable <<- ret[[3]]
 
     uc$sample <<- ca_sample$ds_id[1]
     uc$subset_factor <<- NULL
@@ -650,11 +658,12 @@ function(input, output, session) {
 
   output$ui_select_ids <- renderUI({
     req(uc$sample)
+    if (DEBUG) print(exists("lcs_id"))
     tagList(selectInput("cs_id", "Select cross sectional identifier(s)",
-                        ca_variable$var_name, multiple = TRUE),
+                        ca_variable$var_name, multiple = TRUE, selected = {if(exists("lcs_id")) lcs_id$name else NULL}),
             helpText("Select the variable that identifies a cross-sectional unit. Selecting multiple values is possible."),
             selectInput("ts_id", "Select time series identifier",
-                        c("", ca_variable$var_name)),
+                        c("", ca_variable$var_name), if(exists("lts_id")) selected = {if(exists("lts_id")) lts_id$name else NULL}),
             helpText("Select the variable that identifies a the time series. Variable needs to be coercible into an ordered factor."))
   })
 

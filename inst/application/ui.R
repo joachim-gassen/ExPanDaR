@@ -35,6 +35,9 @@ fluidPage(
               HTML("<a href=http://www.github.com/joachim-gassen/ExPanDaR>ExPanDaR R package</a>"),
               "developed by Joachim Gassen, Humboldt-Universität zu Berlin,",
               HTML("<a href=\"mailto:gassen@wiwi.hu-berlin.de\">gassen@wiwi.hu-berlin.de</a>.")),
+            singleton(
+              tags$head(tags$script(src = "message-handler.js"))
+            ),
             hr()
     )
   ),
@@ -95,10 +98,7 @@ fluidPage(
                      "parentheses and the operators",
                      "'+', '-', '*', '/', '==', '&', '|', '<', '>', '^', 'exp()', 'log()', 'lead()' and 'lag()'.")),
     column (6,textInput('udv_definition', "Enter definition for your additional variable",""),
-            actionButton("udv_submit","Submit")),
-    singleton(
-      tags$head(tags$script(src = "message-handler.js"))
-    )
+            actionButton("udv_submit","Submit"))
   )},
 
   if(!simple_call_mode) hr(),

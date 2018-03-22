@@ -64,15 +64,28 @@ fluidPage(
   ),
 
   hr(),
-
-  fluidRow(
-    column (2,
-            uiOutput("ui_bar_chart")
+  if(shiny_components["bar_chart"]) {
+    list(fluidRow(
+      column (2,
+              uiOutput("ui_bar_chart")
+      ),
+      column (10, withSpinner(plotOutput("bar_chart")))
     ),
-    column (10, withSpinner(plotOutput("bar_chart")))
-  ),
 
-  hr(),
+    hr())
+  },
+
+  if(shiny_components["missing_values"]) {
+    list(fluidRow(
+      column (2,
+              uiOutput("ui_missing_values")
+      ),
+      column (10, withSpinner(plotOutput("missing_values")))
+    ),
+
+    hr())
+  },
+
   if(!simple_call_mode) {
   fluidRow(
     column (6,textInput('udv_name', "Enter name for your additional variable",""),
@@ -90,85 +103,101 @@ fluidPage(
 
   if(!simple_call_mode) hr(),
 
-  fluidRow(
-    column(2,
-           uiOutput("ui_descriptive_table"),
-           hr()),
-    if (!simple_call_mode) {
-      column(10, align="center", tabsetPanel(type = "tabs",
-                                             tabPanel("Analysis Set", DT::dataTableOutput("descriptive_table_analysis")),
-                                             tabPanel("Base Set", DT::dataTableOutput("descriptive_table_base"))))
-    } else {
-      column(10, align="center", DT::dataTableOutput("descriptive_table_analysis"))
-    }
-  ),
+  if(shiny_components["descriptive_table"]) {
+    list(fluidRow(
+      column(2,
+             uiOutput("ui_descriptive_table"),
+             hr()),
+      if (!simple_call_mode) {
+        column(10, align="center", tabsetPanel(type = "tabs",
+                                               tabPanel("Analysis Set", DT::dataTableOutput("descriptive_table_analysis")),
+                                               tabPanel("Base Set", DT::dataTableOutput("descriptive_table_base"))))
+      } else {
+        column(10, align="center", DT::dataTableOutput("descriptive_table_analysis"))
+      }
+    ),
 
-  hr(),
+    hr())
+  },
 
-  fluidRow(
-    column(2, uiOutput("ui_histogram")),
-    column(10, withSpinner(plotOutput("histogram")))
-  ),
+  if(shiny_components["histogram"]) {
+    list(fluidRow(
+      column(2, uiOutput("ui_histogram")),
+      column(10, withSpinner(plotOutput("histogram")))
+    ),
 
-  hr(),
+    hr())
+  },
 
-  fluidRow(
-    column(2, uiOutput("ui_ext_obs")),
-    column(10, align="center", tableOutput("ext_obs"))
-  ),
+  if(shiny_components["ext_obs"]) {
+    list(fluidRow(
+      column(2, uiOutput("ui_ext_obs")),
+      column(10, align="center", tableOutput("ext_obs"))
+    ),
 
-  hr(),
+    hr())
+  },
 
-  fluidRow(
-    column(2, uiOutput("ui_trend_graph")),
-    column(10, withSpinner(plotOutput("trend_graph")))
-  ),
+  if(shiny_components["trend_graph"]) {
+    list(fluidRow(
+      column(2, uiOutput("ui_trend_graph")),
+      column(10, withSpinner(plotOutput("trend_graph")))
+    ),
 
-  hr(),
+    hr())
+  },
 
-  fluidRow(
-    column(2, uiOutput("ui_quantile_trend_graph")),
-    column(10, withSpinner(plotOutput("quantile_trend_graph", height="600px")))
-  ),
+  if(shiny_components["quantile_trend_graph"]) {
+    list(fluidRow(
+      column(2, uiOutput("ui_quantile_trend_graph")),
+      column(10, withSpinner(plotOutput("quantile_trend_graph", height="600px")))
+    ),
 
-  hr(),
+    hr())
+  },
 
-  fluidRow(
-    column(2,uiOutput("ui_corrplot")),
-    column(10,
-           div(
-             style = "position:relative",
-             uiOutput("corrplot.ui", height="100%"),
-             uiOutput("corrplot_hover_info")
-           ))
-  ),
+  if(shiny_components["corrplot"]) {
+    list(fluidRow(
+      column(2,uiOutput("ui_corrplot")),
+      column(10,
+             div(
+               style = "position:relative",
+               uiOutput("corrplot.ui", height="100%"),
+               uiOutput("corrplot_hover_info")
+             ))
+    ),
 
-  hr(),
+    hr())
+  },
 
-  fluidRow(
-    column(2, uiOutput("ui_scatter_plot")),
-    column(10,
-           div(
-             style = "position:relative",
-             withSpinner(plotOutput("scatter_plot",
-                        hover = hoverOpts("plot_hover", delay = 100, delayType = "debounce"),
-                        height="600px")),
-             uiOutput("hover_info")
-           ))
-  ),
+  if(shiny_components["scatter_plot"]) {
+    list(fluidRow(
+      column(2, uiOutput("ui_scatter_plot")),
+      column(10,
+             div(
+               style = "position:relative",
+               withSpinner(plotOutput("scatter_plot",
+                                      hover = hoverOpts("plot_hover", delay = 100, delayType = "debounce"),
+                                      height="600px")),
+               uiOutput("hover_info")
+             ))
+    ),
 
-  hr(),
+    hr())
+  },
 
-  fluidRow(
-    column(2,
-           uiOutput("ui_regression"),
-           hr(),
-           uiOutput("ui_clustering"),
-           helpText("Indicatate how you want your standard errors to be estimated")),
-    column(10, align="center", htmlOutput("regression"))
-  ),
+  if(shiny_components["regression"]) {
+    list(fluidRow(
+      column(2,
+             uiOutput("ui_regression"),
+             hr(),
+             uiOutput("ui_clustering"),
+             helpText("Indicatate how you want your standard errors to be estimated")),
+      column(10, align="center", htmlOutput("regression"))
+    ),
 
-  hr(),
+    hr())
+  },
 
   fluidRow(
     column(6, align="center",
@@ -185,7 +214,7 @@ fluidPage(
 
   fluidRow(
     column(12, align="center",
-           helpText("Joachim Gassen, Humboldt-Universität zu Berlin, March 2018")
+           helpText("ExPanD based on ExPanDaR, Joachim Gassen, Humboldt-Universität zu Berlin, March 2018")
            )
     )
 )

@@ -20,7 +20,7 @@ Data collected from the World Bank API using the package \code{wbstats}.
 }
 \examples{
 data(worldbank)
-prepare_missing_values_graph(worldbank, period = "year")
+prepare_missing_values_graph(worldbank, ts_id = "year")
 
 data(worldbank_data_def)
 data(worldbank_var_def)

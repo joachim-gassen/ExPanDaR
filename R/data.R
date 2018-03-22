@@ -16,7 +16,7 @@
 #'
 #' @examples
 #' data(russell_3000)
-#' prepare_missing_values_graph(russell_3000, period = "period")
+#' prepare_missing_values_graph(russell_3000, ts_id = "period")
 #'
 "russell_3000"
 
@@ -89,7 +89,7 @@
 #'
 #' @examples
 #' data(worldbank)
-#' prepare_missing_values_graph(worldbank, period = "year")
+#' prepare_missing_values_graph(worldbank, ts_id = "year")
 #'
 #' data(worldbank_data_def)
 #' data(worldbank_var_def)

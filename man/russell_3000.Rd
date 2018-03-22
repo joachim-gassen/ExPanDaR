@@ -18,7 +18,7 @@ Data collected from Google Finance and Yahoo finance using the package \code{tid
 }
 \examples{
 data(russell_3000)
-prepare_missing_values_graph(russell_3000, period = "period")
+prepare_missing_values_graph(russell_3000, ts_id = "period")
 
 }
 \keyword{accounting}

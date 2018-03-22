@@ -4,13 +4,14 @@
 \alias{prepare_missing_values_graph}
 \title{Prepares a Graph Displaying Missing Values in Panel Data}
 \usage{
-prepare_missing_values_graph(df, period)
+prepare_missing_values_graph(df, ts_id)
 }
 \arguments{
 \item{df}{Data frame containing the data. Only variables containing
 numerical or logical data will be used.}
 
-\item{period}{A string containing the name of the factor indicating the time dimension.}
+\item{ts_id}{A string containing the name of the variable indicating the time dimension.
+Needs to be coercible into an ordered factor.}
 }
 \value{
 A ggplot2 graph
@@ -24,6 +25,6 @@ This was inspireed by a blog post of Rense Nieuenhuis. Thanks!
 }
 \examples{
 df <- data.frame(year = as.ordered(floor(time(EuStockMarkets))), EuStockMarkets)
-period <- "year"
-prepare_missing_values_graph(df, period="year")
+ts_id <- "year"
+prepare_missing_values_graph(df, ts_id="year")
 }

@@ -5,7 +5,8 @@
 #'
 #' @param df Data frame containing the data. Only variables containing
 #'   numerical or logical data will be used.
-#' @param period A string containing the name of the factor indicating the time dimension.
+#' @param ts_id A string containing the name of the variable indicating the time dimension.
+#'   Needs to be coercible into an ordered factor.
 #' @return A ggplot2 graph
 #'
 #' @details
@@ -14,29 +15,30 @@
 #'
 #' @examples
 #' df <- data.frame(year = as.ordered(floor(time(EuStockMarkets))), EuStockMarkets)
-#' period <- "year"
-#' prepare_missing_values_graph(df, period="year")
+#' ts_id <- "year"
+#' prepare_missing_values_graph(df, ts_id="year")
 #' @export
 
-prepare_missing_values_graph <- function(df, period) {
+prepare_missing_values_graph <- function(df, ts_id) {
   # Make devtools:check() and CRAN happy
   value <- NULL
   if(! is.data.frame(df)) stop("df needs to be a dataframe")
-  if (! period %in% names(df)) stop("'period' needs to be present in data frame 'df'")
-  df <- cbind(df[period], df[sapply(df, is.logical) | sapply(df, is.numeric)])
+  if (! ts_id %in% names(df)) stop("'ts_id' needs to be present in data frame 'df'")
+  df[,ts_id] <- as.ordered(df[,ts_id])
+  df <- cbind(df[ts_id], df[sapply(df, is.logical) | sapply(df, is.numeric)])
 
-  nas <- matrix(ncol=ncol(df) - 1, nrow=nlevels(df[,period]))
+  nas <- matrix(ncol=ncol(df) - 1, nrow=nlevels(df[,ts_id]))
   for (i in 2:ncol(df))
   {
-    nas[,i - 1] <- tapply(df[,i], df[,period], function(x) sum(is.na(x)) / length(x))
+    nas[,i - 1] <- tapply(df[,i], df[,ts_id], function(x) sum(is.na(x)) / length(x))
   }
-  mv <- data.frame(levels(df[, period]), nas)
-  names(mv) <- c(period, names(df)[2:ncol(df)])
+  mv <- data.frame(levels(df[, ts_id]), nas)
+  names(mv) <- c(ts_id, names(df)[2:ncol(df)])
   mv <- tidyr::gather_(mv, key_col = "variable", value_col = "value",
                        gather_cols = names(df)[2:ncol(df)])
   mv$variable <- factor(mv$variable, levels = names(df)[2:ncol(df)])
 
-  ggplot2::ggplot(mv, ggplot2::aes_string("variable", period)) +
+  ggplot2::ggplot(mv, ggplot2::aes_string("variable", ts_id)) +
     ggplot2::theme(panel.background = ggplot2::element_blank(),
                    axis.ticks = ggplot2::element_blank(),
                    axis.text.x = ggplot2::element_text(angle = 90),

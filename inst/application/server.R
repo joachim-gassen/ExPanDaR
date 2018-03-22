@@ -36,6 +36,7 @@ default_config <- list(
   bar_chart_var2 = "None",
   bar_chart_group_by = "All",
   bar_chart_relative = FALSE,
+  missing_values_group_by = "All",
   desc_group_by = "All",
   hist_var = "None",
   hist_group_by = "All",
@@ -123,6 +124,7 @@ create_config <- function(s, v, ds_id) {
     bar_chart_var2 = select_factor(s[s$ds_id == ds_id, v$var_name[v$ds_id == ds_id & v$type == "factor"]]),
     bar_chart_group_by = "All",
     bar_chart_relative = FALSE,
+    missing_values_group_by = "All",
     desc_group_by = "All",
     hist_var = v$var_name[v$ds_id == ds_id & v$type == "numeric"][1],
     hist_group_by = "All",
@@ -226,17 +228,16 @@ function(input, output, session) {
     }
     v$can_be_na <- ifelse(v$type == "cs_id" | v$type == "ts_id", 0, 1)
 
-    if (DEBUG) print(v)
-
     data_source <- ds
+    cs_id <- unique(v$var_name[v$type == "cs_id"])
+    ts_id <- unique(v$var_name[v$type == "ts_id"])
     if (simple_call_mode) {
       ca_sample <- s
       ca_variable <- v
+      cs_id
     } else {
       base_data <- s
       base_variable <- v
-      cs_id <- unique(v$var_name[v$type == "cs_id"])
-      ts_id <- unique(v$var_name[v$type == "ts_id"])
 
       code <- paste0("base_data %>% group_by(ds_id, ",
                      paste(cs_id, collapse=", "),
@@ -271,6 +272,8 @@ function(input, output, session) {
         }
       }
     }
+    ca_sample[, ts_id] <- as.ordered(ca_sample[, ts_id])
+
     if (!is.null(shiny_config_list)) app_config <- shiny_config_list
     else app_config <- create_config(ca_sample, ca_variable, ca_variable$ds_id[1])
   }
@@ -391,7 +394,8 @@ function(input, output, session) {
   parse_config <- function(l) {
     if (!is.null(l)) {
       for (name in c("sample", names(default_config))) {
-        uc[[name]] <<- l[[name]]
+        if (name %in% names(l)) uc[[name]] <<- l[[name]]
+        else uc[[name]] <<- default_config[[name]]
       }
       if (DEBUG) print(uc$sample)
       if (length(isolate(uc$udvars)) != 0) create_udv_sample()
@@ -539,6 +543,7 @@ function(input, output, session) {
     req(input$cs_id, input$ts_id)
     ca_variable <<- add_ids(ca_variable, ca_variable$ds_id[1], input$cs_id, input$ts_id)
     app_config <<- create_config(ca_sample, ca_variable, ca_variable$ds_id[1])
+    ca_sample[,input$ts_id] <<- as.ordered(ca_sample[,input$ts_id])
     parse_config(app_config)
   })
 
@@ -597,6 +602,7 @@ function(input, output, session) {
   observe({uc$bar_chart_var1 <<- req(input$bar_chart_var1)})
   observe({uc$bar_chart_var2 <<- req(input$bar_chart_var2)})
   observe({uc$bar_chart_group_by <<- req(input$bar_chart_group_by)})
+  observe({uc$missing_values_group_by <<- req(input$missing_values_group_by)})
   observe({if (is.logical(input$bar_chart_relative)) uc$bar_chart_relative <<- input$bar_chart_relative})
   observe({uc$desc_group_by <<- req(input$desc_group_by)})
   observe({uc$hist_var <<- req(input$hist_var)})
@@ -722,6 +728,18 @@ function(input, output, session) {
                                     selectInput("bar_chart_group_by", label = "Select group to subset to",
                                                 c("All", sort(levels(as.factor(df[,uc$group_factor])))),
                                                 selected = isolate(uc$bar_chart_group_by))))
+    tagList(mytags)
+  })
+
+  output$ui_missing_values <- renderUI({
+    df <- create_analysis_sample()
+    mytags <- list(h3("Misssing values"),
+                   helpText("This graphs shows the ratio of missing values for all variable years."))
+    if (uc$group_factor != "None")
+      mytags <- append(mytags, list(hr(),
+                                    selectInput("missing_values_group_by", label = "Select group to subset to",
+                                                c("All", sort(levels(as.factor(df[,uc$group_factor])))),
+                                                selected = isolate(uc$missing_values_group_by))))
     tagList(mytags)
   })
 
@@ -938,6 +956,14 @@ function(input, output, session) {
       ggplot2::scale_y_continuous(labels = scales::percent_format())
     else ggplot2::ggplot(df, ggplot2::aes(df[,uc$bar_chart_var1])) +
       ggplot2::geom_bar() + ggplot2::labs(x = uc$bar_chart_var1)
+  })
+
+  output$missing_values <- renderPlot({
+    req(uc$missing_values_group_by)
+    df <- create_analysis_sample()
+    if (uc$missing_values_group_by != "All")
+      df <- df[df[, uc$group_factor] == uc$missing_values_group_by,]
+    prepare_missing_values_graph(df, lts_id$name)
   })
 
   output$descriptive_table_analysis <- DT::renderDataTable(

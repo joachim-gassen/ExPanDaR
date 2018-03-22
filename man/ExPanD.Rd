@@ -8,7 +8,10 @@ ExPanD(df = NULL, cs_id = NULL, ts_id = NULL, df_def = NULL,
   var_def = NULL, config_list = NULL,
   title = "ExPanD - Explore panel data interactively", abstract = NULL,
   df_name = "User provided data", long_def = TRUE,
-  store_encrypted = FALSE, key_phrase = "What a wonderful key",
+  components = c(bar_chart = TRUE, missing_values = TRUE, descriptive_table =
+  TRUE, histogram = TRUE, ext_obs = TRUE, trend_graph = TRUE,
+  quantile_trend_graph = TRUE, corrplot = TRUE, scatter_plot = TRUE, regression
+  = TRUE), store_encrypted = FALSE, key_phrase = "What a wonderful key",
   debug = FALSE, ...)
 }
 \arguments{
@@ -59,6 +62,10 @@ of the underlying dataframe to the definitions provided for the analysis
 sample to make these more informative to the user.
 If set to FALSE only the variable definitions provided in the
 \code{var_def} sample will be provided to the user.}
+
+\item{components}{A logical vector indicating which reports you want
+ExPanD to generate. If specified, the vector does not have to be named but needs
+to be of correct length.}
 
 \item{store_encrypted}{Do you want the user-side saved config files to be
 encrypted? A security measure to avoid that users can inject arbitrary code
@@ -123,6 +130,7 @@ it defaults to all variables other than cs_id and ts_id being TRUE} }
   data(russell_3000)
   ExPanD(russell_3000, c("coid", "coname"), "period")
   ExPanD(russell_3000, df_def = russell_3000_data_def)
+  ExPanD(russell_3000, df_def = russell_3000_data_def, components = c(T, F, T, F, F, F, F, F, T, T))
   data(ExPanD_config_russell_3000)
   ExPanD(df = russell_3000, df_def = russell_3000_data_def,
     config_list = ExPanD_config_russell_3000)

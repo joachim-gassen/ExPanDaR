@@ -2,13 +2,12 @@ library(ExPanDaR)
 library(PKI)
 library(dplyr)
 
-
 load("shiny_data.Rda")
 
 key <- PKI::PKI.digest(charToRaw(shiny_key_phrase), "SHA256")
 
 DEBUG <- shiny_debug
-if (DEBUG) sample_count <- 0
+if (DEBUG) sample_count <<- 0
 
 bs_definition <- NULL
 cas_definition <- NULL
@@ -18,6 +17,9 @@ correl_r <- NULL
 sample_definition <- NULL
 udv_definition <- NULL
 udv_sample <- NULL
+
+server_side_data <- !is.null(shiny_df)
+simple_call_mode <- is.null(shiny_var_def)
 
 default_config <- list(
   subset_factor = "Full Sample",
@@ -62,6 +64,7 @@ default_config <- list(
   cluster = 1
 )
 
+
 quote_escape <- function(string) {
   t <- gsub("\"", "&#34;", string)
   t <- gsub("\'", "&#39;", t)
@@ -69,8 +72,13 @@ quote_escape <- function(string) {
   t
 }
 
-server_side_data <- !is.null(shiny_df)
-simple_call_mode <- is.null(shiny_var_def)
+
+select_factor <- function(df, max_cases = 10) {
+  no_cases <- sapply(df, function(x) length(unique(x)))
+  if (length(df[no_cases <= max_cases]) > 0)
+    return (colnames(df[no_cases <= max_cases])[1])
+  else return(colnames(df[no_cases == min(no_cases)]))
+}
 
 
 load_sample <- function(df, id, description) {
@@ -98,7 +106,7 @@ add_ids <- function(v, ds_id, cs_id, ts_id) {
 }
 
 
-create_config <- function(v, ds_id) {
+create_config <- function(s, v, ds_id) {
   c <- list(
     sample = ds_id,
     subset_factor = "Full Sample",
@@ -110,11 +118,11 @@ create_config <- function(v, ds_id) {
     udvars = NULL,
     delvars = NULL,
     bar_chart_var1 = v$var_name[v$ds_id == ds_id & v$type == "ts_id"],
-    bar_chart_var2 = v$var_name[v$ds_id == ds_id & v$type == "factor"][1],
+    bar_chart_var2 = select_factor(s[s$ds_id == ds_id, v$var_name[v$ds_id == ds_id & v$type == "factor"]]),
     bar_chart_group_by = "All",
     bar_chart_relative = FALSE,
     desc_group_by = "All",
-    hist_var = v$var_name[v$ds_id == ds_id & v$type == "factor"][1],
+    hist_var = v$var_name[v$ds_id == ds_id & v$type == "numeric"][1],
     hist_group_by = "All",
     hist_nr_of_breaks = 20,
     ext_obs_var = v$var_name[v$ds_id == ds_id & v$type == "numeric"][1],
@@ -131,7 +139,7 @@ create_config <- function(v, ds_id) {
     scatter_x = v$var_name[v$ds_id == ds_id & v$type == "numeric"][1],
     scatter_y = v$var_name[v$ds_id == ds_id & v$type == "numeric"][2],
     scatter_size = v$var_name[v$ds_id == ds_id & v$type == "numeric"][3],
-    scatter_color = v$var_name[v$ds_id == ds_id & v$type == "factor"][1],
+    scatter_color = select_factor(s[s$ds_id == ds_id, v$var_name[v$ds_id == ds_id & v$type == "factor"]]),
     scatter_group_by = "All",
     scatter_loess = TRUE,
     scatter_sample = TRUE,
@@ -262,7 +270,7 @@ function(input, output, session) {
       }
     }
     if (!is.null(shiny_config_list)) app_config <- shiny_config_list
-    else app_config <- create_config(ca_variable, ca_variable$ds_id[1])
+    else app_config <- create_config(ca_sample, ca_variable, ca_variable$ds_id[1])
   }
 
   create_base_sample <- reactive({
@@ -528,7 +536,7 @@ function(input, output, session) {
   observeEvent({c(input$ts_id, input$cs_id)}, {
     req(input$cs_id, input$ts_id)
     ca_variable <<- add_ids(ca_variable, ca_variable$ds_id[1], input$cs_id, input$ts_id)
-    app_config <<- create_config(ca_variable, ca_variable$ds_id[1])
+    app_config <<- create_config(ca_sample, ca_variable, ca_variable$ds_id[1])
     parse_config(app_config)
   })
 

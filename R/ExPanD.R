@@ -4,20 +4,22 @@
 #' interactive panel data exploration
 #'
 #' @param df A dataframe or a list of dataframes containing the panel data that
-#'   you want to explore
+#'   you want to explore. If NULL, ExPanD will start up with a file upload
+#'   dialog.
 #' @param cs_id A character vector or a list of character vectors containing the
 #'   names of the variables that identify the cross-section in your data. The
 #'   according variables should be factors.
-#'   Can only be NULL if df_def is provided indstead.
+#'   Can only be NULL if df_def is provided instead.
 #' @param ts_id A character scalar or a character vector identifing the name of
 #'   the variable that identifies the time series in your data. The according
-#'   variable needs to be an ordered vector.
-#'   Can only be NULL if df_def is provided indstead.
+#'   variable needs to be coercible to an ordered vector.
+#'   Can only be NULL if df_def is provided instead.
 #' @param df_def An optional dataframe (or a list of dataframes) containing
 #'   variable names, definitions and types. If NULL (the default) ExPanD
-#'   determine the variable type (factor, numeric, logical) based on the
-#'   class of the data. See the details section for further information.
-#' @param var_def if you specify a dataframe containing variable names and
+#'   uses \code{cs_id} and \code{ts_id} to identify the panel structure and
+#'   determines the variable types (factor, numeric, logical) based on the
+#'   classes of the data. See the details section for further information.
+#' @param var_def If you specify here a dataframe containing variable names and
 #'   variable definitions, ExPanD will use these on the provided sample(s) to
 #'   create the analysis sample. In that case, the user gets the opportunity to
 #'   add additional variables in the app. See the details section
@@ -44,16 +46,18 @@
 #'   in the config list.
 #' @param key_phrase The key phrase to use for encryption. Potentially a good
 #'   idea to change this from the default if you want to encrypt.
-#' @param debug Do you want ExPanD to echo some timing information to the
-#'   console/log file?
+#' @param debug Do you want ExPanD to echo some debug timing information to the
+#'   console/log file and to store some diagnostics to the global environment?
+#'   Probably not.
 #' @param ... Additional parameters that are passed on to
 #'   \code{\link[shiny]{runApp}}.
 #'
 #' @details
 #'
 #' If you start ExPanD without any options, it will start with an upload
-#' dialog so that the user can upload a data file (formats are as provided
-#' by the \code{rio} package) for anaylsis.
+#' dialog so that the the user (e.g., you) can upload a data file
+#' for anaylsis. Supported formats are as provided
+#' by the \code{rio} package.
 #'
 #' If you provide variable defintions in \code{df_def} and/or \code{var_def},
 #' ExPanD displays these as tooltips in the descriptive table of the
@@ -87,16 +91,20 @@
 #' @examples
 #' \dontrun{
 #'   ExPanD()
+#'   # Use this if you want to read very large files via the file dialog
+#'   options(shiny.maxRequestSize = 1024^3)
+#'   ExPanD()
+#'
 #'   data(russell_3000)
 #'   ExPanD(russell_3000, c("coid", "coname"), "period")
 #'   ExPanD(russell_3000, df_def = russell_3000_data_def)
 #'   data(ExPanD_config_russell_3000)
-#'   ExPanD(df = russell_3000, cs_id = c("coid", "coname"), ts_id = "period",
+#'   ExPanD(df = russell_3000, df_def = russell_3000_data_def,
 #'     config_list = ExPanD_config_russell_3000)
-#'   exploratory_sample <- sample(nrow(russell_3000), round(0.75*nrow(russell_3000)))
+#'   exploratory_sample <- sample(nrow(russell_3000), round(0.5*nrow(russell_3000)))
 #'   test_sample <- setdiff(1:nrow(russell_3000), exploratory_sample)
 #'   ExPanD(df = list(russell_3000[exploratory_sample, ], russell_3000[test_sample, ]),
-#'     cs_id = list(c("coid", "coname"), c("coid", "coname")), ts_id = c("period", "period"),
+#'     df_def = list(russell_3000_data_def, russell_3000_data_def),
 #'     df_name = c("Exploratory sample", "Test sample"))
 #'   ExPanD(worldbank, df_def = worldbank_data_def, var_def = worldbank_var_def,
 #'     config_list = ExPanD_config_worldbank)}

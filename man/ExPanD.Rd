@@ -4,34 +4,38 @@
 \alias{ExPanD}
 \title{Explore Panal Data (ExPanD)}
 \usage{
-ExPanD(df, cs_id, ts_id, df_def = NULL, var_def = NULL,
-  config_list = NULL, title = "ExPanD - Explore panel data interactively",
-  abstract = NULL, df_name = "User provided data", long_def = TRUE,
+ExPanD(df = NULL, cs_id = NULL, ts_id = NULL, df_def = NULL,
+  var_def = NULL, config_list = NULL,
+  title = "ExPanD - Explore panel data interactively", abstract = NULL,
+  df_name = "User provided data", long_def = TRUE,
   store_encrypted = FALSE, key_phrase = "What a wonderful key",
   debug = FALSE, ...)
 }
 \arguments{
 \item{df}{A dataframe or a list of dataframes containing the panel data that
-you want to explore}
+you want to explore. If NULL, ExPanD will start up with a file upload
+dialog.}
 
 \item{cs_id}{A character vector or a list of character vectors containing the
 names of the variables that identify the cross-section in your data. The
-according variables should be factors.}
+according variables should be factors.
+Can only be NULL if df_def is provided instead.}
 
 \item{ts_id}{A character scalar or a character vector identifing the name of
 the variable that identifies the time series in your data. The according
-variable needs to be an ordered vector.}
+variable needs to be coercible to an ordered vector.
+Can only be NULL if df_def is provided instead.}
 
 \item{df_def}{An optional dataframe (or a list of dataframes) containing
-variable names, definitions and types. If NULL (the default) ExPanD will
-look for labels in df to read the definitions and will determine the
-variable type (factor, numeric, logical) based on the class of the data.
-See the details section for further information.}
+variable names, definitions and types. If NULL (the default) ExPanD
+uses \code{cs_id} and \code{ts_id} to identify the panel structure and
+determines the variable types (factor, numeric, logical) based on the
+classes of the data. See the details section for further information.}
 
-\item{var_def}{if you specify a dataframe containing variable names and
+\item{var_def}{If you specify here a dataframe containing variable names and
 variable definitions, ExPanD will use these on the provided sample(s) to
 create the analysis sample. In that case, the user gets the opportunity to
-extend these variable definitions within the app. See the details section
+add additional variables in the app. See the details section
 for the structure of the \code{var_def} dataframe. If NULL (default) than
 the sample(s) provided by df will be used as anaylsis sample(s) directly.}
 
@@ -63,8 +67,9 @@ in the config list.}
 \item{key_phrase}{The key phrase to use for encryption. Potentially a good
 idea to change this from the default if you want to encrypt.}
 
-\item{debug}{Do you want ExPanD to echo some timing information to the
-console/log file?}
+\item{debug}{Do you want ExPanD to echo some debug timing information to the
+console/log file and to store some diagnostics to the global environment?
+Probably not.}
 
 \item{...}{Additional parameters that are passed on to
 \code{\link[shiny]{runApp}}.}
@@ -74,16 +79,20 @@ A shiny based web app that uses ExPanDaR functionality for
 interactive panel data exploration
 }
 \details{
-If you do not provide data defintions in \code{df_def}, ExPanD uses labels
-set via \code{\link[Hmisc]{label}} in your dataframe as variable definitions.
-Variable definitions are shown as tooltips in the descriptive table of the
+If you start ExPanD without any options, it will start with an upload
+dialog so that the the user (e.g., you) can upload a data file
+for anaylsis. Supported formats are as provided
+by the \code{rio} package.
+
+If you provide variable defintions in \code{df_def} and/or \code{var_def},
+ExPanD displays these as tooltips in the descriptive table of the
 ExPanD app.
 
 When you provide \code{var_def}, ExPanD starts up in the "advanced mode". The
 advanced mode uses (a) base sample(s) (the one(s) you provide via \code{df})
-and the variable definitions in  \code{var_def} to generate an analysis
+and the variable definitions in \code{var_def} to generate an analysis
 sample based on the active base sample. In the advanced mode, the app user
-can generate additional variables interactively.
+can generate additional variables from within the app.
 
 A \code{df_def} or \code{var_def} dataframe can contain the following
 variables
@@ -97,8 +106,8 @@ variable. Be sure to set order_by when creating lead/lag variables}
 \item{"type"}{Required: One of the strings "cs_id", "ts_id", "factor",
 "logical" or "numeric" indicating the type of the variable. Please note that
 at least one variable has to be assigned as a cross-sectional identifier
-("cs_id") and exactly one ordered factor has to be assigned as the
-time-series identifier ("ts_id").}
+("cs_id") and exactly one variable which is coercible into an ordered factor
+has to be assigned as the time-series identifier ("ts_id").}
 \item{"can_be_na"}{Optional: If included,
 then all variables with this value set to FALSE are required to be non
 missing in the dataset. This reduces the number of observations. If missing,
@@ -106,14 +115,22 @@ it defaults to all variables other than cs_id and ts_id being TRUE} }
 }
 \examples{
 \dontrun{
+  ExPanD()
+  # Use this if you want to read very large files via the file dialog
+  options(shiny.maxRequestSize = 1024^3)
+  ExPanD()
+
   data(russell_3000)
   ExPanD(russell_3000, c("coid", "coname"), "period")
+  ExPanD(russell_3000, df_def = russell_3000_data_def)
   data(ExPanD_config_russell_3000)
-  ExPanD(df = russell_3000, cs_id = c("coid", "coname"), ts_id = "period",
+  ExPanD(df = russell_3000, df_def = russell_3000_data_def,
     config_list = ExPanD_config_russell_3000)
-  exploratory_sample <- sample(nrow(russell_3000), round(0.75*nrow(russell_3000)))
+  exploratory_sample <- sample(nrow(russell_3000), round(0.5*nrow(russell_3000)))
   test_sample <- setdiff(1:nrow(russell_3000), exploratory_sample)
   ExPanD(df = list(russell_3000[exploratory_sample, ], russell_3000[test_sample, ]),
-    cs_id = list(c("coid", "coname"), c("coid", "coname")), ts_id = c("period", "period"),
-    df_name = c("Exploratory sample", "Test sample"))}
+    df_def = list(russell_3000_data_def, russell_3000_data_def),
+    df_name = c("Exploratory sample", "Test sample"))
+  ExPanD(worldbank, df_def = worldbank_data_def, var_def = worldbank_var_def,
+    config_list = ExPanD_config_worldbank)}
 }

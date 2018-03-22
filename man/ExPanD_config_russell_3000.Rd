@@ -13,9 +13,10 @@ List to use as a \code{list_config} parameter when starting \link{ExPanD}.
 }
 \examples{
 data(russell_3000)
+data(russell_3000_data_def)
 data(ExPanD_config_russell_3000)
 \dontrun{
-  ExPanD(russell_3000, c("coid", "coname"), "period", ExPanD_config_russell_3000)
+  ExPanD(russell_3000, df_def = russell_3000_data_def, config_list = ExPanD_config_russell_3000)
 }
 }
 \keyword{ExPanD,}

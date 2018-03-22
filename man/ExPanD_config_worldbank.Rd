@@ -13,11 +13,12 @@ List to use as a \code{list_config} parameter when starting \link{ExPanD}.
 }
 \examples{
 data(worldbank)
+data(worldbank_data_def)
 data(worldbank_var_def)
 data(ExPanD_config_worldbank)
 \dontrun{
-  ExPanD(worldbank, "country", "year",
-    var_def = worldbank_var_def, config_list = ExPanD_config_worldank)
+  ExPanD(worldbank, df_def = worldbank_data_def,
+    var_def = worldbank_var_def, config_list = ExPanD_config_worldbank)
 }
 }
 \keyword{ExPanD,}

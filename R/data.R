@@ -11,7 +11,7 @@
 #' @keywords datasets, accounting data, capital market data
 #'
 #' @source Has been collected using the \code{\link[tidyquant]{tq_get}} function family in Summer 2017.
-#'  The data has been collected for the sole purpose to showcase the functions of the \code{ExPanDaR} package.
+#'  The data has been collected for the purpose to showcase the functions of the \code{ExPanDaR} package.
 #'  Use in scientific studies is not advised without prior cleaning/checking.
 #'
 #' @examples
@@ -19,6 +19,34 @@
 #' prepare_missing_values_graph(russell_3000, period = "period")
 #'
 "russell_3000"
+
+#' Data Definitions for \code{russell_3000} Data Set
+#'
+#' A data frame containing variable definitions for the \code{russell_3000} data set.
+#' The data definitions can be passed to \link{ExPanD} via the
+#' \code{df_def} parameter.
+#'
+#' Data definitions are provided by the package maintainer and are somewhat superficial
+#' to make them both, short and informative. User discretion is advised when using this
+#' data outside of its didactical purpose.
+#'
+#' @docType data
+#'
+#' @usage data(russell_3000_data_def)
+#'
+#' @format An object of class \code{"data.frame"}.
+#'
+#' @keywords ExPanD, config
+#'
+#' @examples
+#' data(russell_3000)
+#' data(russell_3000_data_def)
+#' data(ExPanD_config_russell_3000)
+#' \dontrun{
+#'   ExPanD(russell_3000, df_def = russell_3000_data_def, config_list = ExPanD_config_russell_3000)
+#' }
+"russell_3000_data_def"
+
 
 #' Default Configuration to use with ExPanD and the Russell 3000 Data Set
 #'
@@ -34,9 +62,10 @@
 #'
 #' @examples
 #' data(russell_3000)
+#' data(russell_3000_data_def)
 #' data(ExPanD_config_russell_3000)
 #' \dontrun{
-#'   ExPanD(russell_3000, c("coid", "coname"), "period", ExPanD_config_russell_3000)
+#'   ExPanD(russell_3000, df_def = russell_3000_data_def, config_list = ExPanD_config_russell_3000)
 #' }
 "ExPanD_config_russell_3000"
 
@@ -66,7 +95,7 @@
 #' data(worldbank_var_def)
 #' data(ExPanD_config_worldbank)
 #' \dontrun{
-#'   ExPanD(worldbank, "country", "year", df_def = worldbank_data_def,
+#'   ExPanD(worldbank, df_def = worldbank_data_def,
 #'     var_def = worldbank_var_def, config_list = ExPanD_config_worldbank)
 #' }
 #'
@@ -97,7 +126,7 @@
 #' data(worldbank_var_def)
 #' data(ExPanD_config_worldbank)
 #' \dontrun{
-#'   ExPanD(worldbank, "country", "year", df_def = worldbank_data_def,
+#'   ExPanD(worldbank,df_def = worldbank_data_def,
 #'     var_def = worldbank_var_def, config_list = ExPanD_config_worldbank)
 #' }
 "worldbank_data_def"
@@ -121,7 +150,7 @@
 #' data(worldbank_var_def)
 #' data(ExPanD_config_worldbank)
 #' \dontrun{
-#'   ExPanD(worldbank, "country", "year", df_def = worldbank_data_def,
+#'   ExPanD(worldbank, df_def = worldbank_data_def,
 #'     var_def = worldbank_var_def, config_list = ExPanD_config_worldbank)
 #' }
 "worldbank_var_def"
@@ -140,10 +169,11 @@
 #'
 #' @examples
 #' data(worldbank)
+#' data(worldbank_data_def)
 #' data(worldbank_var_def)
 #' data(ExPanD_config_worldbank)
 #' \dontrun{
-#'   ExPanD(worldbank, "country", "year",
-#'     var_def = worldbank_var_def, config_list = ExPanD_config_worldank)
+#'   ExPanD(worldbank, df_def = worldbank_data_def,
+#'     var_def = worldbank_var_def, config_list = ExPanD_config_worldbank)
 #' }
 "ExPanD_config_worldbank"

@@ -525,13 +525,21 @@ function(input, output, session) {
     shiny_df <- try(rio::import(file = input_file$datapath,
                                 format = input_file_format))
     if (class(shiny_df) == "try-error") {
-      warning("rio::import failed. Trying with encoding = 'latin1'")
-      shiny_df <- try(rio::import(file = input_file$datapath,
-                                  format = input_file_format,
-                                  encoding = 'latin1'))
-      if (class(shiny_df) == "try-error") {
-        warning("This also did not work out. Informing user.")
-        session$sendCustomMessage(type = 'testmessage', message = paste("Unable to parse", input_file$name))
+      if (input_file_format == "dta") {
+        warning("rio::import failed. Trying with encoding = 'latin1'")
+        shiny_df <- try(haven::read_dta(file = input_file$datapath,
+                                        format = input_file_format,
+                                        encoding = 'latin1'))
+        if (class(shiny_df) == "try-error") {
+          warning("This also did not work out. Informing user.")
+          session$sendCustomMessage(type = 'testmessage',
+                                    message = sprintf("Unable to parse STATA file %s. Consider trying a different format.", input_file$name))
+          return(NULL)
+        }
+      } else {
+        warning("Unknown parsing problem. Informing user.")
+        session$sendCustomMessage(type = 'testmessage',
+                                  message = sprintf("Unable to parse file %s. Consider trying a different format.", input_file$name))
         return(NULL)
       }
     }

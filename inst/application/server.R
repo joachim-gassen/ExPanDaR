@@ -80,7 +80,7 @@ select_factor <- function(df, max_cases = 10) {
   no_cases <- sapply(df, function(x) length(unique(x)))
   if (length(df[no_cases <= max_cases]) > 0)
     return (colnames(df[no_cases <= max_cases])[1])
-  else return(colnames(df[no_cases == min(no_cases)]))
+  else return(colnames(df[no_cases == min(no_cases)])[1])
 }
 
 

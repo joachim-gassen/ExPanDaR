@@ -77,10 +77,12 @@ quote_escape <- function(string) {
 
 
 select_factor <- function(df, max_cases = 10) {
+  df <- as.data.frame(df)
   no_cases <- sapply(df, function(x) length(unique(x)))
+  if(DEBUG) print(no_cases)
   if (length(df[no_cases <= max_cases]) > 0)
-    return (colnames(df[no_cases <= max_cases])[1])
-  else return(colnames(df[no_cases == min(no_cases)]))
+    return (names(df[no_cases <= max_cases])[1])
+  else return(names(df[no_cases == min(no_cases)])[1])
 }
 
 
@@ -99,6 +101,13 @@ load_sample <- function(df, id, description) {
   v$type[which(sapply(df, is.logical))] <- "logical"
   v$type[which(sapply(df, is.numeric))] <- "numeric"
   return(list(ds, s, v))
+}
+
+
+check_ids <- function(s, cs_id, ts_id) {
+  keys <- c("ds_id", cs_id, ts_id)
+  if(DEBUG) print(keys)
+  return(!anyDuplicated(s[,keys]))
 }
 
 
@@ -121,7 +130,7 @@ create_config <- function(s, v, ds_id) {
     udvars = NULL,
     delvars = NULL,
     bar_chart_var1 = v$var_name[v$ds_id == ds_id & v$type == "ts_id"],
-    bar_chart_var2 = select_factor(s[s$ds_id == ds_id, v$var_name[v$ds_id == ds_id & v$type == "factor"]]),
+    bar_chart_var2 = select_factor(s[s$ds_id == ds_id, v$var_name[v$ds_id == ds_id & (v$type == "factor" | v$type == "logical")], drop = FALSE]),
     bar_chart_group_by = "All",
     bar_chart_relative = FALSE,
     missing_values_group_by = "All",
@@ -143,7 +152,7 @@ create_config <- function(s, v, ds_id) {
     scatter_x = v$var_name[v$ds_id == ds_id & v$type == "numeric"][1],
     scatter_y = v$var_name[v$ds_id == ds_id & v$type == "numeric"][2],
     scatter_size = v$var_name[v$ds_id == ds_id & v$type == "numeric"][3],
-    scatter_color = select_factor(s[s$ds_id == ds_id, v$var_name[v$ds_id == ds_id & v$type == "factor"]]),
+    scatter_color = select_factor(s[s$ds_id == ds_id, v$var_name[v$ds_id == ds_id & (v$type == "factor" | v$type == "logical")], drop = FALSE]),
     scatter_group_by = "All",
     scatter_loess = TRUE,
     scatter_sample = TRUE,
@@ -166,9 +175,26 @@ function(input, output, session) {
   ca_sample <- NULL
   ca_variable <- NULL
 
+  check_whether_data_is_valid <- function(v) {
+    if (length(which(v$type == "factor" | v$type == "logical")) == 0) {
+      if (DEBUG) warning("No variables suitable as factors in data")
+      session$sendCustomMessage(type = 'testmessage',
+                                message = paste0('Your data contains no factors or logical values. At least one is required.'))
+      return(FALSE)
+    }
+    if (length(which(v$type == "numeric")) < 2) {
+      if (DEBUG) warning("Less than two numerical variables in data")
+      session$sendCustomMessage(type = 'testmessage',
+                                message = paste0('Your data contains no less than two numerical variables. At least two are required.'))
+      return(FALSE)
+    }
+    return(TRUE)
+  }
+
 
   check_vars <- function() {
     factor_names <- c(lfactor$name, lcs_id$name, lts_id$name, llogical$name, "None")
+    if(DEBUG) print(factor_names)
     numeric_names <- c(lnumeric$name, llogical$name, "None")
     if (!uc$bar_chart_var1 %in% factor_names) uc$bar_chart_var1 = factor_names[1]
     if (!uc$bar_chart_var2 %in% factor_names) uc$bar_chart_var2 = "None"
@@ -222,7 +248,7 @@ function(input, output, session) {
       }
       if (is.null(shiny_df_def)) {
         for (i in 1:length(shiny_df)) {
-          v <- add_ids(v, shiny_df_id[i], shiny_cs_id[i], shiny_ts_id[i])
+          v <- add_ids(v, shiny_df_id[i], shiny_cs_id, shiny_ts_id)
         }
       }
     }
@@ -272,8 +298,6 @@ function(input, output, session) {
         }
       }
     }
-    ca_sample[, ts_id] <- as.ordered(ca_sample[, ts_id])
-
     if (!is.null(shiny_config_list)) app_config <- shiny_config_list
     else app_config <- create_config(ca_sample, ca_variable, ca_variable$ds_id[1])
   }
@@ -292,7 +316,10 @@ function(input, output, session) {
   create_ca_sample <- reactive({
     req(uc$subset_factor)
     cas_definition <<- ca_variable[ca_variable$ds_id == uc$sample, -1]
-    return(ca_sample[ca_sample$ds_id == uc$sample, as.character(cas_definition$var_name)])
+    smp <- ca_sample[ca_sample$ds_id == uc$sample, as.character(cas_definition$var_name)]
+    smp[, cas_definition$var_name[cas_definition$type == "ts_id"]] <-
+      as.ordered(smp[, cas_definition$var_name[cas_definition$type == "ts_id"]])
+    return(smp)
   })
 
   save_udv <- function(udv_name, udv_def, udv_vector) {
@@ -549,10 +576,34 @@ function(input, output, session) {
 
   observeEvent({c(input$ts_id, input$cs_id)}, {
     req(input$cs_id, input$ts_id)
-    ca_variable <<- add_ids(ca_variable, ca_variable$ds_id[1], input$cs_id, input$ts_id)
-    app_config <<- create_config(ca_sample, ca_variable, ca_variable$ds_id[1])
-    ca_sample[,input$ts_id] <<- as.ordered(ca_sample[,input$ts_id])
-    parse_config(app_config)
+    if (check_ids(ca_sample, input$cs_id, input$ts_id)) {
+      if (length(ca_variable$var_name[ca_variable$type == "cs_id"]) > 0) {
+        df <- ca_sample[,which(ca_variable$type %in% c("cs_id", "ts_id")) + 1]
+        if(DEBUG) print(names(df))
+        for (i in 1:ncol(df)) {
+          if(is.numeric(df[,i])) ca_variable$type[ca_variable$var_name == colnames(df[i])] <<- "numeric"
+          else if(is.logical(df[,i])) ca_variable$type[ca_variable$var_name == colnames(df[i])] <<- "logical"
+          else ca_variable$type[ca_variable$var_name == colnames(df[i])] <<- "factor"
+        }
+        if(DEBUG) print(ca_variable)
+      }
+      ca_variable <<- add_ids(ca_variable, ca_variable$ds_id[1], input$cs_id, input$ts_id)
+      if(DEBUG) print(ca_variable)
+      if (check_whether_data_is_valid(ca_variable)) {
+        app_config <<- create_config(ca_sample, ca_variable, ca_variable$ds_id[1])
+        # force invalidation... let's see whether this is sufficient. Looks like it.
+        temp <<- uc$sample
+        uc$sample <<- NULL
+        uc$sample <<- temp
+        parse_config(app_config)
+      } else {
+        uc$sample <<- NULL
+        ca_sample <<- NULL
+        ca_variable <<- NULL
+        data_source <<- NULL
+      }
+    } else session$sendCustomMessage(type = 'testmessage',
+                                     message = paste("The variables you selected yield duplicate observations. Choose different variables and/or check your sample."))
   })
 
   observeEvent(input$restore_analysis_sample, {
@@ -644,7 +695,6 @@ function(input, output, session) {
   output$ui_sample <- renderUI({
     if (!server_side_data) {
       fileInput('infile', label = NULL)
-
     } else {
       req(uc$sample)
       choices <- setNames(as.list(data_source$ds_id), data_source$ds_description)
@@ -658,12 +708,14 @@ function(input, output, session) {
 
   output$ui_select_ids <- renderUI({
     req(uc$sample)
-    if (DEBUG) print(exists("lcs_id"))
+    if (DEBUG) print(exists("ca_variable"))
     tagList(selectInput("cs_id", "Select cross sectional identifier(s)",
-                        ca_variable$var_name, multiple = TRUE, selected = {if(exists("lcs_id")) lcs_id$name else NULL}),
+                        ca_variable$var_name, multiple = TRUE,
+                        selected = {if(exists("ca_variable")) ca_variable$var_name[ca_variable$type == "cs_id"] else NULL}),
             helpText("Select the variable that identifies a cross-sectional unit. Selecting multiple values is possible."),
             selectInput("ts_id", "Select time series identifier",
-                        c("", ca_variable$var_name), if(exists("lts_id")) selected = {if(exists("lts_id")) lts_id$name else NULL}),
+                        c("", ca_variable$var_name),
+                          selected = {if(exists("ca_variable")) ca_variable$var_name[ca_variable$type == "ts_id"] else NULL}),
             helpText("Select the variable that identifies a the time series. Variable needs to be coercible into an ordered factor."))
   })
 
@@ -954,6 +1006,8 @@ function(input, output, session) {
     df <- create_analysis_sample()
     if (uc$bar_chart_group_by != "All")
       df <- df[df[, uc$group_factor] == uc$bar_chart_group_by,]
+    if (!anyNA(suppressWarnings(as.numeric(as.character(df[, uc$bar_chart_var1])))))
+      df[, uc$bar_chart_var1] <- as.numeric(as.character(df[, uc$bar_chart_var1]))
     if (uc$bar_chart_var2 != "None" & (!uc$bar_chart_relative))
       ggplot2::ggplot(df, ggplot2::aes(df[,uc$bar_chart_var1])) +
       ggplot2::geom_bar(ggplot2::aes(fill=df[,uc$bar_chart_var2]), position = "stack") +

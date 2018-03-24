@@ -34,6 +34,8 @@ prepare_missing_values_graph <- function(df, ts_id) {
   }
   mv <- data.frame(levels(df[, ts_id]), nas)
   names(mv) <- c(ts_id, names(df)[2:ncol(df)])
+  if (!anyNA(suppressWarnings(as.numeric(as.character(mv[,ts_id])))))
+    mv[,ts_id] <- as.numeric(as.character(mv[,ts_id]))
   mv <- tidyr::gather_(mv, key_col = "variable", value_col = "value",
                        gather_cols = names(df)[2:ncol(df)])
   mv$variable <- factor(mv$variable, levels = names(df)[2:ncol(df)])

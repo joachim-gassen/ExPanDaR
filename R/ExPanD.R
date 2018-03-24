@@ -6,11 +6,10 @@
 #' @param df A dataframe or a list of dataframes containing the panel data that
 #'   you want to explore. If NULL, ExPanD will start up with a file upload
 #'   dialog.
-#' @param cs_id A character vector or a list of character vectors containing the
-#'   names of the variables that identify the cross-section in your data. The
-#'   according variables should be factors.
+#' @param cs_id A character vector ocontaining the names of the variables that
+#'   identify the cross-section in your data.
 #'   Can only be NULL if df_def is provided instead.
-#' @param ts_id A character scalar or a character vector identifing the name of
+#' @param ts_id A character scalar identifing the name of
 #'   the variable that identifies the time series in your data. The according
 #'   variable needs to be coercible to an ordered vector.
 #'   Can only be NULL if df_def is provided instead.
@@ -66,6 +65,11 @@
 #' ExPanD displays these as tooltips in the descriptive table of the
 #' ExPanD app.
 #'
+#' When you provide more than one data frame in \code{df}, make sure that all have
+#' the same variables and variable types defined. If not, ExPanD will throw
+#' an error. When you provide only one \code{df_def} for multiple data frames,
+#' \code{df_def} will be recycled.
+#'
 #' When you provide \code{var_def}, ExPanD starts up in the "advanced mode". The
 #' advanced mode uses (a) base sample(s) (the one(s) you provide via \code{df})
 #' and the variable definitions in \code{var_def} to generate an analysis
@@ -89,7 +93,7 @@
 #' \item{"can_be_na"}{Optional: If included,
 #' then all variables with this value set to FALSE are required to be non
 #' missing in the dataset. This reduces the number of observations. If missing,
-#' it defaults to all variables other than cs_id and ts_id being TRUE} }
+#' it defaults to being TRUE for all variables other than cs_id and ts_id.} }
 #'
 #' @examples
 #' \dontrun{
@@ -108,7 +112,7 @@
 #'   exploratory_sample <- sample(nrow(russell_3000), round(0.5*nrow(russell_3000)))
 #'   test_sample <- setdiff(1:nrow(russell_3000), exploratory_sample)
 #'   ExPanD(df = list(russell_3000[exploratory_sample, ], russell_3000[test_sample, ]),
-#'     df_def = list(russell_3000_data_def, russell_3000_data_def),
+#'     df_def = russell_3000_data_def,
 #'     df_name = c("Exploratory sample", "Test sample"))
 #'   ExPanD(worldbank, df_def = worldbank_data_def, var_def = worldbank_var_def,
 #'     config_list = ExPanD_config_worldbank)}
@@ -118,7 +122,7 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
                    df_def = NULL, var_def = NULL, config_list = NULL,
                    title = "ExPanD - Explore panel data interactively",
                    abstract = NULL,
-                   df_name = "User provided data",
+                   df_name = "Data provided by argument",
                    long_def = TRUE,
                    components = c(bar_chart = TRUE,
                                   missing_values = TRUE,
@@ -138,10 +142,49 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
     if (is.null(df_def) && (is.null(cs_id) || is.null(ts_id))) stop("df is provided but not df_def and either cs_id or ts_id is NULL")
     if (!is.null(df_def) && (!is.null(cs_id) || !is.null(ts_id))) stop("provide either df_def or cs_id and ts_id but not both")
     if (!is.data.frame(df) && length(which(!sapply(df, is.data.frame))) > 0) stop("df is a list containing non-dataframe members")
-    if (!is.data.frame(df) && !is.null(cs_id) && length(df) != length(cs_id)) stop("df is a list but cs_id does not have length of list")
-    if (!is.data.frame(df) && !is.null(ts_id) && length(df) != length(ts_id)) stop("df is a list but ts_id does not have length of list")
-    if (!is.data.frame(df) && !is.null(df_def) && length(df) != length(df_def)) stop("df is a list but ts_id does not have length of list")
   }
+
+  if (!is.data.frame(df) && !is.null(df_def) && is.data.frame(df_def)) df_def <- rep(list(df_def), length(df))
+
+  if(!is.null(df)) {
+    if(!is.data.frame(df)) {
+      names_df <- lapply(df, names)
+      for (i in 2:length(names_df)) {
+        if(!identical(names_df[[1]], names_df[[i]])) stop ("Provided data frames do not have identical variable names")
+      }
+      if (!is.null(df_def)) {
+        for(i in 1: length(names_df)) {
+          if(!identical(names_df[[i]], df_def[[i]]$var_name)) stop ("Provided data definitions have different variable names than data frames")
+        }
+      } else {
+        if (! ts_id %in% names_df[[1]]) stop ("Time sectional identifier not included in data frames.")
+        if (! all(cs_id %in% names_df[[1]])) stop ("Cross sectional identifier(s) not all included in data frames.")
+      }
+    } else {
+      if (!is.null(df_def)) {
+        if(!identical(names(df), df_def$var_name)) stop ("Provided data definitions have different variable names than data frame")
+      } else {
+        if (! ts_id %in% names(df)) stop ("Time sectional identifier not included in data frame.")
+        if (! all(ts_id %in% names(df))) stop ("Cross sectional identifier(s) not all included in data frame.")
+      }
+    }
+    tdf <- df
+    tdf_def <- df_def
+    if(!is.data.frame(df)) {
+      tdf <- df[[1]]
+      tdf_def <- df_def[[1]]
+    }
+    if (!is.null(tdf_def)) {
+      if(length(which(tdf_def$type %in% c("factor", "logical"))) == 0) stop ("No factor or logical variable contained in data frame. At least one is required.")
+      if(length(which(tdf_def$type == "numeric")) < 2) stop ("Less than two numerical variables contained in data frame. At least two are required.")
+    } else {
+      sdf <- tdf[, -which(names(tdf) %in% c(cs_id, ts_id))]
+      num_numeric <- length(which(sapply(sdf, is.numeric)))
+      if(num_numeric == length(sdf)) stop ("No factor or logical variable contained in data frame. At least one is required.")
+      if(num_numeric < 2) stop ("Less than two numerical variables contained in data frame. At least two are required.")
+    }
+  }
+
   if (length(components) != 10 | !is.vector(components) | !is.logical(components)) stop("Components vector is invalid")
   comp_names <- c("bar_chart", "missing_values", "descriptive_table", "histogram",
                  "ext_obs", "trend_graph", "quantile_trend_graph", "corrplot",
@@ -162,6 +205,7 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
     if (is.null(shiny_df_id)) shiny_df_id <- paste0("df list member ", 1:length(df))
   }
   shiny_df_name <- df_name
+  if (!is.data.frame(df) && length(df_name) == 1) shiny_df_name <- paste(df_name, 1:length(df))
   shiny_long_def <- long_def
   shiny_key_phrase <- key_phrase
   shiny_store_encrypted <- store_encrypted

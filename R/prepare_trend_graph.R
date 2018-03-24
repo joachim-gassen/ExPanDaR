@@ -25,6 +25,14 @@
 prepare_trend_graph <- function(df, xvar) {
   # Make devtools:check() and CRAN happy
   value <- se <- NULL
+  if(!is.numeric(xvar)) xnum <- suppressWarnings(as.numeric(as.character(df[,xvar]))) else xnum <- xvar
+  if (anyNA(xnum)) {
+    x_is_factor <- TRUE
+  } else {
+    df[,xvar] <- xnum
+    x_is_factor <- FALSE
+  }
+
   gf <- tidyr::gather_(data = df,
                        key_col = "variable",
                        value_col = "value",
@@ -33,11 +41,18 @@ prepare_trend_graph <- function(df, xvar) {
     dplyr::summarise(mean = mean(value, na.rm=TRUE),
               se = stats::sd(value, na.rm=TRUE)/sqrt(length(which(!is.na(value)))))
   gf <- as.data.frame(gf)
-  gf[,xvar] <- as.numeric(gsub("[^0-9\\.]", "", as.character(gf[,xvar])))
 
-  plot <- ggplot2::ggplot(gf, ggplot2::aes_string(x=xvar, colour="variable")) +
-    ggplot2::geom_errorbar(ggplot2::aes(ymin = mean-se, ymax = mean+se), width = .1) +
-    ggplot2::geom_line(ggplot2::aes(y = mean)) +
-    ggplot2::geom_point(ggplot2::aes(y = mean)) + ggplot2::xlab(xvar) + ggplot2::ylab("")
+  if (x_is_factor) {
+    plot <- ggplot2::ggplot(gf, ggplot2::aes_string(x = xvar, color="variable", group = "variable")) +
+      ggplot2::stat_summary(fun.y=sum, geom="line", ggplot2::aes(y = mean)) +
+      ggplot2::geom_errorbar(ggplot2::aes(ymin = mean-se, ymax = mean+se), width = .1) +
+      ggplot2::geom_point(ggplot2::aes(y = mean)) + ggplot2::xlab(xvar) + ggplot2::ylab("")
+  } else {
+    plot <- ggplot2::ggplot(gf, ggplot2::aes_string(x=xvar, colour="variable")) +
+      ggplot2::geom_errorbar(ggplot2::aes(ymin = mean-se, ymax = mean+se), width = .1) +
+      ggplot2::geom_line(ggplot2::aes(y = mean)) +
+      ggplot2::geom_point(ggplot2::aes(y = mean)) + ggplot2::xlab(xvar) + ggplot2::ylab("")
+  }
+
   list(df = gf, plot = plot)
 }

@@ -7,7 +7,7 @@
 ExPanD(df = NULL, cs_id = NULL, ts_id = NULL, df_def = NULL,
   var_def = NULL, config_list = NULL,
   title = "ExPanD - Explore panel data interactively", abstract = NULL,
-  df_name = "User provided data", long_def = TRUE,
+  df_name = "Data provided by argument", long_def = TRUE,
   components = c(bar_chart = TRUE, missing_values = TRUE, descriptive_table =
   TRUE, histogram = TRUE, ext_obs = TRUE, trend_graph = TRUE,
   quantile_trend_graph = TRUE, corrplot = TRUE, scatter_plot = TRUE, regression
@@ -19,12 +19,11 @@ ExPanD(df = NULL, cs_id = NULL, ts_id = NULL, df_def = NULL,
 you want to explore. If NULL, ExPanD will start up with a file upload
 dialog.}
 
-\item{cs_id}{A character vector or a list of character vectors containing the
-names of the variables that identify the cross-section in your data. The
-according variables should be factors.
+\item{cs_id}{A character vector ocontaining the names of the variables that
+identify the cross-section in your data.
 Can only be NULL if df_def is provided instead.}
 
-\item{ts_id}{A character scalar or a character vector identifing the name of
+\item{ts_id}{A character scalar identifing the name of
 the variable that identifies the time series in your data. The according
 variable needs to be coercible to an ordered vector.
 Can only be NULL if df_def is provided instead.}
@@ -95,6 +94,11 @@ If you provide variable defintions in \code{df_def} and/or \code{var_def},
 ExPanD displays these as tooltips in the descriptive table of the
 ExPanD app.
 
+When you provide more than one data frame in \code{df}, make sure that all have
+the same variables and variable types defined. If not, ExPanD will throw
+an error. When you provide only one \code{df_def} for multiple data frames,
+\code{df_def} will be recycled.
+
 When you provide \code{var_def}, ExPanD starts up in the "advanced mode". The
 advanced mode uses (a) base sample(s) (the one(s) you provide via \code{df})
 and the variable definitions in \code{var_def} to generate an analysis
@@ -118,7 +122,7 @@ has to be assigned as the time-series identifier ("ts_id").}
 \item{"can_be_na"}{Optional: If included,
 then all variables with this value set to FALSE are required to be non
 missing in the dataset. This reduces the number of observations. If missing,
-it defaults to all variables other than cs_id and ts_id being TRUE} }
+it defaults to being TRUE for all variables other than cs_id and ts_id.} }
 }
 \examples{
 \dontrun{
@@ -137,7 +141,7 @@ it defaults to all variables other than cs_id and ts_id being TRUE} }
   exploratory_sample <- sample(nrow(russell_3000), round(0.5*nrow(russell_3000)))
   test_sample <- setdiff(1:nrow(russell_3000), exploratory_sample)
   ExPanD(df = list(russell_3000[exploratory_sample, ], russell_3000[test_sample, ]),
-    df_def = list(russell_3000_data_def, russell_3000_data_def),
+    df_def = russell_3000_data_def,
     df_name = c("Exploratory sample", "Test sample"))
   ExPanD(worldbank, df_def = worldbank_data_def, var_def = worldbank_var_def,
     config_list = ExPanD_config_worldbank)}

@@ -40,6 +40,11 @@
 #'   sample to make these more informative to the user.
 #'   If set to FALSE only the variable definitions provided in the
 #'   \code{var_def} sample will be provided to the user.
+#' @param factor_cutoff ExPanD treats factors different from numerical variables
+#'   as factors are available for sub-sampling data and for certain plots.
+#'   Each variable classified as such will be treated as a factor. In addition,
+#'   ExPanD classifies all logical values and all numerical value with less or
+#'   equal than \code{factor_cutoff} unique values as factor.
 #' @param components A logical vector indicating which reports you want
 #'   ExPanD to generate. If specified, the vector does not have to be named but needs
 #'   to be of correct length.
@@ -124,6 +129,7 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
                    abstract = NULL,
                    df_name = "Data provided by argument",
                    long_def = TRUE,
+                   factor_cutoff = 10L,
                    components = c(bar_chart = TRUE,
                                   missing_values = TRUE,
                                   descriptive_table = TRUE,
@@ -145,6 +151,7 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
   }
 
   if (!is.data.frame(df) && !is.null(df_def) && is.data.frame(df_def)) df_def <- rep(list(df_def), length(df))
+  if (length(factor_cutoff) != 1 && !is.integer(factor_cutoff)) stop("factor_cutoff needs to be an integer scalar.")
 
   if(!is.null(df)) {
     if(!is.data.frame(df)) {
@@ -210,6 +217,7 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
   shiny_df_name <- df_name
   if (!is.data.frame(df) && length(df_name) == 1) shiny_df_name <- paste(df_name, 1:length(df))
   shiny_long_def <- long_def
+  shiny_factor_cutoff <- factor_cutoff
   shiny_key_phrase <- key_phrase
   shiny_store_encrypted <- store_encrypted
   shiny_debug <- debug

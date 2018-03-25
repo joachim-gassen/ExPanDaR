@@ -8,11 +8,11 @@ ExPanD(df = NULL, cs_id = NULL, ts_id = NULL, df_def = NULL,
   var_def = NULL, config_list = NULL,
   title = "ExPanD - Explore panel data interactively", abstract = NULL,
   df_name = "Data provided by argument", long_def = TRUE,
-  components = c(bar_chart = TRUE, missing_values = TRUE, descriptive_table =
-  TRUE, histogram = TRUE, ext_obs = TRUE, trend_graph = TRUE,
-  quantile_trend_graph = TRUE, corrplot = TRUE, scatter_plot = TRUE, regression
-  = TRUE), store_encrypted = FALSE, key_phrase = "What a wonderful key",
-  debug = FALSE, ...)
+  factor_cutoff = 10L, components = c(bar_chart = TRUE, missing_values =
+  TRUE, descriptive_table = TRUE, histogram = TRUE, ext_obs = TRUE, trend_graph
+  = TRUE, quantile_trend_graph = TRUE, corrplot = TRUE, scatter_plot = TRUE,
+  regression = TRUE), store_encrypted = FALSE,
+  key_phrase = "What a wonderful key", debug = FALSE, ...)
 }
 \arguments{
 \item{df}{A dataframe or a list of dataframes containing the panel data that
@@ -61,6 +61,12 @@ of the underlying dataframe to the definitions provided for the analysis
 sample to make these more informative to the user.
 If set to FALSE only the variable definitions provided in the
 \code{var_def} sample will be provided to the user.}
+
+\item{factor_cutoff}{ExPanD treats factors different from numerical variables
+as factors are available for sub-sampling data and for certain plots.
+Each variable classified as such will be treated as a factor. In addition,
+ExPanD classifies all logical values and all numerical value with less or
+equal than \code{factor_cutoff} unique values as factor.}
 
 \item{components}{A logical vector indicating which reports you want
 ExPanD to generate. If specified, the vector does not have to be named but needs

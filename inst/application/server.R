@@ -5,6 +5,7 @@ library(dplyr)
 options(shiny.maxRequestSize = 1024^3)
 
 load("shiny_data.Rda")
+factor_cutoff <- shiny_factor_cutoff
 
 key <- PKI::PKI.digest(charToRaw(shiny_key_phrase), "SHA256")
 
@@ -76,8 +77,9 @@ quote_escape <- function(string) {
 }
 
 
-select_factor <- function(df, max_cases = 10) {
+select_factor <- function(df, max_cases = factor_cutoff) {
   df <- as.data.frame(df)
+  if(DEBUG) message(sprintf("Selecting factor with factor_cutoff: %d", factor_cutoff))
   no_cases <- sapply(df, function(x) length(unique(x)))
   if (length(df[no_cases <= max_cases]) > 0)
     return (names(df[no_cases <= max_cases])[1])
@@ -128,7 +130,7 @@ create_config <- function(s, v, ds_id) {
     udvars = NULL,
     delvars = NULL,
     bar_chart_var1 = v$var_name[v$ds_id == ds_id & v$type == "ts_id"],
-    bar_chart_var2 = select_factor(s[s$ds_id == ds_id, v$var_name[v$ds_id == ds_id & (v$type == "factor" | v$type == "logical")], drop = FALSE]),
+    bar_chart_var2 = select_factor(s[s$ds_id == ds_id, v$var_name[v$ds_id == ds_id & (v$type != "cs_id" | v$type != "ts_id")], drop = FALSE]),
     bar_chart_group_by = "All",
     bar_chart_relative = FALSE,
     missing_values_group_by = "All",
@@ -150,7 +152,7 @@ create_config <- function(s, v, ds_id) {
     scatter_x = v$var_name[v$ds_id == ds_id & v$type == "numeric"][1],
     scatter_y = v$var_name[v$ds_id == ds_id & v$type == "numeric"][2],
     scatter_size = v$var_name[v$ds_id == ds_id & v$type == "numeric"][3],
-    scatter_color = select_factor(s[s$ds_id == ds_id, v$var_name[v$ds_id == ds_id & (v$type == "factor" | v$type == "logical")], drop = FALSE]),
+    scatter_color = select_factor(s[s$ds_id == ds_id, v$var_name[v$ds_id == ds_id & (v$type != "cs_id" | v$type != "ts_id")], drop = FALSE]),
     scatter_group_by = "All",
     scatter_loess = TRUE,
     scatter_sample = TRUE,
@@ -437,11 +439,18 @@ function(input, output, session) {
 
   observe(parse_config(app_config))
 
-  create_var_categories <- function(sd) {
+  get_suitable_vars <- function(t, s, v) {
+    if(t == "factor") {
+      return(which(current_sd$type == "factor" | sapply(s, function (x) length(unique(x)) <= factor_cutoff)))
+    } else return(which(v$type == t))
+  }
+
+  create_var_categories <- function(s, v) {
     for (type in c("cs_id", "ts_id", "numeric", "logical", "factor")) {
+      cand <- get_suitable_vars(type, s, v)
       assign(paste0("l", type), data.frame(
-        col = which(sd$type == type),
-        name = sd$var_name[sd$type == type],
+        col = cand,
+        name = v$var_name[cand],
         stringsAsFactors = FALSE
       ), envir = parent.env(parent.env(environment())))
     }
@@ -505,9 +514,9 @@ function(input, output, session) {
     if (uc$outlier_treatment == 5) smp[,nums] <- treat_outliers(smp[,nums], 0.05, TRUE, group)
 
     # Verify that new sample does not violate any variable assignments in app
-    create_var_categories(sample_definition)
-    isolate(check_vars())
     smp <- droplevels(smp)
+    create_var_categories(smp, sample_definition)
+    isolate(check_vars())
 
     if (DEBUG) current_as <<- smp
     if (DEBUG) current_sd <<- sample_definition
@@ -797,7 +806,7 @@ function(input, output, session) {
                                c(lts_id$name, lfactor$name, llogical$name),
                                selected = isolate(uc$bar_chart_var1)),
                    selectInput("bar_chart_var2", label = "Select additional factor to display",
-                               c("None", lts_id$name, lfactor$name, llogical$name),
+                               unique(c("None", lts_id$name, lfactor$name, llogical$name)),
                                selected = isolate(uc$bar_chart_var2)),
                    checkboxInput("bar_chart_relative", "Relative display", value = uc$bar_chart_relative),
                    helpText("Check if you want to see the additional factor relative to the first factor."))
@@ -1021,6 +1030,9 @@ function(input, output, session) {
   output$bar_chart <- renderPlot({
     req(uc$bar_chart_var1, uc$bar_chart_var2, uc$bar_chart_group_by)
     df <- create_analysis_sample()
+    df[, uc$bar_chart_var1] <- as.factor(df[, uc$bar_chart_var1])
+    if (uc$bar_chart_var2 != "None")
+      df[, uc$bar_chart_var2] <- as.factor(df[, uc$bar_chart_var2])
     if (uc$bar_chart_group_by != "All")
       df <- df[df[, uc$group_factor] == uc$bar_chart_group_by,]
     if (!anyNA(suppressWarnings(as.numeric(as.character(df[, uc$bar_chart_var1])))))
@@ -1217,6 +1229,7 @@ function(input, output, session) {
                  uc$scatter_x, uc$scatter_y, uc$scatter_color, uc$scatter_size)
     scatter_df <- scatter_df[,varlist[!grepl("None", varlist)]]
     scatter_df <- scatter_df[complete.cases(scatter_df),]
+    if (uc$scatter_color %in% lfactor$name) scatter_df[,uc$scatter_color] <- as.factor(scatter_df[,uc$scatter_color])
     if (uc$scatter_sample & (nrow(scatter_df) > 1000)) scatter_df <- dplyr::sample_n(scatter_df, 1000)
     scatter_color <- ifelse(uc$scatter_color == "None", "", uc$scatter_color)
     scatter_size <- ifelse(uc$scatter_size == "None", "", uc$scatter_size)

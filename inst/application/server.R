@@ -441,7 +441,7 @@ function(input, output, session) {
 
   get_suitable_vars <- function(t, s, v) {
     if(t == "factor") {
-      return(which(current_sd$type == "factor" | sapply(s, function (x) length(unique(x)) <= factor_cutoff)))
+      return(which(v$type == "factor" | sapply(s, function (x) length(unique(x)) <= factor_cutoff)))
     } else return(which(v$type == t))
   }
 

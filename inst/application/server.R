@@ -79,7 +79,6 @@ quote_escape <- function(string) {
 select_factor <- function(df, max_cases = 10) {
   df <- as.data.frame(df)
   no_cases <- sapply(df, function(x) length(unique(x)))
-  if(DEBUG) print(no_cases)
   if (length(df[no_cases <= max_cases]) > 0)
     return (names(df[no_cases <= max_cases])[1])
   else return(names(df[no_cases == min(no_cases)])[1])
@@ -106,7 +105,6 @@ load_sample <- function(df, id, description) {
 
 check_ids <- function(s, cs_id, ts_id) {
   keys <- c("ds_id", cs_id, ts_id)
-  if(DEBUG) print(keys)
   return(!anyDuplicated(s[,keys]))
 }
 
@@ -194,7 +192,6 @@ function(input, output, session) {
 
   check_vars <- function() {
     factor_names <- c(lfactor$name, lcs_id$name, lts_id$name, llogical$name, "None")
-    if(DEBUG) print(factor_names)
     numeric_names <- c(lnumeric$name, llogical$name, "None")
     if (!uc$bar_chart_var1 %in% factor_names) uc$bar_chart_var1 = factor_names[1]
     if (!uc$bar_chart_var2 %in% factor_names) uc$bar_chart_var2 = "None"
@@ -252,17 +249,18 @@ function(input, output, session) {
         }
       }
     }
-    v$can_be_na <- ifelse(v$type == "cs_id" | v$type == "ts_id", 0, 1)
+    if(!"can_be_na" %in% names(v)) v$can_be_na <- ifelse(v$type == "cs_id" | v$type == "ts_id", FALSE, TRUE)
 
     data_source <- ds
     cs_id <- unique(v$var_name[v$type == "cs_id"])
     ts_id <- unique(v$var_name[v$type == "ts_id"])
+
     if (simple_call_mode) {
       ca_sample <- s
       ca_variable <- v
       cs_id
     } else {
-      base_data <- s
+      base_data <- s[order(s$ds_id, s[,cs_id], s[,ts_id]),]
       base_variable <- v
 
       code <- paste0("base_data %>% group_by(ds_id, ",
@@ -285,9 +283,9 @@ function(input, output, session) {
       ca_sample <- as.data.frame(samples)
       ca_variable <- data.frame(ds_id = rep(data_source$ds_id, each = nrow(shiny_var_def)),
                                 shiny_var_def)
-      if (is.null(ca_variable$can_be_na)) ca_variable$can_be_na <-
-        ifelse(ca_variable$type == "cs_id" | ca_variable$type == "ts_id", 0, 1)
-      if (shiny_long_def) {
+      if (!"can_be_na" %in% names(ca_variable)) ca_variable$can_be_na <-
+        ifelse(ca_variable$type == "cs_id" | ca_variable$type == "ts_id", FALSE, TRUE)
+      if (shiny_long_def && any(base_variable$var_def != "")) {
         for (i in 1:nrow(ca_variable)) {
           vars <- CodeDepends::getInputs(parse(text = ca_variable$var_def[i]))@inputs
           if (length(vars) > 1) var_defs <- c(ca_variable$var_def[i], rep("", length(vars) - 1)) else var_defs <- ca_variable$var_def[i]
@@ -305,7 +303,7 @@ function(input, output, session) {
   create_base_sample <- reactive({
     req(uc$subset_factor)
     bsd <- data.frame(base_variable,
-                      can_be_na = 1)
+                      can_be_na = TRUE)
     bs <- base_data[base_data$ds_id == uc$sample, as.character(bsd$var_name)]
 
     all_na_vars <- sapply(bs, function (x) all(is.na(x)))
@@ -327,7 +325,7 @@ function(input, output, session) {
     if (is.numeric(udv_vector)) type <- "numeric"
     else if (is.logical(udv_vector)) type <- "logical"
     else type <- "factor"
-    can_be_na <- 1
+    can_be_na <- TRUE
     new_def <- data.frame(var_name = udv_name, var_def = udv_def, type, can_be_na, stringsAsFactors = FALSE)
     if (shiny_long_def) {
       vars <- CodeDepends::getInputs(parse(text = udv_def))@inputs
@@ -351,12 +349,19 @@ function(input, output, session) {
     dummy <- 0
   }
 
+  mleadlag <- function(x, n, ts_id) {
+    pos <- match(as.numeric(ts_id) + n, as.numeric(ts_id))
+    x[pos]
+  }
+
   lead <- function(x, n = 1L) {
     df <- cbind(create_base_sample()[,c(as.character(bs_definition[bs_definition$type == "cs_id" |
                                                                      bs_definition$type == "ts_id", "var_name"]))], x)
     colnames(df)[ncol(df)] <- "xval"
+    colnames(df)[colnames(df) == as.character(bs_definition[bs_definition$type == "ts_id", "var_name"])] <- "ts_id"
+
     df %>% dplyr::group_by_at(vars(one_of(as.character(bs_definition[bs_definition$type == "cs_id", "var_name"])))) %>%
-      dplyr::mutate(y = dplyr::lead(xval, n)) %>%
+      dplyr::mutate(y = mleadlag(xval, n, ts_id)) %>%
       dplyr::ungroup() %>% dplyr::pull(y)
   }
 
@@ -364,8 +369,10 @@ function(input, output, session) {
     df <- cbind(create_base_sample()[,c(as.character(bs_definition[bs_definition$type == "cs_id" |
                                                                      bs_definition$type == "ts_id", "var_name"]))], x)
     colnames(df)[ncol(df)] <- "xval"
+    colnames(df)[colnames(df) == as.character(bs_definition[bs_definition$type == "ts_id", "var_name"])] <- "ts_id"
+
     df %>% dplyr::group_by_at(vars(dplyr::one_of(as.character(bs_definition[bs_definition$type == "cs_id", "var_name"])))) %>%
-      dplyr::mutate(y = dplyr::lag(xval, n)) %>%
+      dplyr::mutate(y = mleadlag(xval, -n, ts_id)) %>%
       dplyr::ungroup() %>% dplyr::pull(y)
   }
 
@@ -424,7 +431,6 @@ function(input, output, session) {
         if (name %in% names(l)) uc[[name]] <<- l[[name]]
         else uc[[name]] <<- default_config[[name]]
       }
-      if (DEBUG) print(uc$sample)
       if (length(isolate(uc$udvars)) != 0) create_udv_sample()
     }
   }
@@ -467,7 +473,7 @@ function(input, output, session) {
     smp <- smp[,as.character(sample_definition$var_name)]
 
     # Drop observations that are NA in variables that are not allowed to
-    smp <- smp[complete.cases(smp[,as.character(sample_definition$var_name[which(sample_definition$can_be_na == 0)])]),]
+    smp <- smp[complete.cases(smp[,as.character(sample_definition$var_name[which(sample_definition$can_be_na == FALSE)])]),]
 
     # Subset if requested by user
     if ((isolate(uc$subset_factor) != "Full Sample") & (uc$subset_value != "All"))
@@ -477,8 +483,15 @@ function(input, output, session) {
     if (uc$balanced_panel) {
       smp <- dplyr::group_by_at(smp, dplyr::vars(dplyr::one_of(sample_definition$var_name[sample_definition$type  == "cs_id"]))) %>%
         dplyr::mutate(nobs = n())
-      max_nobs <- max(smp$nobs)
-      smp <- as.data.frame(dplyr::select(dplyr::filter(smp, nobs == max_nobs), -nobs))
+      max_nobs <- length(levels(as.data.frame(smp[, sample_definition$var_name[sample_definition$type  == "ts_id"]])[,1]))
+      bal_smp <- as.data.frame(dplyr::select(dplyr::filter(smp, nobs == max_nobs), -nobs))
+      if (nrow(bal_smp) > 0) smp <- as.data.frame(bal_smp)
+      else {
+        uc$balanced_panel <<- FALSE
+        session$sendCustomMessage(type = 'testmessage',
+                                  message = paste("Balancing panel yields empty sample. Deselecting option."))
+
+      }
     }
 
     # Outlier treatment as requested by user
@@ -494,12 +507,12 @@ function(input, output, session) {
     # Verify that new sample does not violate any variable assignments in app
     create_var_categories(sample_definition)
     isolate(check_vars())
+    smp <- droplevels(smp)
 
-    if (DEBUG) message(do.call(tictoc::toc.outmsg, tictoc::toc(quiet = TRUE)))
-    if (DEBUG) stored_as <<- droplevels(smp)
+    if (DEBUG) current_as <<- smp
+    if (DEBUG) current_sd <<- sample_definition
 
-
-    return(droplevels(smp))
+    return(smp)
   })
 
   observeEvent(input$udv_submit, {
@@ -587,16 +600,13 @@ function(input, output, session) {
     if (check_ids(ca_sample, input$cs_id, input$ts_id)) {
       if (length(ca_variable$var_name[ca_variable$type == "cs_id"]) > 0) {
         df <- ca_sample[,which(ca_variable$type %in% c("cs_id", "ts_id")) + 1]
-        if(DEBUG) print(names(df))
         for (i in 1:ncol(df)) {
           if(is.numeric(df[,i])) ca_variable$type[ca_variable$var_name == colnames(df[i])] <<- "numeric"
           else if(is.logical(df[,i])) ca_variable$type[ca_variable$var_name == colnames(df[i])] <<- "logical"
           else ca_variable$type[ca_variable$var_name == colnames(df[i])] <<- "factor"
         }
-        if(DEBUG) print(ca_variable)
       }
       ca_variable <<- add_ids(ca_variable, ca_variable$ds_id[1], input$cs_id, input$ts_id)
-      if(DEBUG) print(ca_variable)
       if (check_whether_data_is_valid(ca_variable)) {
         app_config <<- create_config(ca_sample, ca_variable, ca_variable$ds_id[1])
         # force invalidation... let's see whether this is sufficient. Looks like it.
@@ -716,7 +726,6 @@ function(input, output, session) {
 
   output$ui_select_ids <- renderUI({
     req(uc$sample)
-    if (DEBUG) print(exists("ca_variable"))
     tagList(selectInput("cs_id", "Select cross sectional identifier(s)",
                         ca_variable$var_name, multiple = TRUE,
                         selected = {if(exists("ca_variable")) ca_variable$var_name[ca_variable$type == "cs_id"] else NULL}),

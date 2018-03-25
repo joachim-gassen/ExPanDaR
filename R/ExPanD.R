@@ -154,17 +154,19 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
       }
       if (!is.null(df_def)) {
         for(i in 1: length(names_df)) {
+          df_def[[i]][1:3] <- lapply(df_def[[i]][1:3], as.character)
           if(!identical(names_df[[i]], df_def[[i]]$var_name)) stop ("Provided data definitions have different variable names than data frames")
         }
       } else {
-        if (! ts_id %in% names_df[[1]]) stop ("Time sectional identifier not included in data frames.")
+        if (! ts_id %in% names_df[[1]]) stop ("Time series identifier not included in data frames.")
         if (! all(cs_id %in% names_df[[1]])) stop ("Cross sectional identifier(s) not all included in data frames.")
       }
     } else {
       if (!is.null(df_def)) {
+        df_def[1:3] <- lapply(df_def[1:3], as.character)
         if(!identical(names(df), df_def$var_name)) stop ("Provided data definitions have different variable names than data frame")
       } else {
-        if (! ts_id %in% names(df)) stop ("Time sectional identifier not included in data frame.")
+        if (! ts_id %in% names(df)) stop ("Time series identifier not included in data frame.")
         if (! all(ts_id %in% names(df))) stop ("Cross sectional identifier(s) not all included in data frame.")
       }
     }
@@ -190,6 +192,7 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
                  "ext_obs", "trend_graph", "quantile_trend_graph", "corrplot",
                  "scatter_plot", "regression")
   if (is.null(names(components))) names(components) <- comp_names
+  if(!is.null(var_def)) var_def[1:3] <- lapply(var_def[1:3], as.character)
   shiny_df <- df
   shiny_cs_id <- cs_id
   shiny_ts_id <- ts_id

@@ -94,7 +94,7 @@ load_sample <- function(df, id, description) {
   s <- data.frame(ds_id = id, df)
   v <- data.frame(
     ds_id = id,
-    var_name = names(df),
+    var_name = names(s)[2:length(s)],
     var_def = "",
     stringsAsFactors = FALSE
   )
@@ -130,7 +130,7 @@ create_config <- function(s, v, ds_id) {
     udvars = NULL,
     delvars = NULL,
     bar_chart_var1 = v$var_name[v$ds_id == ds_id & v$type == "ts_id"],
-    bar_chart_var2 = select_factor(s[s$ds_id == ds_id, v$var_name[v$ds_id == ds_id & (v$type != "cs_id" | v$type != "ts_id")], drop = FALSE]),
+    bar_chart_var2 = select_factor(s[s$ds_id == ds_id, v$var_name[v$ds_id == ds_id & v$type != "cs_id" & v$type != "ts_id"], drop = FALSE]),
     bar_chart_group_by = "All",
     bar_chart_relative = FALSE,
     missing_values_group_by = "All",

@@ -260,9 +260,9 @@ function(input, output, session) {
     if (simple_call_mode) {
       ca_sample <- s
       ca_variable <- v
-      cs_id
     } else {
-      base_data <- s[order(s$ds_id, s[,cs_id], s[,ts_id]),]
+      order_cols <- c("ds_id", cs_id, ts_id)
+      base_data <- s %>% arrange_(.dots = order_cols)
       base_variable <- v
 
       code <- paste0("base_data %>% group_by(ds_id, ",

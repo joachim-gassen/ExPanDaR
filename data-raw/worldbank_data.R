@@ -15,7 +15,7 @@ refresh <- TRUE
 pull_worldbank_data <- function() {
   new_cache <- wbcache()
   all_vars <- as.character(unique(new_cache$indicators$indicatorID))
-  vars <- c("SP.POP.TOTL", "NY.GDP.MKTP.CD", "SP.DYN.LE00.IN",
+  vars <- c("SP.POP.TOTL", "NY.GDP.MKTP.CD", "NY.GDP.MKTP.KD", "SP.DYN.LE00.IN",
             "SP.POP.BRTH.MF", "SI.POV.GINI", "SI.DST.10TH.10",
             "SI.DST.FRST.10", "SH.XPD.TOTL.ZS", "SH.XPD.PUBL.ZS",
             "SH.XPD.PRIV.ZS", "SP.URB.TOTL.IN.ZS", "SL.EMP.TOTL.SP.ZS",
@@ -28,8 +28,8 @@ pull_worldbank_data <- function() {
             "VA.EST", "RL.EST", "PV.EST",
             "RQ.EST", "GE.EST", "CC.EST",
             "SE.ADT.LITR.ZS", "NY.GEN.SVNG.GD.ZS", "NY.GDP.PCAP.CD",
-            "NY.GDP.PCAP.KD.ZG", "NY.TAX.NIND.CD",
-            "NY.GNS.ICTR.ZS", "NY.GNP.MKTP.PC.CD", "PE.NUS.FCAE",
+            "NY.GDP.PCAP.KD", "NY.TAX.NIND.CD", "NY.GDP.PCAP.KD.ZG",
+            "NY.GNS.ICTR.ZS", "NY.GNP.PCAP.KD", "NY.GNP.PCAP.CD","PE.NUS.FCAE",
             "PA.NUS.PRVT.PP", "PA.NUS.FCRF", "NE.EXP.GNFS.ZS",
             "NE.DAB.TOTL.ZS", "NE.CON.PETC.ZS", "NE.CON.GOVT.ZS",
             "NE.TRD.GNFS.ZS", "NE.CON.TETC.ZS", "NY.GDS.TOTL.ZS",
@@ -56,7 +56,7 @@ pull_worldbank_data <- function() {
            country = country.y) %>%
     select(iso3c, iso2c, country, regionID, region, incomeID, income, everything()) %>%
     select(-iso2c.x, -country.x, -capital, -long, -lat) %>%
-    filter(!is.na(NY.GDP.MKTP.CD)) -> wb_data
+    filter(!is.na(NY.GDP.MKTP.KD)) -> wb_data
 
   wb_data_def<- left_join(data.frame(var_name = names(wb_data), stringsAsFactors = FALSE), wb_data_def)
   wb_data_def$var_def[1:8] <- c("Three letter ISO country code as used by World Bank",
@@ -93,4 +93,4 @@ if (refresh) {
 
 load("data/ExPanD_config_worldbank.RData")
 ExPanD(worldbank, df_def = worldbank_data_def, var_def = worldbank_var_def,
-       cs_id = "country", ts_id = "year", config_list = ExPanD_config_worldbank)
+       config_list = ExPanD_config_worldbank)

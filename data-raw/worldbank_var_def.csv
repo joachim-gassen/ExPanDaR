@@ -4,9 +4,9 @@ region,region,factor,0
 income,income,factor,0
 year,year,ts_id,0
 time,as.numeric(as.character(year))-1960,numeric,0
-gdp,NY.GDP.MKTP.CD,numeric,0
+gdp,NY.GDP.MKTP.KD,numeric,0
 population,SP.POP.TOTL,numeric,0
-gdp_capita,NY.GDP.PCAP.CD,numeric,0
+gdp_capita,NY.GDP.PCAP.KD,numeric,0
 extdebt_gni,DT.DOD.DECT.GN.ZS,numeric,1
 debtservice_gni,DT.TDS.DPPG.GN.ZS,numeric,1
 grossdomsavings_gdp,NY.GDS.TOTL.ZS,numeric,1

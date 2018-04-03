@@ -3,7 +3,7 @@ library(shinycssloaders)
 load("shiny_data.Rda")
 
 server_side_data <- !is.null(shiny_df)
-simple_call_mode <- is.null(shiny_var_def)
+simple_call_mode <- server_side_data & is.null(shiny_var_def)
 
 if (!server_side_data) shiny_abstract <- "Welcome to ExPanD! To start exploring panel data, please upload a panel data file. Currently supported formats are Excel, CSV, RData, RDS, STATA and SAS."
 fluidPage(

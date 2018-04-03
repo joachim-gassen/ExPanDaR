@@ -22,7 +22,7 @@ udv_definition <- NULL
 udv_sample <- NULL
 
 server_side_data <- !is.null(shiny_df)
-simple_call_mode <- is.null(shiny_var_def)
+simple_call_mode <- server_side_data & is.null(shiny_var_def)
 
 default_config <- list(
   subset_factor = "Full Sample",
@@ -174,6 +174,8 @@ function(input, output, session) {
   data_source <- NULL
   ca_sample <- NULL
   ca_variable <- NULL
+  base_data <- NULL
+  base_variable <- NULL
 
   check_whether_data_is_valid <- function(v) {
     if (length(which(v$type == "factor" | v$type == "logical")) == 0) {
@@ -329,7 +331,7 @@ function(input, output, session) {
     else type <- "factor"
     can_be_na <- TRUE
     new_def <- data.frame(var_name = udv_name, var_def = udv_def, type, can_be_na, stringsAsFactors = FALSE)
-    if (shiny_long_def) {
+    if (shiny_long_def && server_side_data && any(base_variable$var_def != "")) {
       vars <- CodeDepends::getInputs(parse(text = udv_def))@inputs
       if (length(vars) > 1) udv_defs <- c(udv_def, rep("", length(vars) - 1)) else udv_defs <- udv_def
       new_def <- paste(udv_defs, paste0(vars, ": ",
@@ -411,7 +413,7 @@ function(input, output, session) {
         else if (is.logical(udv_sample[,ncol(udv_sample)])) type <- "logical"
         else type <- "factor"
         new_def <- cbind(x[1], x[2], type, 1)
-        if (shiny_long_def) {
+        if (shiny_long_def && server_side_data && any(base_variable$var_def != "")) {
           vars <- CodeDepends::getInputs(parse(text = x[2]))@inputs
           if (length(vars) > 1) var_defs <- c(x[2], rep("", length(vars) - 1)) else var_defs <- x[2]
           var_def <- paste(var_defs, paste0(vars, ": ",
@@ -615,8 +617,19 @@ function(input, output, session) {
           else ca_variable$type[ca_variable$var_name == colnames(df[i])] <<- "factor"
         }
       }
-      ca_variable <<- add_ids(ca_variable, ca_variable$ds_id[1], input$cs_id, input$ts_id)
+
+      cs_id <- input$cs_id
+      ts_id <- input$ts_id
+      ca_variable <<- add_ids(ca_variable, ca_variable$ds_id[1], cs_id, ts_id)
       if (check_whether_data_is_valid(ca_variable)) {
+        order_cols <- c("ds_id", cs_id, ts_id)
+        ca_sample <<- as.data.frame(ca_sample %>% arrange_(.dots = order_cols))
+        base_data <<- ca_sample
+        base_variable <<- ca_variable
+        ca_variable$var_def <<- ca_variable$var_name
+        ca_variable$can_be_na <<-
+          ifelse(ca_variable$type == "cs_id" | ca_variable$type == "ts_id", FALSE, TRUE)
+
         app_config <<- create_config(ca_sample, ca_variable, ca_variable$ds_id[1])
         # force invalidation... let's see whether this is sufficient. Looks like it.
         temp <<- uc$sample
@@ -1230,7 +1243,10 @@ function(input, output, session) {
     scatter_df <- scatter_df[,varlist[!grepl("None", varlist)]]
     scatter_df <- scatter_df[complete.cases(scatter_df),]
     if (uc$scatter_color %in% lfactor$name) scatter_df[,uc$scatter_color] <- as.factor(scatter_df[,uc$scatter_color])
-    if (uc$scatter_sample & (nrow(scatter_df) > 1000)) scatter_df <- dplyr::sample_n(scatter_df, 1000)
+    if (uc$scatter_sample & (nrow(scatter_df) > 1000)) {
+      set.seed(42)
+      scatter_df <- dplyr::sample_n(scatter_df, 1000)
+    }
     scatter_color <- ifelse(uc$scatter_color == "None", "", uc$scatter_color)
     scatter_size <- ifelse(uc$scatter_size == "None", "", uc$scatter_size)
     scatter_loess <- ifelse(uc$scatter_loess, 1, 0)

@@ -15,6 +15,8 @@
 #'  \item{"1"}{loess curve with equal weights}
 #'  \item{"2"}{loess curve with weights based on \code{size} variable}
 #' }
+#' @param alpha The alpha value to be used.
+#'   If missing, it calculates a default based on the sample size
 #'
 #' @return the plot as returned by ggplot
 #'
@@ -25,13 +27,13 @@
 #' @export
 
 
-prepare_scatter_plot <- function(df, x, y, color = "", size = "", loess = 0) {
+prepare_scatter_plot <- function(df, x, y, color = "", size = "", loess = 0,
+                                 alpha = min(1,1/((1 + (max(0,log(nrow(df)) - log(100))))))) {
   color_there <- (color != "")
   size_there <- (size != "")
   vars <- c(x, y, color, size)
   vars <- vars[which(vars != "")]
   df <- df[stats::complete.cases(df[,vars]),vars]
-  alpha <- min(1,1/((1 + (max(0,log(nrow(df)) - log(1000))))))
   if (loess < 2) scatter <- ggplot2::ggplot(df, ggplot2::aes_string(x = x, y = y))
   else scatter <- ggplot2::ggplot(df, ggplot2::aes_string(x = x, y = y, weight=size))
   if (size_there & color_there) scatter <- scatter +

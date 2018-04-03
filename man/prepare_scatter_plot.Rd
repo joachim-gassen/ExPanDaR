@@ -4,7 +4,8 @@
 \alias{prepare_scatter_plot}
 \title{Prepares a Scatter Plot}
 \usage{
-prepare_scatter_plot(df, x, y, color = "", size = "", loess = 0)
+prepare_scatter_plot(df, x, y, color = "", size = "", loess = 0,
+  alpha = min(1, 1/((1 + (max(0, log(nrow(df)) - log(100)))))))
 }
 \arguments{
 \item{df}{Data frame containing at most four numerical variables}
@@ -24,6 +25,9 @@ prepare_scatter_plot(df, x, y, color = "", size = "", loess = 0)
  \item{"1"}{loess curve with equal weights}
  \item{"2"}{loess curve with weights based on \code{size} variable}
 }}
+
+\item{alpha}{The alpha value to be used.
+If missing, it calculates a default based on the sample size}
 }
 \value{
 the plot as returned by ggplot

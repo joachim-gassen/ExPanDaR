@@ -1,12 +1,12 @@
 ---
 title: "ExPanDaR: An Intro"
 author: "Joachim Gassen"
-date: "January 13, 2018"
+date: "`r Sys.Date()`"
 output: github_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.align="center", table.align="center")
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center", table.align = "center", warnings = FALSE)
 library(ExPanDaR)
 library(knitr)
 library(kableExtra)
@@ -14,38 +14,30 @@ library(kableExtra)
 
 ## Explore Panel Data with R (ExPanDaR)
 
-You are visiting the github repository of the ExPanDaR (Explore Panel Data with R) package. ExPanDaR is a small and extremly early stage R package that is being developed to provide the code base for the ExPanD web app. ExPanD is a shiny based app designed to enable users with little or no statistical programming experience to explore panel data. In addition, it serves as a front end to assess the robustness of empirical archival research work.
+You are visiting the github repository of the ExPanDaR (Explore Panel Data with R) package. ExPanDaR is an R package that is being developed to provide the code base for the ExPanD web app. ExPanD is a shiny based app designed to enable users with little or no statistical programming experience to explore panel data. In addition, it serves as a front end to assess the robustness of empirical research work.
 
 If you want to try ExPanD just run the following in your R session
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 if (!require("devtools")) {
   install.packages("devtools")
-  library("devtools")
 }
-install_github("joachim-gassen/ExPanDaR")
+devtools::install_github("joachim-gassen/ExPanDaR")
 library(ExPanDaR)
-data(russell_3000)
-ExPanD(russell_3000, c("coid", "coname"), "period", ExPanD_config_russell_3000)
+
+ExPanD(df = worldbank,  
+       df_def = worldbank_data_def, 
+       var_def = worldbank_var_def,
+       df_name = "World Bank Data",
+       config_list = ExPanD_config_worldbank)
 ````
 
-Or, if you do not like financial accounting data (who doesn't?), you can try your luck with something somewhat more intuitive.
-
-```{r eval=FALSE}
-if (!require("gapminder")) {
-  install.packages("gapminder")
-  library("gapminder")
-}
-data(gapminder)
-gapminder$year <- ordered(gapminder$year)
-ExPanD(gapminder, "country", "year")
-```
-
-Enjoy!
+If you do not want to use R and instead upload your own panel data, you can also access a hosted version of the ExPanD app [here](https://jgassen.shinyapps.io/expand/). 
+Learn more about how to use the ExPanD app by reading the vignette that comes with the ExPanDaR package. Enjoy!
 
 ## ExPanDaR Package Functions
 
-The auxiliary functions of the ExPanDaR package can also be used for rapid prototyping data analysis. The functions provided by ExPanDaR are designed to support analysis steps that are common with empirical archival research projects in the area of accounting and finance (which happens to be my field).
+The auxiliary functions of the ExPanDaR package can also be used for rapid prototyping exploratory data analysis. The functions provided by ExPanDaR are designed to support analysis steps that are common with empirical archival research projects in the area of accounting and finance (which happens to be my field).
 
 To see what ExPanDaR has to offer, let's take a quick tour.
 
@@ -54,48 +46,49 @@ To see what ExPanDaR has to offer, let's take a quick tour.
 The ExPanDaR package expects you to start with a data frame containing your panel data (meaning data with a cross-sectional dimension and something like a time dimension). However, you can also use some functions on simple cross-sectional data. ExPanDaR expects the cross-sectional identifiers to be factors and the time-series identifier to be an ordered factor. For this walk-through I will use the data set russel_3000, which comes with the package. It contains some financial reporting and capital market data of Russell 3000 firms from Google Finance and Yahoo Finance and has been collected using the tidyquant package in the summer of 2017. The data was collected to showcase the functions of ExPanDaR in its natural habitat but I would advise against using this data for scientific work. These are the variables included in the data.
 
 ``` {r variables}
-kable(data.frame(Variable=names(russell_3000), Definition=Hmisc::label(russell_3000)), row.names = FALSE) 
+kable(data.frame(Variable=russell_3000_data_def$var_name, 
+                 Definition=russell_3000_data_def$var_def), row.names = FALSE) 
 ```
 
 First, let's eyeball how frequently observations are missing in the data set.
 
 ```{r missing_obs}
-data("russell_3000")
-prepare_missing_values_graph(russell_3000, period = "period")
+prepare_missing_values_graph(russell_3000, ts_id = "period")
 ```
 
 OK. This does not look too bad. Only FY2013 seems odd, as some variables are completely missing. Guess why? They are calculated using lagged values of total assets. So, in the following, let's focus on the variables that we care about and on the fiscal years 2014 to 2016 (a short panel, I know). Time to check the descriptive statistics.
 
 ```{r descriptive_statistics_table}
-r3 <- russell_3000[russell_3000$period > "FY2013",
-                   c("coid", "coname", "period", "sector", "toas", "sales","mktcap", 
-            "eq_ta", "roe", "nioa", "cfoa", "accoa", "return")]
+r3 <- droplevels(russell_3000[russell_3000$period > "FY2013",
+                              c("coid", "coname", "period", "sector", "toas", "sales","mktcap", 
+                                "eq_ta", "roe", "nioa", "cfoa", "accoa", "return")])
 t <- prepare_descriptive_table(r3)
 t$kable_ret  %>%
   kable_styling("condensed", full_width = F, position = "center")
 ```
 
 
-Take a look at the minima and the maxima of some of the variables (e.g., return on equity (roe)). This does not look nice. One thing that comes very handy when dealing with outliers is a quick way to observe extreme values. 
+Take a look at the minima and the maxima of some of the variables (e.g., return on equity (roe)). Normally, return on equity should be around -50 % to + 50%. Our roe measures has minima and maxima that are way beyound that. One thing that comes very handy when dealing with outliers is a quick way to observe extreme values. 
 
 ```{r extreme_observations}
 t <- prepare_ext_obs_table(na.omit(r3[c("coname", "period", "roe")]))
 t$kable_ret %>%
   kable_styling("condensed", full_width = F, position = "center")
 ```
-In a real life research situation, you might want to take a break and check your data as well as the actual financial statements to see what is going on. In most cases, you will see that 
-the outliers are caused by very small denominators (lagged equity values in this case). To reduce the effect of these outliers on your analysis, you can winsorize (or truncate) them.
+In a real life research situation, you might want to take a break and check your data as well as the actual financial statements to see what is going on. 
+In most cases, you will see that the outliers are caused by very small denominators (average equity values in this case). To reduce the effect of these outliers on your analysis, you can winsorize (or truncate) them.
 
 ```{r winsorizing}
-r3win <- as.data.frame(treat_outliers(r3, percentile = 0.01))
+r3win <- treat_outliers(r3, percentile = 0.01)
 t <- prepare_ext_obs_table(na.omit(r3win[c("coname", "period", "roe")]))
 t$kable_ret %>%
   kable_styling("condensed", full_width = F, position = "center")
 ```
 
+
 ### Descriptive Statistics
 
-Still rather extreme values (Return on equity = 217 %) but let's move on and look at the winsorized descriptive statistics.
+Still rather extreme values (maximum return on equity = 218 %) but let's move on and look at the winsorized descriptive statistics.
 
 ```{r descriptive_statistics_table_winsorized}
 t <- prepare_descriptive_table(r3win)
@@ -145,14 +138,15 @@ prepare_scatter_plot(r3win, x="nioa", y="return", color="sector", size="toas", l
 And, if you happen to be a fan of starred numbers, you can also quickly produce regression tables. Both, by mixing different models...
 
 ```{r regressions}
-dvs <- list("return", "return", "return", "return", "return", "return")
+dvs <- c("return", "return", "return", "return", "return", "return")
 idvs <- list(c("nioa"), 
              c("cfoa"), 
              c("cfoa", "accoa"), 
              c("cfoa", "accoa"), 
              c("cfoa", "accoa"), 
              c("cfoa", "accoa")) 
-feffects <- list("period", "period", "period", c("period", "sector"), c("period", "coid"), c("period", "coid"))
+feffects <- list("period", "period", "period", 
+                 c("period", "sector"), c("period", "coid"), c("period", "coid"))
 clusters <- list("", "", "", "period", c("period", "sector"), c("period", "coid"))
 t <- prepare_regression_table(r3win, dvs, idvs, feffects, clusters)
 htmltools::HTML(t$table)
@@ -168,4 +162,4 @@ htmltools::HTML(t$table)
 
 ### Conclusion
 
-This is all there is (currently). All these functions are rather simple wrappers around established R functions. They can easily be modified to fit your needs and taste. Enjoy!
+This is all there is (currently). All these functions are rather simple wrappers around established R functions. They can easily be modified to fit your needs and taste. Have fun!

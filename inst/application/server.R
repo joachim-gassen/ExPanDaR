@@ -1306,6 +1306,7 @@ function(input, output, session) {
     varlist <- c(uc$reg_y, uc$reg_x, uc$reg_fe1, uc$reg_fe2, uc$reg_by)
     varlist <- varlist[!varlist %in% "None"]
     df <- create_analysis_sample()[,varlist]
+    if (uc$reg_by != "None") df[, uc$reg_by] <- as.factor(df[, uc$reg_by])
     df <- droplevels(df[complete.cases(df),])
     feffect <- ""
     if (uc$reg_fe1 != "None") {

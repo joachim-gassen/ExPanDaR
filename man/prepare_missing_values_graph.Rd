@@ -4,7 +4,7 @@
 \alias{prepare_missing_values_graph}
 \title{Prepares a Graph Displaying Missing Values in Panel Data}
 \usage{
-prepare_missing_values_graph(df, ts_id)
+prepare_missing_values_graph(df, ts_id, no_factors = FALSE)
 }
 \arguments{
 \item{df}{Data frame containing the data. Only variables containing
@@ -12,6 +12,9 @@ numerical or logical data will be used.}
 
 \item{ts_id}{A string containing the name of the variable indicating the time dimension.
 Needs to be coercible into an ordered factor.}
+
+\item{no_factors}{A logical variable indicating whether you want to limit the plot to
+logical and numerical variables. Defaults to FALSE.}
 }
 \value{
 A ggplot2 graph

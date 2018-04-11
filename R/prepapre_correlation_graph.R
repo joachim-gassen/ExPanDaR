@@ -19,6 +19,7 @@
 
 prepare_correlation_graph <- function(df) {
   if(!is.data.frame(df)) stop("df needs to be a dataframe")
+  df <- as.data.frame(df)
   df <- df[sapply(df, is.logical) | sapply(df, is.numeric)]
   if (nrow(df) < 5 | ncol(df) < 2)
     stop("'df' needs to contain at least two variables and five observations of numerical data")

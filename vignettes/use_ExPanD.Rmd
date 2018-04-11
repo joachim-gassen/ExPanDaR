@@ -81,7 +81,8 @@ in a separate column. It has one factor (`continent`)
 and three numerical variables (`lifeExp`, `pop` and `gdpPercap`). So, it complies with the above requirements.
 
 Use the file dialog to load the CSV file that `write.csv()` generated 
-(if you are not using R, you can download the CSV file [here](https://www.dropbox.com/s/ba9gkoxsdbyzh1v/gapminder.csv?dl=1)).
+(if you are not using R, you can download the CSV file 
+[here](https://github.com/joachim-gassen/ExPanDaR/raw/master/vignettes/data/gapminder.csv)).
 After uploading the file, two dialog boxes will appear asking you to select the cross-sectional identifier(s)
 and the time-series identifier.
 

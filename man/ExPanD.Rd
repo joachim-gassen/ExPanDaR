@@ -7,12 +7,12 @@
 ExPanD(df = NULL, cs_id = NULL, ts_id = NULL, df_def = NULL,
   var_def = NULL, config_list = NULL,
   title = "ExPanD - Explore panel data interactively", abstract = NULL,
-  df_name = "Data provided by argument", long_def = TRUE,
-  factor_cutoff = 10L, components = c(bar_chart = TRUE, missing_values =
-  TRUE, descriptive_table = TRUE, histogram = TRUE, ext_obs = TRUE, trend_graph
-  = TRUE, quantile_trend_graph = TRUE, corrplot = TRUE, scatter_plot = TRUE,
-  regression = TRUE), store_encrypted = FALSE,
-  key_phrase = "What a wonderful key", debug = FALSE, ...)
+  df_name = deparse(substitute(df)), long_def = TRUE, factor_cutoff = 10L,
+  components = c(bar_chart = TRUE, missing_values = TRUE, descriptive_table =
+  TRUE, histogram = TRUE, ext_obs = TRUE, trend_graph = TRUE,
+  quantile_trend_graph = TRUE, corrplot = TRUE, scatter_plot = TRUE, regression
+  = TRUE), store_encrypted = FALSE, key_phrase = "What a wonderful key",
+  debug = FALSE, ...)
 }
 \arguments{
 \item{df}{A dataframe or a list of dataframes containing the panel data that

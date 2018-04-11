@@ -77,9 +77,12 @@ estimate_model <- function(df, dl) {
 
 prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dvs)),
                                      clusters = rep("", length(dvs)), byvar = "", format = "html", drop_underscore = NULL) {
+  if(!is.data.frame(df)) stop("df needs to be a dataframe")
+  df <- as.data.frame(df)
   if (byvar != "") if(!is.factor(df[,byvar])) stop("'byvar' needs to be a factor.")
   if ((length(dvs) > 1) & byvar != "") stop("you cannot subset multiple models in one table")
-  if ((length(dvs) != length(idvs)) | (length(dvs) != length(feffects)) | (length(dvs) != length(clusters)))
+  if ((length(dvs) > 1) &&
+      ((length(dvs) != length(idvs)) | (length(dvs) != length(feffects)) | (length(dvs) != length(clusters))))
     stop("'dvs', 'idvs', 'feffects' and 'clusters' need to be of equal lenghth.")
   if (!is.null(drop_underscore)) {
     names(df) <- gsub("_", drop_underscore, names(df))

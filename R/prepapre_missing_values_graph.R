@@ -7,6 +7,9 @@
 #'   numerical or logical data will be used.
 #' @param ts_id A string containing the name of the variable indicating the time dimension.
 #'   Needs to be coercible into an ordered factor.
+#' @param no_factors A logical variable indicating whether you want to limit the plot to
+#'   logical and numerical variables. Defaults to FALSE.
+#'
 #' @return A ggplot2 graph
 #'
 #' @details
@@ -19,13 +22,21 @@
 #' prepare_missing_values_graph(df, ts_id="year")
 #' @export
 
-prepare_missing_values_graph <- function(df, ts_id) {
+prepare_missing_values_graph <- function(df, ts_id, no_factors = FALSE) {
   # Make devtools:check() and CRAN happy
   value <- NULL
   if(! is.data.frame(df)) stop("df needs to be a dataframe")
   if (! ts_id %in% names(df)) stop("'ts_id' needs to be present in data frame 'df'")
+  if (any(is.na(df[,ts_id]))) stop("'ts_id' must not contain missing values")
+  if (! is.logical(no_factors)) stop("'no_factors' needs to be a logcial scalar")
+
+  df <- as.data.frame(df)
   df[,ts_id] <- as.ordered(df[,ts_id])
-  df <- cbind(df[ts_id], df[sapply(df, is.logical) | sapply(df, is.numeric)])
+
+  if (no_factors)
+    df <- cbind(df[ts_id], df[sapply(df, is.logical) | sapply(df, is.numeric)])
+  else
+    df <- cbind(df[ts_id], df[, !(ts_id == names(df))])
 
   nas <- matrix(ncol=ncol(df) - 1, nrow=nlevels(df[,ts_id]))
   for (i in 2:ncol(df))

@@ -23,6 +23,8 @@
 
 
 prepare_ext_obs_table <- function(df, n = 5, ...) {
+  if(!is.data.frame(df)) stop("df needs to be a dataframe")
+  df <- as.data.frame(df)
   if(!is.numeric(df[,ncol(df)]))
     stop("last variable of df is not numeric")
   if (2*n > nrow(df))

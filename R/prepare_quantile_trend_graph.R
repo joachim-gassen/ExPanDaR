@@ -24,6 +24,8 @@
 #' @export
 
 prepare_quantile_trend_graph <- function(df, xvar, quantiles = c(0.05, 0.25, 0.5, 0.75, 0.95)) {
+  if(!is.data.frame(df)) stop("df needs to be a dataframe")
+  df <- as.data.frame(df)
   if(!is.numeric(xvar)) xnum <- suppressWarnings(as.numeric(as.character(df[,xvar]))) else xnum <- xvar
   if (anyNA(xnum)) {
     x_is_factor <- TRUE

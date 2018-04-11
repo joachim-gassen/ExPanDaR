@@ -31,6 +31,7 @@
 
 prepare_descriptive_table <- function(df, digits = c(0, 3, 3, 3, 3, 3, 3, 3), format = "html") {
   if(!is.data.frame(df)) stop("df needs to be a dataframe")
+  df <- as.data.frame(df)
   df <- df[sapply(df, is.logical) | sapply(df, is.numeric)]
   if ((ncol(df) < 1) | (nrow(df) < 2)) stop("insuitable data frame (does it contain numerical data?)")
   if (!is.numeric(digits) | length(digits) != 8) stop("digits vector is not numeric or has wrong length (!= 8)")

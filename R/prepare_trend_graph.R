@@ -25,6 +25,8 @@
 prepare_trend_graph <- function(df, xvar) {
   # Make devtools:check() and CRAN happy
   value <- se <- NULL
+  if(!is.data.frame(df)) stop("df needs to be a dataframe")
+  df <- as.data.frame(df)
   if(!is.numeric(xvar)) xnum <- suppressWarnings(as.numeric(as.character(df[,xvar]))) else xnum <- xvar
   if (anyNA(xnum)) {
     x_is_factor <- TRUE

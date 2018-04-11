@@ -1,0 +1,25 @@
+var_name,var_def,type,goyahoo_def
+coid,Company identifier,cs_id,symbol
+period,Fiscal year,ts_id,fyr
+coname,Company name,cs_id,company
+sector,Sector,factor,sector
+industry,Industry,factor,industry
+toas,Total assets at period end (M US-$),numeric,BS_ANN_17
+sales,Sales of the period (M US-$),numeric,IS_ANN_1
+equity,Total equity at period end (M US-$),numeric,BS_ANN_39
+debt_ta,Total debt (% total assets),numeric,BS_ANN_27/BS_ANN_17
+eq_ta,Total equity (% total assets),numeric,BS_ANN_39/BS_ANN_17
+gw_ta,Goodwill (% total assets),numeric,BS_ANN_13/BS_ANN_17
+oint_ta,Other intangible assets (% total assets),numeric,(BS_ANN_14-BS_ANN_13)/BS_ANN_17
+ppe_ta,"Property, plant and equipment (% total assets)",numeric,(BS_ANN_11+BS_ANN_12)/BS_ANN_17
+ca_ta,Current assets (% total assets),numeric,BS_ANN_10/BS_ANN_17
+cash_ta,Cash (% total assets),numeric,BS_ANN_1/BS_ANN_17
+roe,Return on equity (net income divided by average equity),numeric,"IS_ANN_25/(BS_ANN_39 + hslag(BS_ANN_39, fyr))"
+roa,Return on assets (earnings before interest and taxes divided by average equity),numeric,"IS_ANN_17/(BS_ANN_17 + hslag(BS_ANN_17, fyr))"
+nioa,Net income divided by average assets,numeric,"IS_ANN_25/(BS_ANN_17 + hslag(BS_ANN_17, fyr))"
+cfoa,Cash flow from operations divided by average assets,numeric,"CF_ANN_7/(BS_ANN_17 + hslag(BS_ANN_17, fyr))"
+accoa,Total accruals divided by average assets,numeric,"(IS_ANN_25 - CF_ANN_7)/(BS_ANN_17 + hslag(BS_ANN_17, fyr))"
+cogs_sales,Cost of goods sold divided by sales,numeric,IS_ANN_4/IS_ANN_1
+ebit_sales,Earnings before interest and taxes divided by sales,numeric,IS_ANN_17/IS_ANN_1
+ni_sales,Net income divided by sales,numeric,IS_ANN_25/IS_ANN_1
+return,Stock return of the period (%),numeric,"(adjusted - hslag(adjusted, fyr))/hslag(adjusted, fyr)"

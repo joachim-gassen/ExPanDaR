@@ -19,7 +19,7 @@ This is what ExPanD looks like:
 
 <img src="vignettes/figures/ExPanD_simple_03.png" width="90%" style="display: block; margin: auto;" />
 
-If you are interested to see what ExPanD has to offer without diving into R, click [here](https://jgassen.shinyapps.io/expand/) to explore an instance of ExPanD that hosts an international panel of financial accounting and stock returns data.
+If you are interested to see what ExPanD has to offer without diving into R, click [here](https://jgassen.shinyapps.io/expand_wb/) to explore an instance of ExPanD that hosts World Bank data or click [here](https://jgassen.shinyapps.io/expand_r3/) for a financial accounting and stock returns dataset of U.S. firms.
 
 If you want to analyze your own panel data instead, you can also access a variant of ExPanD app [here](https://jgassen.shinyapps.io/expand/) that allows user-side data uploads.
 
@@ -41,7 +41,7 @@ ExPanD(df = worldbank,
 
 To learn more about how to use the ExPanD app and its accompanying functions, read the vignettes that come with the ExPanDaR package:
 
--   [Using ExPanD for Panel Data Exploration](%22vignettes/use_ExPanD.md%22)
--   [Using the functions of the ExPanDaR package](%22vignettes/ExPanDaR-functions.md%22)
+-   [Using ExPanD for Panel Data Exploration](vignettes/use_ExPanD.md)
+-   [Using the functions of the ExPanDaR package](vignettes/ExPanDaR-functions.md)
 
 Enjoy!

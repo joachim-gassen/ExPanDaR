@@ -268,8 +268,6 @@ training_sample <- sample(nrow(russell_3000), round(.5*nrow(russell_3000)))
 test_sample <- setdiff(1:nrow(russell_3000), training_sample)
 
 ExPanD(df = list(russell_3000[training_sample, ], russell_3000[test_sample, ]),
-       cs_id = c("coid", "coname"),  
-       ts_id = "period", 
        df_def = russell_3000_data_def,
        df_name = c("Training sample", "Test sample"))
 ```
@@ -290,19 +288,19 @@ There seems to be the predicted positive association, although it is relatively 
 knitr::include_graphics("figures/ExPanD_two_samples_02.png")
 ```
 
-No robust association visible here. To test whether the two associations indeed differ, we set up a regression model using the fact that $nioa = cfoa + accoa$. This is why we can test for significant differences in the association by regressing returns on net income and accruals. If the coefficient for accruals turns out to be significantly negative, we found evidence that the association of accruals with returns is significantly weaker that the association of cash flow with accruals. In order to control for unobserved time-constant factors that drive stock market returns and that vary at the firm level, we include firm fixed effects in the analysis. The figure below shows our findings for the training sample. 
+No robust association visible here. To test whether the two associations indeed differ, we set up a regression model using the fact that $nioa = cfoa + accoa$. This is why we can test for significant differences in the association by regressing returns on net income and accruals. If the coefficient for accruals turns out to be significantly negative, we found evidence that the association of accruals with returns is significantly weaker that the association of cash flow with returns. In order to control for unobserved time-constant factors that drive stock market returns and that vary at the firm level, we include firm fixed effects in the analysis. The figure below shows our findings for the training sample. 
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
 knitr::include_graphics("figures/ExPanD_two_samples_03.png")
 ```
 
-As we discussed above, we should not base our inferences on the training sample as we used this sample to explore the data. For example, our (admittedly ad hoc) decision to winsorize the data was based on a visual inspection of the scatter plot. In a strict sense, this violates the usage of this data for testing. So, scroll up, switch the sample to the test sample and see what you find.
+We find a marginally significant coefficient for $accoa$ but, as we discussed above, we should not base our inferences on the training sample since we used this sample to explore the data. For example, our (admittedly ad hoc) decision to winsorize the data was based on a visual inspection of the scatter plot. In a strict sense, this violates the usage of this data for testing. So, scroll up, switch the sample to the test sample and see what you find.
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
 knitr::include_graphics("figures/ExPanD_two_samples_04.png")
 ```
 
-As the screenshot shows, we find only a marginally significant coefficient for $accoa$. This indicates that the predicted difference in associations is not statistically significant at conventional levels. While this might be driven by the relatively low power of the test (short panel with cross-sectional fixed effects), I encourage you to use ExPanD to explore this finding further. You will easily notice that depending on how exactly you specify your test (fixed effect structures, standard error clustering, etc.) and whether/how you cut your training and test sample, you are able to generate findings that are or are not "statistically significant at conventional levels". So, again, this use case of ExPanD demonstrates how the app can be used to assess the robustness of statistical inference.
+As the screenshot shows, we find no significant coefficient for $accoa$. This indicates that the predicted difference in associations is not statistically significant at conventional levels. While this might be driven by the relatively low power of the test (short panel with cross-sectional fixed effects), I encourage you to use ExPanD to explore this finding further. You will easily notice that depending on how exactly you specify your test (fixed effect structures, standard error clustering, etc.) and whether/how you cut your training and test sample, you are able to generate findings that are or are not "statistically significant at conventional levels". So, again, this use case of ExPanD demonstrates how the app can be used to assess the robustness of statistical inference.
 
 ## Making ExPanD available to users without provding them raw data access 
 

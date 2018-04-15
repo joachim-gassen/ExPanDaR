@@ -13,7 +13,7 @@ Description: The ExPanDaR (Explore Panel Data with R) package
     Refer to the vignettes of the package for more information on how to use ExPanD
     and/or the functions of this package. 
 License: MIT + file LICENSE
-URL: http://joachim-gassen.github.io/
+URL: https://joachim-gassen.github.io/ExPanDaR
 BugReports: https://github.com/joachim-gassen/ExPanDaR/issues
 Encoding: UTF-8
 LazyData: true

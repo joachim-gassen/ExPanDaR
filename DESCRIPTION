@@ -2,20 +2,19 @@ Package: ExPanDaR
 Type: Package
 Title: Explore Panel Data with R
 Version: 0.1.0
-Author: Joachim Gassen
-Maintainer: Joachim Gassen <gassen@wiwi.hu-berlin.de>
-Description: This package provides a set of functions for exploratory data analysis 
-    of panel data. It uses a shiny-based frontend (the "ExPanD" app) to showcase its 
-    exploration tools and standardized data structure interfaces that make it easy 
-    to use ExPanD on various datasets.
-    It allows the use of multiple samples to construct exploration and hold-out 
-    samples. In addition, it can separate base data from the analysis sample, 
-    thereby also allowing users of the ExPanD app to generate additional variables
-    interactively. A data exploration can be stored as a a list of choices using 
-    the ExPanD app.
-    The functions of this package can also be used directly in R code to support 
+Authors@R: person("Joachim", "Gassen", role = c("aut", "cre"), email = "gassen@wiwi.hu-berlin.de")
+Description: The ExPanDaR (Explore Panel Data with R) package 
+    provides a shiny-based frontend (the "ExPanD" app) and
+    a set of functions for exploratory panel data analysis. 
+    The shiny-based ExPanD app enables users to assess the robustness of empirical 
+    evidence without providing them with access to the underlying data.
+    The functions of the ExPanDaR package can also be used directly in R code to support 
     your exploratory data analysis workflow. 
+    Refer to the vignettes of the package for more information on how to use ExPanD
+    and/or the functions of this package. 
 License: MIT + file LICENSE
+URL: http://joachim-gassen.github.io/
+BugReports: https://github.com/joachim-gassen/ExPanDaR/issues
 Encoding: UTF-8
 LazyData: true
 Imports:

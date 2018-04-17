@@ -814,9 +814,10 @@ function(input, output, session) {
 
   output$ui_bar_chart <- renderUI({
     df <- create_analysis_sample()
+    if (DEBUG) message(sprintf("bar_chart_var1: %s, lts_id$name: %s", uc$bar_chart_var1, lts_id$name))
     mytags <- list(h3("Bar Chart"),
                    selectInput("bar_chart_var1", label = "Select factor to display",
-                               c(lts_id$name, lfactor$name, llogical$name),
+                               unique(c(lts_id$name, lfactor$name, llogical$name)),
                                selected = isolate(uc$bar_chart_var1)),
                    selectInput("bar_chart_var2", label = "Select additional factor to display",
                                unique(c("None", lts_id$name, lfactor$name, llogical$name)),
@@ -1007,14 +1008,14 @@ function(input, output, session) {
                   selected = isolate(uc$reg_x)),
       hr(),
       selectInput("reg_fe1", label = "Select a categorial variable as the first fixed effect",
-                  c("None", lcs_id$name, lts_id$name, lfactor$name),
+                  unique(c("None", lcs_id$name, lts_id$name, lfactor$name)),
                   selected = isolate(uc$reg_fe1)),
       selectInput("reg_fe2", label = "Select a categorial variable as the second fixed effect",
-                  c("None", lcs_id$name, lts_id$name, lfactor$name),
+                  unique(c("None", lcs_id$name, lts_id$name, lfactor$name)),
                   selected = isolate(uc$reg_fe2)),
       hr(),
       selectInput("reg_by", label = "Select a categorial variable to subset the estimated models on",
-                  c("None", lts_id$name, lfactor$name),
+                  unique(c("None", lts_id$name, lfactor$name)),
                   selected = isolate(uc$reg_by))
     )
   })

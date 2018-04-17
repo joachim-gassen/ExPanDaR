@@ -16,7 +16,7 @@ While I hope that ExPanD might be particularly helpful in the review, publicatio
 
 This is what ExPanD looks like:
 
-<img src="vignettes/figures/ExPanD_simple_03.png" width="90%" style="display: block; margin: auto;" />
+<img src="vignettes/figures/ExPanD_simple_03.jpg" width="90%" style="display: block; margin: auto;" />
 
 If you are interested to see what ExPanD has to offer without diving into R, click [here](https://jgassen.shinyapps.io/expand_wb/) to explore an instance of ExPanD that hosts World Bank data or click [here](https://jgassen.shinyapps.io/expand_r3/) for a financial accounting and stock returns dataset of U.S. firms.
 

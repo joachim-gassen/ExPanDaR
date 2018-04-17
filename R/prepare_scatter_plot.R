@@ -1,19 +1,19 @@
 #' @title Prepares a Scatter Plot
 #'
 #' @description
-#' Reads a data frame containing at most four numerical variables and prepares a scatter plot.
+#' Reads a data frame and prepares a scatter plot.
 #'
-#' @param df Data frame containing at most four numerical variables
+#' @param df Data frame containing the data
 #' @param x a string containing the column name of the x variable
-#' @param y a string containing the column name of the x variable
-#' @param size a string containing the column name of the x variable
-#' @param color a string containing the column name of the x variable
+#' @param y a string containing the column name of the y variable
+#' @param size a string containing the column name of the variable providing the size aesthetic
+#' @param color a string containing the column name of the variable providing the color aesthetic
 #'   (can be numerical or a factor)
-#' @param loess a numerical scalar string
+#' @param loess a numerical scalar
 #' \describe{
-#'  \item{"0"}{No loess curve}
-#'  \item{"1"}{loess curve with equal weights}
-#'  \item{"2"}{loess curve with weights based on \code{size} variable}
+#'  \item{0}{No loess curve}
+#'  \item{1}{loess curve with equal weights}
+#'  \item{2}{loess curve with weights based on \code{size} variable}
 #' }
 #' @param alpha The alpha value to be used.
 #'   If missing, it calculates a default based on the sample size

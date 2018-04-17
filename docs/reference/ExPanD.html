@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Explore Panal Data (ExPanD) — ExPanD • ExPanDaR</title>
+<title>Explore Panel Data (ExPanD) — ExPanD • ExPanDaR</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -25,7 +25,7 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-<meta property="og:title" content="Explore Panal Data (ExPanD) — ExPanD" />
+<meta property="og:title" content="Explore Panel Data (ExPanD) — ExPanD" />
 
 <meta property="og:description" content="A shiny based web app that uses ExPanDaR functionality for
 interactive panel data exploration" />
@@ -104,7 +104,7 @@ interactive panel data exploration" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Explore Panal Data (ExPanD)</h1>
+    <h1>Explore Panel Data (ExPanD)</h1>
     
     <div class="hidden name"><code>ExPanD.Rd</code></div>
     </div>
@@ -129,22 +129,22 @@ interactive panel data exploration</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>df</th>
-      <td><p>A dataframe or a list of dataframes containing the panel data that
+      <td><p>A data frame or a list of data frames containing the panel data that
 you want to explore. If NULL, ExPanD will start up with a file upload
 dialog.</p></td>
     </tr>
     <tr>
       <th>cs_id</th>
-      <td><p>A character vector ocontaining the names of the variables that
+      <td><p>A character vector containing the names of the variables that
 identify the cross-section in your data.
-Can only be NULL if df_def is provided instead.</p></td>
+Can only be NULL if <code>df_def</code> is provided instead.</p></td>
     </tr>
     <tr>
       <th>ts_id</th>
       <td><p>A character scalar identifing the name of
 the variable that identifies the time series in your data. The according
 variable needs to be coercible to an ordered vector.
-Can only be NULL if df_def is provided instead.</p></td>
+Can only be NULL if <code>df_def</code> is provided instead.</p></td>
     </tr>
     <tr>
       <th>df_def</th>
@@ -160,12 +160,12 @@ classes of the data. See the details section for further information.</p></td>
 variable definitions, ExPanD will use these on the provided sample(s) to
 create the analysis sample. In that case, the user gets the opportunity to
 add additional variables in the app. See the details section
-for the structure of the <code>var_def</code> dataframe. If NULL (default) than
+for the structure of the <code>var_def</code> dataframe. If NULL (default)
 the sample(s) provided by df will be used as anaylsis sample(s) directly.</p></td>
     </tr>
     <tr>
       <th>config_list</th>
-      <td><p>a list containing the startup configuraion for ExPanD to
+      <td><p>a list containing the startup configuration for ExPanD to
 display. Take a look at <code>data(ExPanD_config_russell_3000)</code> for the
 format. The easiest way to generate a config list is to customize the
 display within the app and then save the configuration locally.</p></td>
@@ -196,11 +196,11 @@ If set to FALSE only the variable definitions provided in the
     </tr>
     <tr>
       <th>factor_cutoff</th>
-      <td><p>ExPanD treats factors different from numerical variables
-as factors are available for sub-sampling data and for certain plots.
+      <td><p>ExPanD treats factors different from numerical variables.
+Factors are available for sub-sampling data and for certain plots.
 Each variable classified as such will be treated as a factor. In addition,
-ExPanD classifies all logical values and all numerical value with less or
-equal than <code>factor_cutoff</code> unique values as factor.</p></td>
+ExPanD classifies all logical values and all numerical values with less or
+equal than <code>factor_cutoff</code> unique values as a factor.</p></td>
     </tr>
     <tr>
       <th>components</th>
@@ -212,12 +212,13 @@ to be of correct length.</p></td>
       <th>store_encrypted</th>
       <td><p>Do you want the user-side saved config files to be
 encrypted? A security measure to avoid that users can inject arbitrary code
-in the config list.</p></td>
+in the config list. Probably a good idea when you are hosting sensitive data
+on a publicly available server.</p></td>
     </tr>
     <tr>
       <th>key_phrase</th>
-      <td><p>The key phrase to use for encryption. Potentially a good
-idea to change this from the default if you want to encrypt.</p></td>
+      <td><p>The key phrase to use for encryption.
+Change this from the default if you want to encrypt the config files.</p></td>
     </tr>
     <tr>
       <th>debug</th>
@@ -236,7 +237,7 @@ Probably not.</p></td>
 
     <p>If you start ExPanD without any options, it will start with an upload
 dialog so that the the user (e.g., you) can upload a data file
-for anaylsis. Supported formats are as provided
+for analysis. Supported formats are as provided
 by the <code>rio</code> package.</p>
 <p>If you provide variable defintions in <code>df_def</code> and/or <code>var_def</code>,
 ExPanD displays these as tooltips in the descriptive table of the
@@ -253,19 +254,23 @@ can generate additional variables from within the app.</p>
 <p>A <code>df_def</code> or <code>var_def</code> dataframe can contain the following
 variables</p><dl class='dl-horizontal'>
 <dt>"var_name"</dt><dd><p>Required: The names of the variables
-that are to be calculated</p></dd>
-<dt>"var_def"</dt><dd><p>Required: The code that is passed
-to the dataframe (grouped by cross-sectional units) in calls to
-<code><a href='http://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></code> as right hand side to calculate the respective
-variable. Be sure to set order_by when creating lead/lag variables</p></dd>
+that are provided by the base sample
+ar are to be calculated for the analysis sample</p></dd>
+<dt>"var_def"</dt><dd><p>Required: For a <code>var_def</code> data frame,
+the code that is passed to the data frame
+(grouped by cross-sectional units) in calls to
+<code><a href='http://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></code> as right hand side
+to calculate the respective variable.
+For a <code>data_def</code> data frame, a string
+describing the nature of the variable.</p></dd>
 <dt>"type"</dt><dd><p>Required: One of the strings "cs_id", "ts_id", "factor",
-"logical" or "numeric" indicating the type of the variable. Please note that
+"logical" or "numeric", indicating the type of the variable. Please note that
 at least one variable has to be assigned as a cross-sectional identifier
-("cs_id") and exactly one variable which is coercible into an ordered factor
+("cs_id") and exactly one variable that is coercible into an ordered factor
 has to be assigned as the time-series identifier ("ts_id").</p></dd>
 <dt>"can_be_na"</dt><dd><p>Optional: If included,
 then all variables with this value set to FALSE are required to be non
-missing in the dataset. This reduces the number of observations. If missing,
+missing in the data set. This reduces the number of observations. If missing,
 it defaults to being TRUE for all variables other than cs_id and ts_id.</p></dd> </dl>
     
 

@@ -10,22 +10,23 @@
 #'   or logical and at least two observations.
 #' @param digits Number of decimal digits that you want to be displayed for each
 #'   column. If you provide NA, then the column is ommited from the output.
-#' @param format character scalar that is handed over to knitr::kabel
+#' @param format character scalar that is handed over to \code{\link[knitr]{kable}}
 #'   (e.g., "html" or "latex").
 #' @return A list containing two items.
 #' \describe{
-#'  \item{"df"}{A data frame containg the descriptive table}
-#'  \item{"kable_ret"}{The return value provided by kable() containing the formatted table}
+#'  \item{"df"}{A data frame containing the descriptive table}
+#'  \item{"kable_ret"}{The return value provided by \code{\link[knitr]{kable}} containing the formatted table}
 #' }
 #'
 #'
 #' @details
 #' The \code{digits} parameter from \code{prepare_descriptive_table()} uses the default method of
-#'   kable() to format numbers, calling \code{round()}. This implies that trailing zeroes are
+#'   \code{\link[knitr]{kable}} to format numbers, calling \code{\link{round}}. This implies that trailing zeroes are
 #'   just ommitted.
 #'
 #' @examples
-#' prepare_descriptive_table(mtcars)$kable_ret
+#' t <- prepare_descriptive_table(mtcars)
+#' t$df
 #' @export
 
 

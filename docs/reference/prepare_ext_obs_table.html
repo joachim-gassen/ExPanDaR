@@ -130,80 +130,37 @@ interest. Most likely it will also contain the variables identifying an observat
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional parameters that are passed to <code><a href='http://www.rdocumentation.org/packages/knitr/topics/kable'>knitr::kable()</a></code>.</p></td>
+      <td><p>Additional parameters that are passed to <code><a href='http://www.rdocumentation.org/packages/knitr/topics/kable'>kable</a></code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list containing two items:</p><dl class='dl-horizontal'>
- <dt>"df"</dt><dd><p>A data frame containg the top/bottom n observations</p></dd>
- <dt>"kable_ret"</dt><dd><p>The return value provided by <code><a href='http://www.rdocumentation.org/packages/knitr/topics/kable'>knitr::kable()</a></code> containing the formatted table</p></dd>
+ <dt>"df"</dt><dd><p>A data frame containing the top/bottom n observations</p></dd>
+ <dt>"kable_ret"</dt><dd><p>The return value provided by <code><a href='http://www.rdocumentation.org/packages/knitr/topics/kable'>kable</a></code> containing the formatted table</p></dd>
 </dl>
 
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The default parameters for calling <code><a href='http://www.rdocumentation.org/packages/knitr/topics/kable'>knitr::kable</a></code>,
+    <p>The default parameters for calling <code><a href='http://www.rdocumentation.org/packages/knitr/topics/kable'>kable</a></code>,
   are <code>format = "html", digits = 3, format.args = list(big.mark = ','), row.names = FALSE</code>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>t</span> <span class='kw'>&lt;-</span> <span class='fu'>prepare_ext_obs_table</span>(<span class='fu'>data.frame</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>rownames</span>(<span class='no'>mtcars</span>), <span class='kw'>hp</span> <span class='kw'>=</span> <span class='no'>mtcars</span>$<span class='no'>hp</span>))
-<span class='no'>t</span>$<span class='no'>kable_ret</span></div><div class='output co'>#&gt; &lt;table&gt;
-#&gt;  &lt;thead&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;th style="text-align:left;"&gt; name &lt;/th&gt;
-#&gt;    &lt;th style="text-align:right;"&gt; hp &lt;/th&gt;
-#&gt;   &lt;/tr&gt;
-#&gt;  &lt;/thead&gt;
-#&gt; &lt;tbody&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;td style="text-align:left;"&gt; Maserati Bora &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 335 &lt;/td&gt;
-#&gt;   &lt;/tr&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;td style="text-align:left;"&gt; Ford Pantera L &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 264 &lt;/td&gt;
-#&gt;   &lt;/tr&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;td style="text-align:left;"&gt; Duster 360 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 245 &lt;/td&gt;
-#&gt;   &lt;/tr&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;td style="text-align:left;"&gt; Camaro Z28 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 245 &lt;/td&gt;
-#&gt;   &lt;/tr&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;td style="text-align:left;"&gt; Chrysler Imperial &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 230 &lt;/td&gt;
-#&gt;   &lt;/tr&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;td style="text-align:left;"&gt; ... &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; ... &lt;/td&gt;
-#&gt;   &lt;/tr&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;td style="text-align:left;"&gt; Fiat 128 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 66 &lt;/td&gt;
-#&gt;   &lt;/tr&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;td style="text-align:left;"&gt; Fiat X1-9 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 66 &lt;/td&gt;
-#&gt;   &lt;/tr&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;td style="text-align:left;"&gt; Toyota Corolla &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 65 &lt;/td&gt;
-#&gt;   &lt;/tr&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;td style="text-align:left;"&gt; Merc 240D &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 62 &lt;/td&gt;
-#&gt;   &lt;/tr&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;td style="text-align:left;"&gt; Honda Civic &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 52 &lt;/td&gt;
-#&gt;   &lt;/tr&gt;
-#&gt; &lt;/tbody&gt;
-#&gt; &lt;/table&gt;</div></pre>
+<span class='no'>t</span>$<span class='no'>df</span></div><div class='output co'>#&gt;                 name  hp
+#&gt; 31     Maserati Bora 335
+#&gt; 29    Ford Pantera L 264
+#&gt; 7         Duster 360 245
+#&gt; 24        Camaro Z28 245
+#&gt; 17 Chrysler Imperial 230
+#&gt; 18          Fiat 128  66
+#&gt; 26         Fiat X1-9  66
+#&gt; 20    Toyota Corolla  65
+#&gt; 8          Merc 240D  62
+#&gt; 19       Honda Civic  52</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

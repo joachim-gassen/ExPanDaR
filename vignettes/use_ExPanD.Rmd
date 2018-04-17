@@ -57,7 +57,7 @@ Alternatively, you can simply access the online hosted version of the ExPanD app
 After starting ExPanD, you will be greeted with a bare bones file upload dialog.
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
-knitr::include_graphics("figures/ExPanD_file_01.png")
+knitr::include_graphics("figures/ExPanD_file_01.jpg")
 ```
 
 Now you need a file to explore. Feel free to use whatever you want but for our first use case 
@@ -87,7 +87,7 @@ After uploading the file, two dialog boxes will appear asking you to select the 
 and the time-series identifier.
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
-knitr::include_graphics("figures/ExPanD_file_02.png")
+knitr::include_graphics("figures/ExPanD_file_02.jpg")
 ```
 
 Select `country` as the cross-sectional identifier and `year` as the time-series identifier. ExPanD will now process
@@ -112,7 +112,7 @@ ExPanD(df = gapminder, cs_id = "country", ts_id = "year")
 Regardless whether you uploaded the gapminder data via the file dialog or specified the data frame in the `ExPanD()` function call, the ExPanD shiny app will start up and look like this.
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
-knitr::include_graphics("figures/ExPanD_simple_01.png")
+knitr::include_graphics("figures/ExPanD_simple_01.jpg")
 ```
 
 As can be seen by the bar chart, the gapminder dataset provides a balanced panel of `r length(unique(gapminder$country))` countries with `r length(unique(gapminder$year))` observations per country. The missing values graph shows no missing data across all variables. When you scroll down, you will see that the dataset contains three numerical variables. Play around with the histogram and the extreme observation table to learn more about these. The time trend graph and the quantile time trend communicate good news: the life expectancy is increasing over time world-wide. You can verify that the same holds true for the population of the sample countries and for their GDP per capita. You will also notice that for the latter two the cross-country distribution widens over time.
@@ -122,13 +122,13 @@ The gapminder dataset is often used to document the strong positive association 
 The scatter plot and the regression analysis section allow you to explore this association in a little bit more detail. Below you will see a screenshot where I prepared a "Hans Rosling" scatter plot (click [here](https://www.ted.com/talks/hans_rosling_shows_the_best_stats_you_ve_ever_seen) if you do not know the name). In addition, I estimated a by region OLS model with country fixed effects and standard errors clustered by country to verify that the association is not just driven by unobservable time-constant country heterogeneity.
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
-knitr::include_graphics("figures/ExPanD_simple_02.png")
+knitr::include_graphics("figures/ExPanD_simple_02.jpg")
 ```
 
 Looking at the scatter plot you notice that there are some observations with extremely high GDP per capita that trigger the LOESS smoother line to get a negative slope. If you hover over the dots with your mouse you will see that these are observations from Kuwait. To what extent are our regression results affected by these extreme observations? To figure this out, scroll up and select to winsorize your data at the 1 % level. After doing this, the figure from above now looks like this.
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
-knitr::include_graphics("figures/ExPanD_simple_03.png")
+knitr::include_graphics("figures/ExPanD_simple_03.jpg")
 ```
 
 The association has become more robust across regions and the scatter plot now shows a positive association across the complete range of winsorized GDP per capita.
@@ -177,13 +177,13 @@ ExPanD(df = worldbank,
 What you will see is a similar analysis to the gapminder analysis of the first use case but with a more extensive dataset. The scatter plot and the regression analysis are displayed below.
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
-knitr::include_graphics("figures/ExPanD_worldbank_01.png")
+knitr::include_graphics("figures/ExPanD_worldbank_01.jpg")
 ```
 
 It shows a positive association of GDP per capita with life expectancy after controlling for public spending on health and income inequality (which happens to be negatively associated with life expectancy). As you see from the table, the number of observations is 1,068. How does this reconcile with the roughly 8,500 observations that the World Bank sample has data for? A quick look at the missing values graph below helps to understand the issue.
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
-knitr::include_graphics("figures/ExPanD_worldbank_02.png")
+knitr::include_graphics("figures/ExPanD_worldbank_02.jpg")
 ```
 
 While `gdp_capita` is available for all observations (remember the `can_be_na` variable in the data definition data frame?) and `life_expectancy` has good coverage for all but the most recent years, both `pubspend_health_gdp` and `giniindex` are only available for later years in the sample. `giniindex` is also only available for a subset of countries. Taken together, this drastically reduces the sample size of the regression model. Explore whether this has an effect on the documented associations by excluding and including the test variables one-by-one. You will see that the associations are reasonable robust.
@@ -191,31 +191,31 @@ While `gdp_capita` is available for all observations (remember the `can_be_na` v
 Now let's see whether the distributional properties of the main independent variable of interest have an impact on the association. The screenshot below displays the histogram of `gdp_capita`.
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
-knitr::include_graphics("figures/ExPanD_worldbank_03.png")
+knitr::include_graphics("figures/ExPanD_worldbank_03.jpg")
 ```
 
 This looks like a log-normal distributed variable, so a log transformation should yield a more normally distributed variable. To calculate a logged variant of `gdp_capita` we first need to find which World Bank data item `gdp_capita` is based on. Hovering with your mouse over the variable name in the descriptive sample, you will see that it is based on the data item `NY.GDP.PCP.KD`. When you switch the tab of the descriptive statistics to the base sample, you can see all 72 base data items that the `worldbank` dataset contains. Use the dialog above the descriptive statistics as shown below to calculate a log-transformed measure of GDP per capita.
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
-knitr::include_graphics("figures/ExPanD_worldbank_04.png")
+knitr::include_graphics("figures/ExPanD_worldbank_04.jpg")
 ```
 
 You will see a message window that your variable was successfully generated. How does its histogram look like?
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
-knitr::include_graphics("figures/ExPanD_worldbank_05.png")
+knitr::include_graphics("figures/ExPanD_worldbank_05.jpg")
 ```
 
 Better. Now let's see how this new variable is associated with life expectancy. First a quick look at the scatter plot.
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
-knitr::include_graphics("figures/ExPanD_worldbank_06.png")
+knitr::include_graphics("figures/ExPanD_worldbank_06.jpg")
 ```
 
 Now this looks different than the gapminder plot in the section above as it exhibits a more linear association. Let's see how our regression model looks like when use `log_gdp_capita` instead of `gdp_capita`.
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
-knitr::include_graphics("figures/ExPanD_worldbank_07.png")
+knitr::include_graphics("figures/ExPanD_worldbank_07.jpg")
 ```
 
 The logged version of GDP per capita remains robustly positively associated with life expectancy but now income inequality (as measured by `giniindex`) is only marginally associated with life expectancy.
@@ -223,13 +223,13 @@ The logged version of GDP per capita remains robustly positively associated with
 Another thing that one can notice from the scatter plot above is that each country appears to be on its own "trajectory" in terms of life expectancy development. As we also know that in most countries and periods GDP per capita increases over time: Can we be sure that the association of GDP per capita and life expectancy is different from a general time trend in the data? Below, you will find a scatter plot that uses `time` as the independent variable.
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
-knitr::include_graphics("figures/ExPanD_worldbank_08.png")
+knitr::include_graphics("figures/ExPanD_worldbank_08.jpg")
 ```
 
 You can see that for most countries, life expectancy seems to follow a robust and similar linear time trend. There are some exceptions from this rule (China, Mali, Rwanda, Sierra Leone). To infer whether our association "survives" a control for time-induced variance in life expectancy that is stable across countries, we estimate a regression model that includes country and year fixed effects. See below.
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
-knitr::include_graphics("figures/ExPanD_worldbank_09.png")
+knitr::include_graphics("figures/ExPanD_worldbank_09.jpg")
 ```
 
 All associations are gone. Fun fact: When you replace `lag_gdp_capita` with `gdp_capita` you will see that it's coefficient even turns significantly negative meaning that increasing GDP per capita is associated with a decrease in life expectancy!
@@ -279,25 +279,25 @@ Where do the variable definitions come from? When you take a look at the `ExPanD
 The variables that we are interested in are `return` (the annual stock market return and our dependent variable), `nioa` (net income, deflated by average total assets), `cfoa` (cash flow from operations, deflated by average total assets) and `accoa` (total accruals, deflated by average total assets). To explore their level of association, I suggest that you start with analyzing the scatter plot of cash flow and returns. You will notice that, again, extreme observations are relatively influential. Limit their influence by winsorizing to the 1 % and 99 % percentile. After doing that, you will get an image that looks like the screenshot below.
  
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
-knitr::include_graphics("figures/ExPanD_two_samples_01.png")
+knitr::include_graphics("figures/ExPanD_two_samples_01.jpg")
 ```
 
 There seems to be the predicted positive association, although it is relatively weak and mostly confined to positive cash flows. Let's see how the association looks like for accruals in the picture below.
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
-knitr::include_graphics("figures/ExPanD_two_samples_02.png")
+knitr::include_graphics("figures/ExPanD_two_samples_02.jpg")
 ```
 
 No robust association visible here. To test whether the two associations indeed differ, we set up a regression model using the fact that $nioa = cfoa + accoa$. This is why we can test for significant differences in the association by regressing returns on net income and accruals. If the coefficient for accruals turns out to be significantly negative, we found evidence that the association of accruals with returns is significantly weaker that the association of cash flow with returns. In order to control for unobserved time-constant factors that drive stock market returns and that vary at the firm level, we include firm fixed effects in the analysis. The figure below shows our findings for the training sample. 
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
-knitr::include_graphics("figures/ExPanD_two_samples_03.png")
+knitr::include_graphics("figures/ExPanD_two_samples_03.jpg")
 ```
 
 We find a marginally significant coefficient for $accoa$ but, as we discussed above, we should not base our inferences on the training sample since we used this sample to explore the data. For example, our (admittedly ad hoc) decision to winsorize the data was based on a visual inspection of the scatter plot. In a strict sense, this violates the usage of this data for testing. So, scroll up, switch the sample to the test sample and see what you find.
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
-knitr::include_graphics("figures/ExPanD_two_samples_04.png")
+knitr::include_graphics("figures/ExPanD_two_samples_04.jpg")
 ```
 
 As the screenshot shows, we find no significant coefficient for $accoa$. This indicates that the predicted difference in associations is not statistically significant at conventional levels. While this might be driven by the relatively low power of the test (short panel with cross-sectional fixed effects), I encourage you to use ExPanD to explore this finding further. You will easily notice that depending on how exactly you specify your test (fixed effect structures, standard error clustering, etc.) and whether/how you cut your training and test sample, you are able to generate findings that are or are not "statistically significant at conventional levels". So, again, this use case of ExPanD demonstrates how the app can be used to assess the robustness of statistical inference.

@@ -119,8 +119,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>df</th>
-      <td><p>Data frame containing the data. Only variables containing
-numerical or logical data will be used.</p></td>
+      <td><p>Data frame containing the data.</p></td>
     </tr>
     <tr>
       <th>ts_id</th>
@@ -136,17 +135,17 @@ logical and numerical variables. Defaults to FALSE.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A ggplot2 graph</p>
+    <p>A ggplot2 plot.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This was inspireed by a blog post of Rense Nieuenhuis. Thanks!
-  http://www.rensenieuwenhuis.nl/r-sessions-30-visualizing-missing-values/</p>
+    <p>This was inspired by a
+  <a href='http://www.rensenieuwenhuis.nl/r-sessions-30-visualizing-missing-values/'>blog post of Rense Nieuenhuis</a>.
+  Thanks!</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fu'>as.ordered</span>(<span class='fu'>floor</span>(<span class='fu'>time</span>(<span class='no'>EuStockMarkets</span>))), <span class='no'>EuStockMarkets</span>)
-<span class='no'>ts_id</span> <span class='kw'>&lt;-</span> <span class='st'>"year"</span>
 <span class='fu'>prepare_missing_values_graph</span>(<span class='no'>df</span>, <span class='kw'>ts_id</span><span class='kw'>=</span><span class='st'>"year"</span>)</div><div class='img'><img src='prepare_missing_values_graph-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

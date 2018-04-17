@@ -6,7 +6,7 @@
 \title{A Snapshot of Macroeconomic Data as Provided by the World Bank API (1960 - 2016)}
 \format{An object of class \code{"data.frame"}.}
 \source{
-Has been collected using the \link[wbstats]{wb} function
+Has been collected using the \code{\link[wbstats]{wb}} function
  from the World Bank API in March 2018.
  The code to generate this data is available in the
  \href{https://github.com/joachim-gassen/ExPanDaR}{github repository} of this package.

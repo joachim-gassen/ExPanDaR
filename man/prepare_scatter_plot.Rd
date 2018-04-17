@@ -8,22 +8,22 @@ prepare_scatter_plot(df, x, y, color = "", size = "", loess = 0,
   alpha = min(1, 1/((1 + (max(0, log(nrow(df)) - log(100)))))))
 }
 \arguments{
-\item{df}{Data frame containing at most four numerical variables}
+\item{df}{Data frame containing the data}
 
 \item{x}{a string containing the column name of the x variable}
 
-\item{y}{a string containing the column name of the x variable}
+\item{y}{a string containing the column name of the y variable}
 
-\item{color}{a string containing the column name of the x variable
+\item{color}{a string containing the column name of the variable providing the color aesthetic
 (can be numerical or a factor)}
 
-\item{size}{a string containing the column name of the x variable}
+\item{size}{a string containing the column name of the variable providing the size aesthetic}
 
-\item{loess}{a numerical scalar string
+\item{loess}{a numerical scalar
 \describe{
- \item{"0"}{No loess curve}
- \item{"1"}{loess curve with equal weights}
- \item{"2"}{loess curve with weights based on \code{size} variable}
+ \item{0}{No loess curve}
+ \item{1}{loess curve with equal weights}
+ \item{2}{loess curve with weights based on \code{size} variable}
 }}
 
 \item{alpha}{The alpha value to be used.
@@ -33,7 +33,7 @@ If missing, it calculates a default based on the sample size}
 the plot as returned by ggplot
 }
 \description{
-Reads a data frame containing at most four numerical variables and prepares a scatter plot.
+Reads a data frame and prepares a scatter plot.
 }
 \examples{
 df <- data.frame(year = floor(stats::time(datasets::EuStockMarkets)),

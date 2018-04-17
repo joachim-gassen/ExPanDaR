@@ -10,7 +10,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="jquery.sticky-kit.min.js"></script><script src="pkgdown.js"></script><meta property="og:title" content="Explore Panel Data with R">
-<meta property="og:description" content="The ExPanDaR (Explore Panel Data with R) package
+<meta property="og:description" content="The ExPanDaR (Explore Panel Data with R) package 
     provides a shiny-based frontend (the " expand app and a set of functions for exploratory panel data analysis. the shiny-based enables users to assess robustness empirical evidence without providing them with access underlying data. expandar package can also be used directly in r code support your analysis workflow. refer vignettes more information on how use this package.>
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -39,7 +39,7 @@
 <li>
   <a href="index.html">
     <span class="fa fa-home fa-lg"></span>
-
+     
   </a>
 </li>
 <li>
@@ -48,7 +48,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Articles
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -69,13 +69,13 @@
 </div>
 <!--/.navbar -->
 
-
+      
       </header><div class="row">
   <div class="col-md-9 contents">
+    
 
-
-
-
+    
+    
 
 <p>You are visiting the github repository of the ExPanDaR (Explore Panel Data with R) package. I develop ExPanDaR to provide the code base for the ExPanD web app. ExPanD is a shiny based app supporting interactive exploratory data analysis.</p>
 <p>I designed ExPanD for two purposes:</p>
@@ -85,7 +85,7 @@
 </ul>
 <p>While I hope that ExPanD might be particularly helpful in the review, publication and replication process I also think that it is convenient for typical exploratory data analysis workflows. In addition, it has already proven to be helpful in the classroom.</p>
 <p>This is what ExPanD looks like:</p>
-<p><img src="articles/figures/ExPanD_simple_03.png" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="articles/figures/ExPanD_simple_03.jpg" width="90%" style="display: block; margin: auto;"></p>
 <p>If you are interested to see what ExPanD has to offer without diving into R, click <a href="https://jgassen.shinyapps.io/expand_wb/">here</a> to explore an instance of ExPanD that hosts World Bank data or click <a href="https://jgassen.shinyapps.io/expand_r3/">here</a> for a financial accounting and stock returns dataset of U.S. firms.</p>
 <p>If you want to analyze your own panel data instead, you can also access a variant of ExPanD app <a href="https://jgassen.shinyapps.io/expand/">here</a> that allows user-side data uploads. No worries: Your data won’t be stored on the server and will get erased from memory as soon as you close the web connection.</p>
 <p>Finally, if you are in for the full treat and want to test ExPanD from within R, run the following in your R session to start exploring World Bank data.</p>
@@ -95,16 +95,12 @@
 devtools::<span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"joachim-gassen/ExPanDaR"</span>)
 <span class="kw">library</span>(ExPanDaR)
 
-<span class="kw"><a href="reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> worldbank,
-       <span class="dt">df_def =</span> worldbank_data_def,
+<span class="kw"><a href="reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> worldbank,  
+       <span class="dt">df_def =</span> worldbank_data_def, 
        <span class="dt">var_def =</span> worldbank_var_def,
        <span class="dt">df_name =</span> <span class="st">"World Bank Data"</span>,
        <span class="dt">config_list =</span> ExPanD_config_worldbank)</code></pre></div>
-<p>To learn more about how to use the ExPanD app and its accompanying functions, read the vignettes that come with the ExPanDaR package:</p>
-<ul>
-<li><a href="articles/use_ExPanD.html">Using ExPanD for Panel Data Exploration</a></li>
-<li><a href="articles/ExPanDaR-functions.html">Using the functions of the ExPanDaR package</a></li>
-</ul>
+<p>For further information, please refer to the articles and function call references of the package documentation, available <a href="https://joachim-gassen.github.io/ExPanDaR">here</a>.</p>
 <p>Enjoy!</p>
   </div>
 
@@ -112,7 +108,7 @@ devtools::<span class="kw"><a href="http://www.rdocumentation.org/packages/devto
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Report a bug at <br><a href="https://github.com/joachim-gassen/ExPanDaR/issues">https://github.com/joachim-gassen/ExPanDaR/issues</a>
+<li>Report a bug at <br><a href="https://github.com/joachim-gassen/ExPanDaR/issues">https://​github.com/​joachim-gassen/​ExPanDaR/​issues</a>
 </li>
 </ul>
 </div>
@@ -154,7 +150,7 @@ devtools::<span class="kw"><a href="http://www.rdocumentation.org/packages/devto
       </footer>
 </div>
 
-
+  
 
   </body>
 </html>

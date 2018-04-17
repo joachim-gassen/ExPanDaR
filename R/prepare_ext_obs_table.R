@@ -6,19 +6,19 @@
 #' @param df Data frame containing at least one variable that is numeric as variable of
 #'   interest. Most likely it will also contain the variables identifying an observation.
 #' @param n The number of top/bottom observations that you want to report.
-#' @param ... Additional parameters that are passed to \code{knitr::kable()}.
+#' @param ... Additional parameters that are passed to \code{\link[knitr]{kable}}.
 #' @return A list containing two items:
 #' \describe{
-#'  \item{"df"}{A data frame containg the top/bottom n observations}
-#'  \item{"kable_ret"}{The return value provided by \code{knitr::kable()} containing the formatted table}
+#'  \item{"df"}{A data frame containing the top/bottom n observations}
+#'  \item{"kable_ret"}{The return value provided by \code{\link[knitr]{kable}} containing the formatted table}
 #' }
 #'
-#' @details The default parameters for calling \code{knitr::kable},
+#' @details The default parameters for calling \code{\link[knitr]{kable}},
 #'   are \code{format = "html", digits = 3, format.args = list(big.mark = ','), row.names = FALSE}.
 #'
 #' @examples
 #' t <- prepare_ext_obs_table(data.frame(name = rownames(mtcars), hp = mtcars$hp))
-#' t$kable_ret
+#' t$df
 #' @export
 
 

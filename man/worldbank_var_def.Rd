@@ -3,13 +3,13 @@
 \docType{data}
 \name{worldbank_var_def}
 \alias{worldbank_var_def}
-\title{Variable Definitions to Construct Analysis Sample Based on \code{worldbank} Data Set}
+\title{Variable Definitions to Construct an Analysis Sample Based on the \code{worldbank} Data Set}
 \format{An object of class \code{"data.frame"}.}
 \usage{
 data(worldbank_var_def)
 }
 \description{
-A data frame containing variable definitions that can be passed to \link{ExPanD}
+A data frame containing variable definitions that can be passed to \code{\link{ExPanD}}
 via the var_def parameter.
 }
 \examples{

@@ -29,7 +29,7 @@ If provided, the resulting vector must not contain NAs and needs to be such so t
 }
 \value{
 A numeric vector or matrix containing the outlier-treated \code{x}.
-  if a data frame was provided in 'x', a data frame with its numeric variables
+  if a data frame was provided in \code{x}, a data frame with its numeric variables
   replaced by their outlier-treated values.
 }
 \description{

@@ -21,25 +21,26 @@ prepare_regression_table(df, dvs, idvs, feffects = rep("", length(dvs)),
 
 \item{byvar}{A factorial variable to estimate the model on (only possible if only one model is being estimated).}
 
-\item{format}{A character scalar that is passed on \link[stargazer]{stargazer} as \code{type} to determine the presentation
-format (e.g., "html", "text", or "latex").}
+\item{format}{A character scalar that is passed on \code{\link[stargazer]{stargazer}} as \code{type} to determine the presentation
+format ("html", "text", or "latex").}
 
 \item{drop_underscore}{A quick'n'dirty hack to address a bug in stargazer that triggers it to choke on underscores in variable names.
-If not NULL, all underscores in variable names will be replaced by the given string,}
+If not NULL, all underscores in variable names will be replaced by the given string.}
 }
 \value{
-A list contining two items
+A list containing two items
 \describe{
- \item{"models"}{A list containg the model results and byvalues if appropriate}
- \item{"table"}{The output of \link[stargazer]{stargazer} containing the table}
+ \item{"models"}{A list containing the model results and by values if appropriate}
+ \item{"table"}{The output of \code{\link[stargazer]{stargazer}} containing the table}
 }
 }
 \description{
 Builds a regression table based on a set of user-specifed models or a single model and a partitioning variable.
 }
 \details{
-This is a wrapper function calling the stargazer package. Depending on whether the dependent variable is numeric or a factor with two levels, the models are estimated
-  using \code{\link[lfe]{felm}} or \link[stats]{glm} (with \code{family = binomial(link="logit")}).
+This is a wrapper function calling the stargazer package. Depending on whether the dependent variable
+  is numeric or a factor with two levels, the models are estimated
+  using \code{\link[lfe]{felm}} or \code{\link[stats]{glm}} (with \code{family = binomial(link="logit")}).
   Fixed effects and clustered standard errors are only supported with continous dependent variables.
   If run with \code{byvar}, only levels that have more observations than coefficients are estimated.
 }
@@ -53,8 +54,8 @@ idvs = list(c("SMI", "CAC", "FTSE"),
             c("SMI", "CAC", "DAX"))
 feffects = list("year", "year", "year", "year")
 clusters = list("year", "year", "year", "year")
-t <- prepare_regression_table(df, dvs, idvs, feffects, clusters)
+t <- prepare_regression_table(df, dvs, idvs, feffects, clusters, format = "text")
 t$table
-t <- prepare_regression_table(df, "DAX", c("SMI", "CAC", "FTSE"), byvar="year")
+t <- prepare_regression_table(df, "DAX", c("SMI", "CAC", "FTSE"), byvar="year", format = "text")
 print(t$table)
 }

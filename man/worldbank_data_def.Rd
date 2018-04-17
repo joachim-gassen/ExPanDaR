@@ -6,11 +6,11 @@
 \title{Data Definitions for \code{worldbank} Data Set}
 \format{An object of class \code{"data.frame"}.}
 \usage{
-data(worldbank_var_def)
+data(worldbank_data_def)
 }
 \description{
-A data frame containing variable definitions for the \code{worldbank}.
-The data definitions can be passed to \link{ExPanD} via the
+A data frame containing variable definitions for the \code{worldbank} data set.
+The data definitions can be passed to \code{\link{ExPanD}} via the
 \code{df_def} parameter.
 }
 \details{

@@ -1,8 +1,9 @@
 #' @title Prepares a Correlation Graph
 #'
 #' @description
-#' Reads a data frame and presents Pearson correlations above the diagonal
-#' and Spearman correlations using a fany graph prepared by the package \code{corrplot}.
+#' Reads a data frame and presents Pearson correlations above
+#' and Spearman correlations the diagonal using a fancy graph prepared
+#' by the package \code{corrplot}.
 #'
 #' @param df Data frame containing at least two variables that are either numeric
 #'   or logical and at least five observations.

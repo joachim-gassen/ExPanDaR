@@ -136,7 +136,7 @@ column. If you provide NA, then the column is ommited from the output.</p></td>
     </tr>
     <tr>
       <th>format</th>
-      <td><p>character scalar that is handed over to knitr::kabel
+      <td><p>character scalar that is handed over to <code><a href='http://www.rdocumentation.org/packages/knitr/topics/kable'>kable</a></code>
 (e.g., "html" or "latex").</p></td>
     </tr>
     </table>
@@ -144,158 +144,32 @@ column. If you provide NA, then the column is ommited from the output.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list containing two items.</p><dl class='dl-horizontal'>
- <dt>"df"</dt><dd><p>A data frame containg the descriptive table</p></dd>
- <dt>"kable_ret"</dt><dd><p>The return value provided by kable() containing the formatted table</p></dd>
+ <dt>"df"</dt><dd><p>A data frame containing the descriptive table</p></dd>
+ <dt>"kable_ret"</dt><dd><p>The return value provided by <code><a href='http://www.rdocumentation.org/packages/knitr/topics/kable'>kable</a></code> containing the formatted table</p></dd>
 </dl>
 
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The <code>digits</code> parameter from <code>prepare_descriptive_table()</code> uses the default method of
-  kable() to format numbers, calling <code>round()</code>. This implies that trailing zeroes are
+  <code><a href='http://www.rdocumentation.org/packages/knitr/topics/kable'>kable</a></code> to format numbers, calling <code>round</code>. This implies that trailing zeroes are
   just ommitted.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>prepare_descriptive_table</span>(<span class='no'>mtcars</span>)$<span class='no'>kable_ret</span></div><div class='output co'>#&gt; &lt;table&gt;
-#&gt; &lt;caption&gt;Descriptive Statistics&lt;/caption&gt;
-#&gt;  &lt;thead&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
-#&gt;    &lt;th style="text-align:right;"&gt; N &lt;/th&gt;
-#&gt;    &lt;th style="text-align:right;"&gt; Mean &lt;/th&gt;
-#&gt;    &lt;th style="text-align:right;"&gt; Std. dev. &lt;/th&gt;
-#&gt;    &lt;th style="text-align:right;"&gt; Min. &lt;/th&gt;
-#&gt;    &lt;th style="text-align:right;"&gt; 25 % &lt;/th&gt;
-#&gt;    &lt;th style="text-align:right;"&gt; Median &lt;/th&gt;
-#&gt;    &lt;th style="text-align:right;"&gt; 75 % &lt;/th&gt;
-#&gt;    &lt;th style="text-align:right;"&gt; Max. &lt;/th&gt;
-#&gt;   &lt;/tr&gt;
-#&gt;  &lt;/thead&gt;
-#&gt; &lt;tbody&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;td style="text-align:left;"&gt; mpg &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 32 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 20.091 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 6.027 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 10.400 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 15.425 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 19.200 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 22.80 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 33.900 &lt;/td&gt;
-#&gt;   &lt;/tr&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;td style="text-align:left;"&gt; cyl &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 32 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 6.188 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 1.786 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 4.000 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 4.000 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 6.000 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 8.00 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 8.000 &lt;/td&gt;
-#&gt;   &lt;/tr&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;td style="text-align:left;"&gt; disp &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 32 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 230.722 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 123.939 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 71.100 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 120.825 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 196.300 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 326.00 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 472.000 &lt;/td&gt;
-#&gt;   &lt;/tr&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;td style="text-align:left;"&gt; hp &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 32 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 146.688 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 68.563 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 52.000 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 96.500 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 123.000 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 180.00 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 335.000 &lt;/td&gt;
-#&gt;   &lt;/tr&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;td style="text-align:left;"&gt; drat &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 32 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 3.597 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 0.535 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 2.760 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 3.080 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 3.695 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 3.92 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 4.930 &lt;/td&gt;
-#&gt;   &lt;/tr&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;td style="text-align:left;"&gt; wt &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 32 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 3.217 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 0.978 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 1.513 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 2.581 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 3.325 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 3.61 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 5.424 &lt;/td&gt;
-#&gt;   &lt;/tr&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;td style="text-align:left;"&gt; qsec &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 32 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 17.849 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 1.787 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 14.500 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 16.892 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 17.710 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 18.90 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 22.900 &lt;/td&gt;
-#&gt;   &lt;/tr&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;td style="text-align:left;"&gt; vs &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 32 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 0.438 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 0.504 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 1.000 &lt;/td&gt;
-#&gt;   &lt;/tr&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;td style="text-align:left;"&gt; am &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 32 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 0.406 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 0.499 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 1.000 &lt;/td&gt;
-#&gt;   &lt;/tr&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;td style="text-align:left;"&gt; gear &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 32 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 3.688 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 0.738 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 3.000 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 3.000 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 4.000 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 4.00 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 5.000 &lt;/td&gt;
-#&gt;   &lt;/tr&gt;
-#&gt;   &lt;tr&gt;
-#&gt;    &lt;td style="text-align:left;"&gt; carb &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 32 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 2.812 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 1.615 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 1.000 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 2.000 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 2.000 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 4.00 &lt;/td&gt;
-#&gt;    &lt;td style="text-align:right;"&gt; 8.000 &lt;/td&gt;
-#&gt;   &lt;/tr&gt;
-#&gt; &lt;/tbody&gt;
-#&gt; &lt;/table&gt;</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>t</span> <span class='kw'>&lt;-</span> <span class='fu'>prepare_descriptive_table</span>(<span class='no'>mtcars</span>)
+<span class='no'>t</span>$<span class='no'>df</span></div><div class='output co'>#&gt;       N       Mean   Std. dev.   Min.      25 %  Median   75 %    Max.
+#&gt; mpg  32  20.090625   6.0269481 10.400  15.42500  19.200  22.80  33.900
+#&gt; cyl  32   6.187500   1.7859216  4.000   4.00000   6.000   8.00   8.000
+#&gt; disp 32 230.721875 123.9386938 71.100 120.82500 196.300 326.00 472.000
+#&gt; hp   32 146.687500  68.5628685 52.000  96.50000 123.000 180.00 335.000
+#&gt; drat 32   3.596563   0.5346787  2.760   3.08000   3.695   3.92   4.930
+#&gt; wt   32   3.217250   0.9784574  1.513   2.58125   3.325   3.61   5.424
+#&gt; qsec 32  17.848750   1.7869432 14.500  16.89250  17.710  18.90  22.900
+#&gt; vs   32   0.437500   0.5040161  0.000   0.00000   0.000   1.00   1.000
+#&gt; am   32   0.406250   0.4989909  0.000   0.00000   0.000   1.00   1.000
+#&gt; gear 32   3.687500   0.7378041  3.000   3.00000   4.000   4.00   5.000
+#&gt; carb 32   2.812500   1.6152000  1.000   2.00000   2.000   4.00   8.000</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

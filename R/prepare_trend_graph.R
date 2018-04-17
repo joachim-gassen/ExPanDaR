@@ -10,7 +10,7 @@
 #'
 #' @return A list containing two items:
 #' \describe{
-#'  \item{"df"}{A data frame containg the plotted means and standard errors}
+#'  \item{"df"}{A data frame containing the plotted means and standard errors}
 #'  \item{"plot}{The plot as returned by ggplot}
 #' }
 #'

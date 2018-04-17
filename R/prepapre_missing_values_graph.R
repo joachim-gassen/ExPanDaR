@@ -3,22 +3,22 @@
 #' @description
 #' Displays a heatmap of missing value frequency across the panel
 #'
-#' @param df Data frame containing the data. Only variables containing
-#'   numerical or logical data will be used.
+#' @param df Data frame containing the data.
 #' @param ts_id A string containing the name of the variable indicating the time dimension.
 #'   Needs to be coercible into an ordered factor.
 #' @param no_factors A logical variable indicating whether you want to limit the plot to
 #'   logical and numerical variables. Defaults to FALSE.
 #'
-#' @return A ggplot2 graph
+#' @return A ggplot2 plot.
 #'
 #' @details
-#'   This was inspireed by a blog post of Rense Nieuenhuis. Thanks!
-#'   http://www.rensenieuwenhuis.nl/r-sessions-30-visualizing-missing-values/
+#'   This was inspired by a
+#'   \href{http://www.rensenieuwenhuis.nl/r-sessions-30-visualizing-missing-values/}{blog post of Rense Nieuenhuis}.
+#'   Thanks!
+#'
 #'
 #' @examples
 #' df <- data.frame(year = as.ordered(floor(time(EuStockMarkets))), EuStockMarkets)
-#' ts_id <- "year"
 #' prepare_missing_values_graph(df, ts_id="year")
 #' @export
 

@@ -12,13 +12,13 @@ interest. Most likely it will also contain the variables identifying an observat
 
 \item{n}{The number of top/bottom observations that you want to report.}
 
-\item{...}{Additional parameters that are passed to \code{knitr::kable()}.}
+\item{...}{Additional parameters that are passed to \code{\link[knitr]{kable}}.}
 }
 \value{
 A list containing two items:
 \describe{
- \item{"df"}{A data frame containg the top/bottom n observations}
- \item{"kable_ret"}{The return value provided by \code{knitr::kable()} containing the formatted table}
+ \item{"df"}{A data frame containing the top/bottom n observations}
+ \item{"kable_ret"}{The return value provided by \code{\link[knitr]{kable}} containing the formatted table}
 }
 }
 \description{
@@ -26,10 +26,10 @@ Reads a data frame containing the variable of interest as the last variable,
   sorts it by it and displays the top and bottom n variables.
 }
 \details{
-The default parameters for calling \code{knitr::kable},
+The default parameters for calling \code{\link[knitr]{kable}},
   are \code{format = "html", digits = 3, format.args = list(big.mark = ','), row.names = FALSE}.
 }
 \examples{
 t <- prepare_ext_obs_table(data.frame(name = rownames(mtcars), hp = mtcars$hp))
-t$kable_ret
+t$df
 }

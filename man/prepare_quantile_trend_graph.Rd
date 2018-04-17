@@ -18,8 +18,8 @@ to be plotted}
 \value{
 A list containing two items:
 \describe{
- \item{"df"}{A data frame containg the plotted means and standard errors}
- \item{"plot}{The plot as returned by ggplot}
+ \item{"df"}{A data frame containg the plotted quantiles}
+ \item{"plot"}{The plot as returned by ggplot}
 }
 }
 \description{

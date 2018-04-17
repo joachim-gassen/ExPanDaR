@@ -1,18 +1,18 @@
-#' @title Explore Panal Data (ExPanD)
+#' @title Explore Panel Data (ExPanD)
 #'
 #' @description A shiny based web app that uses ExPanDaR functionality for
 #' interactive panel data exploration
 #'
-#' @param df A dataframe or a list of dataframes containing the panel data that
+#' @param df A data frame or a list of data frames containing the panel data that
 #'   you want to explore. If NULL, ExPanD will start up with a file upload
 #'   dialog.
-#' @param cs_id A character vector ocontaining the names of the variables that
+#' @param cs_id A character vector containing the names of the variables that
 #'   identify the cross-section in your data.
-#'   Can only be NULL if df_def is provided instead.
+#'   Can only be NULL if \code{df_def} is provided instead.
 #' @param ts_id A character scalar identifing the name of
 #'   the variable that identifies the time series in your data. The according
 #'   variable needs to be coercible to an ordered vector.
-#'   Can only be NULL if df_def is provided instead.
+#'   Can only be NULL if \code{df_def} is provided instead.
 #' @param df_def An optional dataframe (or a list of dataframes) containing
 #'   variable names, definitions and types. If NULL (the default) ExPanD
 #'   uses \code{cs_id} and \code{ts_id} to identify the panel structure and
@@ -22,9 +22,9 @@
 #'   variable definitions, ExPanD will use these on the provided sample(s) to
 #'   create the analysis sample. In that case, the user gets the opportunity to
 #'   add additional variables in the app. See the details section
-#'   for the structure of the \code{var_def} dataframe. If NULL (default) than
+#'   for the structure of the \code{var_def} dataframe. If NULL (default)
 #'   the sample(s) provided by df will be used as anaylsis sample(s) directly.
-#' @param config_list a list containing the startup configuraion for ExPanD to
+#' @param config_list a list containing the startup configuration for ExPanD to
 #'   display. Take a look at \code{data(ExPanD_config_russell_3000)} for the
 #'   format. The easiest way to generate a config list is to customize the
 #'   display within the app and then save the configuration locally.
@@ -40,19 +40,20 @@
 #'   sample to make these more informative to the user.
 #'   If set to FALSE only the variable definitions provided in the
 #'   \code{var_def} sample will be provided to the user.
-#' @param factor_cutoff ExPanD treats factors different from numerical variables
-#'   as factors are available for sub-sampling data and for certain plots.
+#' @param factor_cutoff ExPanD treats factors different from numerical variables.
+#'   Factors are available for sub-sampling data and for certain plots.
 #'   Each variable classified as such will be treated as a factor. In addition,
-#'   ExPanD classifies all logical values and all numerical value with less or
-#'   equal than \code{factor_cutoff} unique values as factor.
+#'   ExPanD classifies all logical values and all numerical values with less or
+#'   equal than \code{factor_cutoff} unique values as a factor.
 #' @param components A logical vector indicating which reports you want
 #'   ExPanD to generate. If specified, the vector does not have to be named but needs
 #'   to be of correct length.
 #' @param store_encrypted Do you want the user-side saved config files to be
 #'   encrypted? A security measure to avoid that users can inject arbitrary code
-#'   in the config list.
-#' @param key_phrase The key phrase to use for encryption. Potentially a good
-#'   idea to change this from the default if you want to encrypt.
+#'   in the config list. Probably a good idea when you are hosting sensitive data
+#'   on a publicly available server.
+#' @param key_phrase The key phrase to use for encryption.
+#'   Change this from the default if you want to encrypt the config files.
 #' @param debug Do you want ExPanD to echo some debug timing information to the
 #'   console/log file and to store some diagnostics to the global environment?
 #'   Probably not.
@@ -63,7 +64,7 @@
 #'
 #' If you start ExPanD without any options, it will start with an upload
 #' dialog so that the the user (e.g., you) can upload a data file
-#' for anaylsis. Supported formats are as provided
+#' for analysis. Supported formats are as provided
 #' by the \code{rio} package.
 #'
 #' If you provide variable defintions in \code{df_def} and/or \code{var_def},
@@ -85,19 +86,23 @@
 #' variables
 #' \describe{
 #' \item{"var_name"}{Required: The names of the variables
-#' that are to be calculated}
-#' \item{"var_def"}{Required: The code that is passed
-#' to the dataframe (grouped by cross-sectional units) in calls to
-#' \code{\link[dplyr]{mutate}} as right hand side to calculate the respective
-#' variable. Be sure to set order_by when creating lead/lag variables}
+#' that are provided by the base sample
+#' ar are to be calculated for the analysis sample}
+#' \item{"var_def"}{Required: For a \code{var_def} data frame,
+#' the code that is passed to the data frame
+#' (grouped by cross-sectional units) in calls to
+#' \code{\link[dplyr]{mutate}} as right hand side
+#' to calculate the respective variable.
+#' For a \code{data_def} data frame, a string
+#' describing the nature of the variable.}
 #' \item{"type"}{Required: One of the strings "cs_id", "ts_id", "factor",
-#' "logical" or "numeric" indicating the type of the variable. Please note that
+#' "logical" or "numeric", indicating the type of the variable. Please note that
 #' at least one variable has to be assigned as a cross-sectional identifier
-#' ("cs_id") and exactly one variable which is coercible into an ordered factor
+#' ("cs_id") and exactly one variable that is coercible into an ordered factor
 #' has to be assigned as the time-series identifier ("ts_id").}
 #' \item{"can_be_na"}{Optional: If included,
 #' then all variables with this value set to FALSE are required to be non
-#' missing in the dataset. This reduces the number of observations. If missing,
+#' missing in the data set. This reduces the number of observations. If missing,
 #' it defaults to being TRUE for all variables other than cs_id and ts_id.} }
 #'
 #' @examples

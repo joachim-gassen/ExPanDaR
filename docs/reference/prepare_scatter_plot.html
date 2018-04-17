@@ -27,7 +27,7 @@
 <script src="../pkgdown.js"></script>
 <meta property="og:title" content="Prepares a Scatter Plot — prepare_scatter_plot" />
 
-<meta property="og:description" content="Reads a data frame containing at most four numerical variables and prepares a scatter plot." />
+<meta property="og:description" content="Reads a data frame and prepares a scatter plot." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -109,7 +109,7 @@
     </div>
 
     
-    <p>Reads a data frame containing at most four numerical variables and prepares a scatter plot.</p>
+    <p>Reads a data frame and prepares a scatter plot.</p>
     
 
     <pre class="usage"><span class='fu'>prepare_scatter_plot</span>(<span class='no'>df</span>, <span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>loess</span> <span class='kw'>=</span> <span class='fl'>0</span>,
@@ -120,7 +120,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>df</th>
-      <td><p>Data frame containing at most four numerical variables</p></td>
+      <td><p>Data frame containing the data</p></td>
     </tr>
     <tr>
       <th>x</th>
@@ -128,23 +128,23 @@
     </tr>
     <tr>
       <th>y</th>
-      <td><p>a string containing the column name of the x variable</p></td>
+      <td><p>a string containing the column name of the y variable</p></td>
     </tr>
     <tr>
       <th>color</th>
-      <td><p>a string containing the column name of the x variable
+      <td><p>a string containing the column name of the variable providing the color aesthetic
 (can be numerical or a factor)</p></td>
     </tr>
     <tr>
       <th>size</th>
-      <td><p>a string containing the column name of the x variable</p></td>
+      <td><p>a string containing the column name of the variable providing the size aesthetic</p></td>
     </tr>
     <tr>
       <th>loess</th>
-      <td><p>a numerical scalar string</p><dl class='dl-horizontal'>
- <dt>"0"</dt><dd><p>No loess curve</p></dd>
- <dt>"1"</dt><dd><p>loess curve with equal weights</p></dd>
- <dt>"2"</dt><dd><p>loess curve with weights based on <code>size</code> variable</p></dd>
+      <td><p>a numerical scalar</p><dl class='dl-horizontal'>
+ <dt>0</dt><dd><p>No loess curve</p></dd>
+ <dt>1</dt><dd><p>loess curve with equal weights</p></dd>
+ <dt>2</dt><dd><p>loess curve with weights based on <code>size</code> variable</p></dd>
 </dl></td>
     </tr>
     <tr>

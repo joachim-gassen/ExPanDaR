@@ -28,7 +28,7 @@ While I hope that ExPanD might be particularly helpful in the review, publicatio
 This is what ExPanD looks like:
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
-knitr::include_graphics("vignettes/figures/ExPanD_simple_03.png")
+knitr::include_graphics("vignettes/figures/ExPanD_simple_03.jpg")
 ```
 
 If you are interested to see what ExPanD has to offer without diving into R, click [here](https://jgassen.shinyapps.io/expand_wb/) to explore an instance of ExPanD that hosts World Bank data or click

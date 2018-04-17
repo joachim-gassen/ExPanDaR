@@ -33,7 +33,7 @@ treat_vector_outliers <- function(x, truncate, percentile) {
 #'   If provided, the resulting vector must not contain NAs and needs to be such so that
 #'   \code{length(byvec) == nrows(as.matrix(x))}.
 #' @return A numeric vector or matrix containing the outlier-treated \code{x}.
-#'   if a data frame was provided in 'x', a data frame with its numeric variables
+#'   if a data frame was provided in \code{x}, a data frame with its numeric variables
 #'   replaced by their outlier-treated values.
 #'
 #' @details All members of the numerical matrix are checked for finiteness and are

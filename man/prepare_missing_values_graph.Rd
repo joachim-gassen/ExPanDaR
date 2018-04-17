@@ -7,8 +7,7 @@
 prepare_missing_values_graph(df, ts_id, no_factors = FALSE)
 }
 \arguments{
-\item{df}{Data frame containing the data. Only variables containing
-numerical or logical data will be used.}
+\item{df}{Data frame containing the data.}
 
 \item{ts_id}{A string containing the name of the variable indicating the time dimension.
 Needs to be coercible into an ordered factor.}
@@ -17,17 +16,17 @@ Needs to be coercible into an ordered factor.}
 logical and numerical variables. Defaults to FALSE.}
 }
 \value{
-A ggplot2 graph
+A ggplot2 plot.
 }
 \description{
 Displays a heatmap of missing value frequency across the panel
 }
 \details{
-This was inspireed by a blog post of Rense Nieuenhuis. Thanks!
-  http://www.rensenieuwenhuis.nl/r-sessions-30-visualizing-missing-values/
+This was inspired by a
+  \href{http://www.rensenieuwenhuis.nl/r-sessions-30-visualizing-missing-values/}{blog post of Rense Nieuenhuis}.
+  Thanks!
 }
 \examples{
 df <- data.frame(year = as.ordered(floor(time(EuStockMarkets))), EuStockMarkets)
-ts_id <- "year"
 prepare_missing_values_graph(df, ts_id="year")
 }

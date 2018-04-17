@@ -22,5 +22,5 @@ Imports:
     DT, PKI, tictoc, CodeDepends, shinycssloaders
 RoxygenNote: 6.0.1.9000
 Suggests:
-    gapminder, rmarkdown, htmltools, knitr, kableExtra, devtools,
+    gapminder, rmarkdown, htmltools, knitr, kableExtra, devtools, tidyquant, wbstats
 VignetteBuilder: knitr

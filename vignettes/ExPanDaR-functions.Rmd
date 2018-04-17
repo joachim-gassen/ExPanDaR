@@ -17,6 +17,10 @@ knitr::opts_chunk$set(
   table.align = "center",
   warnings = FALSE
 )
+
+library(ExPanDaR)
+library(knitr)
+library(kableExtra)
 ```
 
 While the main purpose of the ExPanDaR package is to provide the infrastructure for the ExPanD app, the auxiliary functions of the package can also be used to support your exploratory data analysis workflow in your own code. All functions are relatively thin wrappers around established R packages for graphics and HTML table presentation (ggplot2, kableExtra, stargazer). 
@@ -25,7 +29,7 @@ I hope that they are generally useful for exploratory data analysis.
 
 To see what ExPanDaR has to offer, let's take a quick tour. For more detailed guidance on how to use a specific function presented below, take a look at the respective function's help page.
 
-### Data Preparation
+## Data Preparation
 
 ExPanDaR is designed for exploratory panel data analysis (hence the name).
 Thus, while you can also use some functions on cross-sectional data, for most functions you will need a data frame containing your panel data. 
@@ -40,12 +44,8 @@ A word of caution: While the data appears to be relatively decent quality I woul
 These are the variables included in the data.
 
 ``` {r variables}
-library(ExPanDaR)
-library(knitr)
-library(kableExtra)
-
 kable(data.frame(Variable=russell_3000_data_def$var_name, 
-                 Definition=russell_3000_data_def$var_def), row.names = FALSE) 
+                 Definition=russell_3000_data_def$var_def), row.names = FALSE, escape = TRUE) 
 ```
 
 You can infer from the variable definition that `coid` seems to identify the cross-section (a Russell 3000 firm) while `period` identifies the time-series (a fiscal year).
@@ -108,7 +108,7 @@ t$kable_ret %>%
 ```
 
 
-### Descriptive Statistics
+## Descriptive Statistics
 
 This looks better. Let's look at the winsorized descriptive statistics.
 
@@ -134,7 +134,7 @@ ret <- prepare_correlation_graph(r3win)
 
 
 
-### Visuals
+## Visuals
 
 Additional visuals are available for exploring time trends. `prepare_trend_graph()` can be used for comparing variables... 
 
@@ -160,7 +160,7 @@ prepare_scatter_plot(r3win, x="nioa", y="return", color="sector", size="toas", l
 
 Do you see the structural break around nioa == 0? Researchers in the area of accounting tend to like that kind of stuff.
 
-### Regression Tables
+## Regression Tables
 
 Finally, if you happen to be a fan of starred numbers, you can also quickly produce regression tables by using the function `prepare_regression_table()` that calls `lfe::felm()` for OLS and `glm()` for binary logit models. The tables are then constructed by calling `stargazer::stargazer()`, allowing for plain text, html and latex output.
 
@@ -189,7 +189,7 @@ htmltools::HTML(t$table)
 ```
 
 
-### Conclusion
+## Conclusion
 
 This is all there is (currently).
 All these functions are rather simple wrappers around established R functions. 

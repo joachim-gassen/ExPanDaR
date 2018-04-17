@@ -4,7 +4,7 @@ author: "Joachim Gassen"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Using the functions of the ExPanDaR package}
+  %\VignetteIndexEntry{Using ExPanD for Panel Data Exploration}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,7 +14,6 @@ knitr::opts_chunk$set(
   echo = TRUE, 
   fig.align = "center", 
   fig.width = 6,
-  table.align = "center",
   warnings = FALSE
 )
 
@@ -45,7 +44,8 @@ These are the variables included in the data.
 
 ``` {r variables}
 kable(data.frame(Variable=russell_3000_data_def$var_name, 
-                 Definition=russell_3000_data_def$var_def), row.names = FALSE, escape = TRUE) 
+                 Definition=russell_3000_data_def$var_def), 
+      row.names = FALSE)
 ```
 
 You can infer from the variable definition that `coid` seems to identify the cross-section (a Russell 3000 firm) while `period` identifies the time-series (a fiscal year).

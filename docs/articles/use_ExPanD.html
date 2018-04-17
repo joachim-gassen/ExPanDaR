@@ -75,7 +75,7 @@
       <h1>Using ExPanD for Panel Data Exploration</h1>
                         <h4 class="author">Joachim Gassen</h4>
             
-            <h4 class="date">2018-04-15</h4>
+            <h4 class="date">2018-04-17</h4>
       
       
       <div class="hidden name"><code>use_ExPanD.Rmd</code></div>
@@ -120,7 +120,7 @@
 <span class="co">#&gt;  8 Afghanistan      Asia  1987  40.822 13867957  852.3959</span>
 <span class="co">#&gt;  9 Afghanistan      Asia  1992  41.674 16317921  649.3414</span>
 <span class="co">#&gt; 10 Afghanistan      Asia  1997  41.763 22227415  635.3414</span>
-<span class="kw">write.csv</span>(gapminder, <span class="dt">file =</span> <span class="st">"gapminder.csv"</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<span class="co"># write.csv(gapminder, file = "gapminder.csv", row.names = FALSE)</span></code></pre></div>
 <p>To use ExPanD, you need the following:</p>
 <ul>
 <li>A dataset in long format containing panel data (at least one factor and two numerical variables are required),</li>
@@ -128,7 +128,7 @@
 <li>a variable that is coercible to an ordered factor and that identifies (and sorts) the time dimension of your panel.</li>
 </ul>
 <p>As you see, the gapminder file contains country-year data. It is organized in a long format by using <code>country</code> as cross-sectional identifier and <code>year</code> as time-series identifier. Each of the additional variables is then stored in a separate column. It has one factor (<code>continent</code>) and three numerical variables (<code>lifeExp</code>, <code>pop</code> and <code>gdpPercap</code>). So, it complies with the above requirements.</p>
-<p>Use the file dialog to load the CSV file that <code>write.csv()</code> generated (if you are not using R, you can download the CSV file <a href="https://github.com/joachim-gassen/ExPanDaR/raw/master/vignettes/data/gapminder.csv">here</a>). After uploading the file, two dialog boxes will appear asking you to select the cross-sectional identifier(s) and the time-series identifier.</p>
+<p>Use the commented-out <code>write.csv()</code> function call to save the CSV file to your system and the file dialog to load it into ExPanD (if you are not using R, you can download the CSV file <a href="https://github.com/joachim-gassen/ExPanDaR/raw/master/vignettes/data/gapminder.csv">here</a>). After uploading the file, two dialog boxes will appear asking you to select the cross-sectional identifier(s) and the time-series identifier.</p>
 <p><img src="figures/ExPanD_file_02.png" width="90%" style="display: block; margin: auto;"></p>
 <p>Select <code>country</code> as the cross-sectional identifier and <code>year</code> as the time-series identifier. ExPanD will now process the data to display it so that you can start exploring.</p>
 </div>
@@ -167,16 +167,16 @@
 <p>A variable definition file has to contain at least three character columns: <code>var_name</code>, <code>var_def</code> and <code>type</code>. In addition, it can contain a logical column <code>can_be_na</code>. Let’s take a look at the variable definition data frame for the <code>worldbank</code> dataset provided by the ExPanDaR package.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(worldbank_var_def, <span class="dv">10</span>)
 <span class="co">#&gt;           var_name                             var_def    type can_be_na</span>
-<span class="co">#&gt; 1          country                             country   cs_id         0</span>
-<span class="co">#&gt; 2           region                              region  factor         0</span>
-<span class="co">#&gt; 3           income                              income  factor         0</span>
-<span class="co">#&gt; 4             year                                year   ts_id         0</span>
-<span class="co">#&gt; 5             time as.numeric(as.character(year))-1960 numeric         0</span>
-<span class="co">#&gt; 6              gdp                      NY.GDP.MKTP.KD numeric         0</span>
-<span class="co">#&gt; 7       population                         SP.POP.TOTL numeric         0</span>
-<span class="co">#&gt; 8       gdp_capita                      NY.GDP.PCAP.KD numeric         0</span>
-<span class="co">#&gt; 9      extdebt_gni                   DT.DOD.DECT.GN.ZS numeric         1</span>
-<span class="co">#&gt; 10 debtservice_gni                   DT.TDS.DPPG.GN.ZS numeric         1</span></code></pre></div>
+<span class="co">#&gt; 1          country                             country   cs_id     FALSE</span>
+<span class="co">#&gt; 2           region                              region  factor     FALSE</span>
+<span class="co">#&gt; 3           income                              income  factor     FALSE</span>
+<span class="co">#&gt; 4             year                                year   ts_id     FALSE</span>
+<span class="co">#&gt; 5             time as.numeric(as.character(year))-1960 numeric     FALSE</span>
+<span class="co">#&gt; 6              gdp                      NY.GDP.MKTP.KD numeric     FALSE</span>
+<span class="co">#&gt; 7       population                         SP.POP.TOTL numeric     FALSE</span>
+<span class="co">#&gt; 8       gdp_capita                      NY.GDP.PCAP.KD numeric     FALSE</span>
+<span class="co">#&gt; 9      extdebt_gni                   DT.DOD.DECT.GN.ZS numeric      TRUE</span>
+<span class="co">#&gt; 10 debtservice_gni                   DT.TDS.DPPG.GN.ZS numeric      TRUE</span></code></pre></div>
 <p><code>var_name</code> contains variable names for the analysis sample and <code>var_def</code> contains the definitions for these variables. The definitions refer to variables contained in the <code>worldbank</code> dataset (which are conforming to the naming convention of the World Bank). Most definitions are just simple 1:1 transformations of the <code>worldbank</code> dataset but, as you can see from the definition for <code>time</code>, you can also use standard R expressions within the scope of the <code>worldbank</code> data frame. For the R experts: Your definition will be evaluated within a <code><a href="http://dplyr.tidyverse.org/reference/mutate.html">dplyr::mutate()</a></code> call on the base data frame grouped by the cross section and ordered by the time-series identifier, so for example that <code>lead()</code> and <code>lag()</code> should work as expected.</p>
 <p>With the <code>type</code> variable you specify the nature of the variable that you just defined. Possible values are <code>cs_id</code>, <code>ts_id</code>, <code>numeric</code>, <code>logical</code>, and <code>factor</code>. They identify cross-sectional identifier(s), the time-series identifier, numerical variables, Boolean (True/False) type variables, and variables to be treated as grouping factors. Note that the data does not have to have the according class but is has to be coercible to it.</p>
 <p>The <code>can_be_na</code> variable can be omitted. If you do not provide it, it will be set to <code>TRUE</code> for all variables besides the cross-sectional and time-series identifiers. In the <code>worldbank_var_def</code> data frame it is set to <code>FALSE</code> for the variables <code>time</code>, <code>gdp</code>, <code>population</code>, and <code>gpd_capita</code>, meaning that only observations with non-missing values for these variables will be included in the analysis dataset.</p>
@@ -192,7 +192,7 @@
 <p>It shows a positive association of GDP per capita with life expectancy after controlling for public spending on health and income inequality (which happens to be negatively associated with life expectancy). As you see from the table, the number of observations is 1,068. How does this reconcile with the roughly 8,500 observations that the World Bank sample has data for? A quick look at the missing values graph below helps to understand the issue.</p>
 <p><img src="figures/ExPanD_worldbank_02.png" width="90%" style="display: block; margin: auto;"></p>
 <p>While <code>gdp_capita</code> is available for all observations (remember the <code>can_be_na</code> variable in the data definition data frame?) and <code>life_expectancy</code> has good coverage for all but the most recent years, both <code>pubspend_health_gdp</code> and <code>giniindex</code> are only available for later years in the sample. <code>giniindex</code> is also only available for a subset of countries. Taken together, this drastically reduces the sample size of the regression model. Explore whether this has an effect on the documented associations by excluding and including the test variables one-by-one. You will see that the associations are reasonable robust.</p>
-<p>Now lets see whether the distributional properties of the main independent variable of interest have an impact on the association. The screenshot below displays the histogram of <code>gdp_capita</code>.</p>
+<p>Now let’s see whether the distributional properties of the main independent variable of interest have an impact on the association. The screenshot below displays the histogram of <code>gdp_capita</code>.</p>
 <p><img src="figures/ExPanD_worldbank_03.png" width="90%" style="display: block; margin: auto;"></p>
 <p>This looks like a log-normal distributed variable, so a log transformation should yield a more normally distributed variable. To calculate a logged variant of <code>gdp_capita</code> we first need to find which World Bank data item <code>gdp_capita</code> is based on. Hovering with your mouse over the variable name in the descriptive sample, you will see that it is based on the data item <code>NY.GDP.PCP.KD</code>. When you switch the tab of the descriptive statistics to the base sample, you can see all 72 base data items that the <code>worldbank</code> dataset contains. Use the dialog above the descriptive statistics as shown below to calculate a log-transformed measure of GDP per capita.</p>
 <p><img src="figures/ExPanD_worldbank_04.png" width="90%" style="display: block; margin: auto;"></p>
@@ -203,9 +203,9 @@
 <p>Now this looks different than the gapminder plot in the section above as it exhibits a more linear association. Let’s see how our regression model looks like when use <code>log_gdp_capita</code> instead of <code>gdp_capita</code>.</p>
 <p><img src="figures/ExPanD_worldbank_07.png" width="90%" style="display: block; margin: auto;"></p>
 <p>The logged version of GDP per capita remains robustly positively associated with life expectancy but now income inequality (as measured by <code>giniindex</code>) is only marginally associated with life expectancy.</p>
-<p>Another thing that one can notice from the scatter plot above is that each country appears to be on its own “trajectory” in terms of life expectancy development. As we also know that in most countries and periods GDP per capita increases over time: Can we be sure that the the association of GDP per capita and life expectancy is different from a general time trend in the data? Below, you will find a scatter plot that uses <code>time</code> as the independent variable.</p>
+<p>Another thing that one can notice from the scatter plot above is that each country appears to be on its own “trajectory” in terms of life expectancy development. As we also know that in most countries and periods GDP per capita increases over time: Can we be sure that the association of GDP per capita and life expectancy is different from a general time trend in the data? Below, you will find a scatter plot that uses <code>time</code> as the independent variable.</p>
 <p><img src="figures/ExPanD_worldbank_08.png" width="90%" style="display: block; margin: auto;"></p>
-<p>You can see that for most countries, life expectancy seem to follow a robust and similar linear time trend. There are some exceptions from this rule (China, Mali, Rwanda, Sierra Leone). To see whether our association “survives” a control for time-induced variance in life expectancy that is stable across countries, we estimate a regression model that includes country and year fixed effects. See below.</p>
+<p>You can see that for most countries, life expectancy seems to follow a robust and similar linear time trend. There are some exceptions from this rule (China, Mali, Rwanda, Sierra Leone). To infer whether our association “survives” a control for time-induced variance in life expectancy that is stable across countries, we estimate a regression model that includes country and year fixed effects. See below.</p>
 <p><img src="figures/ExPanD_worldbank_09.png" width="90%" style="display: block; margin: auto;"></p>
 <p>All associations are gone. Fun fact: When you replace <code>lag_gdp_capita</code> with <code>gdp_capita</code> you will see that it’s coefficient even turns significantly negative meaning that increasing GDP per capita is associated with a decrease in life expectancy!</p>
 <p>Please keep in mind that the above is not meant to challenge common believes in health economics and epidemiology but is merely being presented as a use case for interactive data exploration to infer the robustness of statistical inference.</p>
@@ -228,7 +228,7 @@
 <ul>
 <li>Both, cash flows from operations and total accruals, are associated with concurrent stock returns</li>
 <li>Cash flows from operations have a stronger association with returns than total accruals</li>
-<li>The stock market seems to miss-price accruals meaning that it puts to much weight on accruals when incorporating net income news in stock prices.</li>
+<li>The stock market seems to miss-price accruals meaning that it puts too much weight on accruals when incorporating net income news in stock prices.</li>
 </ul>
 <p>We will revisit the second statement. To do so, we use the dataset <code>russell_3000</code> that is included with the ExPanDaR package. Most capital market based research uses data from commercial data vendors, requiring researchers to obtain a costly license. To circumvent this barrier to open science, we collect data from publicly available APIs (Yahoo and Google Finance) using the <code>tidyquant</code> package. The sample comprises available data for a sample of U.S. listed firms that where members of the Russell 3000 index in 2017. The data are more or less as provided by <code>tidyquant</code> and are used here for illustrative purposes only.</p>
 <p>To explore the data and to test a model on the data, we split the <code>russell_3000</code> in two equally sized randomly selected samples: The “training sample” and the “test sample”. The idea is that we will explore the training sample but will infer the significance of our association test from the test sample. Run the following to generate the two samples and to start ExPanD with them.</p>
@@ -252,9 +252,9 @@ test_sample &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span 
 <p><img src="figures/ExPanD_two_samples_04.png" width="90%" style="display: block; margin: auto;"></p>
 <p>As the screenshot shows, we find no significant coefficient for <span class="math inline">\(accoa\)</span>. This indicates that the predicted difference in associations is not statistically significant at conventional levels. While this might be driven by the relatively low power of the test (short panel with cross-sectional fixed effects), I encourage you to use ExPanD to explore this finding further. You will easily notice that depending on how exactly you specify your test (fixed effect structures, standard error clustering, etc.) and whether/how you cut your training and test sample, you are able to generate findings that are or are not “statistically significant at conventional levels”. So, again, this use case of ExPanD demonstrates how the app can be used to assess the robustness of statistical inference.</p>
 </div>
-<div id="making-expand-available-to-users-without-provding-them-raw-data-access" class="section level2">
+<div id="making-expand-available-to-users-without-providing-them-raw-data-access" class="section level2">
 <h2 class="hasAnchor">
-<a href="#making-expand-available-to-users-without-provding-them-raw-data-access" class="anchor"></a>Making ExPanD available to users without provding them raw data access</h2>
+<a href="#making-expand-available-to-users-without-providing-them-raw-data-access" class="anchor"></a>Making ExPanD available to users without providing them raw data access</h2>
 <p>In many instances, you as a researcher want to provide readers, editors and/or reviewers the opportunity to assess the robustness of your findings but are unable to provide them with the underlying data as this data is subject to commercial licensing or other usage restrictions. By uploading your ExPanD instance on a public server, you can make your results accessible without sharing the data. As shiny apps can be hosted on dedicated servers, this is easily achieved. Maybe you noticed the “Publish” icon in the top-right corner of your ExPanD window. Click on it to learn more about your options.</p>
 <p>As an example, you can access an ExPanD-based extension of a current working paper of our team <a href="https://jgassen.shinyapps.io/expacc/">here</a>.</p>
 </div>
@@ -270,7 +270,7 @@ test_sample &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span 
       <li><a href="#exploring-data">Exploring data</a></li>
       <li><a href="#defining-additional-variables">Defining additional variables</a></li>
       <li><a href="#using-expand-with-multiple-samples">Using ExPanD with multiple samples</a></li>
-      <li><a href="#making-expand-available-to-users-without-provding-them-raw-data-access">Making ExPanD available to users without provding them raw data access</a></li>
+      <li><a href="#making-expand-available-to-users-without-providing-them-raw-data-access">Making ExPanD available to users without providing them raw data access</a></li>
       </ul>
 </div>
       </div>

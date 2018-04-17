@@ -2,7 +2,9 @@ Package: ExPanDaR
 Type: Package
 Title: Explore Panel Data with R
 Version: 0.1.0
-Authors@R: person("Joachim", "Gassen", role = c("aut", "cre"), email = "gassen@wiwi.hu-berlin.de")
+Authors@R: person("Joachim", "Gassen", role = c("aut", "cre"), 
+    email = "gassen@wiwi.hu-berlin.de",
+    comment = c(ORCID = "0000-0003-4364-2911"))
 Description: The ExPanDaR (Explore Panel Data with R) package 
     provides a shiny-based frontend (the "ExPanD" app) and
     a set of functions for exploratory panel data analysis. 
@@ -11,7 +13,8 @@ Description: The ExPanDaR (Explore Panel Data with R) package
     The functions of the ExPanDaR package can also be used directly in R code to support 
     your exploratory data analysis workflow. 
     Refer to the vignettes of the package for more information on how to use ExPanD
-    and/or the functions of this package. 
+    and/or the functions of this package.
+Depends: R (>= 2.10)
 License: MIT + file LICENSE
 URL: https://joachim-gassen.github.io/ExPanDaR
 BugReports: https://github.com/joachim-gassen/ExPanDaR/issues
@@ -19,8 +22,8 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     Hmisc, tidyr, dplyr, ggplot2, corrplot, lfe, stargazer, scales, shiny, 
-    DT, PKI, tictoc, CodeDepends, shinycssloaders
+    DT, PKI, tictoc, CodeDepends, shinycssloaders, kableExtra
 RoxygenNote: 6.0.1.9000
 Suggests:
-    gapminder, rmarkdown, htmltools, knitr, kableExtra, devtools, tidyquant, wbstats
+    gapminder, rmarkdown, htmltools, knitr, devtools, tidyquant, wbstats
 VignetteBuilder: knitr

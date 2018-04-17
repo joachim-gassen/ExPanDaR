@@ -80,7 +80,7 @@ cross-sectional identifier and `year` as time-series identifier. Each of the add
 in a separate column. It has one factor (`continent`)
 and three numerical variables (`lifeExp`, `pop` and `gdpPercap`). So, it complies with the above requirements.
 
-Use the commented-out write.csv() function call to save the CSV file to your system and the file dialog to load it into ExPanD 
+Use the commented-out `write.csv()` function call to save the CSV file to your system and the file dialog to load it into ExPanD 
 (if you are not using R, you can download the CSV file 
 [here](https://github.com/joachim-gassen/ExPanDaR/raw/master/vignettes/data/gapminder.csv)).
 After uploading the file, two dialog boxes will appear asking you to select the cross-sectional identifier(s)
@@ -188,7 +188,7 @@ knitr::include_graphics("figures/ExPanD_worldbank_02.png")
 
 While `gdp_capita` is available for all observations (remember the `can_be_na` variable in the data definition data frame?) and `life_expectancy` has good coverage for all but the most recent years, both `pubspend_health_gdp` and `giniindex` are only available for later years in the sample. `giniindex` is also only available for a subset of countries. Taken together, this drastically reduces the sample size of the regression model. Explore whether this has an effect on the documented associations by excluding and including the test variables one-by-one. You will see that the associations are reasonable robust.
 
-Now lets see whether the distributional properties of the main independent variable of interest have an impact on the association. The screenshot below displays the histogram of `gdp_capita`.
+Now let's see whether the distributional properties of the main independent variable of interest have an impact on the association. The screenshot below displays the histogram of `gdp_capita`.
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
 knitr::include_graphics("figures/ExPanD_worldbank_03.png")
@@ -220,13 +220,13 @@ knitr::include_graphics("figures/ExPanD_worldbank_07.png")
 
 The logged version of GDP per capita remains robustly positively associated with life expectancy but now income inequality (as measured by `giniindex`) is only marginally associated with life expectancy.
 
-Another thing that one can notice from the scatter plot above is that each country appears to be on its own "trajectory" in terms of life expectancy development. As we also know that in most countries and periods GDP per capita increases over time: Can we be sure that the the association of GDP per capita and life expectancy is different from a general time trend in the data? Below, you will find a scatter plot that uses `time` as the independent variable.
+Another thing that one can notice from the scatter plot above is that each country appears to be on its own "trajectory" in terms of life expectancy development. As we also know that in most countries and periods GDP per capita increases over time: Can we be sure that the association of GDP per capita and life expectancy is different from a general time trend in the data? Below, you will find a scatter plot that uses `time` as the independent variable.
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
 knitr::include_graphics("figures/ExPanD_worldbank_08.png")
 ```
 
-You can see that for most countries, life expectancy seem to follow a robust and similar linear time trend. There are some exceptions from this rule (China, Mali, Rwanda, Sierra Leone). To see whether our association "survives" a control for time-induced variance in life expectancy that is stable across countries, we estimate a regression model that includes country and year fixed effects. See below.
+You can see that for most countries, life expectancy seems to follow a robust and similar linear time trend. There are some exceptions from this rule (China, Mali, Rwanda, Sierra Leone). To infer whether our association "survives" a control for time-induced variance in life expectancy that is stable across countries, we estimate a regression model that includes country and year fixed effects. See below.
 
 ```{r, out.width = "90%", fig.align="center", fig.border = "none", echo=FALSE}
 knitr::include_graphics("figures/ExPanD_worldbank_09.png")
@@ -254,7 +254,7 @@ Generously glossing other many important details, the accounting literature has 
 
 - Both, cash flows from operations and total accruals, are associated with concurrent stock returns
 - Cash flows from operations have a stronger association with returns than total accruals
-- The stock market seems to miss-price accruals meaning that it puts to much weight on accruals when incorporating net income news in stock prices.
+- The stock market seems to miss-price accruals meaning that it puts too much weight on accruals when incorporating net income news in stock prices.
 
 We will revisit the second statement. To do so, we use the dataset `russell_3000` that is 
 included with the ExPanDaR package. Most capital market based research uses data from commercial data vendors, requiring researchers to obtain a costly license. To circumvent this barrier to open science, we collect data from publicly available APIs (Yahoo and Google Finance) using the `tidyquant` package. The sample comprises available data for a sample of U.S. listed firms that where members of the Russell 3000 index in 2017. The data are more or less as provided by `tidyquant` and are used here for illustrative purposes only.
@@ -302,7 +302,7 @@ knitr::include_graphics("figures/ExPanD_two_samples_04.png")
 
 As the screenshot shows, we find no significant coefficient for $accoa$. This indicates that the predicted difference in associations is not statistically significant at conventional levels. While this might be driven by the relatively low power of the test (short panel with cross-sectional fixed effects), I encourage you to use ExPanD to explore this finding further. You will easily notice that depending on how exactly you specify your test (fixed effect structures, standard error clustering, etc.) and whether/how you cut your training and test sample, you are able to generate findings that are or are not "statistically significant at conventional levels". So, again, this use case of ExPanD demonstrates how the app can be used to assess the robustness of statistical inference.
 
-## Making ExPanD available to users without provding them raw data access 
+## Making ExPanD available to users without providing them raw data access 
 
 In many instances, you as a researcher want to provide readers, editors and/or reviewers the opportunity to assess the robustness of your findings but are unable to provide them with the underlying data as this data is subject to commercial licensing or other usage restrictions. By uploading your ExPanD instance on a public server, you can make your results accessible without sharing the data. As shiny apps can be hosted on dedicated servers, this is easily achieved. Maybe you noticed the "Publish" icon in the top-right corner of your ExPanD window. Click on it to learn more about your options.
 

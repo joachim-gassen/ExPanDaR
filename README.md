@@ -1,7 +1,7 @@
 ExPanDaR: Exploring Panel Data with R
 ================
 Joachim Gassen
-2018-04-15
+2018-04-17
 
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip) [![Travis-CI Build Status](https://travis-ci.org/joachim-gassen/ExPanDaR.svg?branch=master)](https://travis-ci.org/joachim-gassen/ExPanDaR)
 
@@ -20,7 +20,7 @@ This is what ExPanD looks like:
 
 If you are interested to see what ExPanD has to offer without diving into R, click [here](https://jgassen.shinyapps.io/expand_wb/) to explore an instance of ExPanD that hosts World Bank data or click [here](https://jgassen.shinyapps.io/expand_r3/) for a financial accounting and stock returns dataset of U.S. firms.
 
-If you want to analyze your own panel data instead, you can also access a variant of ExPanD app [here](https://jgassen.shinyapps.io/expand/) that allows user-side data uploads.
+If you want to analyze your own panel data instead, you can also access a variant of ExPanD app [here](https://jgassen.shinyapps.io/expand/) that allows user-side data uploads. No worries: Your data won't be stored on the server and will get erased from memory as soon as you close the web connection.
 
 Finally, if you are in for the full treat and want to test ExPanD from within R, run the following in your R session to start exploring World Bank data.
 

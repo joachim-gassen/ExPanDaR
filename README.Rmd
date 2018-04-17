@@ -53,9 +53,6 @@ ExPanD(df = worldbank,
        config_list = ExPanD_config_worldbank)
 ````
 
-To learn more about how to use the ExPanD app and its accompanying functions, read the vignettes that come with the ExPanDaR package:
-
-- [Using ExPanD for Panel Data Exploration](vignettes/use_ExPanD.md) 
-- [Using the functions of the ExPanDaR package](vignettes/ExPanDaR-functions.md)
+For further information, please refer to the articles and function call references of the package documentation, available [here](https://joachim-gassen.github.io/ExPanDaR).
 
 Enjoy!

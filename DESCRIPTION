@@ -6,7 +6,7 @@ Authors@R: person("Joachim", "Gassen", role = c("aut", "cre"),
     email = "gassen@wiwi.hu-berlin.de",
     comment = c(ORCID = "0000-0003-4364-2911"))
 Description: The ExPanDaR (Explore Panel Data with R) package 
-    provides a shiny-based frontend (the "ExPanD" app) and
+    provides a shiny-based front end (the "ExPanD" app) and
     a set of functions for exploratory panel data analysis. 
     The shiny-based ExPanD app enables users to assess the robustness of empirical 
     evidence without providing them with access to the underlying data.

@@ -9,10 +9,10 @@ ExPanD(df = NULL, cs_id = NULL, ts_id = NULL, df_def = NULL,
   title = "ExPanD - Explore panel data interactively", abstract = NULL,
   df_name = deparse(substitute(df)), long_def = TRUE, factor_cutoff = 10L,
   components = c(bar_chart = TRUE, missing_values = TRUE, descriptive_table =
-  TRUE, histogram = TRUE, ext_obs = TRUE, trend_graph = TRUE,
-  quantile_trend_graph = TRUE, corrplot = TRUE, scatter_plot = TRUE, regression
-  = TRUE), store_encrypted = FALSE, key_phrase = "What a wonderful key",
-  debug = FALSE, ...)
+  TRUE, by_group_bar_graph = TRUE, histogram = TRUE, ext_obs = TRUE, trend_graph
+  = TRUE, quantile_trend_graph = TRUE, corrplot = TRUE, scatter_plot = TRUE,
+  regression = TRUE), store_encrypted = FALSE,
+  key_phrase = "What a wonderful key", debug = FALSE, ...)
 }
 \arguments{
 \item{df}{A data frame or a list of data frames containing the panel data that
@@ -145,7 +145,8 @@ it defaults to being TRUE for all variables other than cs_id and ts_id.} }
   data(russell_3000)
   ExPanD(russell_3000, c("coid", "coname"), "period")
   ExPanD(russell_3000, df_def = russell_3000_data_def)
-  ExPanD(russell_3000, df_def = russell_3000_data_def, components = c(T, F, T, F, F, F, F, F, T, T))
+  ExPanD(russell_3000, df_def = russell_3000_data_def,
+    components = c(T, F, T, F, F, F, F, F, F, T, T))
   data(ExPanD_config_russell_3000)
   ExPanD(df = russell_3000, df_def = russell_3000_data_def,
     config_list = ExPanD_config_russell_3000)

@@ -120,6 +120,15 @@ fluidPage(
     hr())
   },
 
+  if(shiny_components["by_group_bar_graph"]) {
+    list(fluidRow(
+      column(2, uiOutput("ui_by_group_bar_graph")),
+      column(10, withSpinner(plotOutput("by_group_bar_graph")))
+    ),
+
+    hr())
+  },
+
   if(shiny_components["histogram"]) {
     list(fluidRow(
       column(2, uiOutput("ui_histogram")),

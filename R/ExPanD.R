@@ -115,7 +115,8 @@
 #'   data(russell_3000)
 #'   ExPanD(russell_3000, c("coid", "coname"), "period")
 #'   ExPanD(russell_3000, df_def = russell_3000_data_def)
-#'   ExPanD(russell_3000, df_def = russell_3000_data_def, components = c(T, F, T, F, F, F, F, F, T, T))
+#'   ExPanD(russell_3000, df_def = russell_3000_data_def,
+#'     components = c(T, F, T, F, F, F, F, F, F, T, T))
 #'   data(ExPanD_config_russell_3000)
 #'   ExPanD(df = russell_3000, df_def = russell_3000_data_def,
 #'     config_list = ExPanD_config_russell_3000)
@@ -138,6 +139,7 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
                    components = c(bar_chart = TRUE,
                                   missing_values = TRUE,
                                   descriptive_table = TRUE,
+                                  by_group_bar_graph = TRUE,
                                   histogram = TRUE,
                                   ext_obs = TRUE,
                                   trend_graph = TRUE,
@@ -199,10 +201,10 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
     }
   }
 
-  if (length(components) != 10 | !is.vector(components) | !is.logical(components)) stop("Components vector is invalid")
-  comp_names <- c("bar_chart", "missing_values", "descriptive_table", "histogram",
-                 "ext_obs", "trend_graph", "quantile_trend_graph", "corrplot",
-                 "scatter_plot", "regression")
+  if (length(components) != 11 | !is.vector(components) | !is.logical(components)) stop("Components vector is invalid")
+  comp_names <- c("bar_chart", "missing_values", "descriptive_table", "by_group_bar_graph",
+                  "histogram", "ext_obs", "trend_graph", "quantile_trend_graph", "corrplot",
+                  "scatter_plot", "regression")
   if (is.null(names(components))) names(components) <- comp_names
   if(!is.null(var_def)) var_def[1:3] <- lapply(var_def[1:3], as.character)
   shiny_df <- df

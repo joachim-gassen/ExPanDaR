@@ -1180,6 +1180,14 @@ function(input, output, session) {
     }
   )
 
+  output$by_group_bar_graph.ui <- renderUI({
+    req(uc$bgbg_byvar)
+    df <- create_analysis_sample()
+    bins <- length(unique(df[, uc$bgbg_byvar]))
+    isolate(plotOutput("by_group_bar_graph",
+                       height=max(400, 15 * bins)))
+  })
+
   output$by_group_bar_graph <- renderPlot({
     req(uc$bgbg_var, uc$bgbg_byvar)
     q25 <- function(x, na.rm) {quantile(x, 0.25, na.rm)}

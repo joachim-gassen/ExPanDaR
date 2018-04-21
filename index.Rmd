@@ -16,7 +16,7 @@ library(knitr)
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
 [![Travis-CI Build Status](https://travis-ci.org/joachim-gassen/ExPanDaR.svg?branch=master)](https://travis-ci.org/joachim-gassen/ExPanDaR)
 
-This is the documentation of the ExPanDaR (Explore Panel Data with R) package. I developed ExPanDaR to provide the code base for the ExPanD web app. ExPanD is a shiny based app supporting interactive exploratory data analysis.
+This is the documentation of the ExPanDaR (Explore Panel Data with R) package. ExPanDaR provides the code base for the ExPanD web app. ExPanD is a shiny based app supporting interactive exploratory data analysis.
 
 ExPanD has two purposes:
 

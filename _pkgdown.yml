@@ -1,8 +1,29 @@
-articles:
-- title: Vignettes
-  contents:
-  - use_ExPanD
-  - ExPanDaR-functions
+navbar:
+  type: inverse
+  structure:
+    left:
+    - home
+    - reference
+    - articles
+    right: github
+  components:
+    home:
+      icon: fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    github:
+      text: Code repository
+      icon: fa-github
+      href: https://www.github.com/joachim-gassen/ExPanDaR
+    articles:
+      text: Articles
+      menu:
+      - text: Using ExPanD for Panel Data Exploration
+        href: articles/use_ExPanD.html
+      - text: Using the functions of the ExPanDaR package
+        href: articles/ExPanDaR-functions.html
 reference:
 - title: ExPanD app
   desc:  Shiny-based app for interactive exploratory data analysis

@@ -32,7 +32,7 @@ fluidPage(
   fluidRow(
     column (12,
             p("Based on the ExPanD app of the",
-              HTML("<a href=http://www.github.com/joachim-gassen/ExPanDaR>ExPanDaR R package</a>"),
+              HTML("<a href=https://joachim-gassen.github.io/ExPanDaR>ExPanDaR R package</a>"),
               "developed by Joachim Gassen, Humboldt-Universität zu Berlin,",
               HTML("<a href=\"mailto:gassen@wiwi.hu-berlin.de\">gassen@wiwi.hu-berlin.de</a>.")),
             singleton(
@@ -227,7 +227,7 @@ fluidPage(
 
   fluidRow(
     column(12, align="center",
-           helpText("ExPanD based on ExPanDaR, Joachim Gassen, Humboldt-Universität zu Berlin, March 2018")
+           HTML("ExPanD based on <a href=https://joachim-gassen.github.io/ExPanDaR>ExPanDaR</a>, Joachim Gassen, Humboldt-Universität zu Berlin, 2018<p>")
            )
     )
 )

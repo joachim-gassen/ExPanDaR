@@ -4,13 +4,19 @@
 \alias{prepare_trend_graph}
 \title{Prepares a Trend Graph}
 \usage{
-prepare_trend_graph(df, xvar)
+prepare_trend_graph(df, ts_id, var = colnames(df[sapply(df, is.numeric) &
+  colnames(df) != ts_id]))
 }
 \arguments{
 \item{df}{Data frame containing the ordered factor and a set of numerical variables
 to be plotted}
 
-\item{xvar}{a string countaining the column name of the ordered factor}
+\item{ts_id}{a string containing the column name of the ordered factor
+(normally the time-series indicator)}
+
+\item{var}{a character verctor containing the column names of the variables
+that should be plotted. Defaults to all numeric variables of the data frame
+besides the one indicated by \code{ts_id}.}
 }
 \value{
 A list containing two items:
@@ -21,7 +27,7 @@ A list containing two items:
 }
 \description{
 Reads a data frame and line plots all variables (which need to be numeric)
- by an ordered factor.
+ by an ordered factor (normally the time-series indicator).
 }
 \examples{
 df <- data.frame(year = floor(time(EuStockMarkets)), EuStockMarkets)

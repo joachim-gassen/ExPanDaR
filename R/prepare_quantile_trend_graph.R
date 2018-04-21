@@ -1,14 +1,18 @@
 #' @title Prepares a Quantile Trend Graph
 #'
 #' @description
-#' Reads a data frame containing two variables (an ordered factor and a numeric variable)
-#' and plots the quantiles of the numeric variables
-#' by the ordered factor.
+#' Reads a data frame
+#' and plots the quantiles of the specified variables
+#' by an ordered factor (normally the time-series indicator)
 #'
 #' @param df Data frame containing the ordered factor and the numerical variable
 #' to be plotted
-#' @param xvar a string containing the column name of the ordered factor
+#' @param ts_id a string containing the column name of the ordered factor
+#'   (normally the time-series indicator)
 #' @param quantiles a numerical vector containing the quantiles that are to be plotted
+#' @param var a character verctor containing the column names of the variables
+#'   that should be plotted. Defaults to all numeric variables of the data frame
+#'   besides the one indicated by \code{ts_id}.
 #'
 #' @return A list containing two items:
 #' \describe{
@@ -17,39 +21,48 @@
 #' }
 #'
 #' @examples
+#' prepare_quantile_trend_graph(worldbank, "year", var = "SP.DYN.LE00.IN")$plot +
+#'   ggplot2::ylab("Life expectancy at birth world-wide")
 #' df <- data.frame(year = floor(stats::time(datasets::EuStockMarkets)),
 #'                  DAX = datasets::EuStockMarkets[,"DAX"])
 #' graph <- prepare_quantile_trend_graph(df, "year", c(0.05, 0.25, 0.5, 0.75, 0.95))
 #' graph$plot
 #' @export
 
-prepare_quantile_trend_graph <- function(df, xvar, quantiles = c(0.05, 0.25, 0.5, 0.75, 0.95)) {
+prepare_quantile_trend_graph <- function(df, ts_id,
+                                         quantiles = c(0.05, 0.25, 0.5, 0.75, 0.95),
+                                         var = colnames(df[sapply(df, is.numeric) & colnames(df) != ts_id])) {
   if(!is.data.frame(df)) stop("df needs to be a dataframe")
   df <- as.data.frame(df)
-  if(!is.numeric(xvar)) xnum <- suppressWarnings(as.numeric(as.character(df[,xvar]))) else xnum <- xvar
+  if (! ts_id %in% colnames(df)) stop("ts_id need to be in df")
+  if (length(var) > 1) stop("var needs to identify a single variable")
+  if (! var %in% colnames(df)) stop("var needs to be in df")
+
+  df <- df[, c(ts_id, var)]
+  if(!is.numeric(ts_id)) xnum <- suppressWarnings(as.numeric(as.character(df[,ts_id]))) else xnum <- ts_id
   if (anyNA(xnum)) {
     x_is_factor <- TRUE
   } else {
-    df[,xvar] <- xnum
+    df[,ts_id] <- xnum
     x_is_factor <- FALSE
   }
   q <- sapply(quantiles,
-              function(x){by(df[, which(!colnames(df) %in% xvar)], df[, xvar], stats::quantile, na.rm=TRUE,x)})
+              function(x){by(df[, which(!colnames(df) %in% ts_id)], df[, ts_id], stats::quantile, na.rm=TRUE,x)})
   if (x_is_factor) q <- data.frame(rownames(q),q) else q <- data.frame(as.numeric(rownames(q)),q)
-  colnames(q)[1] <- xvar
+  colnames(q)[1] <- ts_id
   colnames(q)[2:(length(quantiles) + 1)] <- sprintf("q%02d", quantiles*100)
   gg <- tidyr::gather_(data = q,
                        key_col = "quantile",
-                       value_col = colnames(df)[!(xvar == colnames(df))],
-                       gather_cols = colnames(q)[!(xvar == colnames(q))])
+                       value_col = colnames(df)[!(ts_id == colnames(df))],
+                       gather_cols = colnames(q)[!(ts_id == colnames(q))])
   gg$quantile <- factor(gg$quantile, levels = unique(gg$quantile))
   if (x_is_factor) {
-    plot <- ggplot2::ggplot(gg, ggplot2::aes_string(x = xvar, y=gg[,3], color="quantile", group = "quantile")) +
+    plot <- ggplot2::ggplot(gg, ggplot2::aes_string(x = ts_id, y=gg[,3], color="quantile", group = "quantile")) +
       ggplot2::stat_summary(fun.y=sum, geom="line") + ggplot2::ylab(colnames(df[ncol(df)])) +
       ggplot2::scale_color_discrete(labels=quantiles)
   } else {
     plot <- ggplot2::ggplot(gg) + ggplot2::ylab(colnames(df[ncol(df)])) +
-      ggplot2::geom_line(ggplot2::aes_string(x=xvar, y=gg[,3], color="quantile")) +
+      ggplot2::geom_line(ggplot2::aes_string(x=ts_id, y=gg[,3], color="quantile")) +
       ggplot2::scale_color_discrete(labels=quantiles)
   }
   list(df = gg, plot = plot)

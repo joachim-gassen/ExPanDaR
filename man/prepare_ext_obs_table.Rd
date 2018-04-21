@@ -4,13 +4,19 @@
 \alias{prepare_ext_obs_table}
 \title{Prepares a Table Displaying Extreme Observations}
 \usage{
-prepare_ext_obs_table(df, n = 5, ...)
+prepare_ext_obs_table(df, n = 5, cs_id = NA, ts_id = NA,
+  var = utils::tail(colnames(df[sapply(df, is.numeric)]), n = 1), ...)
 }
 \arguments{
-\item{df}{Data frame containing at least one variable that is numeric as variable of
-interest. Most likely it will also contain the variables identifying an observation.}
+\item{df}{Data frame}
 
 \item{n}{The number of top/bottom observations that you want to report.}
+
+\item{cs_id}{The variable(s) identifying the cross-section in the data.}
+
+\item{ts_id}{The variable identifying the time-series in the data.}
+
+\item{var}{Variable to display. Defaults to the last numerical variable of the data frame.}
 
 \item{...}{Additional parameters that are passed to \code{\link[knitr]{kable}}.}
 }
@@ -22,14 +28,11 @@ A list containing two items:
 }
 }
 \description{
-Reads a data frame containing the variable of interest as the last variable,
-  sorts it by it and displays the top and bottom n variables.
+Reads a data frame, sorts it by the given variable and displays the top and bottom n observations.
 }
 \details{
-The default parameters for calling \code{\link[knitr]{kable}},
+When both \code{cs_id} and \code{ts_id} are omitted, all variables are tabulated.
+  Otherwise, \code{var} is tabulated along with the identifiers.
+  The default parameters for calling \code{\link[knitr]{kable}},
   are \code{format = "html", digits = 3, format.args = list(big.mark = ','), row.names = FALSE}.
-}
-\examples{
-t <- prepare_ext_obs_table(data.frame(name = rownames(mtcars), hp = mtcars$hp))
-t$df
 }

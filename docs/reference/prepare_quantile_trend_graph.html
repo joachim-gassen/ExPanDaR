@@ -27,9 +27,9 @@
 <script src="../pkgdown.js"></script>
 <meta property="og:title" content="Prepares a Quantile Trend Graph — prepare_quantile_trend_graph" />
 
-<meta property="og:description" content="Reads a data frame containing two variables (an ordered factor and a numeric variable)
-and plots the quantiles of the numeric variables
-by the ordered factor." />
+<meta property="og:description" content="Reads a data frame
+and plots the quantiles of the specified variable
+by an ordered factor (normally the time-series indicator)" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -111,13 +111,14 @@ by the ordered factor." />
     </div>
 
     
-    <p>Reads a data frame containing two variables (an ordered factor and a numeric variable)
-and plots the quantiles of the numeric variables
-by the ordered factor.</p>
+    <p>Reads a data frame
+and plots the quantiles of the specified variable
+by an ordered factor (normally the time-series indicator)</p>
     
 
-    <pre class="usage"><span class='fu'>prepare_quantile_trend_graph</span>(<span class='no'>df</span>, <span class='no'>xvar</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.05</span>, <span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>,
-  <span class='fl'>0.95</span>))</pre>
+    <pre class="usage"><span class='fu'>prepare_quantile_trend_graph</span>(<span class='no'>df</span>, <span class='no'>ts_id</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.05</span>, <span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>,
+  <span class='fl'>0.95</span>), <span class='kw'>var</span> <span class='kw'>=</span> <span class='kw pkg'>utils</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/utils/topics/head'>tail</a></span>(<span class='fu'>colnames</span>(<span class='no'>df</span>[<span class='fu'>sapply</span>(<span class='no'>df</span>, <span class='no'>is.numeric</span>) <span class='kw'>&amp;</span> <span class='fu'>colnames</span>(<span class='no'>df</span>)
+  <span class='kw'>!=</span> <span class='no'>ts_id</span>]), <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -128,12 +129,19 @@ by the ordered factor.</p>
 to be plotted</p></td>
     </tr>
     <tr>
-      <th>xvar</th>
-      <td><p>a string containing the column name of the ordered factor</p></td>
+      <th>ts_id</th>
+      <td><p>a string containing the column name of the ordered factor
+(normally the time-series indicator)</p></td>
     </tr>
     <tr>
       <th>quantiles</th>
       <td><p>a numerical vector containing the quantiles that are to be plotted</p></td>
+    </tr>
+    <tr>
+      <th>var</th>
+      <td><p>a string containing the column name of the variable
+to be plotted. Defaults to the last numerical variable of the data frame
+that is not <code>ts_id</code>.</p></td>
     </tr>
     </table>
     
@@ -147,10 +155,11 @@ to be plotted</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fu'>floor</span>(<span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/stats/topics/time'>time</a></span>(<span class='kw pkg'>datasets</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/datasets/topics/EuStockMarkets'>EuStockMarkets</a></span>)),
+    <pre class="examples"><div class='input'><span class='fu'>prepare_quantile_trend_graph</span>(<span class='no'>worldbank</span>, <span class='st'>"year"</span>, <span class='kw'>var</span> <span class='kw'>=</span> <span class='st'>"SP.DYN.LE00.IN"</span>)$<span class='no'>plot</span> +
+  <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/labs'>ylab</a></span>(<span class='st'>"Life expectancy at birth world-wide"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 5 rows containing missing values (geom_path).</span></div><div class='img'><img src='prepare_quantile_trend_graph-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fu'>floor</span>(<span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/stats/topics/time'>time</a></span>(<span class='kw pkg'>datasets</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/datasets/topics/EuStockMarkets'>EuStockMarkets</a></span>)),
                  <span class='kw'>DAX</span> <span class='kw'>=</span> <span class='kw pkg'>datasets</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/datasets/topics/EuStockMarkets'>EuStockMarkets</a></span>[,<span class='st'>"DAX"</span>])
 <span class='no'>graph</span> <span class='kw'>&lt;-</span> <span class='fu'>prepare_quantile_trend_graph</span>(<span class='no'>df</span>, <span class='st'>"year"</span>, <span class='fu'>c</span>(<span class='fl'>0.05</span>, <span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>, <span class='fl'>0.95</span>))
-<span class='no'>graph</span>$<span class='no'>plot</span></div><div class='img'><img src='prepare_quantile_trend_graph-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='no'>graph</span>$<span class='no'>plot</span></div><div class='img'><img src='prepare_quantile_trend_graph-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

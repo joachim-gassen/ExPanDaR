@@ -5,7 +5,8 @@
 \title{Prepares a Table Displaying Extreme Observations}
 \usage{
 prepare_ext_obs_table(df, n = 5, cs_id = NA, ts_id = NA,
-  var = utils::tail(colnames(df[sapply(df, is.numeric)]), n = 1), ...)
+  var = utils::tail(colnames(df[sapply(df, is.numeric) & (!colnames(df) \%in\%
+  c(cs_id, ts_id))]), n = 1), ...)
 }
 \arguments{
 \item{df}{Data frame}
@@ -33,6 +34,13 @@ Reads a data frame, sorts it by the given variable and displays the top and bott
 \details{
 When both \code{cs_id} and \code{ts_id} are omitted, all variables are tabulated.
   Otherwise, \code{var} is tabulated along with the identifiers.
+  Infinite values in \code{var} are omitted.
   The default parameters for calling \code{\link[knitr]{kable}},
   are \code{format = "html", digits = 3, format.args = list(big.mark = ','), row.names = FALSE}.
+}
+\examples{
+t <- prepare_ext_obs_table(russell_3000, n = 10,
+                           cs_id = c("coid", "coname"),
+                           ts_id = "period", var = "sales")
+t$df
 }

@@ -2,7 +2,7 @@
 #'
 #' @description
 #' Reads a data frame
-#' and plots the quantiles of the specified variables
+#' and plots the quantiles of the specified variable
 #' by an ordered factor (normally the time-series indicator)
 #'
 #' @param df Data frame containing the ordered factor and the numerical variable
@@ -10,9 +10,9 @@
 #' @param ts_id a string containing the column name of the ordered factor
 #'   (normally the time-series indicator)
 #' @param quantiles a numerical vector containing the quantiles that are to be plotted
-#' @param var a character verctor containing the column names of the variables
-#'   that should be plotted. Defaults to all numeric variables of the data frame
-#'   besides the one indicated by \code{ts_id}.
+#' @param var a string containing the column name of the variable
+#'   to be plotted. Defaults to the last numerical variable of the data frame
+#'   that is not \code{ts_id}.
 #'
 #' @return A list containing two items:
 #' \describe{
@@ -31,7 +31,7 @@
 
 prepare_quantile_trend_graph <- function(df, ts_id,
                                          quantiles = c(0.05, 0.25, 0.5, 0.75, 0.95),
-                                         var = colnames(df[sapply(df, is.numeric) & colnames(df) != ts_id])) {
+                                         var = utils::tail(colnames(df[sapply(df, is.numeric) & colnames(df) != ts_id]), n = 1)) {
   if(!is.data.frame(df)) stop("df needs to be a dataframe")
   df <- as.data.frame(df)
   if (! ts_id %in% colnames(df)) stop("ts_id need to be in df")

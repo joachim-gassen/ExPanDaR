@@ -28,7 +28,7 @@
 <meta property="og:title" content="Prepares a Trend Graph — prepare_trend_graph" />
 
 <meta property="og:description" content="Reads a data frame and line plots all variables (which need to be numeric)
- by an ordered factor." />
+ by an ordered factor (normally the time-series indicator)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -111,10 +111,11 @@
 
     
     <p>Reads a data frame and line plots all variables (which need to be numeric)
- by an ordered factor.</p>
+ by an ordered factor (normally the time-series indicator).</p>
     
 
-    <pre class="usage"><span class='fu'>prepare_trend_graph</span>(<span class='no'>df</span>, <span class='no'>xvar</span>)</pre>
+    <pre class="usage"><span class='fu'>prepare_trend_graph</span>(<span class='no'>df</span>, <span class='no'>ts_id</span>, <span class='kw'>var</span> <span class='kw'>=</span> <span class='fu'>colnames</span>(<span class='no'>df</span>[<span class='fu'>sapply</span>(<span class='no'>df</span>, <span class='no'>is.numeric</span>) <span class='kw'>&amp;</span>
+  <span class='fu'>colnames</span>(<span class='no'>df</span>) <span class='kw'>!=</span> <span class='no'>ts_id</span>]))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -125,8 +126,15 @@
 to be plotted</p></td>
     </tr>
     <tr>
-      <th>xvar</th>
-      <td><p>a string countaining the column name of the ordered factor</p></td>
+      <th>ts_id</th>
+      <td><p>a string containing the column name of the ordered factor
+(normally the time-series indicator)</p></td>
+    </tr>
+    <tr>
+      <th>var</th>
+      <td><p>a character verctor containing the column names of the variables
+that should be plotted. Defaults to all numeric variables of the data frame
+besides the one indicated by <code>ts_id</code>.</p></td>
     </tr>
     </table>
     

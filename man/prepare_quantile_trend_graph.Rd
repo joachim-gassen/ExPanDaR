@@ -5,7 +5,8 @@
 \title{Prepares a Quantile Trend Graph}
 \usage{
 prepare_quantile_trend_graph(df, ts_id, quantiles = c(0.05, 0.25, 0.5, 0.75,
-  0.95), var = colnames(df[sapply(df, is.numeric) & colnames(df) != ts_id]))
+  0.95), var = utils::tail(colnames(df[sapply(df, is.numeric) & colnames(df)
+  != ts_id]), n = 1))
 }
 \arguments{
 \item{df}{Data frame containing the ordered factor and the numerical variable
@@ -16,9 +17,9 @@ to be plotted}
 
 \item{quantiles}{a numerical vector containing the quantiles that are to be plotted}
 
-\item{var}{a character verctor containing the column names of the variables
-that should be plotted. Defaults to all numeric variables of the data frame
-besides the one indicated by \code{ts_id}.}
+\item{var}{a string containing the column name of the variable
+to be plotted. Defaults to the last numerical variable of the data frame
+that is not \code{ts_id}.}
 }
 \value{
 A list containing two items:
@@ -29,7 +30,7 @@ A list containing two items:
 }
 \description{
 Reads a data frame
-and plots the quantiles of the specified variables
+and plots the quantiles of the specified variable
 by an ordered factor (normally the time-series indicator)
 }
 \examples{

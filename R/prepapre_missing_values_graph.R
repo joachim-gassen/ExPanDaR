@@ -18,8 +18,7 @@
 #'
 #'
 #' @examples
-#' df <- data.frame(year = as.ordered(floor(time(EuStockMarkets))), EuStockMarkets)
-#' prepare_missing_values_graph(df, ts_id="year")
+#' prepare_missing_values_graph(russell_3000, ts_id="period")
 #' @export
 
 prepare_missing_values_graph <- function(df, ts_id, no_factors = FALSE) {

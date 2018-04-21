@@ -1,18 +1,18 @@
 ExPanDaR: Exploring Panel Data with R
 ================
 Joachim Gassen
-2018-04-17
+2018-04-21
 
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip) [![Travis-CI Build Status](https://travis-ci.org/joachim-gassen/ExPanDaR.svg?branch=master)](https://travis-ci.org/joachim-gassen/ExPanDaR)
 
-You are visiting the github repository of the ExPanDaR (Explore Panel Data with R) package. I develop ExPanDaR to provide the code base for the ExPanD web app. ExPanD is a shiny based app supporting interactive exploratory data analysis.
+You are visiting the github repository of the ExPanDaR (Explore Panel Data with R) package. ExPanDaR provides the code base for the ExPanD web app. ExPanD is a shiny based app supporting interactive exploratory data analysis.
 
-I designed ExPanD for two purposes:
+ExPanD has two purposes:
 
 -   Enable users to assess the robustness of empirical evidence without providing them with access to the underlying data.
 -   Provide a toolbox for researchers to explore panel data on the fly.
 
-While I hope that ExPanD might be particularly helpful in the review, publication and replication process I also think that it is convenient for typical exploratory data analysis workflows. In addition, it has already proven to be helpful in the classroom.
+While I hope that ExPanD will be particularly helpful in the academic review, publication and replication process I also think that it is convenient for typical exploratory data analysis workflows. In addition, it has already proven to be helpful in the classroom.
 
 This is what ExPanD looks like:
 

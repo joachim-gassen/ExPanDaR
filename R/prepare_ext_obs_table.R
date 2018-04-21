@@ -16,17 +16,22 @@
 #'
 #' @details When both \code{cs_id} and \code{ts_id} are omitted, all variables are tabulated.
 #'   Otherwise, \code{var} is tabulated along with the identifiers.
+#'   Infinite values in \code{var} are omitted.
 #'   The default parameters for calling \code{\link[knitr]{kable}},
 #'   are \code{format = "html", digits = 3, format.args = list(big.mark = ','), row.names = FALSE}.
 #'
 #' @examples
-#' t <- prepare_ext_obs_table(russell_3000, n = 10, cs_id = c("coid", coname"), ts_id = "period", var = "sales")
+#' t <- prepare_ext_obs_table(russell_3000, n = 10,
+#'                            cs_id = c("coid", "coname"),
+#'                            ts_id = "period", var = "sales")
 #' t$df
 #' @export
 
 
 prepare_ext_obs_table <- function(df, n = 5, cs_id = NA, ts_id = NA,
-                                  var = utils::tail(colnames(df[sapply(df, is.numeric)]), n=1), ...) {
+                                  var = utils::tail(colnames(df[sapply(df, is.numeric) &
+                                                                  (! colnames(df) %in% c(cs_id, ts_id))]),
+                                                    n=1), ...) {
   if(!is.data.frame(df)) stop("df needs to be a dataframe")
   df <- as.data.frame(df)
   if(!is.numeric(df[,ncol(df)]))
@@ -40,7 +45,7 @@ prepare_ext_obs_table <- function(df, n = 5, cs_id = NA, ts_id = NA,
 
   vars <- stats::na.omit(c(cs_id, ts_id, var))
   if (length(vars) == 1) vars <- c(colnames(df[!colnames(df) %in% var]), var)
-  df <- df[!is.na(df[, var]), vars]
+  df <- df[is.finite(df[, var]), vars]
 
 
   df <- rbind(utils::head(df[order(-df[,ncol(df)]),], n),

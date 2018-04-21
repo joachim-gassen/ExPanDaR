@@ -1222,9 +1222,12 @@ function(input, output, session) {
       if (req(uc$ext_obs_group_by) != "All")
         df <- df[df[, uc$group_factor] == uc$ext_obs_group_by, vars]
       df <- droplevels(df[complete.cases(df),])
-      tab <- prepare_ext_obs_table(df)
-      cat(tab$kable_ret %>%
-            kableExtra::kable_styling())
+      if (nrow(df) <= 10) cat("Not enough data to generate table")
+      else {
+        tab <- prepare_ext_obs_table(df)
+        cat(tab$kable_ret %>%
+              kableExtra::kable_styling())
+      }
     }
   )
 

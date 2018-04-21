@@ -27,8 +27,7 @@
 <script src="../pkgdown.js"></script>
 <meta property="og:title" content="Prepares a Table Displaying Extreme Observations — prepare_ext_obs_table" />
 
-<meta property="og:description" content="Reads a data frame containing the variable of interest as the last variable,
-  sorts it by it and displays the top and bottom n variables." />
+<meta property="og:description" content="Reads a data frame, sorts it by the given variable and displays the top and bottom n observations." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -110,23 +109,35 @@
     </div>
 
     
-    <p>Reads a data frame containing the variable of interest as the last variable,
-  sorts it by it and displays the top and bottom n variables.</p>
+    <p>Reads a data frame, sorts it by the given variable and displays the top and bottom n observations.</p>
     
 
-    <pre class="usage"><span class='fu'>prepare_ext_obs_table</span>(<span class='no'>df</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>prepare_ext_obs_table</span>(<span class='no'>df</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>cs_id</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>ts_id</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>var</span> <span class='kw'>=</span> <span class='kw pkg'>utils</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/utils/topics/head'>tail</a></span>(<span class='fu'>colnames</span>(<span class='no'>df</span>[<span class='fu'>sapply</span>(<span class='no'>df</span>, <span class='no'>is.numeric</span>) <span class='kw'>&amp;</span> (!<span class='fu'>colnames</span>(<span class='no'>df</span>) <span class='kw'>%in%</span>
+  <span class='fu'>c</span>(<span class='no'>cs_id</span>, <span class='no'>ts_id</span>))]), <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>df</th>
-      <td><p>Data frame containing at least one variable that is numeric as variable of
-interest. Most likely it will also contain the variables identifying an observation.</p></td>
+      <td><p>Data frame</p></td>
     </tr>
     <tr>
       <th>n</th>
       <td><p>The number of top/bottom observations that you want to report.</p></td>
+    </tr>
+    <tr>
+      <th>cs_id</th>
+      <td><p>The variable(s) identifying the cross-section in the data.</p></td>
+    </tr>
+    <tr>
+      <th>ts_id</th>
+      <td><p>The variable identifying the time-series in the data.</p></td>
+    </tr>
+    <tr>
+      <th>var</th>
+      <td><p>Variable to display. Defaults to the last numerical variable of the data frame.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -144,23 +155,38 @@ interest. Most likely it will also contain the variables identifying an observat
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The default parameters for calling <code><a href='http://www.rdocumentation.org/packages/knitr/topics/kable'>kable</a></code>,
+    <p>When both <code>cs_id</code> and <code>ts_id</code> are omitted, all variables are tabulated.
+  Otherwise, <code>var</code> is tabulated along with the identifiers.
+  Infinite values in <code>var</code> are omitted.
+  The default parameters for calling <code><a href='http://www.rdocumentation.org/packages/knitr/topics/kable'>kable</a></code>,
   are <code>format = "html", digits = 3, format.args = list(big.mark = ','), row.names = FALSE</code>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>t</span> <span class='kw'>&lt;-</span> <span class='fu'>prepare_ext_obs_table</span>(<span class='fu'>data.frame</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>rownames</span>(<span class='no'>mtcars</span>), <span class='kw'>hp</span> <span class='kw'>=</span> <span class='no'>mtcars</span>$<span class='no'>hp</span>))
-<span class='no'>t</span>$<span class='no'>df</span></div><div class='output co'>#&gt;                 name  hp
-#&gt; 31     Maserati Bora 335
-#&gt; 29    Ford Pantera L 264
-#&gt; 7         Duster 360 245
-#&gt; 24        Camaro Z28 245
-#&gt; 17 Chrysler Imperial 230
-#&gt; 18          Fiat 128  66
-#&gt; 26         Fiat X1-9  66
-#&gt; 20    Toyota Corolla  65
-#&gt; 8          Merc 240D  62
-#&gt; 19       Honda Civic  52</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>t</span> <span class='kw'>&lt;-</span> <span class='fu'>prepare_ext_obs_table</span>(<span class='no'>russell_3000</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+                           <span class='kw'>cs_id</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"coid"</span>, <span class='st'>"coname"</span>),
+                           <span class='kw'>ts_id</span> <span class='kw'>=</span> <span class='st'>"period"</span>, <span class='kw'>var</span> <span class='kw'>=</span> <span class='st'>"sales"</span>)
+<span class='no'>t</span>$<span class='no'>df</span></div><div class='output co'>#&gt;      coid                        coname period     sales
+#&gt; 8517  WMT         Wal-Mart Stores, Inc. FY2015 485651.00
+#&gt; 8518  WMT         Wal-Mart Stores, Inc. FY2016 482130.00
+#&gt; 8516  WMT         Wal-Mart Stores, Inc. FY2014 476294.00
+#&gt; 8664  XOM       Exxon Mobil Corporation FY2013 420836.00
+#&gt; 8665  XOM       Exxon Mobil Corporation FY2014 394105.00
+#&gt; 8666  XOM       Exxon Mobil Corporation FY2015 259488.00
+#&gt; 33   AAPL                    Apple Inc. FY2015 233715.00
+#&gt; 2092  CVX           Chevron Corporation FY2013 220264.00
+#&gt; 8667  XOM       Exxon Mobil Corporation FY2016 218608.00
+#&gt; 34   AAPL                    Apple Inc. FY2016 215639.00
+#&gt; 3938 IDRA   Idera Pharmaceuticals, Inc. FY2014      0.07
+#&gt; 7386 STML   Stemline Therapeutics, Inc. FY2013      0.07
+#&gt; 92   ACAD   ACADIA Pharmaceuticals Inc. FY2015      0.06
+#&gt; 484  AMPE   Ampio Pharmaceuticals, Inc. FY2013      0.05
+#&gt; 838  AXDX  Accelerate Diagnostics, Inc. FY2013      0.05
+#&gt; 3937 IDRA   Idera Pharmaceuticals, Inc. FY2013      0.05
+#&gt; 5471   NK               NantKwest, Inc. FY2016      0.04
+#&gt; 6343 PRTK Paratek Pharmaceuticals, Inc. FY2016      0.03
+#&gt; 3343 GLYC           GlycoMimetics, Inc. FY2016      0.02
+#&gt; 1157 BPTH       Bio-Path Holdings, Inc. FY2016      0.01</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

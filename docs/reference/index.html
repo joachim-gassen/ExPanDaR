@@ -113,8 +113,8 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
+          <h2 id="section-expand-app" class="hasAnchor"><a href="#section-expand-app" class="anchor"></a>ExPanD app</h2>
+          <p class="section-desc"><p>Shiny-based app for interactive exploratory data analysis</p></p>
         </th>
       </tr>
       <tr>
@@ -123,48 +123,26 @@
           <p><code><a href="ExPanD.html">ExPanD()</a></code> </p>
         </td>
         <td><p>Explore Panel Data (ExPanD)</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-workflow-functions" class="hasAnchor"><a href="#section-workflow-functions" class="anchor"></a>Workflow functions</h2>
+          <p class="section-desc"><p>Functions, mostly also used by ExPanD, that facilitate a typical exploratory data analysis worklfow</p></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="prepare_missing_values_graph.html">prepare_missing_values_graph()</a></code> </p>
+        </td>
+        <td><p>Prepares a Graph Displaying Missing Values in Panel Data</p></td>
       </tr><tr>
         <!--  -->
         <td>
-          <p><code><a href="ExPanD_config_russell_3000.html">ExPanD_config_russell_3000</a></code> </p>
+          <p><code><a href="treat_outliers.html">treat_outliers()</a></code> </p>
         </td>
-        <td><p>Default Configuration to use with ExPanD and the Russell 3000 Data Set</p></td>
-      </tr><tr>
-        <!--  -->
-        <td>
-          <p><code><a href="ExPanD_config_worldbank.html">ExPanD_config_worldbank</a></code> </p>
-        </td>
-        <td><p>Default Configuration to Use with ExPanD and the <code>worldbank</code> Data Set</p></td>
-      </tr><tr>
-        <!--  -->
-        <td>
-          <p><code><a href="ExPanDaR.html">ExPanDaR</a></code> </p>
-        </td>
-        <td><p>ExPanDaR: Explore Panel Data with R</p></td>
-      </tr><tr>
-        <!--  -->
-        <td>
-          <p><code><a href="prepare_by_group_bar_graph.html">prepare_by_group_bar_graph()</a></code> </p>
-        </td>
-        <td><p>Prepares a by Group Bar Graph</p></td>
-      </tr><tr>
-        <!--  -->
-        <td>
-          <p><code><a href="prepare_correlation_graph.html">prepare_correlation_graph()</a></code> </p>
-        </td>
-        <td><p>Prepares a Correlation Graph</p></td>
-      </tr><tr>
-        <!--  -->
-        <td>
-          <p><code><a href="prepare_correlation_table.html">prepare_correlation_table()</a></code> </p>
-        </td>
-        <td><p>Prepares a Correlation Table</p></td>
-      </tr><tr>
-        <!--  -->
-        <td>
-          <p><code><a href="prepare_descriptive_table.html">prepare_descriptive_table()</a></code> </p>
-        </td>
-        <td><p>Prepares a Table of Descriptive Statistics</p></td>
+        <td><p>Treats Outliers in Numerical Data</p></td>
       </tr><tr>
         <!--  -->
         <td>
@@ -174,9 +152,21 @@
       </tr><tr>
         <!--  -->
         <td>
-          <p><code><a href="prepare_missing_values_graph.html">prepare_missing_values_graph()</a></code> </p>
+          <p><code><a href="prepare_descriptive_table.html">prepare_descriptive_table()</a></code> </p>
         </td>
-        <td><p>Prepares a Graph Displaying Missing Values in Panel Data</p></td>
+        <td><p>Prepares a Table of Descriptive Statistics</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="prepare_by_group_bar_graph.html">prepare_by_group_bar_graph()</a></code> </p>
+        </td>
+        <td><p>Prepares a by Group Bar Graph</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="prepare_trend_graph.html">prepare_trend_graph()</a></code> </p>
+        </td>
+        <td><p>Prepares a Trend Graph</p></td>
       </tr><tr>
         <!--  -->
         <td>
@@ -186,9 +176,15 @@
       </tr><tr>
         <!--  -->
         <td>
-          <p><code><a href="prepare_regression_table.html">prepare_regression_table()</a></code> </p>
+          <p><code><a href="prepare_correlation_table.html">prepare_correlation_table()</a></code> </p>
         </td>
-        <td><p>Prepares a Regression Table</p></td>
+        <td><p>Prepares a Correlation Table</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="prepare_correlation_graph.html">prepare_correlation_graph()</a></code> </p>
+        </td>
+        <td><p>Prepares a Correlation Graph</p></td>
       </tr><tr>
         <!--  -->
         <td>
@@ -198,10 +194,18 @@
       </tr><tr>
         <!--  -->
         <td>
-          <p><code><a href="prepare_trend_graph.html">prepare_trend_graph()</a></code> </p>
+          <p><code><a href="prepare_regression_table.html">prepare_regression_table()</a></code> </p>
         </td>
-        <td><p>Prepares a Trend Graph</p></td>
-      </tr><tr>
+        <td><p>Prepares a Regression Table</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-data" class="hasAnchor"><a href="#section-data" class="anchor"></a>Data</h2>
+          <p class="section-desc"><p>Data set used to showcase the functionality of ExPanD. russell_3000 is a set of financial accounting and stock return data for a sample of U.S. firms that are members of the Russell 3000 index. worldbank is a country year panel of macro-economic data provided by the World Bank API.</p></p>
+        </th>
+      </tr>
+      <tr>
         <!--  -->
         <td>
           <p><code><a href="russell_3000.html">russell_3000</a></code> </p>
@@ -216,9 +220,9 @@
       </tr><tr>
         <!--  -->
         <td>
-          <p><code><a href="treat_outliers.html">treat_outliers()</a></code> </p>
+          <p><code><a href="ExPanD_config_russell_3000.html">ExPanD_config_russell_3000</a></code> </p>
         </td>
-        <td><p>Treats Outliers in Numerical Data</p></td>
+        <td><p>Default Configuration to use with ExPanD and the Russell 3000 Data Set</p></td>
       </tr><tr>
         <!--  -->
         <td>
@@ -237,6 +241,12 @@
           <p><code><a href="worldbank_var_def.html">worldbank_var_def</a></code> </p>
         </td>
         <td><p>Variable Definitions to Construct an Analysis Sample Based on the <code>worldbank</code> Data Set</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ExPanD_config_worldbank.html">ExPanD_config_worldbank</a></code> </p>
+        </td>
+        <td><p>Default Configuration to Use with ExPanD and the <code>worldbank</code> Data Set</p></td>
       </tr>
     </tbody>
     </table>
@@ -245,7 +255,9 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#section-expand-app">ExPanD app</a></li>
+      <li><a href="#section-workflow-functions">Workflow functions</a></li>
+      <li><a href="#section-data">Data</a></li>
     </ul>
   </div>
 </div>

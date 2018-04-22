@@ -34,8 +34,6 @@ prepare_ext_obs_table <- function(df, n = 5, cs_id = NA, ts_id = NA,
                                                     n=1), ...) {
   if(!is.data.frame(df)) stop("df needs to be a dataframe")
   df <- as.data.frame(df)
-  if(!is.numeric(df[,ncol(df)]))
-    stop("last variable of df is not numeric")
   if (2*n > nrow(df))
     stop("'n' needs to be <= nrow(df)/2")
   if (length(var) > 1) stop("var needs to identify a single variable")
@@ -46,7 +44,6 @@ prepare_ext_obs_table <- function(df, n = 5, cs_id = NA, ts_id = NA,
   vars <- stats::na.omit(c(cs_id, ts_id, var))
   if (length(vars) == 1) vars <- c(colnames(df[!colnames(df) %in% var]), var)
   df <- df[is.finite(df[, var]), vars]
-
 
   df <- rbind(utils::head(df[order(-df[,ncol(df)]),], n),
               utils::tail(df[order(-df[,ncol(df)]),], n))

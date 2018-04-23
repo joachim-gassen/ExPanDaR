@@ -893,7 +893,7 @@ function(input, output, session) {
                                c(lnumeric$name, llogical$name),
                                selected = isolate(uc$bgbg_var)),
                    selectInput("bgbg_byvar", label = "Select variable to group by",
-                               c(lts_id$name, lfactor$name),
+                               unique(c(lts_id$name, lfactor$name)),
                                selected = isolate(uc$bgbg_byvar)),
                    selectInput("bgbg_stat", label = "Select statistic to display",
                                c("Mean" = "mean",
@@ -907,9 +907,9 @@ function(input, output, session) {
                    hr(),
                    checkboxInput("bgbg_sort_by_stat", "Sort by statistic", value = uc$bgbg_sort_by_stat))
     if (uc$group_factor != "None")
-      mytags <- append(mytags, list(selectInput("bcgb_group_by", label = "Select group to subset to",
+      mytags <- append(mytags, list(selectInput("bgbg_group_by", label = "Select group to subset to",
                                                 c("All", sort(levels(as.factor(df[,uc$group_factor])))),
-                                                selected = isolate(uc$hist_group_by)), hr()))
+                                                selected = isolate(uc$bgbg_group_by)), hr()))
     tagList(mytags)
   })
 
@@ -1181,9 +1181,12 @@ function(input, output, session) {
   )
 
   output$by_group_bar_graph.ui <- renderUI({
-    req(uc$bgbg_byvar)
+    req(uc$bgbg_group_by, uc$bgbg_var, uc$bgbg_byvar)
     df <- create_analysis_sample()
-    bins <- length(unique(df[, uc$bgbg_byvar]))
+    if (uc$bgbg_group_by == "All")
+      bins <- length(unique(df[is.finite(df[,uc$bgbg_var]), uc$bgbg_byvar]))
+    else
+      bins <- length(unique(df[df[, uc$group_factor] == uc$bgbg_group_by & is.finite(df[,uc$bgbg_var]), uc$bgbg_byvar]))
     isolate(plotOutput("by_group_bar_graph",
                        height=max(400, 15 * bins)))
   })
@@ -1195,7 +1198,7 @@ function(input, output, session) {
 
     df <- create_analysis_sample()
     if (DEBUG) message(sprintf("Running BGBG with bgbg_sort_by_stat: %s", uc$bgbg_sort_by_stat))
-    if (uc$quantile_trend_graph_group_by == "All")
+    if (uc$bgbg_group_by == "All")
       prepare_by_group_bar_graph(df[, c(uc$bgbg_byvar, uc$bgbg_var)],
                                  uc$bgbg_byvar, uc$bgbg_var, get(uc$bgbg_stat), uc$bgbg_sort_by_stat)$plot +
       ggplot2::ylab(paste(uc$bgbg_stat, uc$bgbg_var))
@@ -1203,7 +1206,6 @@ function(input, output, session) {
       prepare_by_group_bar_graph(df[df[, uc$group_factor] == uc$bgbg_group_by, c(uc$bgbg_byvar, uc$bgbg_var)],
                                  uc$bgbg_byvar, uc$bgbg_var, get(uc$bgbg_stat), uc$bgbg_sort_by_stat)$plot +
       ggplot2::ylab(paste(uc$bgbg_stat, uc$bgbg_var))
-
   })
 
   output$histogram <- renderPlot({

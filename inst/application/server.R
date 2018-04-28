@@ -82,7 +82,6 @@ quote_escape <- function(string) {
 
 select_factor <- function(df, max_cases = factor_cutoff) {
   df <- as.data.frame(df)
-  if(DEBUG) message(sprintf("Selecting factor with factor_cutoff: %d", factor_cutoff))
   no_cases <- sapply(df, function(x) length(unique(x)))
   if (length(df[no_cases <= max_cases]) > 0)
     return (names(df[no_cases <= max_cases])[1])
@@ -202,7 +201,7 @@ function(input, output, session) {
 
 
   check_vars <- function() {
-    factor_names <- c(lfactor$name, lcs_id$name, lts_id$name, llogical$name, "None")
+    factor_names <- unique(c(lfactor$name, lcs_id$name, lts_id$name, llogical$name, "None"))
     numeric_names <- c(lnumeric$name, llogical$name, "None")
     if (!uc$bar_chart_var1 %in% factor_names) uc$bar_chart_var1 = factor_names[1]
     if (!uc$bar_chart_var2 %in% factor_names) uc$bar_chart_var2 = "None"
@@ -778,7 +777,7 @@ function(input, output, session) {
     req (uc$subset_factor)
     df <- create_analysis_sample()
     tagList(selectInput("subset_factor", label = "Subset factor",
-                        c("Full Sample",  c(lfactor$name, llogical$name)),
+                        c("Full Sample",  unique(c(lfactor$name, llogical$name))),
                           selected = isolate(uc$subset_factor)),
             helpText("Indicatate whether you want to study the full sample or subset to a specific factor."))
 
@@ -799,7 +798,7 @@ function(input, output, session) {
     req(uc$group_factor)
     df <- create_analysis_sample()
     tagList(selectInput("group_factor", label = "Group factor",
-                        c("None",  c(lcs_id$name, lts_id$name, lfactor$name, llogical$name)),
+                        c("None",  unique(c(lcs_id$name, lts_id$name, lfactor$name, llogical$name))),
                         selected = isolate(uc$group_factor)),
             helpText("Select a factor for subsetting specific analyses to."))
 
@@ -813,7 +812,7 @@ function(input, output, session) {
                                         "Truncation 1%/99%" = 4, "Truncation 5%/95%" = 5),
                          selected = uc$outlier_treatment),
             selectInput("outlier_factor", label = "By group factor",
-                        c("None",  c(lcs_id$name, lts_id$name, lfactor$name, llogical$name)),
+                        c("None",  unique(c(lcs_id$name, lts_id$name, lfactor$name, llogical$name))),
                         selected = isolate(uc$outlier_factor)),
             helpText("Indicatate whether you want no outlier treatment",
                      "or whether you want outliers to be winsorized",
@@ -830,7 +829,6 @@ function(input, output, session) {
 
   output$ui_bar_chart <- renderUI({
     df <- create_analysis_sample()
-    if (DEBUG) message(sprintf("bar_chart_var1: %s, lts_id$name: %s", uc$bar_chart_var1, lts_id$name))
     mytags <- list(h3("Bar Chart"),
                    selectInput("bar_chart_var1", label = "Select factor to display",
                                unique(c(lts_id$name, lfactor$name, llogical$name)),
@@ -850,7 +848,7 @@ function(input, output, session) {
 
   output$ui_missing_values <- renderUI({
     df <- create_analysis_sample()
-    mytags <- list(h3("Misssing values"),
+    mytags <- list(h3("Misssing Values"),
                    helpText("This graphs shows the ratio of missing values for all variable years."))
     if (uc$group_factor != "None")
       mytags <- append(mytags, list(hr(),
@@ -1197,7 +1195,6 @@ function(input, output, session) {
     q75 <- function(x, na.rm) {quantile(x, 0.75, na.rm)}
 
     df <- create_analysis_sample()
-    if (DEBUG) message(sprintf("Running BGBG with bgbg_sort_by_stat: %s", uc$bgbg_sort_by_stat))
     if (uc$bgbg_group_by == "All")
       prepare_by_group_bar_graph(df[, c(uc$bgbg_byvar, uc$bgbg_var)],
                                  uc$bgbg_byvar, uc$bgbg_var, get(uc$bgbg_stat), uc$bgbg_sort_by_stat)$plot +
@@ -1218,6 +1215,7 @@ function(input, output, session) {
   output$ext_obs <- renderPrint({
       df <- create_analysis_sample()
       vars <- c(lcs_id$name, lts_id$name, uc$ext_obs_var)
+      if (uc$group_factor != "None") vars <- c(vars, uc$group_factor)
       df <- df[, vars]
       if (req(uc$ext_obs_period_by) != "All")
         df <- df[df[, lts_id$name] == uc$ext_obs_period_by,]
@@ -1368,12 +1366,15 @@ function(input, output, session) {
     style <- paste0("position:absolute; background-color: rgba(245, 245, 245, 0.85); ",
                     "left:", left_px + 2, "px; top:", top_px + 2, "px;")
 
+    # Get rid of the factors in the data frame by converting all columns to character
+    point[] <- lapply(point, as.character)
+
     # actual tooltip created as wellPanel
     wellPanel(
       style = style, class = "well-sm",
-      htmltools::HTML(paste0(unlist(point[,lcs_id$name]), collaspe=" "),
+      htmltools::HTML(paste0(point[,lcs_id$name], collaspe=" "),
                   "<br>",
-                  as.character(point[,lts_id$name]))
+                  point[,lts_id$name])
     )
   })
 

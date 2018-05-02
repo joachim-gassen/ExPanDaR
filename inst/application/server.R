@@ -1,6 +1,7 @@
 library(ExPanDaR)
 library(PKI)
 library(dplyr)
+library(readxl)
 
 options(shiny.maxRequestSize = 1024^3)
 
@@ -90,6 +91,7 @@ select_factor <- function(df, max_cases = factor_cutoff) {
 
 
 load_sample <- function(df, id, description) {
+  if (DEBUG) message("loading user data")
   ds <- data.frame(ds_id = id,
                    ds_description = description,
                    stringsAsFactors = FALSE)

@@ -1,15 +1,15 @@
 Package: ExPanDaR
 Type: Package
 Title: Explore Panel Data with R
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: person("Joachim", "Gassen", role = c("aut", "cre"), 
     email = "gassen@wiwi.hu-berlin.de",
     comment = c(ORCID = "0000-0003-4364-2911"))
 Description: The ExPanDaR (Explore Panel Data with R) package 
     provides a shiny-based front end (the "ExPanD" app) and
     a set of functions for exploratory panel data analysis. 
-    The shiny-based ExPanD app enables users to assess the robustness of empirical 
-    evidence without providing them with access to the underlying data.
+    Run as web-based app, ExPanD enables users to assess the robustness of empirical 
+    evidence without providing them access to the underlying data.
     The functions of the ExPanDaR package can also be used directly in R code to support 
     your exploratory data analysis workflow. 
     Refer to the vignettes of the package for more information on how to use ExPanD

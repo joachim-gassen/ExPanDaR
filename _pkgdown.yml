@@ -1,5 +1,9 @@
+template:
+  params:
+    ganalytics: UA-119053376-1
+development:
+  mode: unreleased
 navbar:
-  type: inverse
   structure:
     left:
     - home

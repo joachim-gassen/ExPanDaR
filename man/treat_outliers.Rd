@@ -44,12 +44,10 @@ treat_outliers(seq(1:100), 0.05)
 treat_outliers(seq(1:100), truncate = TRUE, 0.05)
 
 df <- data.frame(a = seq(1:1000), b = rnorm(1000), c = sample(LETTERS[1:5], 1000, replace=TRUE))
-winsorized_df <- df
 winsorized_df <- treat_outliers(df)
 summary(df)
 summary(winsorized_df)
 
-winsorized_df <- df
 winsorized_df <- treat_outliers(df, 0.05, by="c")
 by(df, df$c, summary)
 by(winsorized_df, df$c, summary)

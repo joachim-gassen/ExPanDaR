@@ -12,7 +12,7 @@ prepare_descriptive_table(df, digits = c(0, 3, 3, 3, 3, 3, 3, 3),
 or logical and at least two observations.}
 
 \item{digits}{Number of decimal digits that you want to be displayed for each
-column. If you provide NA, then the column is ommited from the output.}
+column. If you provide NA, then the column is omitted from the output.}
 
 \item{format}{character scalar that is handed over to \code{\link[knitr]{kable}}
 (e.g., "html" or "latex").}
@@ -27,13 +27,13 @@ A list containing two items.
 \description{
 Reads a data frame and reports descriptive statistics
 (n, mean, standard deviation, minimum, first quartile, median,
-third quartile, maximum) for all members of the data frame that are eiter
+third quartile, maximum) for all members of the data frame that are either
 numeric or logical.
 }
 \details{
 The \code{digits} parameter from \code{prepare_descriptive_table()} uses the default method of
   \code{\link[knitr]{kable}} to format numbers, calling \code{\link{round}}. This implies that trailing zeroes are
-  just ommitted.
+  just omitted.
 }
 \examples{
 t <- prepare_descriptive_table(mtcars)

@@ -33,7 +33,7 @@ estimate_model <- function(df, dl) {
 #' @title Prepares a Regression Table
 #'
 #' @description
-#' Builds a regression table based on a set of user-specifed models or a single model and a partitioning variable.
+#' Builds a regression table based on a set of user-specified models or a single model and a partitioning variable.
 #'
 #' @param df Data frame containing the data to estimate the models on.
 #' @param dvs A character vector containing the dependent variable(s).
@@ -56,7 +56,7 @@ estimate_model <- function(df, dl) {
 #' This is a wrapper function calling the stargazer package. Depending on whether the dependent variable
 #'   is numeric or a factor with two levels, the models are estimated
 #'   using \code{\link[lfe]{felm}} or \code{\link[stats]{glm}} (with \code{family = binomial(link="logit")}).
-#'   Fixed effects and clustered standard errors are only supported with continous dependent variables.
+#'   Fixed effects and clustered standard errors are only supported with continuous dependent variables.
 #'   If run with \code{byvar}, only levels that have more observations than coefficients are estimated.
 #'
 #'

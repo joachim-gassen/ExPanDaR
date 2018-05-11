@@ -16,7 +16,7 @@ The data definitions can be passed to \link{ExPanD} via the
 \details{
 Data definitions are provided by the package maintainer and are somewhat superficial
 to make them both, short and informative. User discretion is advised when using this
-data outside of its didactical purpose.
+data outside of its didactic purpose.
 }
 \examples{
 data(russell_3000)

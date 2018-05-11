@@ -11,12 +11,12 @@ prepare_correlation_graph(df)
 or logical and at least five observations.}
 }
 \value{
-The function directly renders the graph as produced by corrplot.
+The function directly renders the graph as produced by \code{corrplot}.
 In addition, it returns a list containing three items:
 \describe{
- \item{"df_corr"}{A data frame containg the correlations}
- \item{"df_prob"}{A data frame containg the p-values of the correlations}
- \item{"df_n"}{A data frame containg the number of observations used for the correlations}
+ \item{"df_corr"}{A data frame containing the correlations}
+ \item{"df_prob"}{A data frame containing the p-values of the correlations}
+ \item{"df_n"}{A data frame containing the number of observations used for the correlations}
 }
 }
 \description{

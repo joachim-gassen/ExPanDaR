@@ -30,7 +30,7 @@ prepare_scatter_plot(df, x, y, color = "", size = "", loess = 0,
 If missing, it calculates a default based on the sample size}
 }
 \value{
-the plot as returned by ggplot
+the plot as returned by \code{ggplot}
 }
 \description{
 Reads a data frame and prepares a scatter plot.

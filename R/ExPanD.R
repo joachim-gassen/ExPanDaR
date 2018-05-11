@@ -9,7 +9,7 @@
 #' @param cs_id A character vector containing the names of the variables that
 #'   identify the cross-section in your data.
 #'   Can only be NULL if \code{df_def} is provided instead.
-#' @param ts_id A character scalar identifing the name of
+#' @param ts_id A character scalar identifying the name of
 #'   the variable that identifies the time series in your data. The according
 #'   variable needs to be coercible to an ordered vector.
 #'   Can only be NULL if \code{df_def} is provided instead.
@@ -23,7 +23,7 @@
 #'   create the analysis sample. In that case, the user gets the opportunity to
 #'   add additional variables in the app. See the details section
 #'   for the structure of the \code{var_def} dataframe. If NULL (default)
-#'   the sample(s) provided by df will be used as anaylsis sample(s) directly.
+#'   the sample(s) provided by \code{df} will be used as analysis sample(s) directly.
 #' @param config_list a list containing the startup configuration for ExPanD to
 #'   display. Take a look at \code{data(ExPanD_config_russell_3000)} for the
 #'   format. The easiest way to generate a config list is to customize the
@@ -67,7 +67,7 @@
 #' for analysis. Supported formats are as provided
 #' by the \code{rio} package.
 #'
-#' If you provide variable defintions in \code{df_def} and/or \code{var_def},
+#' If you provide variable definitions in \code{df_def} and/or \code{var_def},
 #' ExPanD displays these as tooltips in the descriptive table of the
 #' ExPanD app.
 #'
@@ -87,7 +87,7 @@
 #' \describe{
 #' \item{"var_name"}{Required: The names of the variables
 #' that are provided by the base sample
-#' ar are to be calculated for the analysis sample}
+#' or are to be calculated for the analysis sample}
 #' \item{"var_def"}{Required: For a \code{var_def} data frame,
 #' the code that is passed to the data frame
 #' (grouped by cross-sectional units) in calls to

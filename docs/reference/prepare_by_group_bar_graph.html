@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Prepares a by Group Bar Graph — prepare_by_group_bar_graph" />
 
 <meta property="og:description" content="Reads a data frame containing a grouping factor and a numerical variable
@@ -44,7 +47,15 @@ by the grouping factor." />
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119053376-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'UA-119053376-1');
+</script>
 
   </head>
 
@@ -61,7 +72,7 @@ by the grouping factor." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.1.0</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.2.0</span>
       </span>
     </div>
 
@@ -118,11 +129,13 @@ by the grouping factor." />
     <div class="hidden name"><code>prepare_by_group_bar_graph.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Reads a data frame containing a grouping factor and a numerical variable
 and plots a bar graph of a given statistic of the variable
 by the grouping factor.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>prepare_by_group_bar_graph</span>(<span class='no'>df</span>, <span class='no'>by_var</span>, <span class='no'>var</span>, <span class='kw'>stat_fun</span> <span class='kw'>=</span> <span class='no'>mean</span>,
   <span class='kw'>order_by_stat</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"red"</span>)</pre>
@@ -162,8 +175,8 @@ the value of the statistic (defaults to FALSE)</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list containing two items:</p><dl class='dl-horizontal'>
- <dt>"df"</dt><dd><p>A data frame containg the statisitics by group</p></dd>
- <dt>"plot"</dt><dd><p>The plot as returned by ggplot</p></dd>
+ <dt>"df"</dt><dd><p>A data frame containing the statistics by group</p></dd>
+ <dt>"plot"</dt><dd><p>The plot as returned by <code>ggplot</code></p></dd>
 </dl>
 
     

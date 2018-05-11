@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Prepares a Trend Graph — prepare_trend_graph" />
 
 <meta property="og:description" content="Reads a data frame and line plots all variables (which need to be numeric)
@@ -43,7 +46,15 @@
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119053376-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'UA-119053376-1');
+</script>
 
   </head>
 
@@ -60,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.1.0</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.2.0</span>
       </span>
     </div>
 
@@ -117,10 +128,12 @@
     <div class="hidden name"><code>prepare_trend_graph.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Reads a data frame and line plots all variables (which need to be numeric)
  by an ordered factor (normally the time-series indicator).</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>prepare_trend_graph</span>(<span class='no'>df</span>, <span class='no'>ts_id</span>, <span class='kw'>var</span> <span class='kw'>=</span> <span class='fu'>colnames</span>(<span class='no'>df</span>[<span class='fu'>sapply</span>(<span class='no'>df</span>, <span class='no'>is.numeric</span>) <span class='kw'>&amp;</span>
   <span class='fu'>colnames</span>(<span class='no'>df</span>) <span class='kw'>!=</span> <span class='no'>ts_id</span>]))</pre>
@@ -140,7 +153,7 @@ to be plotted</p></td>
     </tr>
     <tr>
       <th>var</th>
-      <td><p>a character verctor containing the column names of the variables
+      <td><p>a character vector containing the column names of the variables
 that should be plotted. Defaults to all numeric variables of the data frame
 besides the one indicated by <code>ts_id</code>.</p></td>
     </tr>
@@ -150,7 +163,7 @@ besides the one indicated by <code>ts_id</code>.</p></td>
 
     <p>A list containing two items:</p><dl class='dl-horizontal'>
  <dt>"df"</dt><dd><p>A data frame containing the plotted means and standard errors</p></dd>
- <dt>"plot</dt><dd><p>The plot as returned by ggplot</p></dd>
+ <dt>"plot</dt><dd><p>The plot as returned by <code>ggplot</code></p></dd>
 </dl>
 
     

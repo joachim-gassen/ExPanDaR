@@ -16,14 +16,14 @@ Needs to be coercible into an ordered factor.}
 logical and numerical variables. Defaults to FALSE.}
 }
 \value{
-A ggplot2 plot.
+A \code{ggplot2} plot.
 }
 \description{
 Displays a heatmap of missing value frequency across the panel
 }
 \details{
 This was inspired by a
-  \href{http://www.rensenieuwenhuis.nl/r-sessions-30-visualizing-missing-values/}{blog post of Rense Nieuenhuis}.
+  \href{http://www.rensenieuwenhuis.nl/r-sessions-30-visualizing-missing-values/}{blog post of Rense Nieuwenhuis}.
   Thanks!
 }
 \examples{

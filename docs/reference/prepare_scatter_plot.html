@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Prepares a Scatter Plot — prepare_scatter_plot" />
 
 <meta property="og:description" content="Reads a data frame and prepares a scatter plot." />
@@ -42,7 +45,15 @@
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119053376-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'UA-119053376-1');
+</script>
 
   </head>
 
@@ -59,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.1.0</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.2.0</span>
       </span>
     </div>
 
@@ -116,9 +127,11 @@
     <div class="hidden name"><code>prepare_scatter_plot.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Reads a data frame and prepares a scatter plot.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>prepare_scatter_plot</span>(<span class='no'>df</span>, <span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>loess</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fu'>min</span>(<span class='fl'>1</span>, <span class='fl'>1</span>/((<span class='fl'>1</span> + (<span class='fu'>max</span>(<span class='fl'>0</span>, <span class='fu'>log</span>(<span class='fu'>nrow</span>(<span class='no'>df</span>)) - <span class='fu'>log</span>(<span class='fl'>100</span>)))))))</pre>
@@ -164,7 +177,7 @@ If missing, it calculates a default based on the sample size</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>the plot as returned by ggplot</p>
+    <p>the plot as returned by <code>ggplot</code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

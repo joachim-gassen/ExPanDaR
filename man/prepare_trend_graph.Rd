@@ -14,7 +14,7 @@ to be plotted}
 \item{ts_id}{a string containing the column name of the ordered factor
 (normally the time-series indicator)}
 
-\item{var}{a character verctor containing the column names of the variables
+\item{var}{a character vector containing the column names of the variables
 that should be plotted. Defaults to all numeric variables of the data frame
 besides the one indicated by \code{ts_id}.}
 }
@@ -22,7 +22,7 @@ besides the one indicated by \code{ts_id}.}
 A list containing two items:
 \describe{
  \item{"df"}{A data frame containing the plotted means and standard errors}
- \item{"plot}{The plot as returned by ggplot}
+ \item{"plot}{The plot as returned by \code{ggplot}}
 }
 }
 \description{

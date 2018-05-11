@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Explore Panel Data (ExPanD) — ExPanD" />
 
 <meta property="og:description" content="A shiny based web app that uses ExPanDaR functionality for
@@ -43,7 +46,15 @@ interactive panel data exploration" />
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119053376-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'UA-119053376-1');
+</script>
 
   </head>
 
@@ -60,7 +71,7 @@ interactive panel data exploration" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.1.0</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.2.0</span>
       </span>
     </div>
 
@@ -117,10 +128,12 @@ interactive panel data exploration" />
     <div class="hidden name"><code>ExPanD.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>A shiny based web app that uses ExPanDaR functionality for
 interactive panel data exploration</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>ExPanD</span>(<span class='kw'>df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cs_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ts_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>df_def</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>var_def</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>config_list</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -149,7 +162,7 @@ Can only be NULL if <code>df_def</code> is provided instead.</p></td>
     </tr>
     <tr>
       <th>ts_id</th>
-      <td><p>A character scalar identifing the name of
+      <td><p>A character scalar identifying the name of
 the variable that identifies the time series in your data. The according
 variable needs to be coercible to an ordered vector.
 Can only be NULL if <code>df_def</code> is provided instead.</p></td>
@@ -169,7 +182,7 @@ variable definitions, ExPanD will use these on the provided sample(s) to
 create the analysis sample. In that case, the user gets the opportunity to
 add additional variables in the app. See the details section
 for the structure of the <code>var_def</code> dataframe. If NULL (default)
-the sample(s) provided by df will be used as anaylsis sample(s) directly.</p></td>
+the sample(s) provided by <code>df</code> will be used as analysis sample(s) directly.</p></td>
     </tr>
     <tr>
       <th>config_list</th>
@@ -247,7 +260,7 @@ Probably not.</p></td>
 dialog so that the the user (e.g., you) can upload a data file
 for analysis. Supported formats are as provided
 by the <code>rio</code> package.</p>
-<p>If you provide variable defintions in <code>df_def</code> and/or <code>var_def</code>,
+<p>If you provide variable definitions in <code>df_def</code> and/or <code>var_def</code>,
 ExPanD displays these as tooltips in the descriptive table of the
 ExPanD app.</p>
 <p>When you provide more than one data frame in <code>df</code>, make sure that all have
@@ -263,7 +276,7 @@ can generate additional variables from within the app.</p>
 variables</p><dl class='dl-horizontal'>
 <dt>"var_name"</dt><dd><p>Required: The names of the variables
 that are provided by the base sample
-ar are to be calculated for the analysis sample</p></dd>
+or are to be calculated for the analysis sample</p></dd>
 <dt>"var_def"</dt><dd><p>Required: For a <code>var_def</code> data frame,
 the code that is passed to the data frame
 (grouped by cross-sectional units) in calls to

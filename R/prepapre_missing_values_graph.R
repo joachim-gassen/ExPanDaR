@@ -9,11 +9,11 @@
 #' @param no_factors A logical variable indicating whether you want to limit the plot to
 #'   logical and numerical variables. Defaults to FALSE.
 #'
-#' @return A ggplot2 plot.
+#' @return A \code{ggplot2} plot.
 #'
 #' @details
 #'   This was inspired by a
-#'   \href{http://www.rensenieuwenhuis.nl/r-sessions-30-visualizing-missing-values/}{blog post of Rense Nieuenhuis}.
+#'   \href{http://www.rensenieuwenhuis.nl/r-sessions-30-visualizing-missing-values/}{blog post of Rense Nieuwenhuis}.
 #'   Thanks!
 #'
 #'

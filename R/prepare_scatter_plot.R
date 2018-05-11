@@ -18,7 +18,7 @@
 #' @param alpha The alpha value to be used.
 #'   If missing, it calculates a default based on the sample size
 #'
-#' @return the plot as returned by ggplot
+#' @return the plot as returned by \code{ggplot}
 #'
 #' @examples
 #' df <- data.frame(year = floor(stats::time(datasets::EuStockMarkets)),

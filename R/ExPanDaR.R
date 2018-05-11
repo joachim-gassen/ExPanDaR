@@ -4,7 +4,7 @@
 #' ExPanD is a shiny based app supporting interactive
 #' exploratory data analysis.
 #'
-#' ExPanDaR has two main gols:
+#' ExPanDaR has two main goals:
 #' \itemize{
 #'   \item{} Enable users to assess the robustness of
 #'     empirical evidence without providing them with

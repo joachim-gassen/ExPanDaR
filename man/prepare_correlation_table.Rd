@@ -14,7 +14,7 @@ or logical and at least five observations.}
 \item{digits}{The number of digits that you want to report.}
 
 \item{bold}{Indicate the p-Value for for identifying significant correlations
-in bold brint. Defaults to 0.05. If set to 0, no bold print is being used.}
+in bold print. Defaults to 0.05. If set to 0, no bold print is being used.}
 
 \item{format}{The format that you want \code{\link[knitr]{kable}} to produce ("html" or "latex")}
 
@@ -26,7 +26,7 @@ A list containing four items:
  \item{"df_corr"}{A data frame containing the correlations}
  \item{"df_prob"}{A data frame containing the p-values of the correlations}
  \item{"df_n"}{A data frame containing the number of observations used for the correlations}
- \item{"kable_ret"}{The return value provided by kable() containing the formatted table}
+ \item{"kable_ret"}{The return value provided by \code{\link[knitr]{kable}} containing the formatted table}
 }
 }
 \description{

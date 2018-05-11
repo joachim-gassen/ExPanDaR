@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="ExPanDaR: Explore Panel Data with R — ExPanDaR" />
 
 <meta property="og:description" content="ExPanDaR provides the code base for the ExPanD web app.
@@ -44,7 +47,15 @@ exploratory data analysis." />
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119053376-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'UA-119053376-1');
+</script>
 
   </head>
 
@@ -61,7 +72,7 @@ exploratory data analysis." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.1.0</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.2.0</span>
       </span>
     </div>
 
@@ -118,16 +129,18 @@ exploratory data analysis." />
     <div class="hidden name"><code>ExPanDaR.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>ExPanDaR provides the code base for the ExPanD web app.
 ExPanD is a shiny based app supporting interactive
 exploratory data analysis.</p>
     
+    </div>
 
         
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>ExPanDaR has two main gols:</p><ul>
+    <p>ExPanDaR has two main goals:</p><ul>
 <li><p>Enable users to assess the robustness of
     empirical evidence without providing them with
     access to the underlying data.</p></li>

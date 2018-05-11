@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Treats Outliers in Numerical Data — treat_outliers" />
 
 <meta property="og:description" content="Treats numerical outliers either by winsorizing or by truncating." />
@@ -42,19 +45,15 @@
 <![endif]-->
 
 
-<!-- Google analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119053376-1"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-  ga('create', 'UA-119053376-1', 'auto');
-  ga('send', 'pageview');
-
+  gtag('config', 'UA-119053376-1');
 </script>
-
-
 
   </head>
 
@@ -128,9 +127,11 @@
     <div class="hidden name"><code>treat_outliers.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Treats numerical outliers either by winsorizing or by truncating.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>treat_outliers</span>(<span class='no'>x</span>, <span class='kw'>percentile</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>truncate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     

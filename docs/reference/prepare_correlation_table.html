@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Prepares a Correlation Table — prepare_correlation_table" />
 
 <meta property="og:description" content="Reads a data frame and presents Pearson correlations above the diagonal
@@ -43,7 +46,15 @@ and Spearman correlations below." />
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119053376-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'UA-119053376-1');
+</script>
 
   </head>
 
@@ -60,7 +71,7 @@ and Spearman correlations below." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.1.0</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.2.0</span>
       </span>
     </div>
 
@@ -117,10 +128,12 @@ and Spearman correlations below." />
     <div class="hidden name"><code>prepare_correlation_table.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Reads a data frame and presents Pearson correlations above the diagonal
 and Spearman correlations below.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>prepare_correlation_table</span>(<span class='no'>df</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>bold</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"html"</span>,
   <span class='no'>...</span>)</pre>
@@ -140,7 +153,7 @@ or logical and at least five observations.</p></td>
     <tr>
       <th>bold</th>
       <td><p>Indicate the p-Value for for identifying significant correlations
-in bold brint. Defaults to 0.05. If set to 0, no bold print is being used.</p></td>
+in bold print. Defaults to 0.05. If set to 0, no bold print is being used.</p></td>
     </tr>
     <tr>
       <th>format</th>
@@ -158,7 +171,7 @@ in bold brint. Defaults to 0.05. If set to 0, no bold print is being used.</p></
  <dt>"df_corr"</dt><dd><p>A data frame containing the correlations</p></dd>
  <dt>"df_prob"</dt><dd><p>A data frame containing the p-values of the correlations</p></dd>
  <dt>"df_n"</dt><dd><p>A data frame containing the number of observations used for the correlations</p></dd>
- <dt>"kable_ret"</dt><dd><p>The return value provided by kable() containing the formatted table</p></dd>
+ <dt>"kable_ret"</dt><dd><p>The return value provided by <code><a href='http://www.rdocumentation.org/packages/knitr/topics/kable'>kable</a></code> containing the formatted table</p></dd>
 </dl>
 
     

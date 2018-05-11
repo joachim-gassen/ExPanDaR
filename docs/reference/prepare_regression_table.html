@@ -25,9 +25,12 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Prepares a Regression Table — prepare_regression_table" />
 
-<meta property="og:description" content="Builds a regression table based on a set of user-specifed models or a single model and a partitioning variable." />
+<meta property="og:description" content="Builds a regression table based on a set of user-specified models or a single model and a partitioning variable." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -42,7 +45,15 @@
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119053376-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'UA-119053376-1');
+</script>
 
   </head>
 
@@ -59,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.1.0</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.2.0</span>
       </span>
     </div>
 
@@ -116,9 +127,11 @@
     <div class="hidden name"><code>prepare_regression_table.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
-    <p>Builds a regression table based on a set of user-specifed models or a single model and a partitioning variable.</p>
+    <p>Builds a regression table based on a set of user-specified models or a single model and a partitioning variable.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>prepare_regression_table</span>(<span class='no'>df</span>, <span class='no'>dvs</span>, <span class='no'>idvs</span>, <span class='kw'>feffects</span> <span class='kw'>=</span> <span class='fu'>rep</span>(<span class='st'>""</span>, <span class='fu'>length</span>(<span class='no'>dvs</span>)),
   <span class='kw'>clusters</span> <span class='kw'>=</span> <span class='fu'>rep</span>(<span class='st'>""</span>, <span class='fu'>length</span>(<span class='no'>dvs</span>)), <span class='kw'>byvar</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"html"</span>,
@@ -176,7 +189,7 @@ If not NULL, all underscores in variable names will be replaced by the given str
     <p>This is a wrapper function calling the stargazer package. Depending on whether the dependent variable
   is numeric or a factor with two levels, the models are estimated
   using <code><a href='http://www.rdocumentation.org/packages/lfe/topics/felm'>felm</a></code> or <code><a href='http://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></code> (with <code>family = binomial(link="logit")</code>).
-  Fixed effects and clustered standard errors are only supported with continous dependent variables.
+  Fixed effects and clustered standard errors are only supported with continuous dependent variables.
   If run with <code>byvar</code>, only levels that have more observations than coefficients are estimated.</p>
     
 

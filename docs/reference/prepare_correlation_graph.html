@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Prepares a Correlation Graph — prepare_correlation_graph" />
 
 <meta property="og:description" content="Reads a data frame and presents Pearson correlations above
@@ -44,7 +47,15 @@ by the package corrplot." />
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119053376-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'UA-119053376-1');
+</script>
 
   </head>
 
@@ -61,7 +72,7 @@ by the package corrplot." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.1.0</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.2.0</span>
       </span>
     </div>
 
@@ -118,11 +129,13 @@ by the package corrplot." />
     <div class="hidden name"><code>prepare_correlation_graph.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Reads a data frame and presents Pearson correlations above
 and Spearman correlations the diagonal using a fancy graph prepared
 by the package <code>corrplot</code>.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>prepare_correlation_graph</span>(<span class='no'>df</span>)</pre>
     
@@ -138,11 +151,11 @@ or logical and at least five observations.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The function directly renders the graph as produced by corrplot.
+    <p>The function directly renders the graph as produced by <code>corrplot</code>.
 In addition, it returns a list containing three items:</p><dl class='dl-horizontal'>
- <dt>"df_corr"</dt><dd><p>A data frame containg the correlations</p></dd>
- <dt>"df_prob"</dt><dd><p>A data frame containg the p-values of the correlations</p></dd>
- <dt>"df_n"</dt><dd><p>A data frame containg the number of observations used for the correlations</p></dd>
+ <dt>"df_corr"</dt><dd><p>A data frame containing the correlations</p></dd>
+ <dt>"df_prob"</dt><dd><p>A data frame containing the p-values of the correlations</p></dd>
+ <dt>"df_n"</dt><dd><p>A data frame containing the number of observations used for the correlations</p></dd>
 </dl>
 
     

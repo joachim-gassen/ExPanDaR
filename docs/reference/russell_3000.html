@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Annual Financial Accounting and Stock Return Data for a Sample of Russell 3000 Firms (2013-2016) — russell_3000" />
 
 <meta property="og:description" content="Data collected from Google Finance and Yahoo finance using the package tidyquant." />
@@ -42,7 +45,15 @@
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119053376-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'UA-119053376-1');
+</script>
 
   </head>
 
@@ -59,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.1.0</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.2.0</span>
       </span>
     </div>
 
@@ -116,9 +127,11 @@
     <div class="hidden name"><code>russell_3000.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Data collected from Google Finance and Yahoo finance using the package <code>tidyquant</code>.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>data</span>(<span class='no'>russell_3000</span>)</pre>
         
@@ -131,7 +144,7 @@
     <p>Has been collected using the <code><a href='http://www.rdocumentation.org/packages/tidyquant/topics/tq_get'>tq_get</a></code> function family in Summer 2017.
  The code to generate this data is available in the
  <a href='https://github.com/joachim-gassen/ExPanDaR'>github repository</a> of this package.
- As the Google Finance API providing financial statement data is currently unavaible,
+ As the Google Finance API providing financial statement data is currently unavailable,
  the data cannot be replicated by running the code.
  Use in scientific studies is not advised without prior cleaning/checking.</p>
     

@@ -16,7 +16,13 @@
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<![endif]--><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-119053376-1"></script><script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-119053376-1');
+</script>
 </head>
 <body>
     <div class="container template-article">
@@ -30,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.1.0</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.2.0</span>
       </span>
     </div>
 
@@ -106,7 +112,7 @@
 <a href="#starting-expand-to-upload-a-local-file-containing-panel-data" class="anchor"></a>Starting ExPanD to upload a local file containing panel data</h2>
 <p>The easiest way to start using ExPanD is to use it with a local data file containing panel data. ExPanD supports Stata, SAS, CSV, Excel and R file formats.</p>
 <p>For using ExPanD from within R, you have to install the ExPanDaR package and start ExPanD.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools::<span class="kw">install_github</span>(<span class="st">"joachim-gassen/ExPanDaR"</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"joachim-gassen/ExPanDaR"</span>)
 <span class="kw">library</span>(ExPanDaR)
 
 <span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>()</code></pre></div>
@@ -117,18 +123,18 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(gapminder)
 <span class="kw">head</span>(gapminder, <span class="dv">10</span>)
 <span class="co">#&gt; # A tibble: 10 x 6</span>
-<span class="co">#&gt;        country continent  year lifeExp      pop gdpPercap</span>
-<span class="co">#&gt;         &lt;fctr&gt;    &lt;fctr&gt; &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 Afghanistan      Asia  1952  28.801  8425333  779.4453</span>
-<span class="co">#&gt;  2 Afghanistan      Asia  1957  30.332  9240934  820.8530</span>
-<span class="co">#&gt;  3 Afghanistan      Asia  1962  31.997 10267083  853.1007</span>
-<span class="co">#&gt;  4 Afghanistan      Asia  1967  34.020 11537966  836.1971</span>
-<span class="co">#&gt;  5 Afghanistan      Asia  1972  36.088 13079460  739.9811</span>
-<span class="co">#&gt;  6 Afghanistan      Asia  1977  38.438 14880372  786.1134</span>
-<span class="co">#&gt;  7 Afghanistan      Asia  1982  39.854 12881816  978.0114</span>
-<span class="co">#&gt;  8 Afghanistan      Asia  1987  40.822 13867957  852.3959</span>
-<span class="co">#&gt;  9 Afghanistan      Asia  1992  41.674 16317921  649.3414</span>
-<span class="co">#&gt; 10 Afghanistan      Asia  1997  41.763 22227415  635.3414</span>
+<span class="co">#&gt;    country     continent  year lifeExp      pop gdpPercap</span>
+<span class="co">#&gt;    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 Afghanistan Asia       1952    28.8  8425333      779.</span>
+<span class="co">#&gt;  2 Afghanistan Asia       1957    30.3  9240934      821.</span>
+<span class="co">#&gt;  3 Afghanistan Asia       1962    32.0 10267083      853.</span>
+<span class="co">#&gt;  4 Afghanistan Asia       1967    34.0 11537966      836.</span>
+<span class="co">#&gt;  5 Afghanistan Asia       1972    36.1 13079460      740.</span>
+<span class="co">#&gt;  6 Afghanistan Asia       1977    38.4 14880372      786.</span>
+<span class="co">#&gt;  7 Afghanistan Asia       1982    39.9 12881816      978.</span>
+<span class="co">#&gt;  8 Afghanistan Asia       1987    40.8 13867957      852.</span>
+<span class="co">#&gt;  9 Afghanistan Asia       1992    41.7 16317921      649.</span>
+<span class="co">#&gt; 10 Afghanistan Asia       1997    41.8 22227415      635.</span>
 <span class="co"># write.csv(gapminder, file = "gapminder.csv", row.names = FALSE)</span></code></pre></div>
 <p>To use ExPanD, you need the following:</p>
 <ul>
@@ -145,7 +151,7 @@
 <h2 class="hasAnchor">
 <a href="#starting-expand-with-a-data-frame-containing-panel-data" class="anchor"></a>Starting ExPanD with a data frame containing panel data</h2>
 <p>Alternatively, if you are using R you can bypass the file upload dialog by specifying a data frame and its cross-sectional as well as time-series identifiers.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools::<span class="kw">install_github</span>(<span class="st">"joachim-gassen/ExPanDaR"</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"joachim-gassen/ExPanDaR"</span>)
 <span class="kw">library</span>(ExPanDaR)
 <span class="kw">library</span>(gapminder)
 
@@ -243,10 +249,10 @@
 <p>To explore the data and to test a model on the data, we split the <code>russell_3000</code> in two equally sized randomly selected samples: The “training sample” and the “test sample”. The idea is that we will explore the training sample but will infer the significance of our association test from the test sample. Run the following to generate the two samples and to start ExPanD with them.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ExPanDaR)
 <span class="kw">set.seed</span>(<span class="dv">42</span>)
-training_sample &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">nrow</span>(russell_3000), <span class="kw">round</span>(.<span class="dv">5</span>*<span class="kw">nrow</span>(russell_3000)))
-test_sample &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span class="dv">1</span>:<span class="kw">nrow</span>(russell_3000), training_sample)
+training_sample &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">nrow</span>(russell_<span class="dv">3000</span>), <span class="kw">round</span>(.<span class="dv">5</span><span class="op">*</span><span class="kw">nrow</span>(russell_<span class="dv">3000</span>)))
+test_sample &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(russell_<span class="dv">3000</span>), training_sample)
 
-<span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> <span class="kw">list</span>(russell_3000[training_sample, ], russell_3000[test_sample, ]),
+<span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> <span class="kw">list</span>(russell_<span class="dv">3000</span>[training_sample, ], russell_<span class="dv">3000</span>[test_sample, ]),
        <span class="dt">df_def =</span> russell_3000_data_def,
        <span class="dt">df_name =</span> <span class="kw">c</span>(<span class="st">"Training sample"</span>, <span class="st">"Test sample"</span>))</code></pre></div>
 <p>ExPanD starts displaying the training sample. As you can infer from the bar chart and the descriptive table, the <code>russell_3000</code> dataset contains a short unbalanced panel of four years and 2,289 firms. Also, you have varying amounts of missing data across the variables of the dataset with some variables containing no values for the first fiscal year of the sample. When you hover with your mouse over the variable names in the descriptive table a tool-tip will present you with hopefully informative variable definitions.</p>

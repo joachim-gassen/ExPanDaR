@@ -17,8 +17,8 @@
 #'
 #' @return A list containing two items:
 #' \describe{
-#'  \item{"df"}{A data frame containg the statisitics by group}
-#'  \item{"plot"}{The plot as returned by ggplot}
+#'  \item{"df"}{A data frame containing the statistics by group}
+#'  \item{"plot"}{The plot as returned by \code{ggplot}}
 #' }
 #'
 #' @examples

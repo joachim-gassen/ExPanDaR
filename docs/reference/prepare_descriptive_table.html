@@ -25,11 +25,14 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Prepares a Table of Descriptive Statistics — prepare_descriptive_table" />
 
 <meta property="og:description" content="Reads a data frame and reports descriptive statistics
 (n, mean, standard deviation, minimum, first quartile, median,
-third quartile, maximum) for all members of the data frame that are eiter
+third quartile, maximum) for all members of the data frame that are either
 numeric or logical." />
 
 <meta property="og:image" content="/logo.png" />
@@ -45,7 +48,15 @@ numeric or logical." />
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119053376-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'UA-119053376-1');
+</script>
 
   </head>
 
@@ -62,7 +73,7 @@ numeric or logical." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.1.0</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.2.0</span>
       </span>
     </div>
 
@@ -119,12 +130,14 @@ numeric or logical." />
     <div class="hidden name"><code>prepare_descriptive_table.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Reads a data frame and reports descriptive statistics
 (n, mean, standard deviation, minimum, first quartile, median,
-third quartile, maximum) for all members of the data frame that are eiter
+third quartile, maximum) for all members of the data frame that are either
 numeric or logical.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>prepare_descriptive_table</span>(<span class='no'>df</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>3</span>, <span class='fl'>3</span>, <span class='fl'>3</span>, <span class='fl'>3</span>, <span class='fl'>3</span>, <span class='fl'>3</span>, <span class='fl'>3</span>),
   <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"html"</span>)</pre>
@@ -140,7 +153,7 @@ or logical and at least two observations.</p></td>
     <tr>
       <th>digits</th>
       <td><p>Number of decimal digits that you want to be displayed for each
-column. If you provide NA, then the column is ommited from the output.</p></td>
+column. If you provide NA, then the column is omitted from the output.</p></td>
     </tr>
     <tr>
       <th>format</th>
@@ -161,7 +174,7 @@ column. If you provide NA, then the column is ommited from the output.</p></td>
 
     <p>The <code>digits</code> parameter from <code>prepare_descriptive_table()</code> uses the default method of
   <code><a href='http://www.rdocumentation.org/packages/knitr/topics/kable'>kable</a></code> to format numbers, calling <code>round</code>. This implies that trailing zeroes are
-  just ommitted.</p>
+  just omitted.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

@@ -9,3 +9,4 @@
 ^shinyapps.R
 ^logo.png
 ^cran-comments.md
+^vignettes/hq_figures$

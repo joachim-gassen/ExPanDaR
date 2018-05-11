@@ -15,29 +15,16 @@ refresh <- TRUE
 pull_worldbank_data <- function() {
   new_cache <- wbcache()
   all_vars <- as.character(unique(new_cache$indicators$indicatorID))
-  vars <- c("SP.POP.TOTL", "NY.GDP.MKTP.CD", "NY.GDP.MKTP.KD", "SP.DYN.LE00.IN",
-            "SP.POP.BRTH.MF", "SI.POV.GINI", "SI.DST.10TH.10",
-            "SI.DST.FRST.10", "SH.XPD.TOTL.ZS", "SH.XPD.PUBL.ZS",
-            "SH.XPD.PRIV.ZS", "SP.URB.TOTL.IN.ZS", "SL.EMP.TOTL.SP.ZS",
-            "SL.EMP.TOTL", "SH.DYN.MORT",
-            "SR.ARE.SURF.K2", "SL.TLF.TOTL.IN",
-            "SL.TLF.CACT.ZS", "SL.TLF.CACT.FM.ZS", "TOTRESV",
-            "SM.POP.NETM", "SL.UEM.TOTL.ZS",
-            "SH.MED.PHYS.ZS",
-            "SE.XPD.TOTL.GD.ZS", "VC.IHR.PSRC.P5",
-            "VA.EST", "RL.EST", "PV.EST",
-            "RQ.EST", "GE.EST", "CC.EST",
-            "SE.ADT.LITR.ZS", "NY.GEN.SVNG.GD.ZS", "NY.GDP.PCAP.CD",
-            "NY.GDP.PCAP.KD", "NY.TAX.NIND.CD", "NY.GDP.PCAP.KD.ZG",
-            "NY.GNS.ICTR.ZS", "NY.GNP.PCAP.KD", "NY.GNP.PCAP.CD","PE.NUS.FCAE",
-            "PA.NUS.PRVT.PP", "PA.NUS.FCRF", "NE.EXP.GNFS.ZS",
-            "NE.DAB.TOTL.ZS", "NE.CON.PETC.ZS", "NE.CON.GOVT.ZS",
-            "NE.TRD.GNFS.ZS", "NE.CON.TETC.ZS", "NY.GDS.TOTL.ZS",
-            "NE.IMP.GNFS.ZS", "NE.GDI.TOTL.ZS", "NE.GDI.FTOT.ZS",
-            "NE.GDI.FPUB.ZS", "EN.ATM.CO2E.PC", "DT.INT.DECT.GN.ZS",
-            "DT.DOD.DECT.GN.ZS", "BX.KLT.DINV.WD.GD.ZS", "DT.TDS.DPPG.GN.ZS",
-            "MS.MIL.XPND.GD.ZS", "GB.XPD.RSDV.GD.ZS",
-            "NE.TRM.TRAD.XU", "SI.POV.GAPS", "SI.POV.LMIC.GP")
+  vars <- c("SP.POP.TOTL", "NY.GDP.MKTP.KD", "SP.DYN.LE00.IN",
+            "SI.POV.GINI", "SH.XPD.PUBL.ZS", "SH.XPD.PRIV.ZS",
+            "SH.DYN.MORT", "SL.UEM.TOTL.ZS", "SH.MED.PHYS.ZS",
+            "SE.XPD.TOTL.GD.ZS", "SE.ADT.LITR.ZS", "NY.GDP.PCAP.KD",
+            "NY.GDP.PCAP.KD.ZG", "NY.GNS.ICTR.ZS", "NY.GNP.PCAP.KD",
+            "NE.EXP.GNFS.ZS", "NE.DAB.TOTL.ZS", "NE.CON.PETC.ZS",
+            "NE.CON.GOVT.ZS", "NE.TRD.GNFS.ZS", "NE.CON.TETC.ZS",
+            "NY.GDS.TOTL.ZS", "NE.IMP.GNFS.ZS", "EN.ATM.CO2E.PC",
+            "DT.INT.DECT.GN.ZS", "DT.DOD.DECT.GN.ZS", "BX.KLT.DINV.WD.GD.ZS",
+            "DT.TDS.DPPG.GN.ZS", "MS.MIL.XPND.GD.ZS", "GB.XPD.RSDV.GD.ZS")
 
   data_wide <- wb(indicator = vars, mrv = 70, return_wide = TRUE)
 

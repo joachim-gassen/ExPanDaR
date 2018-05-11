@@ -7,12 +7,16 @@
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note
-* checking installed package size ... NOTE
-  installed size is  5.9Mb
-  sub-directories of 1Mb or more:
-    data   2.9Mb
-    doc    2.8Mb
-  
-  Both directories are below the size threshold of 5 MB as stated in the CRAN Repository Policy
   
 * This is a new submission.
+
+## Resubmission
+This is a resubmission. In this version I have:
+
+* Reduced the amount of data and the quality of the jpgs in the vognettes 
+  so that the total size of the source tar ball is below 5 MB
+
+* Rewritten the DESCRIPTION file to avoid redundancies
+
+* Put all references to software in the DESCRIPTION file in single quotes
+

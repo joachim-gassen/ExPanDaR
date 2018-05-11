@@ -14,7 +14,6 @@ privconsumption_gdp,NE.CON.PETC.ZS,numeric,1
 govconsumption_gdp,NE.CON.GOVT.ZS,numeric,1
 exports_gdp,NE.EXP.GNFS.ZS,numeric,1
 imports_gdp,NE.IMP.GNFS.ZS,numeric,1
-netmigration,SM.POP.NETM,numeric,1
 resdevelop_gdp,GB.XPD.RSDV.GD.ZS,numeric,1
 govtspendeducation_gdp,SE.XPD.TOTL.GD.ZS,numeric,1
 pubspendhealth_gdp,SH.XPD.PUBL.ZS,numeric,1

@@ -1,6 +1,6 @@
 
-ExPanDaR: Exploring Panel Data with R <img src="logo.png" align="right" />
-==========================================================================
+ExPanDaR: Explore Panel Data Interactively <img src="logo.png" align="right" />
+===============================================================================
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![Travis-CI Build Status](https://travis-ci.org/joachim-gassen/ExPanDaR.svg?branch=master)](https://travis-ci.org/joachim-gassen/ExPanDaR)
 

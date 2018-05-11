@@ -2,7 +2,7 @@
 ExPanDaR: Exploring Panel Data with R <img src="logo.png" align="right" />
 ==========================================================================
 
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![Travis-CI Build Status](https://travis-ci.org/joachim-gassen/ExPanDaR.svg?branch=master)](https://travis-ci.org/joachim-gassen/ExPanDaR) <!-- [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ExPanDaR)](https://cran.r-project.org/package=ExPanDaR) --->
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![Travis-CI Build Status](https://travis-ci.org/joachim-gassen/ExPanDaR.svg?branch=master)](https://travis-ci.org/joachim-gassen/ExPanDaR)
 
 Overview
 --------

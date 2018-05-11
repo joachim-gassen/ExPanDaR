@@ -14,7 +14,7 @@ Description: The ExPanDaR (Explore Panel Data with R) package
     your exploratory data analysis workflow. 
     Refer to the vignettes of the package for more information on how to use ExPanD
     and/or the functions of this package.
-Depends: R (>= 2.10)
+Depends: R (>= 3.3.0)
 License: MIT + file LICENSE
 URL: https://joachim-gassen.github.io/ExPanDaR
 BugReports: https://github.com/joachim-gassen/ExPanDaR/issues

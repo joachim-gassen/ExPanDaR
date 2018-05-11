@@ -1,17 +1,14 @@
 ---
-title: "ExPanDaR: Exploring Panel Data with R"
-author: "Joachim Gassen"
-date: "`r Sys.Date()`"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center", table.align = "center", warnings = FALSE)
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center", table.align = "center",  warnings = FALSE)
 library(ExPanDaR)
 library(knitr)
 ```
 
-# ExPanDaR: Exploring Panel Data with R
+# ExPanDaR: Exploring Panel Data with R <img src="logo.png" align="right" />
 
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
 [![Travis-CI Build Status](https://travis-ci.org/joachim-gassen/ExPanDaR.svg?branch=master)](https://travis-ci.org/joachim-gassen/ExPanDaR)

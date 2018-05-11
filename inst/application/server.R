@@ -1,7 +1,6 @@
 library(ExPanDaR)
 library(PKI)
 library(dplyr)
-library(readxl)
 
 options(shiny.maxRequestSize = 1024^3)
 

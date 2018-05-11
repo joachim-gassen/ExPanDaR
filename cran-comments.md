@@ -13,6 +13,6 @@
     data   2.9Mb
     doc    2.8Mb
   
-  Both directories are below the communicated size threshold of 5 MB
+  Both directories are below the size threshold of 5 MB as stated in the CRAN Repository Policy
   
 * This is a new submission.

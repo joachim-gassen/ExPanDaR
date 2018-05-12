@@ -13,10 +13,13 @@
 ## Resubmission
 This is a resubmission. In this version I have:
 
-* Reduced the amount of data and the quality of the jpgs in the vognettes 
+* Reduced the amount of data and the quality of the jpegs in the vignettes 
   so that the total size of the source tar ball is below 5 MB
 
 * Rewritten the DESCRIPTION file to avoid redundancies
 
 * Put all references to software in the DESCRIPTION file in single quotes
+
+* I did not add any paper references to the Description field as the package 
+  uses standard EDA methodology.
 

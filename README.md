@@ -2,7 +2,7 @@
 ExPanDaR: Explore Panel Data Interactively <img src="logo.png" align="right" />
 ===============================================================================
 
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![Travis-CI Build Status](https://travis-ci.org/joachim-gassen/ExPanDaR.svg?branch=master)](https://travis-ci.org/joachim-gassen/ExPanDaR)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![Travis-CI Build Status](https://travis-ci.org/joachim-gassen/ExPanDaR.svg?branch=master)](https://travis-ci.org/joachim-gassen/ExPanDaR) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ExPanDaR)](https://cran.r-project.org/package=ExPanDaR)
 
 Overview
 --------
@@ -27,7 +27,14 @@ If you want to analyze your own panel data instead, you can also access a varian
 Installation
 ------------
 
-Finally, if you are in for the full treat and want to test ExPanD from within R, run the following in your R session to install the ExPanDaR package and start exploring World Bank data.
+If you are in for the full treat and want to test ExPanD from within R, run the following in your R session to install the ExPanDaR package from CRAN.
+
+``` r
+install.packages("ExPanDaR")
+library(ExPanDaR)
+```
+
+Or, if you want to install the current development version from Github:
 
 ``` r
 if (!require("devtools")) {
@@ -35,12 +42,30 @@ if (!require("devtools")) {
 }
 devtools::install_github("joachim-gassen/ExPanDaR")
 library(ExPanDaR)
+```
 
+Basic Usage
+-----------
+
+You can either start ExPanD without arguments so that it starts with a file upload dialog...
+
+``` r
+ExPanD()
+```
+
+...or start with one of the two example datasets that come with the package:
+
+``` r
 ExPanD(df = worldbank,  
        df_def = worldbank_data_def, 
        var_def = worldbank_var_def,
        df_name = "World Bank Data",
        config_list = ExPanD_config_worldbank)
+
+ExPanD(df = russell_3000,  
+       df_def = russell_3000_data_def, 
+       df_name = "Russell 3000",
+       config_list = ExPanD_config_russell_3000)
 ```
 
 Further Information

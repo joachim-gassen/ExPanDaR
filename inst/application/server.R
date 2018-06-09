@@ -304,7 +304,7 @@ function(input, output, session) {
           if (length(vars) > 1) var_defs <- c(ca_variable$var_def[i], rep("", length(vars) - 1)) else var_defs <- ca_variable$var_def[i]
           ca_variable$var_def[i] <- paste(var_defs,
                                           paste0(vars, ": ",
-                                                 base_variable$var_def[base_variable$var_name %in% vars]),
+                                                 base_variable$var_def[match(vars, base_variable$var_name)]),
                                           collapse = "\n", sep = "\n")
         }
       }
@@ -344,7 +344,7 @@ function(input, output, session) {
       vars <- CodeDepends::getInputs(parse(text = udv_def))@inputs
       if (length(vars) > 1) udv_defs <- c(udv_def, rep("", length(vars) - 1)) else udv_defs <- udv_def
       new_def <- paste(udv_defs, paste0(vars, ": ",
-                                    bs_definition$var_def[bs_definition$var_name %in% vars]),
+                                    bs_definition$var_def[match(vars, bs_definition$var_name)]),
                        collapse = "\n", sep = "\n")
       new_def <- data.frame(var_name = udv_name, var_def = new_def, type, can_be_na, stringsAsFactors = FALSE)
     }
@@ -426,7 +426,7 @@ function(input, output, session) {
           vars <- CodeDepends::getInputs(parse(text = x[2]))@inputs
           if (length(vars) > 1) var_defs <- c(x[2], rep("", length(vars) - 1)) else var_defs <- x[2]
           var_def <- paste(var_defs, paste0(vars, ": ",
-                                        bs_definition$var_def[bs_definition$var_name %in% vars]),
+                                        bs_definition$var_def[match(vars, bs_definition$var_name)]),
                            collapse = "\n", sep = "\n")
           new_def <- cbind(x[1], var_def, type, 1)
         }

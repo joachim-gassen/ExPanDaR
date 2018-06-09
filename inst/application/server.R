@@ -44,6 +44,10 @@ default_config <- list(
   bgbg_stat = "mean",
   bgbg_sort_by_stat = FALSE,
   bgbg_group_by = "All",
+  bgvg_var = "None",
+  bgvg_byvar = "None",
+  bgvg_sort_by_stat = FALSE,
+  bgvg_group_by = "All",
   hist_var = "None",
   hist_group_by = "All",
   hist_nr_of_breaks = 20,
@@ -140,8 +144,13 @@ create_config <- function(s, v, ds_id) {
     desc_group_by = "All",
     bgbg_var = v$var_name[v$ds_id == ds_id & v$type == "numeric"][1],
     bgbg_byvar = select_factor(s[s$ds_id == ds_id, v$var_name[v$ds_id == ds_id & v$type != "cs_id" & v$type != "ts_id"], drop = FALSE]),
+    bgbg_stat = "mean",
     bgbg_sort_by_stat = TRUE,
     bgbg_group_by = "All",
+    bgvg_var = v$var_name[v$ds_id == ds_id & v$type == "numeric"][1],
+    bgvg_byvar = select_factor(s[s$ds_id == ds_id, v$var_name[v$ds_id == ds_id & v$type != "cs_id" & v$type != "ts_id"], drop = FALSE]),
+    bgvg_sort_by_stat = TRUE,
+    bgvg_group_by = "All",
     hist_var = v$var_name[v$ds_id == ds_id & v$type == "numeric"][1],
     hist_group_by = "All",
     hist_nr_of_breaks = 20,
@@ -208,6 +217,8 @@ function(input, output, session) {
     if (!uc$bar_chart_var2 %in% factor_names) uc$bar_chart_var2 = "None"
     if (!uc$bgbg_var %in% numeric_names) uc$bgbg_var = numeric_names[1]
     if (!uc$bgbg_byvar %in% factor_names) uc$bgbg_byvar = factor_names[1]
+    if (!uc$bgvg_var %in% numeric_names) uc$bgvg_var = numeric_names[1]
+    if (!uc$bgvg_byvar %in% factor_names) uc$bgvg_byvar = factor_names[1]
     if (!uc$hist_var %in% numeric_names) uc$hist_var = numeric_names[1]
     if (!uc$hist_var %in% numeric_names) uc$hist_var = numeric_names[1]
     if (!uc$ext_obs_var %in% numeric_names) uc$ext_obs_var = numeric_names[1]
@@ -667,6 +678,7 @@ function(input, output, session) {
       uc$subset_value <<- "All"
       uc$desc_group_by <<- "All"
       uc$bgbg_group_by <<- "All"
+      uc$bgvg_group_by <<- "All"
       uc$hist_group_by <<- "All"
       uc$ext_obs_group_by <<- "All"
       uc$trend_graph_group_by <<- "All"
@@ -696,6 +708,7 @@ function(input, output, session) {
       uc$group_factor <<- input$group_factor
       uc$desc_group_by <<- "All"
       uc$bgbg_group_by <<- "All"
+      uc$bgvg_group_by <<- "All"
       uc$hist_group_by <<- "All"
       uc$ext_obs_group_by <<- "All"
       uc$trend_graph_group_by <<- "All"
@@ -720,6 +733,10 @@ function(input, output, session) {
   observe({uc$bgbg_stat <<- req(input$bgbg_stat)})
   observe({if (is.logical(input$bgbg_sort_by_stat)) uc$bgbg_sort_by_stat <<- input$bgbg_sort_by_stat})
   observe({uc$bgbg_group_by <<- req(input$bgbg_group_by)})
+  observe({uc$bgvg_var <<- req(input$bgvg_var)})
+  observe({uc$bgvg_byvar <<- req(input$bgvg_byvar)})
+  observe({if (is.logical(input$bgvg_sort_by_stat)) uc$bgvg_sort_by_stat <<- input$bgvg_sort_by_stat})
+  observe({uc$bgvg_group_by <<- req(input$bgvg_group_by)})
   observe({uc$hist_var <<- req(input$hist_var)})
   observe({uc$hist_group_by <<- req(input$hist_group_by)})
   observe({uc$hist_nr_of_breaks <<- req(input$hist_nr_of_breaks)})
@@ -884,35 +901,6 @@ function(input, output, session) {
     tagList(mytags)
   })
 
-
-  output$ui_by_group_bar_graph <- renderUI({
-    df <- create_analysis_sample()
-    mytags <- list(h3("By Group Bar Chart"),
-                   selectInput("bgbg_var", label = "Select variable to display",
-                               c(lnumeric$name, llogical$name),
-                               selected = isolate(uc$bgbg_var)),
-                   selectInput("bgbg_byvar", label = "Select variable to group by",
-                               unique(c(lts_id$name, lfactor$name)),
-                               selected = isolate(uc$bgbg_byvar)),
-                   selectInput("bgbg_stat", label = "Select statistic to display",
-                               c("Mean" = "mean",
-                                 "Median" = "median",
-                                 "Standard deviation" = "sd",
-                                 "Minimum" = "min",
-                                 "25 %" = "q25",
-                                 "75 %" = "q75",
-                                 "Maximum" = "max"),
-                               selected = isolate(uc$bgbg_stat)),
-                   hr(),
-                   checkboxInput("bgbg_sort_by_stat", "Sort by statistic", value = uc$bgbg_sort_by_stat))
-    if (uc$group_factor != "None")
-      mytags <- append(mytags, list(selectInput("bgbg_group_by", label = "Select group to subset to",
-                                                c("All", sort(levels(as.factor(df[,uc$group_factor])))),
-                                                selected = isolate(uc$bgbg_group_by)), hr()))
-    tagList(mytags)
-  })
-
-
   output$ui_histogram <- renderUI({
     df <- create_analysis_sample()
     mytags <- list(h3("Histogram"),
@@ -942,6 +930,52 @@ function(input, output, session) {
     mytags <- append(mytags, list(selectInput("ext_obs_period_by", label = "Select period to subset to",
                                               c("All", levels(df[,lts_id$col])),
                                               selected = isolate(uc$ext_obs_period_by))))
+    tagList(mytags)
+  })
+
+  output$ui_by_group_bar_graph <- renderUI({
+    df <- create_analysis_sample()
+    mytags <- list(h3("By Group Bar Chart"),
+                   selectInput("bgbg_var", label = "Select variable to display",
+                               c(lnumeric$name, llogical$name),
+                               selected = isolate(uc$bgbg_var)),
+                   selectInput("bgbg_byvar", label = "Select variable to group by",
+                               unique(c(lts_id$name, lfactor$name)),
+                               selected = isolate(uc$bgbg_byvar)),
+                   selectInput("bgbg_stat", label = "Select statistic to display",
+                               c("Mean" = "mean",
+                                 "Median" = "median",
+                                 "Standard deviation" = "sd",
+                                 "Minimum" = "min",
+                                 "25 %" = "q25",
+                                 "75 %" = "q75",
+                                 "Maximum" = "max"),
+                               selected = isolate(uc$bgbg_stat)),
+                   hr(),
+                   checkboxInput("bgbg_sort_by_stat", "Sort by statistic", value = uc$bgbg_sort_by_stat))
+    if (uc$group_factor != "None")
+      mytags <- append(mytags, list(selectInput("bgbg_group_by", label = "Select group to subset to",
+                                                c("All", sort(levels(as.factor(df[,uc$group_factor])))),
+                                                selected = isolate(uc$bgbg_group_by)), hr()))
+    tagList(mytags)
+  })
+
+  output$ui_by_group_violin_graph <- renderUI({
+    df <- create_analysis_sample()
+    mytags <- list(h3("By Group Violin Chart"),
+                   selectInput("bgvg_var", label = "Select variable to display",
+                               c(lnumeric$name, llogical$name),
+                               selected = isolate(uc$bgvg_var)),
+                   selectInput("bgvg_byvar", label = "Select variable to group by",
+                               unique(c(lts_id$name, lfactor$name)),
+                               selected = isolate(uc$bgvg_byvar)),
+                   checkboxInput("bgvg_sort_by_stat", "Sort by group means", value = uc$bgvg_sort_by_stat),
+                   helpText("(Note: Consider treating your outliers if this graph looks odd)"),
+                   hr())
+    if (uc$group_factor != "None")
+      mytags <- append(mytags, list(selectInput("bgvg_group_by", label = "Select group to subset to",
+                                                c("All", sort(levels(as.factor(df[,uc$group_factor])))),
+                                                selected = isolate(uc$bgvg_group_by)), hr()))
     tagList(mytags)
   })
 
@@ -1179,6 +1213,32 @@ function(input, output, session) {
     }
   )
 
+  output$histogram <- renderPlot({
+    req(uc$hist_group_by, uc$hist_var, uc$hist_nr_of_breaks)
+    df <- create_analysis_sample()
+    if (uc$hist_group_by == "All") hist(as.numeric(df[,uc$hist_var]), main="", xlab = uc$hist_var, col="red", right = FALSE, breaks=uc$hist_nr_of_breaks)
+    else hist(as.numeric(df[df[, uc$group_factor] == uc$hist_group_by, uc$hist_var]), main="", xlab = uc$hist_var, col="red", right=FALSE, breaks=uc$hist_nr_of_breaks)
+  })
+
+  output$ext_obs <- renderPrint({
+      df <- create_analysis_sample()
+      vars <- c(lcs_id$name, lts_id$name, uc$ext_obs_var)
+      if (uc$group_factor != "None") vars <- c(vars, uc$group_factor)
+      df <- df[, vars]
+      if (req(uc$ext_obs_period_by) != "All")
+        df <- df[df[, lts_id$name] == uc$ext_obs_period_by,]
+      if (req(uc$ext_obs_group_by) != "All")
+        df <- df[df[, uc$group_factor] == uc$ext_obs_group_by, vars]
+      df <- droplevels(df[complete.cases(df),])
+      if (nrow(df) <= 10) cat("Not enough data to generate table")
+      else {
+        tab <- prepare_ext_obs_table(df)
+        cat(tab$kable_ret %>%
+              kableExtra::kable_styling())
+      }
+    }
+  )
+
   output$by_group_bar_graph.ui <- renderUI({
     req(uc$bgbg_group_by, uc$bgbg_var, uc$bgbg_byvar)
     df <- create_analysis_sample()
@@ -1206,31 +1266,27 @@ function(input, output, session) {
       ggplot2::ylab(paste(uc$bgbg_stat, uc$bgbg_var))
   })
 
-  output$histogram <- renderPlot({
-    req(uc$hist_group_by, uc$hist_var, uc$hist_nr_of_breaks)
+  output$by_group_violin_graph.ui <- renderUI({
+    req(uc$bgvg_group_by, uc$bgvg_var, uc$bgvg_byvar)
     df <- create_analysis_sample()
-    if (uc$hist_group_by == "All") hist(as.numeric(df[,uc$hist_var]), main="", xlab = uc$hist_var, col="red", right = FALSE, breaks=uc$hist_nr_of_breaks)
-    else hist(as.numeric(df[df[, uc$group_factor] == uc$hist_group_by, uc$hist_var]), main="", xlab = uc$hist_var, col="red", right=FALSE, breaks=uc$hist_nr_of_breaks)
+    if (uc$bgvg_group_by == "All")
+      bins <- length(unique(df[is.finite(df[,uc$bgvg_var]), uc$bgvg_byvar]))
+    else
+      bins <- length(unique(df[df[, uc$group_factor] == uc$bgvg_group_by & is.finite(df[,uc$bgvg_var]), uc$bgvg_byvar]))
+    isolate(plotOutput("by_group_violin_graph",
+                       height=max(400, 30 * bins)))
   })
 
-  output$ext_obs <- renderPrint({
-      df <- create_analysis_sample()
-      vars <- c(lcs_id$name, lts_id$name, uc$ext_obs_var)
-      if (uc$group_factor != "None") vars <- c(vars, uc$group_factor)
-      df <- df[, vars]
-      if (req(uc$ext_obs_period_by) != "All")
-        df <- df[df[, lts_id$name] == uc$ext_obs_period_by,]
-      if (req(uc$ext_obs_group_by) != "All")
-        df <- df[df[, uc$group_factor] == uc$ext_obs_group_by, vars]
-      df <- droplevels(df[complete.cases(df),])
-      if (nrow(df) <= 10) cat("Not enough data to generate table")
-      else {
-        tab <- prepare_ext_obs_table(df)
-        cat(tab$kable_ret %>%
-              kableExtra::kable_styling())
-      }
-    }
-  )
+  output$by_group_violin_graph <- renderPlot({
+    req(uc$bgvg_var, uc$bgvg_byvar)
+    df <- create_analysis_sample()
+    if (uc$bgvg_group_by == "All")
+      prepare_by_group_violin_graph(df[, c(uc$bgvg_byvar, uc$bgvg_var)],
+                                    uc$bgvg_byvar, uc$bgvg_var, uc$bgvg_sort_by_stat)
+    else
+      prepare_by_group_violin_graph(df[df[, uc$group_factor] == uc$bgvg_group_by, c(uc$bgvg_byvar, uc$bgvg_var)],
+                                    uc$bgvg_byvar, uc$bgvg_var, uc$bgvg_sort_by_stat)
+  })
 
   output$trend_graph <- renderPlot({
     req(uc$trend_graph_var1,uc$trend_graph_var2,uc$trend_graph_var3)
@@ -1259,8 +1315,8 @@ function(input, output, session) {
   output$corrplot.ui <- renderUI({
     req(uc$subset_factor)
     isolate(plotOutput("corrplot", hover = hoverOpts("corrplot_hover", delay = 100, delayType = "debounce"),
-               height=max(min(length(c(lnumeric$col, llogical$col))*50,1000),300),
-               width=max(min(length(c(lnumeric$col, llogical$col))*50,1000),300)))
+               height = max(min(length(c(lnumeric$col, llogical$col))*50,1000), 300),
+               width = max(min(length(c(lnumeric$col, llogical$col))*50,1000), 300)))
   })
 
   output$corrplot <- renderPlot({

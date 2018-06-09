@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Prepares a Quantile Trend Graph — prepare_quantile_trend_graph • ExPanDaR</title>
+<title>Prepares a by Group Violin Graph — prepare_by_group_violin_graph • ExPanDaR</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,11 +28,10 @@
 
 
 
-<meta property="og:title" content="Prepares a Quantile Trend Graph — prepare_quantile_trend_graph" />
+<meta property="og:title" content="Prepares a by Group Violin Graph — prepare_by_group_violin_graph" />
 
-<meta property="og:description" content="Reads a data frame
-and plots the quantiles of the specified variable
-by an ordered factor (normally the time-series indicator)" />
+<meta property="og:description" content="Reads a data frame containing a grouping factor and a numerical variable
+and plots a series of violin graphs by the grouping factor." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -129,63 +128,63 @@ by an ordered factor (normally the time-series indicator)" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Prepares a Quantile Trend Graph</h1>
+    <h1>Prepares a by Group Violin Graph</h1>
     
-    <div class="hidden name"><code>prepare_quantile_trend_graph.Rd</code></div>
+    <div class="hidden name"><code>prepare_by_group_violin_graph.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Reads a data frame
-and plots the quantiles of the specified variable
-by an ordered factor (normally the time-series indicator)</p>
+    <p>Reads a data frame containing a grouping factor and a numerical variable
+and plots a series of violin graphs by the grouping factor.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>prepare_quantile_trend_graph</span>(<span class='no'>df</span>, <span class='no'>ts_id</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.05</span>, <span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>,
-  <span class='fl'>0.95</span>), <span class='kw'>var</span> <span class='kw'>=</span> <span class='kw pkg'>utils</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/utils/topics/head'>tail</a></span>(<span class='fu'>colnames</span>(<span class='no'>df</span>[<span class='fu'>sapply</span>(<span class='no'>df</span>, <span class='no'>is.numeric</span>) <span class='kw'>&amp;</span> <span class='fu'>colnames</span>(<span class='no'>df</span>)
-  <span class='kw'>!=</span> <span class='no'>ts_id</span>]), <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>))</pre>
+    <pre class="usage"><span class='fu'>prepare_by_group_violin_graph</span>(<span class='no'>df</span>, <span class='no'>by_var</span>, <span class='no'>var</span>, <span class='kw'>order_by_mean</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>group_on_y</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>df</th>
-      <td><p>Data frame containing the ordered factor and the numerical variable
+      <td><p>Data frame containing the grouping factor and the numerical variable
 to be plotted</p></td>
     </tr>
     <tr>
-      <th>ts_id</th>
-      <td><p>a string containing the column name of the ordered factor
-(normally the time-series indicator)</p></td>
-    </tr>
-    <tr>
-      <th>quantiles</th>
-      <td><p>a numerical vector containing the quantiles that are to be plotted</p></td>
+      <th>by_var</th>
+      <td><p>a string containing the column name of the grouping factor</p></td>
     </tr>
     <tr>
       <th>var</th>
-      <td><p>a string containing the column name of the variable
-to be plotted. Defaults to the last numerical variable of the data frame
-that is not <code>ts_id</code>.</p></td>
+      <td><p>a string containing the column name of the numerical variable</p></td>
+    </tr>
+    <tr>
+      <th>order_by_mean</th>
+      <td><p>a logical value indicating whether you want your
+violins to be ordered by group means (defaults to FALSE)</p></td>
+    </tr>
+    <tr>
+      <th>group_on_y</th>
+      <td><p>a logical value indicating whether you want your
+violins to be oriented horizontally (defaults to TRUE)</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional parameters that are passed to
+<code><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_violin'>geom_violin</a></code></p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list containing two items:</p><dl class='dl-horizontal'>
- <dt>"df"</dt><dd><p>A data frame containing the plotted quantiles</p></dd>
- <dt>"plot"</dt><dd><p>The plot as returned by <code>ggplot</code></p></dd>
-</dl>
-
+    <p>The plot as returned by <code>ggplot2</code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>prepare_quantile_trend_graph</span>(<span class='no'>worldbank</span>, <span class='st'>"year"</span>, <span class='kw'>var</span> <span class='kw'>=</span> <span class='st'>"SP.DYN.LE00.IN"</span>)$<span class='no'>plot</span> +
-  <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/labs'>ylab</a></span>(<span class='st'>"Life expectancy at birth world-wide"</span>)</div><div class='img'><img src='prepare_quantile_trend_graph-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fu'>floor</span>(<span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/stats/topics/time'>time</a></span>(<span class='kw pkg'>datasets</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/datasets/topics/EuStockMarkets'>EuStockMarkets</a></span>)),
-                 <span class='kw'>DAX</span> <span class='kw'>=</span> <span class='kw pkg'>datasets</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/datasets/topics/EuStockMarkets'>EuStockMarkets</a></span>[,<span class='st'>"DAX"</span>])
-<span class='no'>graph</span> <span class='kw'>&lt;-</span> <span class='fu'>prepare_quantile_trend_graph</span>(<span class='no'>df</span>, <span class='st'>"year"</span>, <span class='fu'>c</span>(<span class='fl'>0.05</span>, <span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>, <span class='fl'>0.95</span>))
-<span class='no'>graph</span>$<span class='no'>plot</span></div><div class='img'><img src='prepare_quantile_trend_graph-2.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>russell_3000</span>)
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='treat_outliers.html'>treat_outliers</a></span>(<span class='no'>russell_3000</span>)
+<span class='fu'>prepare_by_group_violin_graph</span>(<span class='no'>df</span>, <span class='st'>"sector"</span>, <span class='st'>"nioa"</span>)</div><div class='img'><img src='prepare_by_group_violin_graph-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

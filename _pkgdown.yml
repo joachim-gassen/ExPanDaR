@@ -38,9 +38,10 @@ reference:
   contents:
   - prepare_missing_values_graph
   - treat_outliers
-  - prepare_ext_obs_table
   - prepare_descriptive_table
+  - prepare_ext_obs_table
   - prepare_by_group_bar_graph
+  - prepare_by_group_violin_graph
   - prepare_trend_graph
   - prepare_quantile_trend_graph
   - prepare_correlation_table

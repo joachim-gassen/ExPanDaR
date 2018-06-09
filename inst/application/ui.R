@@ -120,19 +120,6 @@ fluidPage(
     hr())
   },
 
-  if(shiny_components["by_group_bar_graph"]) {
-    list(fluidRow(
-      column(2, uiOutput("ui_by_group_bar_graph")),
-      column(10,
-             div(
-               style = "position:relative",
-               uiOutput("by_group_bar_graph.ui", height="100%"))
-             )
-    ),
-
-    hr())
-  },
-
   if(shiny_components["histogram"]) {
     list(fluidRow(
       column(2, uiOutput("ui_histogram")),
@@ -151,7 +138,31 @@ fluidPage(
     hr())
   },
 
-  if(shiny_components["trend_graph"]) {
+  if(shiny_components["by_group_bar_graph"]) {
+    list(fluidRow(
+      column(2, uiOutput("ui_by_group_bar_graph")),
+      column(10,
+             div(
+               style = "position:relative",
+               uiOutput("by_group_bar_graph.ui", height="100%"))
+      )
+    ),
+
+    hr())
+  },
+
+  if(shiny_components["by_group_violin_graph"]) {
+    list(fluidRow(
+      column(2, uiOutput("ui_by_group_violin_graph")),
+      column(10,
+             div(
+               style = "position:relative",
+               uiOutput("by_group_violin_graph.ui", height="100%"))
+      )
+    ),
+
+    hr())
+  },  if(shiny_components["trend_graph"]) {
     list(fluidRow(
       column(2, uiOutput("ui_trend_graph")),
       column(10, withSpinner(plotOutput("trend_graph")))

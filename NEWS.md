@@ -3,3 +3,5 @@
 * Fixed a sorting bug in long variable definition construction
 
 * Added by group violin plot
+
+* Removed the dependency with the CodeDepends package

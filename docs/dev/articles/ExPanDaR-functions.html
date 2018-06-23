@@ -94,7 +94,7 @@
       <h1>Using the functions of the ExPanDaR package</h1>
                         <h4 class="author">Joachim Gassen</h4>
             
-            <h4 class="date">2018-06-09</h4>
+            <h4 class="date">2018-06-23</h4>
       
       
       <div class="hidden name"><code>ExPanDaR-functions.Rmd</code></div>
@@ -114,106 +114,198 @@
                  <span class="dt">Definition=</span>russell_3000_data_def<span class="op">$</span>var_def), 
       <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <table class="table">
-<thead><tr class="header">
-<th align="left">Variable</th>
-<th align="left">Definition</th>
+<thead><tr>
+<th style="text-align:left;">
+Variable
+</th>
+<th style="text-align:left;">
+Definition
+</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
-<td align="left">coid</td>
-<td align="left">Company identifier</td>
+<tr>
+<td style="text-align:left;">
+coid
+</td>
+<td style="text-align:left;">
+Company identifier
+</td>
 </tr>
-<tr class="even">
-<td align="left">period</td>
-<td align="left">Fiscal year</td>
+<tr>
+<td style="text-align:left;">
+period
+</td>
+<td style="text-align:left;">
+Fiscal year
+</td>
 </tr>
-<tr class="odd">
-<td align="left">coname</td>
-<td align="left">Company name</td>
+<tr>
+<td style="text-align:left;">
+coname
+</td>
+<td style="text-align:left;">
+Company name
+</td>
 </tr>
-<tr class="even">
-<td align="left">sector</td>
-<td align="left">Sector</td>
+<tr>
+<td style="text-align:left;">
+sector
+</td>
+<td style="text-align:left;">
+Sector
+</td>
 </tr>
-<tr class="odd">
-<td align="left">industry</td>
-<td align="left">Industry</td>
+<tr>
+<td style="text-align:left;">
+industry
+</td>
+<td style="text-align:left;">
+Industry
+</td>
 </tr>
-<tr class="even">
-<td align="left">toas</td>
-<td align="left">Total assets at period end (M US-$)</td>
+<tr>
+<td style="text-align:left;">
+toas
+</td>
+<td style="text-align:left;">
+Total assets at period end (M US-<span class="math inline">\() &lt;/td&gt;  &lt;/tr&gt;  &lt;tr&gt;  &lt;td style="text-align:left;"&gt; sales &lt;/td&gt;  &lt;td style="text-align:left;"&gt; Sales of the period (M US-\)</span>)
+</td>
 </tr>
-<tr class="odd">
-<td align="left">sales</td>
-<td align="left">Sales of the period (M US-$)</td>
+<tr>
+<td style="text-align:left;">
+equity
+</td>
+<td style="text-align:left;">
+Total equity at period end (M US-$)
+</td>
 </tr>
-<tr class="even">
-<td align="left">equity</td>
-<td align="left">Total equity at period end (M US-$)</td>
+<tr>
+<td style="text-align:left;">
+debt_ta
+</td>
+<td style="text-align:left;">
+Total debt (% total assets)
+</td>
 </tr>
-<tr class="odd">
-<td align="left">debt_ta</td>
-<td align="left">Total debt (% total assets)</td>
+<tr>
+<td style="text-align:left;">
+eq_ta
+</td>
+<td style="text-align:left;">
+Total equity (% total assets)
+</td>
 </tr>
-<tr class="even">
-<td align="left">eq_ta</td>
-<td align="left">Total equity (% total assets)</td>
+<tr>
+<td style="text-align:left;">
+gw_ta
+</td>
+<td style="text-align:left;">
+Goodwill (% total assets)
+</td>
 </tr>
-<tr class="odd">
-<td align="left">gw_ta</td>
-<td align="left">Goodwill (% total assets)</td>
+<tr>
+<td style="text-align:left;">
+oint_ta
+</td>
+<td style="text-align:left;">
+Other intangible assets (% total assets)
+</td>
 </tr>
-<tr class="even">
-<td align="left">oint_ta</td>
-<td align="left">Other intangible assets (% total assets)</td>
+<tr>
+<td style="text-align:left;">
+ppe_ta
+</td>
+<td style="text-align:left;">
+Property, plant and equipment (% total assets)
+</td>
 </tr>
-<tr class="odd">
-<td align="left">ppe_ta</td>
-<td align="left">Property, plant and equipment (% total assets)</td>
+<tr>
+<td style="text-align:left;">
+ca_ta
+</td>
+<td style="text-align:left;">
+Current assets (% total assets)
+</td>
 </tr>
-<tr class="even">
-<td align="left">ca_ta</td>
-<td align="left">Current assets (% total assets)</td>
+<tr>
+<td style="text-align:left;">
+cash_ta
+</td>
+<td style="text-align:left;">
+Cash (% total assets)
+</td>
 </tr>
-<tr class="odd">
-<td align="left">cash_ta</td>
-<td align="left">Cash (% total assets)</td>
+<tr>
+<td style="text-align:left;">
+roe
+</td>
+<td style="text-align:left;">
+Return on equity (net income divided by average equity)
+</td>
 </tr>
-<tr class="even">
-<td align="left">roe</td>
-<td align="left">Return on equity (net income divided by average equity)</td>
+<tr>
+<td style="text-align:left;">
+roa
+</td>
+<td style="text-align:left;">
+Return on assets (earnings before interest and taxes divided by average equity)
+</td>
 </tr>
-<tr class="odd">
-<td align="left">roa</td>
-<td align="left">Return on assets (earnings before interest and taxes divided by average equity)</td>
+<tr>
+<td style="text-align:left;">
+nioa
+</td>
+<td style="text-align:left;">
+Net income divided by average assets
+</td>
 </tr>
-<tr class="even">
-<td align="left">nioa</td>
-<td align="left">Net income divided by average assets</td>
+<tr>
+<td style="text-align:left;">
+cfoa
+</td>
+<td style="text-align:left;">
+Cash flow from operations divided by average assets
+</td>
 </tr>
-<tr class="odd">
-<td align="left">cfoa</td>
-<td align="left">Cash flow from operations divided by average assets</td>
+<tr>
+<td style="text-align:left;">
+accoa
+</td>
+<td style="text-align:left;">
+Total accruals divided by average assets
+</td>
 </tr>
-<tr class="even">
-<td align="left">accoa</td>
-<td align="left">Total accruals divided by average assets</td>
+<tr>
+<td style="text-align:left;">
+cogs_sales
+</td>
+<td style="text-align:left;">
+Cost of goods sold divided by sales
+</td>
 </tr>
-<tr class="odd">
-<td align="left">cogs_sales</td>
-<td align="left">Cost of goods sold divided by sales</td>
+<tr>
+<td style="text-align:left;">
+ebit_sales
+</td>
+<td style="text-align:left;">
+Earnings before interest and taxes divided by sales
+</td>
 </tr>
-<tr class="even">
-<td align="left">ebit_sales</td>
-<td align="left">Earnings before interest and taxes divided by sales</td>
+<tr>
+<td style="text-align:left;">
+ni_sales
+</td>
+<td style="text-align:left;">
+Net income divided by sales
+</td>
 </tr>
-<tr class="odd">
-<td align="left">ni_sales</td>
-<td align="left">Net income divided by sales</td>
-</tr>
-<tr class="even">
-<td align="left">return</td>
-<td align="left">Stock return of the period (%)</td>
+<tr>
+<td style="text-align:left;">
+return
+</td>
+<td style="text-align:left;">
+Stock return of the period (%)
+</td>
 </tr>
 </tbody>
 </table>

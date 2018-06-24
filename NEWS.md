@@ -5,3 +5,5 @@
 * Added by group violin plot
 
 * Removed the dependency with the CodeDepends package
+
+* Added rio package to the imports list

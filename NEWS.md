@@ -7,3 +7,5 @@
 * Removed the dependency with the CodeDepends package
 
 * Added rio package to the imports list
+
+* Added packages used by ExPanD() to NAMESPACE to make CRAN checks happy

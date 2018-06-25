@@ -407,7 +407,7 @@ function(input, output, session) {
     # Prepare a sandbox environment that should be user code-safe
     myenv = new.env(parent=emptyenv())
     # Define names of R functions which are allowed for calculation
-    allowedFunctions = c("(", "==", "&", "|", "+", "-", "*", "/", "<", ">", "^","exp", "log", "lag", "lead")
+    allowedFunctions = c("(", "==", "&", "|", "+", "-", "*", "/", "<", ">", "!", "is.na", "^","exp", "log", "lag", "lead")
     # Assign the functions to the evaluation environment
     for(name in allowedFunctions){
       assign(name,match.fun(name), envir=myenv)

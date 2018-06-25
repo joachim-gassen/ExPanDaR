@@ -96,7 +96,7 @@ fluidPage(
                      "provide a name (must not be taken) and a definition here.",
                      "A definition can consist of the base set variables,",
                      "parentheses and the operators",
-                     "'+', '-', '*', '/', '==', '&', '|', '<', '>', '^', 'exp()', 'log()', 'lead()' and 'lag()'.")),
+                     "'+', '-', '*', '/', '==', '&', '|', '<', '>', '!', 'is.na()', '^', 'exp()', 'log()', 'lead()' and 'lag()'.")),
     column (6,textInput('udv_definition', "Enter definition for your additional variable",""),
             actionButton("udv_submit","Submit"))
   )},

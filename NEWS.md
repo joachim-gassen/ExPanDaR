@@ -1,10 +1,12 @@
 # ExPanDaR 0.2.0.9000
 
+* Added by group violin plot
+
+* Included '!' and 'is.na()' as allowed functions for user defined variables
+
 * Fixed a sorting bug in long variable definition construction
 
 * Fixed a bug in ExPanD() extreme obs plot (was sorting on grouping variable)
-
-* Added by group violin plot
 
 * Removed the dependency with the CodeDepends package
 

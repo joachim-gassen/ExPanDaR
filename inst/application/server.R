@@ -1235,7 +1235,7 @@ function(input, output, session) {
       df <- droplevels(df[complete.cases(df),])
       if (nrow(df) <= 10) cat("Not enough data to generate table")
       else {
-        tab <- prepare_ext_obs_table(df)
+        tab <- prepare_ext_obs_table(df, var = uc$ext_obs_var)
         cat(tab$kable_ret %>%
               kableExtra::kable_styling())
       }

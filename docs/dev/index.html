@@ -124,7 +124,13 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>If you are in for the full treat and want to test ExPanD from within R, run the following in your R session to install the ExPanDaR package from CRAN.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"ExPanDaR"</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Include the following to add Bioconductor to your repositories</span>
+<span class="co"># when you have problems installing the package 'CodeDepends'</span>
+<span class="co"># that depends on 'graph' which is only available in the </span>
+<span class="co"># Bioconductor repository</span>
+<span class="kw">setRepositories</span>(<span class="dt">ind=</span><span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)
+
+<span class="kw">install.packages</span>(<span class="st">"ExPanDaR"</span>)
 <span class="kw">library</span>(ExPanDaR)</code></pre></div>
 <p>Or, if you want to install the current development version from Github:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (<span class="op">!</span><span class="kw">require</span>(<span class="st">"devtools"</span>)) {

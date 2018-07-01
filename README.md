@@ -30,6 +30,12 @@ Installation
 If you are in for the full treat and want to test ExPanD from within R, run the following in your R session to install the ExPanDaR package from CRAN.
 
 ``` r
+# Include the following to add Bioconductor to your repositories
+# when you have problems installing the package 'CodeDepends'
+# that depends on 'graph' which is only available in the 
+# Bioconductor repository
+setRepositories(ind=1:2)
+
 install.packages("ExPanDaR")
 library(ExPanDaR)
 ```

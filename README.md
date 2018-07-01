@@ -36,6 +36,10 @@ If you are in for the full treat and want to test ExPanD from within R, run the 
 # Bioconductor repository
 setRepositories(ind=1:2)
 
+# Include the following if you want to use the data file upload 
+# dialog in ExPanD()
+install.packages("rio")
+
 install.packages("ExPanDaR")
 library(ExPanDaR)
 ```

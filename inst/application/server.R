@@ -194,12 +194,6 @@ function(input, output, session) {
   base_variable <- NULL
 
   check_whether_data_is_valid <- function(v) {
-    if (length(which(v$type == "factor" | v$type == "logical")) == 0) {
-      if (DEBUG) warning("No variables suitable as factors in data")
-      session$sendCustomMessage(type = 'testmessage',
-                                message = paste0('Your data contains no factors or logical values. At least one is required.'))
-      return(FALSE)
-    }
     if (length(which(v$type == "numeric")) < 2) {
       if (DEBUG) warning("Less than two numerical variables in data")
       session$sendCustomMessage(type = 'testmessage',

@@ -65,22 +65,25 @@ I will use the well-known `gapminder` dataset provided by the gapminder package 
 
 ``` {r gapminder}
 library(gapminder)
-head(gapminder, 10)
 # write.csv(gapminder, file = "gapminder.csv", row.names = FALSE)
+head(gapminder, 10)
 ```
 
 To use ExPanD, you need the following:
 
-- A dataset in long format containing panel data (at least one factor and two numerical variables are required),
-- a variable or a vector of variables within this dataset that identifies a cross-sectional observation and
+- A panel dataset in long format with at least two numerical variables and without duplicate observations (as identified by the cross-sectional and time-series dimension),
+- a variable or a vector of variables within this dataset that identifies the cross-sectional dimension and
 - a variable that is coercible to an ordered factor and that identifies (and sorts) the time dimension of your panel.
 
 As you see, the gapminder file contains country-year data. It is organized in a long format by using `country` as 
 cross-sectional identifier and `year` as time-series identifier. Each of the additional variables is then stored 
-in a separate column. It has one factor (`continent`)
-and three numerical variables (`lifeExp`, `pop` and `gdpPercap`). So, it complies with the above requirements.
+in a separate column. It has one factor (`continent`) and three numerical variables (`lifeExp`, `pop` and `gdpPercap`). So, it complies with the above requirements, assuming that is has no duplicates:
 
-Use the commented-out `write.csv()` function call to save the CSV file to your system and the file dialog to load it into ExPanD 
+``` {r gapminder duplicates}
+any(duplicated(gapminder[,c("country", "year")]))
+```
+
+OK. Use the commented-out `write.csv()` function call above to save the CSV file to your system and the file dialog to load it into ExPanD 
 (if you are not using R, you can download the CSV file 
 [here](https://github.com/joachim-gassen/ExPanDaR/raw/master/vignettes/data/gapminder.csv)).
 After uploading the file, two dialog boxes will appear asking you to select the cross-sectional identifier(s)

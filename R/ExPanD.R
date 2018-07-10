@@ -192,12 +192,10 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
       tdf_def <- df_def[[1]]
     }
     if (!is.null(tdf_def)) {
-      if(length(which(tdf_def$type %in% c("factor", "logical"))) == 0) stop ("No factor or logical variable contained in data frame. At least one is required.")
       if(length(which(tdf_def$type == "numeric")) < 2) stop ("Less than two numerical variables contained in data frame. At least two are required.")
     } else {
       sdf <- tdf[, -which(names(tdf) %in% c(cs_id, ts_id))]
       num_numeric <- length(which(sapply(sdf, is.numeric)))
-      if(num_numeric == length(sdf)) stop ("No factor or logical variable contained in data frame. At least one is required.")
       if(num_numeric < 2) stop ("Less than two numerical variables contained in data frame. At least two are required.")
     }
   }

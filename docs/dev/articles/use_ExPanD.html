@@ -94,7 +94,7 @@
       <h1>Using ExPanD for Panel Data Exploration</h1>
                         <h4 class="author">Joachim Gassen</h4>
             
-            <h4 class="date">2018-06-23</h4>
+            <h4 class="date">2018-07-10</h4>
       
       
       <div class="hidden name"><code>use_ExPanD.Rmd</code></div>
@@ -125,29 +125,31 @@
 <p><img src="figures/ExPanD_file_01.jpg" width="90%" style="display: block; margin: auto;"></p>
 <p>Now you need a file to explore. Feel free to use whatever you want but for our first use case I will use the well-known <code>gapminder</code> dataset provided by the gapminder package (click <a href="https://www.gapminder.org">here</a> if you do not know the gapminder initiative).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(gapminder)
+<span class="co"># write.csv(gapminder, file = "gapminder.csv", row.names = FALSE)</span>
 <span class="kw">head</span>(gapminder, <span class="dv">10</span>)
 <span class="co">#&gt; # A tibble: 10 x 6</span>
 <span class="co">#&gt;    country     continent  year lifeExp      pop gdpPercap</span>
 <span class="co">#&gt;    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 Afghanistan Asia       1952    28.8  8425333       779</span>
-<span class="co">#&gt;  2 Afghanistan Asia       1957    30.3  9240934       821</span>
-<span class="co">#&gt;  3 Afghanistan Asia       1962    32.0 10267083       853</span>
-<span class="co">#&gt;  4 Afghanistan Asia       1967    34.0 11537966       836</span>
-<span class="co">#&gt;  5 Afghanistan Asia       1972    36.1 13079460       740</span>
-<span class="co">#&gt;  6 Afghanistan Asia       1977    38.4 14880372       786</span>
-<span class="co">#&gt;  7 Afghanistan Asia       1982    39.9 12881816       978</span>
-<span class="co">#&gt;  8 Afghanistan Asia       1987    40.8 13867957       852</span>
-<span class="co">#&gt;  9 Afghanistan Asia       1992    41.7 16317921       649</span>
-<span class="co">#&gt; 10 Afghanistan Asia       1997    41.8 22227415       635</span>
-<span class="co"># write.csv(gapminder, file = "gapminder.csv", row.names = FALSE)</span></code></pre></div>
+<span class="co">#&gt;  1 Afghanistan Asia       1952    28.8  8425333      779.</span>
+<span class="co">#&gt;  2 Afghanistan Asia       1957    30.3  9240934      821.</span>
+<span class="co">#&gt;  3 Afghanistan Asia       1962    32.0 10267083      853.</span>
+<span class="co">#&gt;  4 Afghanistan Asia       1967    34.0 11537966      836.</span>
+<span class="co">#&gt;  5 Afghanistan Asia       1972    36.1 13079460      740.</span>
+<span class="co">#&gt;  6 Afghanistan Asia       1977    38.4 14880372      786.</span>
+<span class="co">#&gt;  7 Afghanistan Asia       1982    39.9 12881816      978.</span>
+<span class="co">#&gt;  8 Afghanistan Asia       1987    40.8 13867957      852.</span>
+<span class="co">#&gt;  9 Afghanistan Asia       1992    41.7 16317921      649.</span>
+<span class="co">#&gt; 10 Afghanistan Asia       1997    41.8 22227415      635.</span></code></pre></div>
 <p>To use ExPanD, you need the following:</p>
 <ul>
-<li>A dataset in long format containing panel data (at least one factor and two numerical variables are required),</li>
-<li>a variable or a vector of variables within this dataset that identifies a cross-sectional observation and</li>
+<li>A panel dataset in long format with at least two numerical variables and without duplicate observations (as identified by the cross-sectional and time-series dimension),</li>
+<li>a variable or a vector of variables within this dataset that identifies the cross-sectional dimension and</li>
 <li>a variable that is coercible to an ordered factor and that identifies (and sorts) the time dimension of your panel.</li>
 </ul>
-<p>As you see, the gapminder file contains country-year data. It is organized in a long format by using <code>country</code> as cross-sectional identifier and <code>year</code> as time-series identifier. Each of the additional variables is then stored in a separate column. It has one factor (<code>continent</code>) and three numerical variables (<code>lifeExp</code>, <code>pop</code> and <code>gdpPercap</code>). So, it complies with the above requirements.</p>
-<p>Use the commented-out <code>write.csv()</code> function call to save the CSV file to your system and the file dialog to load it into ExPanD (if you are not using R, you can download the CSV file <a href="https://github.com/joachim-gassen/ExPanDaR/raw/master/vignettes/data/gapminder.csv">here</a>). After uploading the file, two dialog boxes will appear asking you to select the cross-sectional identifier(s) and the time-series identifier.</p>
+<p>As you see, the gapminder file contains country-year data. It is organized in a long format by using <code>country</code> as cross-sectional identifier and <code>year</code> as time-series identifier. Each of the additional variables is then stored in a separate column. It has one factor (<code>continent</code>) and three numerical variables (<code>lifeExp</code>, <code>pop</code> and <code>gdpPercap</code>). So, it complies with the above requirements, assuming that is has no duplicates:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">any</span>(<span class="kw">duplicated</span>(gapminder[,<span class="kw">c</span>(<span class="st">"country"</span>, <span class="st">"year"</span>)]))
+<span class="co">#&gt; [1] FALSE</span></code></pre></div>
+<p>OK. Use the commented-out <code>write.csv()</code> function call above to save the CSV file to your system and the file dialog to load it into ExPanD (if you are not using R, you can download the CSV file <a href="https://github.com/joachim-gassen/ExPanDaR/raw/master/vignettes/data/gapminder.csv">here</a>). After uploading the file, two dialog boxes will appear asking you to select the cross-sectional identifier(s) and the time-series identifier.</p>
 <p><img src="figures/ExPanD_file_02.jpg" width="90%" style="display: block; margin: auto;"></p>
 <p>Select <code>country</code> as the cross-sectional identifier and <code>year</code> as the time-series identifier. ExPanD will now process the data to display it so that you can start exploring.</p>
 </div>

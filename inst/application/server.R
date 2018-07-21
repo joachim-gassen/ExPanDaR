@@ -305,7 +305,7 @@ function(input, output, session) {
         ifelse(ca_variable$type == "cs_id" | ca_variable$type == "ts_id", FALSE, TRUE)
       if (shiny_long_def && any(base_variable$var_def != "")) {
         for (i in 1:nrow(ca_variable)) {
-          tokens <- getParseData(parse(text = ca_variable$var_def[i]))
+          tokens <- utils::getParseData(parse(text = ca_variable$var_def[i]))
           vars <- tokens$text[tokens$token == "SYMBOL"]
           if (length(vars) > 1) var_defs <- c(ca_variable$var_def[i], rep("", length(vars) - 1)) else var_defs <- ca_variable$var_def[i]
           ca_variable$var_def[i] <- paste(var_defs,

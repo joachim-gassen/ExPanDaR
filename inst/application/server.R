@@ -312,6 +312,7 @@ function(input, output, session) {
                                           paste0(vars, ": ",
                                                  base_variable$var_def[match(vars, base_variable$var_name)]),
                                           collapse = "\n", sep = "\n")
+          if (DEBUG) message(sprintf("Adding var_def %s", ca_variable$var_def[i]))
         }
       }
     }

@@ -1,5 +1,7 @@
 # Code to generate the shinyapps.io applications
 # Deploy on MacOS (seems to be less prone to stupid locale and enconding issues)
+devtools::install_github("joachim-gassen/ExPanDaR")
+library(ExPanDaR)
 
 # expand
 ExPanD()

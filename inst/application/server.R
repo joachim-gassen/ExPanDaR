@@ -306,6 +306,7 @@ function(input, output, session) {
       if (shiny_long_def && any(base_variable$var_def != "")) {
         for (i in 1:nrow(ca_variable)) {
           tokens <- utils::getParseData(parse(text = ca_variable$var_def[i]))
+          if (DEBUG) message(print(tokens))
           vars <- tokens$text[tokens$token == "SYMBOL"]
           if (DEBUG) message(paste0("Vars in def: ", vars, collapse = ", "))
           if (length(vars) > 1) var_defs <- c(ca_variable$var_def[i], rep("", length(vars) - 1)) else var_defs <- ca_variable$var_def[i]

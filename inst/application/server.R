@@ -305,12 +305,7 @@ function(input, output, session) {
         ifelse(ca_variable$type == "cs_id" | ca_variable$type == "ts_id", FALSE, TRUE)
       if (shiny_long_def && any(base_variable$var_def != "")) {
         for (i in 1:nrow(ca_variable)) {
-
-          # There seems to be an issue with getParseData() on shinyapps.io.
-          # It returns NULL regardless of the expression.
-          # I filed a support ticket. 22 JUL 2018
-
-          tokens <- utils::getParseData(parse(text = ca_variable$var_def[i]))
+          tokens <- utils::getParseData(parse(text = ca_variable$var_def[i], keep.source = TRUE))
           vars <- tokens$text[tokens$token == "SYMBOL"]
           if (length(vars) > 1) var_defs <- c(ca_variable$var_def[i], rep("", length(vars) - 1)) else var_defs <- ca_variable$var_def[i]
           ca_variable$var_def[i] <- paste(var_defs,
@@ -352,7 +347,7 @@ function(input, output, session) {
     can_be_na <- TRUE
     new_def <- data.frame(var_name = udv_name, var_def = udv_def, type, can_be_na, stringsAsFactors = FALSE)
     if (shiny_long_def && server_side_data && any(base_variable$var_def != "")) {
-      tokens <- getParseData(parse(text = udv_def))
+      tokens <- getParseData(parse(text = udv_def, keep.source = TRUE))
       vars <- tokens$text[tokens$token == "SYMBOL"]
       if (length(vars) > 1) udv_defs <- c(udv_def, rep("", length(vars) - 1)) else udv_defs <- udv_def
       new_def <- paste(udv_defs, paste0(vars, ": ",
@@ -435,7 +430,7 @@ function(input, output, session) {
         else type <- "factor"
         new_def <- cbind(x[1], x[2], type, 1)
         if (shiny_long_def && server_side_data && any(base_variable$var_def != "")) {
-          tokens <- getParseData(parse(text = x[2]))
+          tokens <- getParseData(parse(text = x[2], keep.source = TRUE))
           vars <- tokens$text[tokens$token == "SYMBOL"]
           if (length(vars) > 1) var_defs <- c(x[2], rep("", length(vars) - 1)) else var_defs <- x[2]
           var_def <- paste(var_defs, paste0(vars, ": ",

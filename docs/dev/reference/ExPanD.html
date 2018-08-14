@@ -231,9 +231,11 @@ equal than <code>factor_cutoff</code> unique values as a factor.</p></td>
     </tr>
     <tr>
       <th>components</th>
-      <td><p>A logical vector indicating which reports you want
-ExPanD to generate. If specified, the vector does not have to be named but needs
-to be of correct length (12).</p></td>
+      <td><p>A logical vector indicating the reports that you want
+ExPanD to generate and their order. See the function head of <code>ExpanD</code>
+for the list of available reports. By default, all components are reported.
+You can also exclude selected components from the standard order by setting
+then to <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>store_encrypted</th>
@@ -263,7 +265,7 @@ Probably not.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>If you start ExPanD without any options, it will start with an upload
-dialog so that the the user (e.g., you) can upload a data file
+dialog so that the user (e.g., you) can upload a data file
 for analysis. Supported formats are as provided
 by the <code>rio</code> package.</p>
 <p>If you provide variable definitions in <code>df_def</code> and/or <code>var_def</code>,
@@ -312,7 +314,9 @@ it defaults to being TRUE for all variables other than cs_id and ts_id.</p></dd>
   <span class='fu'>ExPanD</span>(<span class='no'>russell_3000</span>, <span class='fu'>c</span>(<span class='st'>"coid"</span>, <span class='st'>"coname"</span>), <span class='st'>"period"</span>)
   <span class='fu'>ExPanD</span>(<span class='no'>russell_3000</span>, <span class='kw'>df_def</span> <span class='kw'>=</span> <span class='no'>russell_3000_data_def</span>)
   <span class='fu'>ExPanD</span>(<span class='no'>russell_3000</span>, <span class='kw'>df_def</span> <span class='kw'>=</span> <span class='no'>russell_3000_data_def</span>,
-    <span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='no'>T</span>, <span class='no'>F</span>, <span class='no'>T</span>, <span class='no'>F</span>, <span class='no'>F</span>, <span class='no'>F</span>, <span class='no'>F</span>, <span class='no'>F</span>, <span class='no'>F</span>, <span class='no'>F</span>, <span class='no'>T</span>, <span class='no'>T</span>))
+    <span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>ext_obs</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>descriptive_table</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>regression</span> <span class='kw'>=</span> <span class='no'>T</span>))
+  <span class='fu'>ExPanD</span>(<span class='no'>russell_3000</span>, <span class='kw'>df_def</span> <span class='kw'>=</span> <span class='no'>russell_3000_data_def</span>,
+    <span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>missing_values</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>by_group_violin_graph</span> <span class='kw'>=</span> <span class='no'>F</span>))
   <span class='fu'>data</span>(<span class='no'>ExPanD_config_russell_3000</span>)
   <span class='fu'>ExPanD</span>(<span class='kw'>df</span> <span class='kw'>=</span> <span class='no'>russell_3000</span>, <span class='kw'>df_def</span> <span class='kw'>=</span> <span class='no'>russell_3000_data_def</span>,
     <span class='kw'>config_list</span> <span class='kw'>=</span> <span class='no'>ExPanD_config_russell_3000</span>)

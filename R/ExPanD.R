@@ -45,9 +45,11 @@
 #'   Each variable classified as such will be treated as a factor. In addition,
 #'   ExPanD classifies all logical values and all numerical values with less or
 #'   equal than \code{factor_cutoff} unique values as a factor.
-#' @param components A logical vector indicating which reports you want
-#'   ExPanD to generate. If specified, the vector does not have to be named but needs
-#'   to be of correct length (12).
+#' @param components A logical vector indicating the reports that you want
+#'   ExPanD to generate and their order. See the function head of \code{ExpanD}
+#'   for the list of available reports. By default, all components are reported.
+#'   You can also exclude selected components from the standard order by setting
+#'   then to \code{FALSE}.
 #' @param store_encrypted Do you want the user-side saved config files to be
 #'   encrypted? A security measure to avoid that users can inject arbitrary code
 #'   in the config list. Probably a good idea when you are hosting sensitive data
@@ -63,7 +65,7 @@
 #' @details
 #'
 #' If you start ExPanD without any options, it will start with an upload
-#' dialog so that the the user (e.g., you) can upload a data file
+#' dialog so that the user (e.g., you) can upload a data file
 #' for analysis. Supported formats are as provided
 #' by the \code{rio} package.
 #'
@@ -116,7 +118,9 @@
 #'   ExPanD(russell_3000, c("coid", "coname"), "period")
 #'   ExPanD(russell_3000, df_def = russell_3000_data_def)
 #'   ExPanD(russell_3000, df_def = russell_3000_data_def,
-#'     components = c(T, F, T, F, F, F, F, F, F, F, T, T))
+#'     components = c(ext_obs = T, descriptive_table = T, regression = T))
+#'   ExPanD(russell_3000, df_def = russell_3000_data_def,
+#'     components = c(missing_values = F, by_group_violin_graph = F))
 #'   data(ExPanD_config_russell_3000)
 #'   ExPanD(df = russell_3000, df_def = russell_3000_data_def,
 #'     config_list = ExPanD_config_russell_3000)
@@ -200,14 +204,23 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
     }
   }
 
-  if (length(components) != 12 | !is.vector(components) | !is.logical(components)) stop("Components vector is invalid")
   comp_names <- c("bar_chart", "missing_values", "descriptive_table",
                   "histogram", "ext_obs", "by_group_bar_graph", "by_group_violin_graph",
                   "trend_graph", "quantile_trend_graph", "corrplot",
                   "scatter_plot", "regression")
-  if (is.null(names(components))) names(components) <- comp_names
-  if (!identical(names(components), comp_names)) stop("Component vector has invalid names")
+
+  if (!is.vector(components) | !is.logical(components)) stop("components needs to be a vector of logical values")
+  if (is.null(names(components)) & length(components) == 12) names(components) <- comp_names
+  if (is.null(names(components))) stop(sprintf("Component vector has missing names and is not of valid length %d", length(comp_names)))
+  if (!all(names(components) %in% comp_names)) stop(paste("Component vector has invalid names. Valid names are:", paste(comp_names, collapse = ", ")))
+  if (all(components == FALSE)) {
+    rem_components <- comp_names[!(comp_names %in% names(components))]
+    components <- rep(TRUE, length(rem_components))
+    names(components) <- rem_components
+  }
+
   if(!is.null(var_def)) var_def[1:3] <- lapply(var_def[1:3], as.character)
+
   shiny_df <- df
   shiny_cs_id <- cs_id
   shiny_ts_id <- ts_id
@@ -229,7 +242,7 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
   shiny_key_phrase <- key_phrase
   shiny_store_encrypted <- store_encrypted
   shiny_debug <- debug
-  shiny_components <- components
+  shiny_components <- components[components]
   pkg_app_dir <- system.file("application", package = "ExPanDaR")
   file.copy(pkg_app_dir, tempdir(), recursive=TRUE)
   app_dir <- paste0(tempdir(), "/application")

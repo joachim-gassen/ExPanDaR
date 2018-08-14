@@ -762,6 +762,11 @@ function(input, output, session) {
   observe({uc$reg_by <<- req(input$reg_by)})
   observe({uc$cluster <<- req(input$cluster)})
 
+  for (i in 1:17) output[[paste0("ui_separator", i)]] <- renderUI({
+    req(uc$subset_factor)
+    hr()
+  })
+
   output$ui_sample <- renderUI({
     if (!server_side_data) {
       fileInput('infile', label = NULL)
@@ -873,7 +878,23 @@ function(input, output, session) {
     tagList(mytags)
   })
 
-  output$ui_descriptive_table <- renderUI({
+  output$ui_udv_name <- renderUI({
+    req(uc$subset_factor)
+    tagList(textInput('udv_name', "Enter name for your additional variable",""),
+            helpText("If you want to create additional variables for the analysis,",
+                     "provide a name (must not be taken) and a definition here.",
+                     "A definition can consist of the base set variables,",
+                     "parentheses and the operators",
+                     "'+', '-', '*', '/', '==', '&', '|', '<', '>', '!', 'is.na()', '^', 'exp()', 'log()', 'lead()' and 'lag()'."))
+  })
+
+  output$ui_udv_def <- renderUI({
+    req(uc$subset_factor)
+    tagList(textInput('udv_definition', "Enter definition for your additional variable",""),
+            actionButton("udv_submit","Submit"))
+  })
+
+  output$ui_descriptive_table_left <- renderUI({
     df <- create_analysis_sample()
     if (simple_call_mode)
       mytags <- list(h3("Descriptive Statistics"),
@@ -896,6 +917,17 @@ function(input, output, session) {
                                              "and to restore the original variable set of the analysis sample."),
                                     actionButton("restore_analysis_sample", "Restore Sample")))
     tagList(mytags)
+  })
+
+  output$ui_descriptive_table_right <- renderUI({
+    req(uc$subset_factor)
+    if (!simple_call_mode) {
+      tabsetPanel(type = "tabs",
+                  tabPanel("Analysis Set", DT::dataTableOutput("descriptive_table_analysis")),
+                  tabPanel("Base Set", DT::dataTableOutput("descriptive_table_base")))
+    } else {
+      DT::dataTableOutput("descriptive_table_analysis")
+    }
   })
 
   output$ui_histogram <- renderUI({
@@ -1103,7 +1135,7 @@ function(input, output, session) {
     if (isolate(uc$reg_fe2) != "None")  cluster <- "3"
     if ((isolate(uc$reg_fe1) != "None") & (isolate(uc$reg_fe2) != "None")) cluster <- "4"
     uc$cluster <- min(uc$cluster, cluster)
-    switch(cluster,
+    list(switch(cluster,
            "1"= radioButtons("cluster", "Calculation of Standard Errors",
                              choices = list("Standard OLS" = 1), selected = isolate(uc$cluster)),
            "2"= radioButtons("cluster", "Calculation of Standard Errors",
@@ -1113,7 +1145,8 @@ function(input, output, session) {
            "4"= radioButtons("cluster", "Calculation of Standard Errors",
                              choices = list("Standard OLS" = 1, "Clustering for the first fixed effect" = 2,
                                             "Clustering for the second fixed effect" = 3,
-                                            "Two-way clustering" = 4), selected = isolate(uc$cluster)))
+                                            "Two-way clustering" = 4), selected = isolate(uc$cluster))),
+    helpText("Indicatate how you want your standard errors to be estimated"))
   })
 
   output$bar_chart <- renderPlot({

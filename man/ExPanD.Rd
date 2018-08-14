@@ -69,9 +69,11 @@ Each variable classified as such will be treated as a factor. In addition,
 ExPanD classifies all logical values and all numerical values with less or
 equal than \code{factor_cutoff} unique values as a factor.}
 
-\item{components}{A logical vector indicating which reports you want
-ExPanD to generate. If specified, the vector does not have to be named but needs
-to be of correct length (12).}
+\item{components}{A logical vector indicating the reports that you want
+ExPanD to generate and their order. See the function head of \code{ExpanD}
+for the list of available reports. By default, all components are reported.
+You can also exclude selected components from the standard order by setting
+then to \code{FALSE}.}
 
 \item{store_encrypted}{Do you want the user-side saved config files to be
 encrypted? A security measure to avoid that users can inject arbitrary code
@@ -94,7 +96,7 @@ interactive panel data exploration
 }
 \details{
 If you start ExPanD without any options, it will start with an upload
-dialog so that the the user (e.g., you) can upload a data file
+dialog so that the user (e.g., you) can upload a data file
 for analysis. Supported formats are as provided
 by the \code{rio} package.
 
@@ -147,7 +149,9 @@ it defaults to being TRUE for all variables other than cs_id and ts_id.} }
   ExPanD(russell_3000, c("coid", "coname"), "period")
   ExPanD(russell_3000, df_def = russell_3000_data_def)
   ExPanD(russell_3000, df_def = russell_3000_data_def,
-    components = c(T, F, T, F, F, F, F, F, F, F, T, T))
+    components = c(ext_obs = T, descriptive_table = T, regression = T))
+  ExPanD(russell_3000, df_def = russell_3000_data_def,
+    components = c(missing_values = F, by_group_violin_graph = F))
   data(ExPanD_config_russell_3000)
   ExPanD(df = russell_3000, df_def = russell_3000_data_def,
     config_list = ExPanD_config_russell_3000)

@@ -5,8 +5,12 @@ load("shiny_data.Rda")
 server_side_data <- !is.null(shiny_df)
 simple_call_mode <- server_side_data & is.null(shiny_var_def)
 
-if (!server_side_data) shiny_abstract <- "Welcome to ExPanD! To start exploring panel data, please upload a panel data file. Currently supported formats are Excel, CSV, RData, RDS, STATA and SAS."
-fluidPage(
+if (!server_side_data) shiny_abstract <- paste("Welcome to ExPanD! To start exploring panel data, please upload a panel data file.",
+                                               "The data needs to be in long format with at least two numerical variables and without duplicate observations.",
+                                               "Currently supported formats are Excel, CSV, RData, RDS, STATA and SAS.")
+
+
+expand_header <- list(
   # this provides css information for the regression table to assure proper spacing
   tags$head(
     tags$style(HTML(
@@ -19,6 +23,7 @@ fluidPage(
       #regression table > tfoot > tr > td {
       padding:0px 5px;
       }"))),
+
   titlePanel(shiny_title),
   if(!is.null(shiny_abstract)) {
     fluidRow(
@@ -31,7 +36,7 @@ fluidPage(
 
   fluidRow(
     column (12,
-            p("Based on the ExPanD app of the",
+            p("Based on the",
               HTML("<a href=https://joachim-gassen.github.io/ExPanDaR>ExPanDaR R package</a>"),
               "developed by Joachim Gassen, Humboldt-Universität zu Berlin,",
               HTML("<a href=\"mailto:gassen@wiwi.hu-berlin.de\">gassen@wiwi.hu-berlin.de</a>.")),
@@ -52,94 +57,99 @@ fluidPage(
     column (6, uiOutput("ui_balanced_panel"))
   ),
 
-  hr(),
+  uiOutput("ui_separator1"),
 
   fluidRow(
     column (6, uiOutput("ui_subset_factor")),
     column (6, uiOutput("ui_subset_value"))
   ),
 
-  hr(),
+  uiOutput("ui_separator2"),
 
   fluidRow(
     column (6, uiOutput("ui_group_factor")),
     column (6, uiOutput("ui_outlier_treatment"))
   ),
 
-  hr(),
-  if(shiny_components["bar_chart"]) {
-    list(fluidRow(
-      column (2,
-              uiOutput("ui_bar_chart")
+  uiOutput("ui_separator17")
+)
+
+udv_row <- function() {
+  list(fluidRow(column(6, uiOutput("ui_udv_name")),
+                column(6, uiOutput("ui_udv_def"))),
+       uiOutput("ui_separator15"))
+}
+
+ll <- length(shiny_components)
+if (simple_call_mode) expand_components <- vector("list", ll) else expand_components <- vector("list", ll + 1)
+lpos <- 1
+for (i in 1:ll) {
+    if (i == 1 & (!"descriptive_table" %in% names(shiny_components) & !simple_call_mode)) {
+      expand_components[[lpos]] <- udv_row()
+      lpos <- lpos + 1
+    }
+
+    if(names(shiny_components[i]) == "bar_chart") {
+      expand_components[[lpos]] <- list(fluidRow(
+        column (2,
+                uiOutput("ui_bar_chart")
+        ),
+        column (10, withSpinner(plotOutput("bar_chart")))
       ),
-      column (10, withSpinner(plotOutput("bar_chart")))
-    ),
 
-    hr())
-  },
+      uiOutput("ui_separator3"))
+      lpos <- lpos + 1
+    }
 
-  if(shiny_components["missing_values"]) {
-    list(fluidRow(
-      column (2,
-              uiOutput("ui_missing_values")
+    if(names(shiny_components[i]) == "missing_values") {
+      expand_components[[lpos]] <- list(fluidRow(
+        column (2,
+                uiOutput("ui_missing_values")
+        ),
+        column (10, withSpinner(plotOutput("missing_values")))
       ),
-      column (10, withSpinner(plotOutput("missing_values")))
-    ),
 
-    hr())
-  },
+      uiOutput("ui_separator4"))
+      lpos <- lpos + 1
+    }
 
-  if(!simple_call_mode) {
-  fluidRow(
-    column (6,textInput('udv_name', "Enter name for your additional variable",""),
-            helpText("If you want to create additional variables for the analysis,",
-                     "provide a name (must not be taken) and a definition here.",
-                     "A definition can consist of the base set variables,",
-                     "parentheses and the operators",
-                     "'+', '-', '*', '/', '==', '&', '|', '<', '>', '!', 'is.na()', '^', 'exp()', 'log()', 'lead()' and 'lag()'.")),
-    column (6,textInput('udv_definition', "Enter definition for your additional variable",""),
-            actionButton("udv_submit","Submit"))
-  )},
-
-  if(!simple_call_mode) hr(),
-
-  if(shiny_components["descriptive_table"]) {
-    list(fluidRow(
-      column(2,
-             uiOutput("ui_descriptive_table"),
-             hr()),
-      if (!simple_call_mode) {
-        column(10, align="center", tabsetPanel(type = "tabs",
-                                               tabPanel("Analysis Set", DT::dataTableOutput("descriptive_table_analysis")),
-                                               tabPanel("Base Set", DT::dataTableOutput("descriptive_table_base"))))
-      } else {
-        column(10, align="center", DT::dataTableOutput("descriptive_table_analysis"))
+    if(names(shiny_components[i]) == "descriptive_table") {
+      if(!simple_call_mode) {
+        expand_components[[lpos]] <- udv_row()
+        lpos <- lpos + 1
       }
-    ),
 
-    hr())
-  },
+      expand_components[[lpos]] <- list(fluidRow(
+        column(2, uiOutput("ui_descriptive_table_left")),
+        column(10, align="center", uiOutput("ui_descriptive_table_right"))
+      ),
 
-  if(shiny_components["histogram"]) {
-    list(fluidRow(
-      column(2, uiOutput("ui_histogram")),
-      column(10, withSpinner(plotOutput("histogram")))
-    ),
+      uiOutput("ui_separator5"))
+      lpos <- lpos + 1
+  }
 
-    hr())
-  },
+    if(names(shiny_components[i]) == "histogram") {
+      expand_components[[lpos]] <- list(fluidRow(
+        column(2, uiOutput("ui_histogram")),
+        column(10, withSpinner(plotOutput("histogram")))
+      ),
 
-  if(shiny_components["ext_obs"]) {
-    list(fluidRow(
+      uiOutput("ui_separator6"))
+      lpos <- lpos + 1
+    }
+
+  if(names(shiny_components[i]) == "ext_obs") {
+    expand_components[[lpos]] <- list(fluidRow(
       column(2, uiOutput("ui_ext_obs")),
       column(10, align="center", tableOutput("ext_obs"))
     ),
 
-    hr())
-  },
+    uiOutput("ui_separator7"))
+    lpos <- lpos + 1
+  }
 
-  if(shiny_components["by_group_bar_graph"]) {
-    list(fluidRow(
+  if(names(shiny_components[i]) == "by_group_bar_graph") {
+    expand_components[[lpos]] <- list(fluidRow(
       column(2, uiOutput("ui_by_group_bar_graph")),
       column(10,
              div(
@@ -148,11 +158,12 @@ fluidPage(
       )
     ),
 
-    hr())
-  },
+    uiOutput("ui_separator8"))
+    lpos <- lpos + 1
+  }
 
-  if(shiny_components["by_group_violin_graph"]) {
-    list(fluidRow(
+  if(names(shiny_components[i]) == "by_group_violin_graph") {
+    expand_components[[lpos]] <- list(fluidRow(
       column(2, uiOutput("ui_by_group_violin_graph")),
       column(10,
              div(
@@ -161,27 +172,32 @@ fluidPage(
       )
     ),
 
-    hr())
-  },  if(shiny_components["trend_graph"]) {
-    list(fluidRow(
+    uiOutput("ui_separator9"))
+    lpos <- lpos + 1
+  }
+
+  if(names(shiny_components[i]) == "trend_graph") {
+    expand_components[[lpos]] <- list(fluidRow(
       column(2, uiOutput("ui_trend_graph")),
       column(10, withSpinner(plotOutput("trend_graph")))
     ),
 
-    hr())
-  },
+    uiOutput("ui_separator10"))
+    lpos <- lpos + 1
+  }
 
-  if(shiny_components["quantile_trend_graph"]) {
-    list(fluidRow(
+  if(names(shiny_components[i]) == "quantile_trend_graph") {
+    expand_components[[lpos]] <- list(fluidRow(
       column(2, uiOutput("ui_quantile_trend_graph")),
       column(10, withSpinner(plotOutput("quantile_trend_graph", height="600px")))
     ),
 
-    hr())
-  },
+    uiOutput("ui_separator11"))
+    lpos <- lpos + 1
+  }
 
-  if(shiny_components["corrplot"]) {
-    list(fluidRow(
+  if(names(shiny_components[i]) == "corrplot") {
+    expand_components[[lpos]] <- list(fluidRow(
       column(2,uiOutput("ui_corrplot")),
       column(10,
              div(
@@ -191,11 +207,12 @@ fluidPage(
              ))
     ),
 
-    hr())
-  },
+    uiOutput("ui_separator12"))
+    lpos <- lpos + 1
+  }
 
-  if(shiny_components["scatter_plot"]) {
-    list(fluidRow(
+  if(names(shiny_components[i]) == "scatter_plot") {
+    expand_components[[lpos]] <- list(fluidRow(
       column(2, uiOutput("ui_scatter_plot")),
       column(10,
              div(
@@ -207,22 +224,24 @@ fluidPage(
              ))
     ),
 
-    hr())
-  },
+    uiOutput("ui_separator13"))
+    lpos <- lpos + 1
+  }
 
-  if(shiny_components["regression"]) {
-    list(fluidRow(
+  if(names(shiny_components[i]) == "regression") {
+    expand_components[[lpos]] <- list(fluidRow(
       column(2,
              uiOutput("ui_regression"),
-             hr(),
-             uiOutput("ui_clustering"),
-             helpText("Indicatate how you want your standard errors to be estimated")),
+             uiOutput("ui_separator14"),
+             uiOutput("ui_clustering")),
       column(10, align="center", htmlOutput("regression"))
     ),
+    uiOutput("ui_separator16"))
+    lpos <- lpos + 1
+  }
+}
 
-    hr())
-  },
-
+expand_footer <- list(
   fluidRow(
     column(6, align="center",
            downloadButton('download', 'Save Settings'),
@@ -239,6 +258,11 @@ fluidPage(
   fluidRow(
     column(12, align="center",
            HTML("ExPanD based on <a href=https://joachim-gassen.github.io/ExPanDaR>ExPanDaR</a>, Joachim Gassen, Humboldt-Universität zu Berlin, 2018<p>")
-           )
     )
+  )
 )
+
+do.call(fluidPage, c(expand_header,
+                     expand_components,
+                     expand_footer))
+

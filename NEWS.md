@@ -8,6 +8,8 @@ Extensions:
 
 * Included '!' and 'is.na()' as allowed functions for user defined variables
 
+* Introduced the option to change the order of reported components and to exclude selected components
+
 
 Bug fixes:
 
@@ -23,5 +25,7 @@ Minor issues:
 * Added rio package to the imports list
 
 * Added packages used by ExPanD() to NAMESPACE to make CRAN checks happy
+
+* UI cleanups
 
 

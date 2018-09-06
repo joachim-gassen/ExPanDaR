@@ -28,4 +28,6 @@ Minor issues:
 
 * UI cleanups
 
+* Fixed the definition of oint_ta in r3 dataset
+
 

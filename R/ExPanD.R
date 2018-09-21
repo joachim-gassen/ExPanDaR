@@ -12,6 +12,9 @@
 #' @param ts_id A character scalar identifying the name of
 #'   the variable that identifies the time series in your data. The according
 #'   variable needs to be coercible to an ordered vector.
+#'   If you provide a time series indicator that already is an ordered vetor,
+#'   ExPanD will verify that it has the same levels for each data frame
+#'   and throw an error otherwise.
 #'   Can only be NULL if \code{df_def} is provided instead.
 #' @param df_def An optional dataframe (or a list of dataframes) containing
 #'   variable names, definitions and types. If NULL (the default) ExPanD
@@ -168,17 +171,20 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
   if(!is.null(df)) {
     if(!is.data.frame(df)) {
       names_df <- lapply(df, names)
+      if (! ts_id %in% names_df[[1]]) stop ("Time series identifier not included in data frames.")
+      if (! all(cs_id %in% names_df[[1]])) stop ("Cross sectional identifier(s) not all included in data frames.")
       for (i in 2:length(names_df)) {
         if(!identical(names_df[[1]], names_df[[i]])) stop ("Provided data frames do not have identical variable names")
+        if(is.ordered(df[[1]][, ts_id]) &
+           !identical(levels(df[[1]][, ts_id]), levels(df[[2]][, ts_id]))) {
+          stop("Provided data frames' time series identifiers have different levels")
+        }
       }
       if (!is.null(df_def)) {
         for(i in 1: length(names_df)) {
           df_def[[i]][1:3] <- lapply(df_def[[i]][1:3], as.character)
           if(!identical(names_df[[i]], df_def[[i]]$var_name)) stop ("Provided data definitions have different variable names than data frames")
         }
-      } else {
-        if (! ts_id %in% names_df[[1]]) stop ("Time series identifier not included in data frames.")
-        if (! all(cs_id %in% names_df[[1]])) stop ("Cross sectional identifier(s) not all included in data frames.")
       }
     } else {
       if (!is.null(df_def)) {

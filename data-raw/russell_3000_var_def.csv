@@ -10,7 +10,7 @@ equity,Total equity at period end (M US-$),numeric,BS_ANN_39
 debt_ta,Total debt (% total assets),numeric,BS_ANN_27/BS_ANN_17
 eq_ta,Total equity (% total assets),numeric,BS_ANN_39/BS_ANN_17
 gw_ta,Goodwill (% total assets),numeric,BS_ANN_13/BS_ANN_17
-oint_ta,Other intangible assets (% total assets),numeric,(BS_ANN_14-BS_ANN_13)/BS_ANN_17
+oint_ta,Other intangible assets (% total assets),numeric,BS_ANN_14/BS_ANN_17
 ppe_ta,"Property, plant and equipment (% total assets)",numeric,(BS_ANN_11+BS_ANN_12)/BS_ANN_17
 ca_ta,Current assets (% total assets),numeric,BS_ANN_10/BS_ANN_17
 cash_ta,Cash (% total assets),numeric,BS_ANN_1/BS_ANN_17

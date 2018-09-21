@@ -28,6 +28,7 @@ Minor issues:
 
 * UI cleanups
 
-* Added a check to verify that ts_ids provided as ordered vectors have the same levels for all provided data frames in ExPanD()
+* Fixed the definition of oint_ta in r3 dataset
 
+* Added a check to verify that ts_ids provided as ordered vectors 
 

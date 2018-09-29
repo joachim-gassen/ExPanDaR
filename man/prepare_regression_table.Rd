@@ -5,8 +5,7 @@
 \title{Prepares a Regression Table}
 \usage{
 prepare_regression_table(df, dvs, idvs, feffects = rep("", length(dvs)),
-  clusters = rep("", length(dvs)), byvar = "", format = "html",
-  drop_underscore = NULL)
+  clusters = rep("", length(dvs)), byvar = "", format = "html")
 }
 \arguments{
 \item{df}{Data frame containing the data to estimate the models on.}

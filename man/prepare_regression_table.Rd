@@ -23,9 +23,6 @@ prepare_regression_table(df, dvs, idvs, feffects = rep("", length(dvs)),
 
 \item{format}{A character scalar that is passed on \code{\link[stargazer]{stargazer}} as \code{type} to determine the presentation
 format ("html", "text", or "latex").}
-
-\item{drop_underscore}{A quick'n'dirty hack to address a bug in stargazer that triggers it to choke on underscores in variable names.
-If not NULL, all underscores in variable names will be replaced by the given string.}
 }
 \value{
 A list containing two items

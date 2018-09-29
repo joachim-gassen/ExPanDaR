@@ -1,10 +1,25 @@
+escape_for_latex <- function(s) {
+  if (!is.character(s)) s_out <- as.character(s)
+  else s_out <- s
+  s_out <- gsub("\\", "\\textbackslash", s_out, fixed = TRUE)
+  s_out <- gsub("&", "\\&", s_out, fixed = TRUE)
+  s_out <- gsub("%", "\\%", s_out, fixed = TRUE)
+  s_out <- gsub("#", "\\#", s_out, fixed = TRUE)
+  s_out <- gsub("_", "\\_", s_out, fixed = TRUE)
+  s_out <- gsub("{", "\\{", s_out, fixed = TRUE)
+  s_out <- gsub("}", "\\}", s_out, fixed = TRUE)
+  s_out <- gsub("~", "\\textasciitilde ", s_out, fixed = TRUE)
+  s_out <- gsub("^", "\\textasciicircum ", s_out, fixed = TRUE)
+  return(s_out)
+}
+
 estimate_model <- function(df, dl) {
   dv <- dl$dvs
   idvs <- dl$idvs
   feffects <- dl$feffects
   clusters <- dl$clusters
-  fe_str <- gsub("_","",paste(feffects, collapse = ", ")) # stargaze chokes on _
-  cl_str <- gsub("_","",paste(clusters, collapse = ", ")) # stargaze chokes on _
+  fe_str <- paste(feffects, collapse = ", ")
+  cl_str <- paste(clusters, collapse = ", ")
   if ((feffects[1] != "" & clusters[1] != "") & (!is.factor(df[,dv]))) {
     f <- stats::as.formula(paste(dv, "~", paste(idvs, collapse = " + "), " | ",
                           paste(feffects, collapse = " + "), " | 0 | ", paste(clusters, collapse = " + ")))
@@ -19,7 +34,7 @@ estimate_model <- function(df, dl) {
     if (is.factor(df[,dv]) & nlevels(df[,dv]) > 2) stop("multinomial logit is not implemented. Sorry.")
     if (is.factor(df[,dv]) & feffects != "") stop("fixed effects logit is not implemented. Sorry.")
   }
-  if (is.factor(df[,dv])) {
+  if (is.factor(df[,dv]) | is.logical(df[,dv])) {
     type_str = "logit"
     model <- glm(f, family = "binomial", df)
   } else {
@@ -43,8 +58,6 @@ estimate_model <- function(df, dl) {
 #' @param byvar A factorial variable to estimate the model on (only possible if only one model is being estimated).
 #' @param format A character scalar that is passed on \code{\link[stargazer]{stargazer}} as \code{type} to determine the presentation
 #'   format ("html", "text", or "latex").
-#' @param drop_underscore A quick'n'dirty hack to address a bug in stargazer that triggers it to choke on underscores in variable names.
-#'   If not NULL, all underscores in variable names will be replaced by the given string.
 #'
 #' @return A list containing two items
 #' \describe{
@@ -77,7 +90,7 @@ estimate_model <- function(df, dl) {
 #' @export
 
 prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dvs)),
-                                     clusters = rep("", length(dvs)), byvar = "", format = "html", drop_underscore = NULL) {
+                                     clusters = rep("", length(dvs)), byvar = "", format = "html") {
   if(!is.data.frame(df)) stop("df needs to be a dataframe")
   df <- as.data.frame(df)
   if (byvar != "") if(!is.factor(df[,byvar])) stop("'byvar' needs to be a factor.")
@@ -85,20 +98,6 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
   if ((length(dvs) > 1) &&
       ((length(dvs) != length(idvs)) | (length(dvs) != length(feffects)) | (length(dvs) != length(clusters))))
     stop("'dvs', 'idvs', 'feffects' and 'clusters' need to be of equal lenghth.")
-  if (!is.null(drop_underscore)) {
-    names(df) <- gsub("_", drop_underscore, names(df))
-    dvs <- gsub("_", drop_underscore, dvs)
-    if (is.list(idvs))
-      idvs <- lapply(idvs, function(x) gsub("_", drop_underscore, x))
-    else idvs <- gsub("_", drop_underscore, idvs)
-    if (is.list(feffects))
-      feffects <- lapply(feffects, function(x) gsub("_", drop_underscore, x))
-    else feffects <- gsub("_", drop_underscore, feffects)
-    if (is.list(clusters))
-      clusters <- lapply(clusters, function(x) gsub("_", drop_underscore, x))
-    else clusters <- gsub("_", drop_underscore, clusters)
-    byvar <- gsub("_", drop_underscore, byvar)
-  }
   datalist <- list()
   if (byvar != "") {
     datalist <- list(dvs = dvs,
@@ -115,7 +114,7 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
     mby <- lapply(bylevels, function(x) estimate_model(df[df[,byvar] == x,], datalist))
     models <- list()
     models[[1]] <- estimate_model(df, datalist)
-    models[[1]]$byvalue <- "Full"
+    models[[1]]$byvalue <- "Full Sample"
     for (i in 2:(length(mby) + 1)) {
       models[[i]] <- mby[[i-1]]
       models[[i]]$byvalue <- bylevels[i-1]
@@ -147,20 +146,30 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
     else cl_str <- c(cl_str, "No")
     m[[i]] <- models[[i]]$model
     ret[[i]] <- models[[i]]
+    if (byvar != "") {
+      if (i == 1) labels <- models[[i]]$byvalue
+      else labels <- c(labels, models[[i]]$byvalue)
+    }
   }
+  dvs <- escape_for_latex(dvs)
+  fe_str <- escape_for_latex(fe_str)
+  cl_str <- escape_for_latex(cl_str)
   if (byvar != "") {
-    labels <- gsub("_", "", c("Full Sample", levels(df[,byvar])))
-    labels <- gsub("&", "+", labels)
+    # Stargazer 5.2.2 seems to have a bug on how column.labels are treated in text/html
+    # Escaping labels does not help and even sometimes introduces an error.
+    labels <- gsub("&", "+", labels, fixed = TRUE)
+    labels <- gsub("_", "\\_", labels, fixed = TRUE)
+    labels <- gsub("$", "USD", labels, fixed = TRUE)
     htmlout <- utils::capture.output(stargazer::stargazer(m,
                                                    type=format,
                                                    column.labels = labels,
+                                                   dep.var.labels = dvs,
                                                    omit.stat = c("f", "ser"),
-                                                   add.lines=list(fe_str, cl_str),
-                                                   dep.var.labels=dvs))
+                                                   add.lines=list(fe_str, cl_str)))
   } else htmlout <- utils::capture.output(stargazer::stargazer(m,
                                          type=format,
+                                         dep.var.labels = dvs,
                                          omit.stat = c("f", "ser"),
-                                         add.lines=list(fe_str, cl_str),
-                                         dep.var.labels=unlist(dvs)))
+                                         add.lines=list(fe_str, cl_str)))
   list(models = ret, table = htmlout)
 }

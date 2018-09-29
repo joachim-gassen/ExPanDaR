@@ -33,3 +33,7 @@ Minor issues:
 * Added a check to verify that ts_ids provided as ordered vectors 
 
 * Fixed a typo in worldbank_var_def
+
+* Removed the drop_undersore parameter in prepare_regression_table() (no longer needed)
+
+* Work-around for special characters in stargazer column.labels

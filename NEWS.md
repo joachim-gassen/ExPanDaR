@@ -30,6 +30,10 @@ Minor issues:
 
 * Fixed the definition of oint_ta in r3 dataset
 
+<<<<<<< HEAD
 * Fixed a typo in worldbank_var_def
 
+=======
+* Added a check to verify that ts_ids provided as ordered vectors 
+>>>>>>> 11b4f4b9f6e17a1649a85fcfc2982013fe70f402
 

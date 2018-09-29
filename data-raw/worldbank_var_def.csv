@@ -20,7 +20,7 @@ pubspendhealth_gdp,SH.XPD.PUBL.ZS,numeric,1
 unemployment,SL.UEM.TOTL.ZS,numeric,1
 giniindex,SI.POV.GINI,numeric,1
 literacy_rate,SE.ADT.LITR.ZS,numeric,1
-childmortaliy,SH.DYN.MORT,numeric,1
+childmortality,SH.DYN.MORT,numeric,1
 lifeexpectancy,SP.DYN.LE00.IN,numeric,1
 
 

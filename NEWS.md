@@ -30,4 +30,6 @@ Minor issues:
 
 * Fixed the definition of oint_ta in r3 dataset
 
+* Fixed a typo in worldbank_var_def
+
 

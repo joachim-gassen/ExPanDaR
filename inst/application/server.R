@@ -1485,7 +1485,8 @@ function(input, output, session) {
     if (uc$cluster == 4) cluster <- c(uc$reg_fe1, uc$reg_fe2)
     cluster <- cluster[!cluster %in% "None"]
     reg_by <- ifelse(uc$reg_by != "None", uc$reg_by, "")
-    t <- prepare_regression_table(df, uc$reg_y, uc$reg_x, feffect, cluster, reg_by)
+    t <- prepare_regression_table(df = df, dvs = uc$reg_y, idvs = uc$reg_x,
+                                  feffects = feffect, clusters = cluster, byvar = reg_by)
     if (DEBUG) message(do.call(tictoc::toc.outmsg, tictoc::toc(quiet = TRUE)))
     htmltools::HTML(t$table)
   })

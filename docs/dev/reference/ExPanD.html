@@ -171,6 +171,9 @@ Can only be NULL if <code>df_def</code> is provided instead.</p></td>
       <td><p>A character scalar identifying the name of
 the variable that identifies the time series in your data. The according
 variable needs to be coercible to an ordered vector.
+If you provide a time series indicator that already is an ordered vetor,
+ExPanD will verify that it has the same levels for each data frame
+and throw an error otherwise.
 Can only be NULL if <code>df_def</code> is provided instead.</p></td>
     </tr>
     <tr>

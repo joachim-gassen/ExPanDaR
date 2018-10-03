@@ -10,6 +10,8 @@ Extensions:
 
 * Introduced the option to change the order of reported components and to exclude selected components
 
+* Added clustered standard errors and fixed effects for logit models in prepare_regression_table()
+
 
 Bug fixes:
 

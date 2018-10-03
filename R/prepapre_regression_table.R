@@ -18,30 +18,58 @@ estimate_model <- function(df, dl) {
   idvs <- dl$idvs
   feffects <- dl$feffects
   clusters <- dl$clusters
+  type_str <- dl$models
   fe_str <- paste(feffects, collapse = ", ")
   cl_str <- paste(clusters, collapse = ", ")
-  if ((feffects[1] != "" & clusters[1] != "") & (!is.factor(df[,dv]))) {
-    f <- stats::as.formula(paste(dv, "~", paste(idvs, collapse = " + "), " | ",
-                          paste(feffects, collapse = " + "), " | 0 | ", paste(clusters, collapse = " + ")))
-  } else if (!is.factor(df[,dv]) & feffects[1] != "") {
-    f <- stats::as.formula(paste(dv, "~", paste(idvs, collapse = " + "), " | ",
-                          paste(feffects, collapse = " + ")))
-  } else if (!is.factor(df[,dv]) & clusters[1] != "") {
-    f <- stats::as.formula(paste(dv, "~", paste(idvs, collapse = " + "), " | 0 | 0 | ",
-                          paste(clusters, collapse = " + ")))
-  } else {
-    f <- stats::as.formula(paste(dv, "~", paste(idvs, collapse = " + ")))
-    if (is.factor(df[,dv]) & nlevels(df[,dv]) > 2) stop("multinomial logit is not implemented. Sorry.")
-    if (is.factor(df[,dv]) & feffects != "") stop("fixed effects logit is not implemented. Sorry.")
+  se <- NULL
+  p <- NULL
+  omit_vars <- NULL
+  if (type_str == "auto") {
+    if(!(is.factor(df[,dv]) | is.logical(df[,dv]))) type_str <- "ols"
+    else type_str <- "logit"
   }
-  if (is.factor(df[,dv]) | is.logical(df[,dv])) {
-    type_str = "logit"
-    model <- glm(f, family = "binomial", df)
+  if (feffects[1] != "") {
+    df[,feffects] <- lapply(as.data.frame(df[,feffects]), as.factor)
+  }
+  if(type_str == "ols") {
+    if (feffects[1] != "" & clusters[1] != "") {
+      f <- stats::as.formula(paste(dv, "~", paste(idvs, collapse = " + "), " | ",
+                                   paste(feffects, collapse = " + "), " | 0 | ", paste(clusters, collapse = " + ")))
+    } else if (feffects[1] != "") {
+      f <- stats::as.formula(paste(dv, "~", paste(idvs, collapse = " + "), " | ",
+                                   paste(feffects, collapse = " + ")))
+    } else if (clusters[1] != "") {
+      f <- stats::as.formula(paste(dv, "~", paste(idvs, collapse = " + "), " | 0 | 0 | ",
+                                   paste(clusters, collapse = " + ")))
+    } else {
+      f <- stats::as.formula(paste(dv, "~", paste(idvs, collapse = " + ")))
+    }
+  } else if (nlevels(as.factor(df[,dv])) > 2) {
+    stop("multinomial logit is not implemented. Sorry.")
   } else {
-    type_str = "OLS"
+    if (feffects[1] != "") {
+      f <- stats::as.formula(paste(dv, "~", paste(idvs, collapse = " + "), " + ", paste(feffects, collapse = " + ")))
+    } else {
+      f <- stats::as.formula(paste(dv, "~", paste(idvs, collapse = " + ")))
+    }
+  }
+  if (type_str == "logit") {
+    model <- glm(f, family = "binomial", df)
+    model$pseudo_r2 = 1 - model$deviance / model$null.deviance
+    if (clusters[1] != "") {
+      vcov <- multiwayvcov::cluster.vcov(model, cluster = df[, clusters])
+      test <- lmtest::coeftest(model, vcov)
+      se <- test[,2]
+      p <- test[,4]
+    }
+    if (feffects[1] != "") {
+        names(model$coefficients)[1] <- "DummyIntercept"
+        omit_vars <- c("DummyIntercept", unlist(lapply(feffects, function(x) {paste0(x, levels(df[, x]))})))
+    }
+  } else {
     model <- lfe::felm(f, data=df, psdef=FALSE)
   }
-  list(model = model, type_str = type_str, fe_str = fe_str, cl_str = cl_str)
+  list(model = model, type_str = type_str, fe_str = fe_str, cl_str = cl_str, p = p, se = se, omit_vars = omit_vars)
 }
 
 
@@ -51,10 +79,11 @@ estimate_model <- function(df, dl) {
 #' Builds a regression table based on a set of user-specified models or a single model and a partitioning variable.
 #'
 #' @param df Data frame containing the data to estimate the models on.
-#' @param dvs A character vector containing the dependent variable(s).
-#' @param idvs A character vector or a a list of character vectors containing the independent variables.
-#' @param feffects A character vector or a a list of character vectors containing the fixed effects.
-#' @param clusters A character vector or a a list of character vectors containing the cluster variables.
+#' @param dvs A character vector containing the variable names for the dependent variable(s).
+#' @param idvs A character vector or a a list of character vectors containing the variable names of the independent variables.
+#' @param feffects A character vector or a a list of character vectors containing the variable names of the fixed effects.
+#' @param clusters A character vector or a a list of character vectors containing the variable names of the cluster variables.
+#' @param models A character vector indicating the model types to be estimated ('ols', 'logit', or 'auto')
 #' @param byvar A factorial variable to estimate the model on (only possible if only one model is being estimated).
 #' @param format A character scalar that is passed on \code{\link[stargazer]{stargazer}} as \code{type} to determine the presentation
 #'   format ("html", "text", or "latex").
@@ -67,9 +96,13 @@ estimate_model <- function(df, dl) {
 #'
 #' @details
 #' This is a wrapper function calling the stargazer package. Depending on whether the dependent variable
-#'   is numeric or a factor with two levels, the models are estimated
-#'   using \code{\link[lfe]{felm}} or \code{\link[stats]{glm}} (with \code{family = binomial(link="logit")}).
-#'   Fixed effects and clustered standard errors are only supported with continuous dependent variables.
+#'   is numeric, logical or a factor with two levels, the models are estimated
+#'   using \code{\link[lfe]{felm}} (for numeric dependent variables)
+#'   or \code{\link[stats]{glm}} (with \code{family = binomial(link="logit")}) (for two-level factors or logical variables).
+#'   You can override this behavior by specifying the model with the \code{models} parameter.
+#'   Multinomial logit models are not supported.
+#'   For \code{\link[stats]{glm}}, clustered standard errors are estimated using
+#'   \code{\link[multiwayvcov]{cluster.vcov}}.
 #'   If run with \code{byvar}, only levels that have more observations than coefficients are estimated.
 #'
 #'
@@ -90,20 +123,23 @@ estimate_model <- function(df, dl) {
 #' @export
 
 prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dvs)),
-                                     clusters = rep("", length(dvs)), byvar = "", format = "html") {
+                                     clusters = rep("", length(dvs)),
+                                     models = rep("auto", length(dvs)),
+                                     byvar = "", format = "html") {
   if(!is.data.frame(df)) stop("df needs to be a dataframe")
   df <- as.data.frame(df)
   if (byvar != "") if(!is.factor(df[,byvar])) stop("'byvar' needs to be a factor.")
   if ((length(dvs) > 1) & byvar != "") stop("you cannot subset multiple models in one table")
   if ((length(dvs) > 1) &&
-      ((length(dvs) != length(idvs)) | (length(dvs) != length(feffects)) | (length(dvs) != length(clusters))))
-    stop("'dvs', 'idvs', 'feffects' and 'clusters' need to be of equal lenghth.")
+      ((length(dvs) != length(idvs)) | (length(dvs) != length(feffects)) | (length(dvs) != length(clusters) | (length(dvs) != length(models)))))
+    stop("'dvs', 'idvs', 'feffects', 'clusters' and 'models' need to be of equal lenghth.")
   datalist <- list()
   if (byvar != "") {
     datalist <- list(dvs = dvs,
-                          idvs = idvs,
-                          feffects = feffects,
-                          clusters = clusters)
+                     idvs = idvs,
+                     feffects = feffects,
+                     clusters = clusters,
+                     models = models)
     vars <- c(byvar, dvs, idvs, feffects, clusters)
     vars <- vars[which(!vars %in% "")]
     df <- df[stats::complete.cases(df[, vars]), vars]
@@ -125,35 +161,65 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
         datalist[[i]] <- list(dvs = dvs[[i]],
                               idvs = idvs[[i]],
                               feffects = feffects[[i]],
-                              clusters = clusters[[i]])
+                              clusters = clusters[[i]],
+                              models = models[[i]])
       models <- lapply(datalist, function (x) estimate_model(df, x))
     } else {
       datalist <- list(dvs = dvs,
-                            idvs = idvs,
-                            feffects = feffects,
-                            clusters = clusters)
+                       idvs = idvs,
+                       feffects = feffects,
+                       clusters = clusters,
+                       models = models)
       models <- list(estimate_model(df, datalist))
     }
   }
   fe_str <- "Fixed effects"
   cl_str <- "Std. errors clustered"
-  m <- list()
-  ret <- list()
+  mt_str <- "Estimator"
+  pr2_str <- "Pseudo R$^{2}$"
+  m <- vector("list", length(models))
+  mtype <- vector("list", length(models))
+  ret <- vector("list", length(models))
+  p <- vector("list", length(models))
+  se <- vector("list", length(models))
+  logit_present <- FALSE
+  omit_vars <- NULL
   for (i in 1:length(models)) {
     if (models[[i]]$fe_str != "")  fe_str <- c(fe_str, models[[i]]$fe_str)
     else fe_str <- c(fe_str, "None")
     if (models[[i]]$cl_str != "")  cl_str <- c(cl_str, models[[i]]$cl_str)
     else cl_str <- c(cl_str, "No")
     m[[i]] <- models[[i]]$model
+    if (i == 1) mtype <- models[[i]]$type_str
+    else mtype <- c(mtype, models[[i]]$type_str)
+    if (models[[i]]$type_str == "logit") {
+      logit_present <- TRUE
+      pr2_str <- c(pr2_str, format(m[[i]]$pseudo_r2, digits = 3, scientific = FALSE))
+    } else pr2_str <- c(pr2_str, "")
+    mt_str <- c(mt_str, mtype[[i]])
     ret[[i]] <- models[[i]]
+    if (!is.null(models[[i]]$se)) se[[i]] <- models[[i]]$se
+    if (!is.null(models[[i]]$p)) p[[i]] <- models[[i]]$p
     if (byvar != "") {
       if (i == 1) labels <- models[[i]]$byvalue
       else labels <- c(labels, models[[i]]$byvalue)
+    }
+    if (!is.null(models[[i]]$omit_vars)) {
+      if (is.null(omit_vars)) omit_vars <- models[[i]]$omit_vars
+      else omit_vars <- c(omit_vars, models[[i]]$omit_vars)
     }
   }
   dvs <- escape_for_latex(dvs)
   fe_str <- escape_for_latex(fe_str)
   cl_str <- escape_for_latex(cl_str)
+
+  # The following is not being used for the time being as I am unable to figure
+  # out the logic that stargazer uses when multicolumn ist set to TRUE
+  # dvs <- dvs[c(TRUE, (dvs[-length(dvs)] != dvs[-1]) | (mtype[-length(mtype)] != mtype[-1]))]
+
+  if(logit_present) add.lines <- list(mt_str, fe_str, cl_str, pr2_str)
+  else add.lines <- list(mt_str, fe_str, cl_str)
+
   if (byvar != "") {
     # Stargazer 5.2.2 seems to have a bug on how column.labels are treated in text/html
     # Escaping labels does not help and even sometimes introduces an error.
@@ -164,12 +230,27 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
                                                    type=format,
                                                    column.labels = labels,
                                                    dep.var.labels = dvs,
+                                                   model.names = FALSE,
                                                    omit.stat = c("f", "ser"),
-                                                   add.lines=list(fe_str, cl_str)))
+                                                   omit = omit_vars,
+                                                   se = se,
+                                                   p = p,
+                                                   add.lines = add.lines))
   } else htmlout <- utils::capture.output(stargazer::stargazer(m,
                                          type=format,
                                          dep.var.labels = dvs,
-                                         omit.stat = c("f", "ser"),
-                                         add.lines=list(fe_str, cl_str)))
-  list(models = ret, table = htmlout)
+                                         model.names = FALSE,
+                                         multicolumn = FALSE,
+                                         omit.stat = c("f", "ser", "aic", "ll"),
+                                         omit = omit_vars,
+                                         se = se,
+                                         p = p,
+                                         add.lines = add.lines))
+  if (format == "latex") offset <- 5 else offset <- 2
+  if (logit_present) {
+    out <- htmlout[c(1:(length(htmlout) - offset - 7),
+                     c(1:3, 5:7, 4) + (length(htmlout) - offset - 7),
+                     (length(htmlout) - offset + 1):(length(htmlout)))]
+  } else out <- htmlout
+  list(models = ret, table = out)
 }

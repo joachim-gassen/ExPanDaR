@@ -19,8 +19,8 @@ BugReports: https://github.com/joachim-gassen/ExPanDaR/issues
 Encoding: UTF-8
 LazyData: true
 Imports:
-    Hmisc, tidyr, dplyr, ggplot2, corrplot, lfe, stargazer, scales, shiny, 
-    DT, PKI, tictoc, shinycssloaders, kableExtra, rio
+    Hmisc, tidyr, dplyr, ggplot2, corrplot, lfe, multiwayvcov, lmtest,
+    stargazer, scales, shiny, DT, PKI, tictoc, shinycssloaders, kableExtra, rio
 RoxygenNote: 6.0.1.9000
 Suggests:
     gapminder, rmarkdown, htmltools, knitr, devtools, tidyquant, wbstats

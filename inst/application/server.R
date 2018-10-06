@@ -74,7 +74,8 @@ default_config <- list(
   reg_fe1 = "None",
   reg_fe2 = "None",
   reg_by = "None",
-  cluster = 1
+  cluster = 1,
+  model = "ols"
 )
 
 quote_escape <- function(string) {
@@ -177,7 +178,8 @@ create_config <- function(s, v, ds_id) {
     reg_fe1 = "None",
     reg_fe2 = "None",
     reg_by = "None",
-    cluster = 1
+    cluster = 1,
+    model = "ols"
   )
   return(c)
 }
@@ -207,6 +209,7 @@ function(input, output, session) {
   check_vars <- function() {
     factor_names <- unique(c(lfactor$name, lcs_id$name, lts_id$name, llogical$name, "None"))
     numeric_names <- c(lnumeric$name, llogical$name, "None")
+    depvar_names <- unique(c(lnumeric$name, llogical$name, l2level$name))
     if (!uc$bar_chart_var1 %in% factor_names) uc$bar_chart_var1 = factor_names[1]
     if (!uc$bar_chart_var2 %in% factor_names) uc$bar_chart_var2 = "None"
     if (!uc$bgbg_var %in% numeric_names) uc$bgbg_var = numeric_names[1]
@@ -224,13 +227,14 @@ function(input, output, session) {
     if (!uc$scatter_y %in% numeric_names) uc$scatter_y = numeric_names[2]
     if (!uc$scatter_size %in% numeric_names) uc$scatter_size = "None"
     if (!uc$scatter_color %in% union(factor_names, numeric_names)) uc$scatter_color = "None"
-    if (!uc$reg_y %in% numeric_names) uc$reg_y = numeric_names[1]
+    if (!uc$reg_y %in% depvar_names) uc$reg_y = numeric_names[1]
     uc$reg_x <- intersect(uc$reg_x, numeric_names)
     if (length(uc$reg_x) == 0) uc$reg_x = numeric_names[2]
 
     if (!uc$reg_fe1 %in% factor_names) uc$reg_fe1 = "None"
     if (!uc$reg_fe2 %in% factor_names) uc$reg_fe2 = "None"
     if (!uc$reg_by %in% factor_names) uc$reg_by = "None"
+    if (!uc$model %in% c("ols", "logit")) uc$model = "ols"
     if (uc$cluster == 2 & uc$reg_fe1 == "None") uc$cluster = 1
     if (uc$cluster == 3 & uc$reg_fe2 == "None") uc$cluster = 1
     if (uc$cluster == 4 & uc$reg_fe1 != "None" & uc$reg_fe2 == "None") uc$cluster = 2
@@ -460,12 +464,14 @@ function(input, output, session) {
 
   get_suitable_vars <- function(t, s, v) {
     if(t == "factor") {
-      return(which(v$type == "factor" | sapply(s, function (x) length(unique(x)) <= factor_cutoff)))
+      return(which(v$type == "factor" | sapply(s, function (x) length(unique(na.omit(x))) <= factor_cutoff)))
+    } else if (t == "2level") {
+      return(which(sapply(s, function (x) length(unique(na.omit(x))) == 2)))
     } else return(which(v$type == t))
   }
 
   create_var_categories <- function(s, v) {
-    for (type in c("cs_id", "ts_id", "numeric", "logical", "factor")) {
+    for (type in c("cs_id", "ts_id", "numeric", "logical", "factor", "2level")) {
       cand <- get_suitable_vars(type, s, v)
       assign(paste0("l", type), data.frame(
         col = cand,
@@ -761,8 +767,9 @@ function(input, output, session) {
   observe({uc$reg_fe2 <<- req(input$reg_fe2)})
   observe({uc$reg_by <<- req(input$reg_by)})
   observe({uc$cluster <<- req(input$cluster)})
+  observe({uc$model <<- req(input$model)})
 
-  for (i in 1:17) output[[paste0("ui_separator", i)]] <- renderUI({
+  for (i in 1:18) output[[paste0("ui_separator", i)]] <- renderUI({
     req(uc$subset_factor)
     hr()
   })
@@ -1108,7 +1115,7 @@ function(input, output, session) {
     tagList(
       h3("Regression Analysis"),
       selectInput("reg_y", label = "Select the dependent variable",
-                  c(lnumeric$name, llogical$name),
+                  unique(c(lnumeric$name, l2level$name)),
                   selected = isolate(uc$reg_y)),
       selectInput("reg_x", label = "Select independent variable(s)",
                   c(lnumeric$name, llogical$name), multiple=TRUE,
@@ -1128,6 +1135,24 @@ function(input, output, session) {
   })
 
 
+  output$ui_model <- renderUI({
+    req (uc$reg_y)
+    model <- 0
+    if (isolate(uc$reg_y) %in% c(lnumeric$name, llogical$name))  model <- 1
+    if (isolate(uc$reg_y) %in% l2level$name)  model <- model + 2
+    if (model == 1) uc$model = "ols"
+    if (model == 2) uc$model = "logit"
+    if (model == 3) {
+      list(radioButtons("model", "Estimator to use",
+                        choices = list("Standard OLS" = "ols",
+                                       "Logit regression" = "logit"),
+                        selected = isolate(uc$model)),
+           helpText("Indicatate which estimator you want to use",
+                    "(only OLS and binary response logit are implemented)"))
+    }
+  })
+
+
   output$ui_clustering <- renderUI({
     req (uc$reg_fe1, uc$reg_fe2)
     cluster <- "1"
@@ -1137,14 +1162,14 @@ function(input, output, session) {
     uc$cluster <- min(uc$cluster, cluster)
     list(switch(cluster,
            "1"= radioButtons("cluster", "Calculation of Standard Errors",
-                             choices = list("Standard OLS" = 1), selected = isolate(uc$cluster)),
+                             choices = list("Standard" = 1), selected = isolate(uc$cluster)),
            "2"= radioButtons("cluster", "Calculation of Standard Errors",
-                             choices = list("Standard OLS" = 1, "Clustering for the first fixed effect" = 2), selected = isolate(uc$cluster)),
+                             choices = list("Standard" = 1, "Clustered for the first fixed effect" = 2), selected = isolate(uc$cluster)),
            "3"= radioButtons("cluster", "Calculation of Standard Errors",
-                             choices = list("Standard OLS" = 1, "Clustering for the second fixed effect" = 3), selected = isolate(uc$cluster)),
+                             choices = list("Standard" = 1, "Clustered for the second fixed effect" = 3), selected = isolate(uc$cluster)),
            "4"= radioButtons("cluster", "Calculation of Standard Errors",
-                             choices = list("Standard OLS" = 1, "Clustering for the first fixed effect" = 2,
-                                            "Clustering for the second fixed effect" = 3,
+                             choices = list("Standard" = 1, "Clustered for the first fixed effect" = 2,
+                                            "Clustered for the second fixed effect" = 3,
                                             "Two-way clustering" = 4), selected = isolate(uc$cluster))),
     helpText("Indicatate how you want your standard errors to be estimated"))
   })
@@ -1467,12 +1492,15 @@ function(input, output, session) {
 
   output$regression <- renderPrint({
     if (DEBUG) tictoc::tic("estimating regressions")
-    req(uc$reg_y, uc$reg_x, uc$reg_fe1, uc$reg_fe2, uc$reg_by)
+    req(uc$reg_y, uc$reg_x, uc$reg_fe1, uc$reg_fe2, uc$model, uc$reg_by)
     varlist <- c(uc$reg_y, uc$reg_x, uc$reg_fe1, uc$reg_fe2, uc$reg_by)
     varlist <- varlist[!varlist %in% "None"]
     df <- create_analysis_sample()[,varlist]
     if (uc$reg_by != "None") df[, uc$reg_by] <- as.factor(df[, uc$reg_by])
+    if (!uc$reg_y %in% c(lnumeric$name, llogical$name))
+      df[, uc$reg_y] <- as.factor(df[, uc$reg_y])
     df <- droplevels(df[complete.cases(df),])
+
     feffect <- ""
     if (uc$reg_fe1 != "None") {
       feffect <- uc$reg_fe1
@@ -1486,7 +1514,8 @@ function(input, output, session) {
     cluster <- cluster[!cluster %in% "None"]
     reg_by <- ifelse(uc$reg_by != "None", uc$reg_by, "")
     t <- prepare_regression_table(df = df, dvs = uc$reg_y, idvs = uc$reg_x,
-                                  feffects = feffect, clusters = cluster, byvar = reg_by)
+                                  feffects = feffect, clusters = cluster,
+                                  models = uc$model, byvar = reg_by)
     if (DEBUG) message(do.call(tictoc::toc.outmsg, tictoc::toc(quiet = TRUE)))
     htmltools::HTML(t$table)
   })

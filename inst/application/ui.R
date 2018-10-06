@@ -233,7 +233,9 @@ for (i in 1:ll) {
       column(2,
              uiOutput("ui_regression"),
              uiOutput("ui_separator14"),
-             uiOutput("ui_clustering")),
+             uiOutput("ui_clustering"),
+             uiOutput("ui_separator18"),
+             uiOutput("ui_model")),
       column(10, align="center", htmlOutput("regression"))
     ),
     uiOutput("ui_separator16"))

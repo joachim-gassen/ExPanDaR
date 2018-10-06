@@ -12,6 +12,8 @@ Extensions:
 
 * Added clustered standard errors and fixed effects for logit models in prepare_regression_table()
 
+* Implemented binary response logit models in ExPanD()
+
 
 Bug fixes:
 

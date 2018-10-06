@@ -29,7 +29,7 @@ estimate_model <- function(df, dl) {
     else type_str <- "logit"
   }
   if (feffects[1] != "") {
-    df[,feffects] <- lapply(as.data.frame(df[,feffects]), as.factor)
+    df[,feffects] <- lapply(as.data.frame(df[,feffects]), function (x) factor(x, ordered = FALSE))
   }
   if(type_str == "ols") {
     if (feffects[1] != "" & clusters[1] != "") {
@@ -55,7 +55,8 @@ estimate_model <- function(df, dl) {
   }
   if (type_str == "logit") {
     model <- glm(f, family = "binomial", df)
-    model$pseudo_r2 = 1 - model$deviance / model$null.deviance
+    model$pseudo_r2 <- 1 - model$deviance / model$null.deviance
+    model$success <- levels(as.factor(df[, dv]))[2]
     if (clusters[1] != "") {
       vcov <- multiwayvcov::cluster.vcov(model, cluster = df[, clusters])
       test <- lmtest::coeftest(model, vcov)
@@ -63,8 +64,7 @@ estimate_model <- function(df, dl) {
       p <- test[,4]
     }
     if (feffects[1] != "") {
-        names(model$coefficients)[1] <- "DummyIntercept"
-        omit_vars <- c("DummyIntercept", unlist(lapply(feffects, function(x) {paste0(x, levels(df[, x]))})))
+        omit_vars <- (length(idvs) + 1):length(model$coefficients)
     }
   } else {
     model <- lfe::felm(f, data=df, psdef=FALSE)
@@ -173,30 +173,54 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
       models <- list(estimate_model(df, datalist))
     }
   }
+
+  mt_str <- "Estimator"
+  success_str <- "Probability estimated"
   fe_str <- "Fixed effects"
   cl_str <- "Std. errors clustered"
-  mt_str <- "Estimator"
+  n_str <- "Observations"
+  r2_str <- "$R^{2}$"
+  adjr2_str <- "$Adjusted R^{2}$"
   pr2_str <- "Pseudo R$^{2}$"
+
   m <- vector("list", length(models))
   mtype <- vector("list", length(models))
   ret <- vector("list", length(models))
   p <- vector("list", length(models))
   se <- vector("list", length(models))
+  ols_present <- FALSE
   logit_present <- FALSE
   omit_vars <- NULL
+
   for (i in 1:length(models)) {
+    m[[i]] <- models[[i]]$model
+    if (i == 1) mtype <- models[[i]]$type_str
+    else mtype <- c(mtype, models[[i]]$type_str)
+    mt_str <- c(mt_str, mtype[[i]])
+
     if (models[[i]]$fe_str != "")  fe_str <- c(fe_str, models[[i]]$fe_str)
     else fe_str <- c(fe_str, "None")
     if (models[[i]]$cl_str != "")  cl_str <- c(cl_str, models[[i]]$cl_str)
     else cl_str <- c(cl_str, "No")
-    m[[i]] <- models[[i]]$model
-    if (i == 1) mtype <- models[[i]]$type_str
-    else mtype <- c(mtype, models[[i]]$type_str)
+
+    n_str <- c(n_str, format(m[[i]]$N, big.mark = ","))
+
+    if (models[[i]]$type_str == "ols") {
+      ols_present <- TRUE
+      r2_str <- c(r2_str, sprintf("%.3f", summary(m[[i]])$r.squared))
+      adjr2_str <- c(adjr2_str, sprintf("%.3f", summary(m[[i]])$adj.r.squared))
+      success_str <- c(success_str, "")
+      pr2_str <- c(pr2_str, "")
+    }
+
     if (models[[i]]$type_str == "logit") {
       logit_present <- TRUE
-      pr2_str <- c(pr2_str, format(m[[i]]$pseudo_r2, digits = 3, scientific = FALSE))
-    } else pr2_str <- c(pr2_str, "")
-    mt_str <- c(mt_str, mtype[[i]])
+      pr2_str <- c(pr2_str, sprintf("%.3f", m[[i]]$pseudo_r2))
+      success_str <- c(success_str, m[[i]]$success)
+      r2_str <- c(r2_str, "")
+      adjr2_str <- c(adjr2_str, "")
+    }
+
     ret[[i]] <- models[[i]]
     if (!is.null(models[[i]]$se)) se[[i]] <- models[[i]]$se
     if (!is.null(models[[i]]$p)) p[[i]] <- models[[i]]$p
@@ -217,8 +241,11 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
   # out the logic that stargazer uses when multicolumn ist set to TRUE
   # dvs <- dvs[c(TRUE, (dvs[-length(dvs)] != dvs[-1]) | (mtype[-length(mtype)] != mtype[-1]))]
 
-  if(logit_present) add.lines <- list(mt_str, fe_str, cl_str, pr2_str)
-  else add.lines <- list(mt_str, fe_str, cl_str)
+  if (ols_present & logit_present)
+    add.lines <- list(mt_str, success_str, fe_str, cl_str, r2_str, adjr2_str, pr2_str)
+  else if (logit_present)
+    add.lines <- list(mt_str, success_str, fe_str, cl_str, pr2_str)
+  else add.lines <- list(mt_str, fe_str, cl_str, n_str, r2_str, adjr2_str)
 
   if (byvar != "") {
     # Stargazer 5.2.2 seems to have a bug on how column.labels are treated in text/html
@@ -231,7 +258,7 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
                                                    column.labels = labels,
                                                    dep.var.labels = dvs,
                                                    model.names = FALSE,
-                                                   omit.stat = c("f", "ser"),
+                                                   omit.stat = "all",
                                                    omit = omit_vars,
                                                    se = se,
                                                    p = p,
@@ -241,16 +268,11 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
                                          dep.var.labels = dvs,
                                          model.names = FALSE,
                                          multicolumn = FALSE,
-                                         omit.stat = c("f", "ser", "aic", "ll"),
+                                         omit.stat = "all",
                                          omit = omit_vars,
                                          se = se,
                                          p = p,
                                          add.lines = add.lines))
-  if (format == "latex") offset <- 5 else offset <- 2
-  if (logit_present) {
-    out <- htmlout[c(1:(length(htmlout) - offset - 7),
-                     c(1:3, 5:7, 4) + (length(htmlout) - offset - 7),
-                     (length(htmlout) - offset + 1):(length(htmlout)))]
-  } else out <- htmlout
-  list(models = ret, table = out)
+
+  list(models = ret, table = htmlout)
 }

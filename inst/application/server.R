@@ -594,8 +594,9 @@ function(input, output, session) {
 
   observeEvent(input$infile, {
     input_file <- input$infile
-    input_file_format <- tools::file_ext(input_file$name)
     if (is.null(input_file)) return(NULL)
+
+    input_file_format <- tools::file_ext(input_file$name)
     shiny_df <- try(rio::import(file = input_file$datapath,
                                 format = input_file_format))
     if (class(shiny_df) == "try-error") {
@@ -617,6 +618,13 @@ function(input, output, session) {
         return(NULL)
       }
     }
+    if (!is.data.frame(shiny_df) || nrow(shiny_df) < 1) {
+      warning("rio::import generated object that contains no data frame with observations. Informing user.")
+      session$sendCustomMessage(type = 'testmessage',
+                                message = sprintf("File %s does not contain data frame.", input_file$name))
+      return(NULL)
+    }
+
     shiny_df_id <- input_file$name
 
     ret <- load_sample(shiny_df, shiny_df_id, "User uploaded data")

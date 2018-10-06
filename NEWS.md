@@ -41,3 +41,5 @@ Minor issues:
 * Removed the drop_undersore parameter in prepare_regression_table() (no longer needed)
 
 * Work-around for special characters in stargazer column.labels
+
+* Marginally improved error handling for user provided data files

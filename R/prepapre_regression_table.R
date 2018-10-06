@@ -47,6 +47,7 @@ estimate_model <- function(df, dl) {
   } else if (nlevels(as.factor(df[,dv])) > 2) {
     stop("multinomial logit is not implemented. Sorry.")
   } else {
+    df[,dv] <- as.factor(df[,dv])
     if (feffects[1] != "") {
       f <- stats::as.formula(paste(dv, "~", paste(idvs, collapse = " + "), " + ", paste(feffects, collapse = " + ")))
     } else {

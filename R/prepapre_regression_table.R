@@ -181,8 +181,8 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
   cl_str <- "Std. errors clustered"
   n_str <- "Observations"
   r2_str <- "$R^{2}$"
-  adjr2_str <- "$Adjusted R^{2}$"
-  pr2_str <- "Pseudo R$^{2}$"
+  adjr2_str <- "Adjusted $R^{2}$"
+  pr2_str <- "Pseudo $R^{2}$"
 
   m <- vector("list", length(models))
   mtype <- vector("list", length(models))

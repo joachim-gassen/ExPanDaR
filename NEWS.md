@@ -43,3 +43,5 @@ Minor issues:
 * Work-around for special characters in stargazer column.labels
 
 * Marginally improved error handling for user provided data files
+
+* Allowed treat_outliers() to route parameters through to stats::quantile() (needed for type parameter)

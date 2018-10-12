@@ -4,7 +4,7 @@
 \alias{treat_outliers}
 \title{Treats Outliers in Numerical Data}
 \usage{
-treat_outliers(x, percentile = 0.01, truncate = FALSE, by = NULL)
+treat_outliers(x, percentile = 0.01, truncate = FALSE, by = NULL, ...)
 }
 \arguments{
 \item{x}{Data that is coercible into a numeric vector or matrix.
@@ -26,6 +26,8 @@ The factor indicated by 'by' is being used to identify groups
 by which the outlier treatment is applied. Defaults to NULL (no grouping).
 If provided, the resulting vector must not contain NAs and needs to be such so that
 \code{length(byvec) == nrows(as.matrix(x))}.}
+
+\item{...}{Additional parameters forwarded to \link[stats]{quantile} (noteably, \code{type})}
 }
 \value{
 A numeric vector or matrix containing the outlier-treated \code{x}.
@@ -37,11 +39,14 @@ Treats numerical outliers either by winsorizing or by truncating.
 }
 \details{
 All members of the numerical matrix are checked for finiteness and are
-  set to NA if they are not finite.
+  set to NA if they are not finite. NAs are removed when calculating the outlier cut-offs.
 }
 \examples{
 treat_outliers(seq(1:100), 0.05)
 treat_outliers(seq(1:100), truncate = TRUE, 0.05)
+
+# When you like the percentiles calculated like STATA's summary or pctile:
+treat_outliers(seq(1:100), 0.05, type = 2)
 
 df <- data.frame(a = seq(1:1000), b = rnorm(1000), c = sample(LETTERS[1:5], 1000, replace=TRUE))
 winsorized_df <- treat_outliers(df)

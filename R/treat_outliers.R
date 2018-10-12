@@ -1,5 +1,5 @@
-treat_vector_outliers <- function(x, truncate, percentile) {
-  lim <- stats::quantile(x, probs=c(percentile, 1-percentile), na.rm = TRUE)
+treat_vector_outliers <- function(x, truncate, percentile, ...) {
+  lim <- stats::quantile(x, probs=c(percentile, 1-percentile), na.rm = TRUE, ...)
   if (!truncate) {
     x[x < lim[1]] <- lim[1]
     x[x > lim[2]] <- lim[2]
@@ -32,16 +32,20 @@ treat_vector_outliers <- function(x, truncate, percentile) {
 #'   by which the outlier treatment is applied. Defaults to NULL (no grouping).
 #'   If provided, the resulting vector must not contain NAs and needs to be such so that
 #'   \code{length(byvec) == nrows(as.matrix(x))}.
+#' @param ... Additional parameters forwarded to \link[stats]{quantile} (noteably, \code{type})
 #' @return A numeric vector or matrix containing the outlier-treated \code{x}.
 #'   if a data frame was provided in \code{x}, a data frame with its numeric variables
 #'   replaced by their outlier-treated values.
 #'
 #' @details All members of the numerical matrix are checked for finiteness and are
-#'   set to NA if they are not finite.
+#'   set to NA if they are not finite. NAs are removed when calculating the outlier cut-offs.
 #'
 #' @examples
 #' treat_outliers(seq(1:100), 0.05)
 #' treat_outliers(seq(1:100), truncate = TRUE, 0.05)
+#'
+#' # When you like the percentiles calculated like STATA's summary or pctile:
+#' treat_outliers(seq(1:100), 0.05, type = 2)
 #'
 #' df <- data.frame(a = seq(1:1000), b = rnorm(1000), c = sample(LETTERS[1:5], 1000, replace=TRUE))
 #' winsorized_df <- treat_outliers(df)
@@ -55,7 +59,7 @@ treat_vector_outliers <- function(x, truncate, percentile) {
 #' hist(treat_outliers(rnorm(1000)), breaks=100)
 #' @export
 
-treat_outliers <- function(x, percentile = 0.01, truncate = FALSE, by = NULL) {
+treat_outliers <- function(x, percentile = 0.01, truncate = FALSE, by = NULL, ...) {
   x_is_df <- is.data.frame(x)
   x_is_vector <- is.vector(x)
   x_is_matrix <- is.matrix(x)
@@ -96,14 +100,14 @@ treat_outliers <- function(x, percentile = 0.01, truncate = FALSE, by = NULL) {
                                                           !is.finite(xv), NA)))
   if (is.null(by))
     retx <- as.data.frame(lapply(x, function(vx) treat_vector_outliers(vx,
-                                                                       truncate, percentile)))
+                                                                       truncate, percentile, ...)))
   else {
     old_order <- (1:lenx)[order(by)]
     retx <- do.call(rbind,
                     by(x, by,
                        function(mx)
                          apply(mx, 2,
-                               function(vx) treat_vector_outliers(vx, truncate, percentile))))
+                               function(vx) treat_vector_outliers(vx, truncate, percentile, ...))))
     retx <- as.data.frame(retx[order(old_order),])
   }
   if (x_is_vector)

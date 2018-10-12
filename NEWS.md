@@ -45,3 +45,5 @@ Minor issues:
 * Marginally improved error handling for user provided data files
 
 * Allowed treat_outliers() to route parameters through to stats::quantile() (needed for type parameter)
+
+* Changed NA handling in "prepare_graph" type functions

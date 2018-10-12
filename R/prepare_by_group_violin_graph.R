@@ -28,7 +28,7 @@ prepare_by_group_violin_graph <- function(df, by_var, var,
                                        group_on_y = TRUE, ...) {
   if(!is.data.frame(df)) stop("df needs to be a dataframe")
   df <- as.data.frame(df)
-  df <- df[complete.cases(df[, c(by_var, var)]), c(by_var, var)]
+  df <- df[stats::complete.cases(df[, c(by_var, var)]), c(by_var, var)]
   df[, by_var] = as.factor(df[, by_var])
   if (order_by_mean) df[, by_var] <-
     stats::reorder(df[, by_var], -df[, var], mean, na.rm = TRUE)

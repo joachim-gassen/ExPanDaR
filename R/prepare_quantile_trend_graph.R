@@ -38,7 +38,7 @@ prepare_quantile_trend_graph <- function(df, ts_id,
   if (length(var) > 1) stop("var needs to identify a single variable")
   if (! var %in% colnames(df)) stop("var needs to be in df")
 
-  df <- df[, c(ts_id, var)]
+  df <- droplevels(df[complete.cases(df[, c(ts_id, var)]), c(ts_id, var)])
   if(!is.numeric(ts_id)) xnum <- suppressWarnings(as.numeric(as.character(df[,ts_id]))) else xnum <- ts_id
   if (anyNA(xnum)) {
     x_is_factor <- TRUE

@@ -27,7 +27,7 @@ Can only be NULL if \code{df_def} is provided instead.}
 \item{ts_id}{A character scalar identifying the name of
 the variable that identifies the time series in your data. The according
 variable needs to be coercible to an ordered vector.
-If you provide a time series indicator that already is an ordered vetor,
+If you provide a time series indicator that already is an ordered vector,
 ExPanD will verify that it has the same levels for each data frame
 and throw an error otherwise.
 Can only be NULL if \code{df_def} is provided instead.}

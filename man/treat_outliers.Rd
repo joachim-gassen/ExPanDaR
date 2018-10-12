@@ -27,7 +27,7 @@ by which the outlier treatment is applied. Defaults to NULL (no grouping).
 If provided, the resulting vector must not contain NAs and needs to be such so that
 \code{length(byvec) == nrows(as.matrix(x))}.}
 
-\item{...}{Additional parameters forwarded to \link[stats]{quantile} (noteably, \code{type})}
+\item{...}{Additional parameters forwarded to \link[stats]{quantile} (notably, \code{type})}
 }
 \value{
 A numeric vector or matrix containing the outlier-treated \code{x}.

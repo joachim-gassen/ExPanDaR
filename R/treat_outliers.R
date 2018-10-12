@@ -32,7 +32,7 @@ treat_vector_outliers <- function(x, truncate, percentile, ...) {
 #'   by which the outlier treatment is applied. Defaults to NULL (no grouping).
 #'   If provided, the resulting vector must not contain NAs and needs to be such so that
 #'   \code{length(byvec) == nrows(as.matrix(x))}.
-#' @param ... Additional parameters forwarded to \link[stats]{quantile} (noteably, \code{type})
+#' @param ... Additional parameters forwarded to \link[stats]{quantile} (notably, \code{type})
 #' @return A numeric vector or matrix containing the outlier-treated \code{x}.
 #'   if a data frame was provided in \code{x}, a data frame with its numeric variables
 #'   replaced by their outlier-treated values.

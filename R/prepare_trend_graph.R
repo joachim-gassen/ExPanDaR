@@ -35,7 +35,7 @@ prepare_trend_graph <- function(df, ts_id,
   if (! ts_id %in% colnames(df)) stop("ts_id need to be in df")
   if (any(! var %in% colnames(df))) stop("var names need to be in df")
 
-  df <- df[, c(ts_id, var)]
+  df <- droplevels(df[complete.cases(df[, c(ts_id, var)]), c(ts_id, var)])
   if(!is.numeric(ts_id)) xnum <- suppressWarnings(as.numeric(as.character(df[,ts_id]))) else xnum <- ts_id
   if (anyNA(xnum)) {
     x_is_factor <- TRUE

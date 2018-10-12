@@ -27,7 +27,7 @@ prepare_missing_values_graph <- function(df, ts_id, no_factors = FALSE) {
   if(! is.data.frame(df)) stop("df needs to be a dataframe")
   if (! ts_id %in% names(df)) stop("'ts_id' needs to be present in data frame 'df'")
   if (any(is.na(df[,ts_id]))) stop("'ts_id' must not contain missing values")
-  if (! is.logical(no_factors)) stop("'no_factors' needs to be a logcial scalar")
+  if (! is.logical(no_factors)) stop("'no_factors' needs to be a logical scalar")
 
   df <- as.data.frame(df)
   df[,ts_id] <- as.ordered(df[,ts_id])

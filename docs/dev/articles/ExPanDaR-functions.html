@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development package">0.2.0.9000</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development package">0.3.0.9000</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
 <li>
   <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
-     
+
   </a>
 </li>
 <li>
@@ -55,7 +55,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -75,7 +75,7 @@
 <li>
   <a href="https://www.github.com/joachim-gassen/ExPanDaR">
     <span class="fa fa-github"></span>
-     
+
     Code repository
   </a>
 </li>
@@ -87,22 +87,22 @@
 </div>
 <!--/.navbar -->
 
-      
-      </header><div class="row">
+
+      </header><script src="ExPanDaR-functions_files/kePrint-0.0.1/kePrint.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Using the functions of the ExPanDaR package</h1>
                         <h4 class="author">Joachim Gassen</h4>
-            
-            <h4 class="date">2018-06-23</h4>
-      
-      
+
+            <h4 class="date">2018-10-12</h4>
+
+
       <div class="hidden name"><code>ExPanDaR-functions.Rmd</code></div>
 
     </div>
 
-    
-    
+
+
 <p>While the main purpose of the ExPanDaR package is to provide the infrastructure for the ExPanD app, the auxiliary functions of the package can also be used to support your exploratory data analysis workflow in your own code. All functions are relatively thin wrappers around established R packages for graphics and HTML table presentation (ggplot2, kableExtra, stargazer). While I developed them to support analysis steps that are common with empirical archival research projects in the area of accounting and finance (which happens to be my field), I hope that they are generally useful for exploratory data analysis.</p>
 <p>To see what ExPanDaR has to offer, let’s take a quick tour. For more detailed guidance on how to use a specific function presented below, take a look at the respective function’s help page.</p>
 <div id="data-preparation" class="section level2">
@@ -110,8 +110,8 @@
 <a href="#data-preparation" class="anchor"></a>Data Preparation</h2>
 <p>ExPanDaR is designed for exploratory panel data analysis (hence the name). Thus, while you can also use some functions on cross-sectional data, for most functions you will need a data frame containing your panel data. ExPanDaR expects the data to be organized in long format. This implies that each observation (a row) is identified by cross-sectional and time series identifiers and that variables are organized by columns. While you can have a vector of variables jointly determining the cross-section, the time-series needs to be identified by a unique variable. The ExPanDaR functions treat cross-sectional identifiers as factors and expect the time-series identifier to be coercible into an ordered factor.</p>
 <p>For this walk-through I will use the data set russell_3000, which comes with the package. It contains some financial reporting and stock return data of Russell 3000 firms from Google Finance and Yahoo Finance and has been collected using the tidyquant package in the summer of 2017. A word of caution: While the data appears to be relatively decent quality I would advise against using this data for scientific work without verifying its integrity first. These are the variables included in the data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(<span class="kw">data.frame</span>(<span class="dt">Variable=</span>russell_3000_data_def<span class="op">$</span>var_name, 
-                 <span class="dt">Definition=</span>russell_3000_data_def<span class="op">$</span>var_def), 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(<span class="kw">data.frame</span>(<span class="dt">Variable=</span>russell_3000_data_def<span class="op">$</span>var_name,
+                 <span class="dt">Definition=</span>russell_3000_data_def<span class="op">$</span>var_def),
       <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <table class="table">
 <thead><tr>
@@ -168,7 +168,15 @@ Industry
 toas
 </td>
 <td style="text-align:left;">
-Total assets at period end (M US-<span class="math inline">\() &lt;/td&gt;  &lt;/tr&gt;  &lt;tr&gt;  &lt;td style="text-align:left;"&gt; sales &lt;/td&gt;  &lt;td style="text-align:left;"&gt; Sales of the period (M US-\)</span>)
+Total assets at period end (M US-$)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+sales
+</td>
+<td style="text-align:left;">
+Sales of the period (M US-$)
 </td>
 </tr>
 <tr>
@@ -1114,8 +1122,9 @@ E: return
 <h2 class="hasAnchor">
 <a href="#visuals" class="anchor"></a>Visuals</h2>
 <p>Additional visuals are available for exploring time trends. <code><a href="../reference/prepare_trend_graph.html">prepare_trend_graph()</a></code> can be used for comparing variables…</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">graph &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prepare_trend_graph.html">prepare_trend_graph</a></span>(r3win[<span class="kw">c</span>(<span class="st">"period"</span>, <span class="st">"nioa"</span>, <span class="st">"cfoa"</span>, <span class="st">"accoa"</span>)], <span class="st">"period"</span>)
-graph<span class="op">$</span>plot</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">graph &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prepare_trend_graph.html">prepare_trend_graph</a></span>(r3win[<span class="kw">c</span>(<span class="st">"period"</span>, <span class="st">"nioa"</span>, <span class="st">"cfoa"</span>, <span class="st">"accoa"</span>)], <span class="st">"period"</span>)</code></pre></div>
+<pre><code>## Warning: package 'bindrcpp' was built under R version 3.4.4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">graph<span class="op">$</span>plot</code></pre></div>
 <p><img src="ExPanDaR-functions_files/figure-html/time_trend_plot-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>… and for eyeballing the distributional properties of a single variable over time you have <code><a href="../reference/prepare_quantile_trend_graph.html">prepare_quantile_trend_graph()</a></code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">graph &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prepare_quantile_trend_graph.html">prepare_quantile_trend_graph</a></span>(r3win[<span class="kw">c</span>(<span class="st">"period"</span>, <span class="st">"return"</span>)], <span class="st">"period"</span>, <span class="kw">c</span>(<span class="fl">0.05</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.95</span>))
@@ -1133,13 +1142,13 @@ graph<span class="op">$</span>plot</code></pre></div>
 <p>Finally, if you happen to be a fan of starred numbers, you can also quickly produce regression tables by using the function <code><a href="../reference/prepare_regression_table.html">prepare_regression_table()</a></code> that calls <code><a href="http://www.rdocumentation.org/packages/lfe/topics/felm">lfe::felm()</a></code> for OLS and <code>glm()</code> for binary logit models. The tables are then constructed by calling <code><a href="http://www.rdocumentation.org/packages/stargazer/topics/stargazer">stargazer::stargazer()</a></code>, allowing for plain text, html and latex output.</p>
 <p>You can construct tables by mixing different models…</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dvs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"return"</span>, <span class="st">"return"</span>, <span class="st">"return"</span>, <span class="st">"return"</span>, <span class="st">"return"</span>, <span class="st">"return"</span>)
-idvs &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="kw">c</span>(<span class="st">"nioa"</span>), 
-             <span class="kw">c</span>(<span class="st">"cfoa"</span>), 
-             <span class="kw">c</span>(<span class="st">"accoa"</span>), 
-             <span class="kw">c</span>(<span class="st">"cfoa"</span>, <span class="st">"accoa"</span>), 
-             <span class="kw">c</span>(<span class="st">"nioa"</span>, <span class="st">"accoa"</span>), 
-             <span class="kw">c</span>(<span class="st">"nioa"</span>, <span class="st">"accoa"</span>)) 
-feffects &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">"period"</span>, <span class="st">"period"</span>, <span class="st">"period"</span>, 
+idvs &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="kw">c</span>(<span class="st">"nioa"</span>),
+             <span class="kw">c</span>(<span class="st">"cfoa"</span>),
+             <span class="kw">c</span>(<span class="st">"accoa"</span>),
+             <span class="kw">c</span>(<span class="st">"cfoa"</span>, <span class="st">"accoa"</span>),
+             <span class="kw">c</span>(<span class="st">"nioa"</span>, <span class="st">"accoa"</span>),
+             <span class="kw">c</span>(<span class="st">"nioa"</span>, <span class="st">"accoa"</span>))
+feffects &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">"period"</span>, <span class="st">"period"</span>, <span class="st">"period"</span>,
                  <span class="kw">c</span>(<span class="st">"period"</span>, <span class="st">"coid"</span>), <span class="kw">c</span>(<span class="st">"period"</span>, <span class="st">"coid"</span>), <span class="kw">c</span>(<span class="st">"period"</span>, <span class="st">"coid"</span>))
 clusters &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">""</span>, <span class="st">""</span>, <span class="st">""</span>, <span class="kw">c</span>(<span class="st">"coid"</span>), <span class="kw">c</span>(<span class="st">"coid"</span>), <span class="kw">c</span>(<span class="st">"period"</span>, <span class="st">"coid"</span>))
 t &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prepare_regression_table.html">prepare_regression_table</a></span>(r3win, dvs, idvs, feffects, clusters)
@@ -1160,7 +1169,8 @@ htmltools<span class="op">::</span><span class="kw"><a href="http://www.rdocumen
 <td>return</td>
 <td>return</td>
 <td>return</td>
-<td colspan="2">return</td>
+<td>return</td>
+<td>return</td>
 </tr>
 <tr>
 <td style="text-align:left"></td>
@@ -1262,6 +1272,15 @@ htmltools<span class="op">::</span><span class="kw"><a href="http://www.rdocumen
 <td></td>
 </tr>
 <tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr>
+<tr>
+<td style="text-align:left">Estimator</td>
+<td>ols</td>
+<td>ols</td>
+<td>ols</td>
+<td>ols</td>
+<td>ols</td>
+<td>ols</td>
+</tr>
 <tr>
 <td style="text-align:left">Fixed effects</td>
 <td>period</td>
@@ -1422,6 +1441,13 @@ htmltools<span class="op">::</span><span class="kw"><a href="http://www.rdocumen
 </tr>
 <tr><td colspan="5" style="border-bottom: 1px solid black"></td></tr>
 <tr>
+<td style="text-align:left">Estimator</td>
+<td>ols</td>
+<td>ols</td>
+<td>ols</td>
+<td>ols</td>
+</tr>
+<tr>
 <td style="text-align:left">Fixed effects</td>
 <td>None</td>
 <td>None</td>
@@ -1501,7 +1527,7 @@ htmltools<span class="op">::</span><span class="kw"><a href="http://www.rdocumen
       </footer>
 </div>
 
-  
+
 
   </body>
 </html>

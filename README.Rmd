@@ -85,6 +85,8 @@ ExPanD(df = russell_3000,
 
 ## Further Information
 
-For further information, please refer to the articles and function call references of the package documentation, available [here](https://joachim-gassen.github.io/ExPanDaR).
+For further information, please refer to the articles and function call references of the package documentation, available 
+[here](https://joachim-gassen.github.io/ExPanDaR) for the CRAN version and 
+[here](https://joachim-gassen.github.io/ExPanDaR/dev) for the current development version.
 
 Enjoy!

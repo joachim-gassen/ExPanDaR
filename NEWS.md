@@ -1,4 +1,4 @@
-# ExPanDaR 0.2.0.9000
+# ExPanDaR 0.3.0
 
 Extensions:
 

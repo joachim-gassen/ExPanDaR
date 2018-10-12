@@ -30,16 +30,6 @@ Installation
 If you are in for the full treat and want to test ExPanD from within R, run the following in your R session to install the ExPanDaR package from CRAN.
 
 ``` r
-# Include the following to add Bioconductor to your repositories
-# when you have problems installing the package 'CodeDepends'
-# that depends on 'graph' which is only available in the 
-# Bioconductor repository
-setRepositories(ind=1:2)
-
-# Include the following if you want to use the data file upload 
-# dialog in ExPanD()
-install.packages("rio")
-
 install.packages("ExPanDaR")
 library(ExPanDaR)
 ```
@@ -81,6 +71,6 @@ ExPanD(df = russell_3000,
 Further Information
 -------------------
 
-For further information, please refer to the articles and function call references of the package documentation, available [here](https://joachim-gassen.github.io/ExPanDaR) for the CRAN version and [here](https://joachim-gassen.github.io/ExPanDaR/dev) for the current development version.
+For further information, please refer to the articles and function call references of the package documentation, available [here](https://joachim-gassen.github.io/ExPanDaR).
 
 Enjoy!

@@ -70,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.2.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.0</span>
       </span>
     </div>
 
@@ -99,6 +99,9 @@
       <a href="../articles/use_ExPanD.html">Using ExPanD for Panel Data Exploration</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -133,7 +136,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>treat_outliers</span>(<span class='no'>x</span>, <span class='kw'>percentile</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>truncate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>treat_outliers</span>(<span class='no'>x</span>, <span class='kw'>percentile</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>truncate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -166,6 +169,10 @@ by which the outlier treatment is applied. Defaults to NULL (no grouping).
 If provided, the resulting vector must not contain NAs and needs to be such so that
 <code>length(byvec) == nrows(as.matrix(x))</code>.</p></td>
     </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional parameters forwarded to <a href='http://www.rdocumentation.org/packages/stats/topics/quantile'>quantile</a> (notably, <code>type</code>)</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -177,7 +184,7 @@ If provided, the resulting vector must not contain NAs and needs to be such so t
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>All members of the numerical matrix are checked for finiteness and are
-  set to NA if they are not finite.</p>
+  set to NA if they are not finite. NAs are removed when calculating the outlier cut-offs.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -193,6 +200,14 @@ If provided, the resulting vector must not contain NAs and needs to be such so t
 #&gt;  [26] 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50
 #&gt;  [51] 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75
 #&gt;  [76] 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 NA NA NA NA NA</div><div class='input'>
+<span class='co'># When you like the percentiles calculated like STATA's summary or pctile:</span>
+<span class='fu'>treat_outliers</span>(<span class='fu'>seq</span>(<span class='fl'>1</span>:<span class='fl'>100</span>), <span class='fl'>0.05</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt;   [1]  5.5  5.5  5.5  5.5  5.5  6.0  7.0  8.0  9.0 10.0 11.0 12.0 13.0 14.0 15.0
+#&gt;  [16] 16.0 17.0 18.0 19.0 20.0 21.0 22.0 23.0 24.0 25.0 26.0 27.0 28.0 29.0 30.0
+#&gt;  [31] 31.0 32.0 33.0 34.0 35.0 36.0 37.0 38.0 39.0 40.0 41.0 42.0 43.0 44.0 45.0
+#&gt;  [46] 46.0 47.0 48.0 49.0 50.0 51.0 52.0 53.0 54.0 55.0 56.0 57.0 58.0 59.0 60.0
+#&gt;  [61] 61.0 62.0 63.0 64.0 65.0 66.0 67.0 68.0 69.0 70.0 71.0 72.0 73.0 74.0 75.0
+#&gt;  [76] 76.0 77.0 78.0 79.0 80.0 81.0 82.0 83.0 84.0 85.0 86.0 87.0 88.0 89.0 90.0
+#&gt;  [91] 91.0 92.0 93.0 94.0 95.0 95.5 95.5 95.5 95.5 95.5</div><div class='input'>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fu'>seq</span>(<span class='fl'>1</span>:<span class='fl'>1000</span>), <span class='kw'>b</span> <span class='kw'>=</span> <span class='fu'>rnorm</span>(<span class='fl'>1000</span>), <span class='kw'>c</span> <span class='kw'>=</span> <span class='fu'>sample</span>(<span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>5</span>], <span class='fl'>1000</span>, <span class='kw'>replace</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
 <span class='no'>winsorized_df</span> <span class='kw'>&lt;-</span> <span class='fu'>treat_outliers</span>(<span class='no'>df</span>)
 <span class='fu'>summary</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;        a                b             c      

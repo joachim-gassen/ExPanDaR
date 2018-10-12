@@ -47,3 +47,9 @@ Minor issues:
 * Allowed treat_outliers() to route parameters through to stats::quantile() (needed for type parameter)
 
 * Changed NA handling in "prepare_graph" type functions
+
+
+# ExPanDaR 0.2.0
+
+* Initial version on CRAN
+

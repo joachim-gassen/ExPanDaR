@@ -71,7 +71,7 @@ interactive panel data exploration" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.2.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.0</span>
       </span>
     </div>
 
@@ -100,6 +100,9 @@ interactive panel data exploration" />
       <a href="../articles/use_ExPanD.html">Using ExPanD for Panel Data Exploration</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -140,10 +143,11 @@ interactive panel data exploration</p>
   <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"ExPanD - Explore panel data interactively"</span>, <span class='kw'>abstract</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>df_name</span> <span class='kw'>=</span> <span class='fu'>deparse</span>(<span class='fu'>substitute</span>(<span class='no'>df</span>)), <span class='kw'>long_def</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>factor_cutoff</span> <span class='kw'>=</span> <span class='fl'>10L</span>,
   <span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>bar_chart</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>missing_values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>descriptive_table</span> <span class='kw'>=</span>
-  <span class='fl'>TRUE</span>, <span class='kw'>by_group_bar_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>histogram</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ext_obs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>trend_graph</span>
-  <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>quantile_trend_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>corrplot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>scatter_plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>regression</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>store_encrypted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>key_phrase</span> <span class='kw'>=</span> <span class='st'>"What a wonderful key"</span>, <span class='kw'>debug</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+  <span class='fl'>TRUE</span>, <span class='kw'>histogram</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ext_obs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>by_group_bar_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>by_group_violin_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>trend_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>quantile_trend_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>corrplot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>scatter_plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>regression</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
+  <span class='kw'>store_encrypted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>key_phrase</span> <span class='kw'>=</span> <span class='st'>"What a wonderful key"</span>,
+  <span class='kw'>debug</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -165,6 +169,9 @@ Can only be NULL if <code>df_def</code> is provided instead.</p></td>
       <td><p>A character scalar identifying the name of
 the variable that identifies the time series in your data. The according
 variable needs to be coercible to an ordered vector.
+If you provide a time series indicator that already is an ordered vector,
+ExPanD will verify that it has the same levels for each data frame
+and throw an error otherwise.
 Can only be NULL if <code>df_def</code> is provided instead.</p></td>
     </tr>
     <tr>
@@ -225,9 +232,11 @@ equal than <code>factor_cutoff</code> unique values as a factor.</p></td>
     </tr>
     <tr>
       <th>components</th>
-      <td><p>A logical vector indicating which reports you want
-ExPanD to generate. If specified, the vector does not have to be named but needs
-to be of correct length.</p></td>
+      <td><p>A logical vector indicating the reports that you want
+ExPanD to generate and their order. See the function head of <code>ExpanD</code>
+for the list of available reports. By default, all components are reported.
+You can also exclude selected components from the standard order by setting
+then to <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>store_encrypted</th>
@@ -257,7 +266,7 @@ Probably not.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>If you start ExPanD without any options, it will start with an upload
-dialog so that the the user (e.g., you) can upload a data file
+dialog so that the user (e.g., you) can upload a data file
 for analysis. Supported formats are as provided
 by the <code>rio</code> package.</p>
 <p>If you provide variable definitions in <code>df_def</code> and/or <code>var_def</code>,
@@ -306,7 +315,9 @@ it defaults to being TRUE for all variables other than cs_id and ts_id.</p></dd>
   <span class='fu'>ExPanD</span>(<span class='no'>russell_3000</span>, <span class='fu'>c</span>(<span class='st'>"coid"</span>, <span class='st'>"coname"</span>), <span class='st'>"period"</span>)
   <span class='fu'>ExPanD</span>(<span class='no'>russell_3000</span>, <span class='kw'>df_def</span> <span class='kw'>=</span> <span class='no'>russell_3000_data_def</span>)
   <span class='fu'>ExPanD</span>(<span class='no'>russell_3000</span>, <span class='kw'>df_def</span> <span class='kw'>=</span> <span class='no'>russell_3000_data_def</span>,
-    <span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='no'>T</span>, <span class='no'>F</span>, <span class='no'>T</span>, <span class='no'>F</span>, <span class='no'>F</span>, <span class='no'>F</span>, <span class='no'>F</span>, <span class='no'>F</span>, <span class='no'>F</span>, <span class='no'>T</span>, <span class='no'>T</span>))
+    <span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>ext_obs</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>descriptive_table</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>regression</span> <span class='kw'>=</span> <span class='no'>T</span>))
+  <span class='fu'>ExPanD</span>(<span class='no'>russell_3000</span>, <span class='kw'>df_def</span> <span class='kw'>=</span> <span class='no'>russell_3000_data_def</span>,
+    <span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>missing_values</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>by_group_violin_graph</span> <span class='kw'>=</span> <span class='no'>F</span>))
   <span class='fu'>data</span>(<span class='no'>ExPanD_config_russell_3000</span>)
   <span class='fu'>ExPanD</span>(<span class='kw'>df</span> <span class='kw'>=</span> <span class='no'>russell_3000</span>, <span class='kw'>df_def</span> <span class='kw'>=</span> <span class='no'>russell_3000_data_def</span>,
     <span class='kw'>config_list</span> <span class='kw'>=</span> <span class='no'>ExPanD_config_russell_3000</span>)

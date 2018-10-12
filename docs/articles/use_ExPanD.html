@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.2.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.0</span>
       </span>
     </div>
 
@@ -66,6 +66,9 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -90,7 +93,7 @@
       <h1>Using ExPanD for Panel Data Exploration</h1>
                         <h4 class="author">Joachim Gassen</h4>
             
-            <h4 class="date">2018-05-11</h4>
+            <h4 class="date">2018-10-12</h4>
       
       
       <div class="hidden name"><code>use_ExPanD.Rmd</code></div>
@@ -121,29 +124,31 @@
 <p><img src="figures/ExPanD_file_01.jpg" width="90%" style="display: block; margin: auto;"></p>
 <p>Now you need a file to explore. Feel free to use whatever you want but for our first use case I will use the well-known <code>gapminder</code> dataset provided by the gapminder package (click <a href="https://www.gapminder.org">here</a> if you do not know the gapminder initiative).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(gapminder)
+<span class="co"># write.csv(gapminder, file = "gapminder.csv", row.names = FALSE)</span>
 <span class="kw">head</span>(gapminder, <span class="dv">10</span>)
 <span class="co">#&gt; # A tibble: 10 x 6</span>
 <span class="co">#&gt;    country     continent  year lifeExp      pop gdpPercap</span>
 <span class="co">#&gt;    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 Afghanistan Asia       1952    28.8  8425333      779.</span>
-<span class="co">#&gt;  2 Afghanistan Asia       1957    30.3  9240934      821.</span>
-<span class="co">#&gt;  3 Afghanistan Asia       1962    32.0 10267083      853.</span>
-<span class="co">#&gt;  4 Afghanistan Asia       1967    34.0 11537966      836.</span>
-<span class="co">#&gt;  5 Afghanistan Asia       1972    36.1 13079460      740.</span>
-<span class="co">#&gt;  6 Afghanistan Asia       1977    38.4 14880372      786.</span>
-<span class="co">#&gt;  7 Afghanistan Asia       1982    39.9 12881816      978.</span>
-<span class="co">#&gt;  8 Afghanistan Asia       1987    40.8 13867957      852.</span>
-<span class="co">#&gt;  9 Afghanistan Asia       1992    41.7 16317921      649.</span>
-<span class="co">#&gt; 10 Afghanistan Asia       1997    41.8 22227415      635.</span>
-<span class="co"># write.csv(gapminder, file = "gapminder.csv", row.names = FALSE)</span></code></pre></div>
+<span class="co">#&gt;  1 Afghanistan Asia       1952    28.8  8425333       779</span>
+<span class="co">#&gt;  2 Afghanistan Asia       1957    30.3  9240934       821</span>
+<span class="co">#&gt;  3 Afghanistan Asia       1962    32.0 10267083       853</span>
+<span class="co">#&gt;  4 Afghanistan Asia       1967    34.0 11537966       836</span>
+<span class="co">#&gt;  5 Afghanistan Asia       1972    36.1 13079460       740</span>
+<span class="co">#&gt;  6 Afghanistan Asia       1977    38.4 14880372       786</span>
+<span class="co">#&gt;  7 Afghanistan Asia       1982    39.9 12881816       978</span>
+<span class="co">#&gt;  8 Afghanistan Asia       1987    40.8 13867957       852</span>
+<span class="co">#&gt;  9 Afghanistan Asia       1992    41.7 16317921       649</span>
+<span class="co">#&gt; 10 Afghanistan Asia       1997    41.8 22227415       635</span></code></pre></div>
 <p>To use ExPanD, you need the following:</p>
 <ul>
-<li>A dataset in long format containing panel data (at least one factor and two numerical variables are required),</li>
-<li>a variable or a vector of variables within this dataset that identifies a cross-sectional observation and</li>
+<li>A panel dataset in long format with at least two numerical variables and without duplicate observations (as identified by the cross-sectional and time-series dimension),</li>
+<li>a variable or a vector of variables within this dataset that identifies the cross-sectional dimension and</li>
 <li>a variable that is coercible to an ordered factor and that identifies (and sorts) the time dimension of your panel.</li>
 </ul>
-<p>As you see, the gapminder file contains country-year data. It is organized in a long format by using <code>country</code> as cross-sectional identifier and <code>year</code> as time-series identifier. Each of the additional variables is then stored in a separate column. It has one factor (<code>continent</code>) and three numerical variables (<code>lifeExp</code>, <code>pop</code> and <code>gdpPercap</code>). So, it complies with the above requirements.</p>
-<p>Use the commented-out <code>write.csv()</code> function call to save the CSV file to your system and the file dialog to load it into ExPanD (if you are not using R, you can download the CSV file <a href="https://github.com/joachim-gassen/ExPanDaR/raw/master/vignettes/data/gapminder.csv">here</a>). After uploading the file, two dialog boxes will appear asking you to select the cross-sectional identifier(s) and the time-series identifier.</p>
+<p>As you see, the gapminder file contains country-year data. It is organized in a long format by using <code>country</code> as cross-sectional identifier and <code>year</code> as time-series identifier. Each of the additional variables is then stored in a separate column. It has one factor (<code>continent</code>) and three numerical variables (<code>lifeExp</code>, <code>pop</code> and <code>gdpPercap</code>). So, it complies with the above requirements, assuming that is has no duplicates:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">any</span>(<span class="kw">duplicated</span>(gapminder[,<span class="kw">c</span>(<span class="st">"country"</span>, <span class="st">"year"</span>)]))
+<span class="co">#&gt; [1] FALSE</span></code></pre></div>
+<p>OK. Use the commented-out <code>write.csv()</code> function call above to save the CSV file to your system and the file dialog to load it into ExPanD (if you are not using R, you can download the CSV file <a href="https://github.com/joachim-gassen/ExPanDaR/raw/master/vignettes/data/gapminder.csv">here</a>). After uploading the file, two dialog boxes will appear asking you to select the cross-sectional identifier(s) and the time-series identifier.</p>
 <p><img src="figures/ExPanD_file_02.jpg" width="90%" style="display: block; margin: auto;"></p>
 <p>Select <code>country</code> as the cross-sectional identifier and <code>year</code> as the time-series identifier. ExPanD will now process the data to display it so that you can start exploring.</p>
 </div>
@@ -182,16 +187,16 @@
 <p>A variable definition file has to contain at least three character columns: <code>var_name</code>, <code>var_def</code> and <code>type</code>. In addition, it can contain a logical column <code>can_be_na</code>. Let’s take a look at the variable definition data frame for the <code>worldbank</code> dataset provided by the ExPanDaR package.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(worldbank_var_def, <span class="dv">10</span>)
 <span class="co">#&gt;           var_name                             var_def    type can_be_na</span>
-<span class="co">#&gt; 1          country                             country   cs_id     FALSE</span>
-<span class="co">#&gt; 2           region                              region  factor     FALSE</span>
-<span class="co">#&gt; 3           income                              income  factor     FALSE</span>
-<span class="co">#&gt; 4             year                                year   ts_id     FALSE</span>
-<span class="co">#&gt; 5             time as.numeric(as.character(year))-1960 numeric     FALSE</span>
-<span class="co">#&gt; 6              gdp                      NY.GDP.MKTP.KD numeric     FALSE</span>
-<span class="co">#&gt; 7       population                         SP.POP.TOTL numeric     FALSE</span>
-<span class="co">#&gt; 8       gdp_capita                      NY.GDP.PCAP.KD numeric     FALSE</span>
-<span class="co">#&gt; 9      extdebt_gni                   DT.DOD.DECT.GN.ZS numeric      TRUE</span>
-<span class="co">#&gt; 10 debtservice_gni                   DT.TDS.DPPG.GN.ZS numeric      TRUE</span></code></pre></div>
+<span class="co">#&gt; 1          country                             country   cs_id         0</span>
+<span class="co">#&gt; 2           region                              region  factor         0</span>
+<span class="co">#&gt; 3           income                              income  factor         0</span>
+<span class="co">#&gt; 4             year                                year   ts_id         0</span>
+<span class="co">#&gt; 5             time as.numeric(as.character(year))-1960 numeric         0</span>
+<span class="co">#&gt; 6              gdp                      NY.GDP.MKTP.KD numeric         0</span>
+<span class="co">#&gt; 7       population                         SP.POP.TOTL numeric         0</span>
+<span class="co">#&gt; 8       gdp_capita                      NY.GDP.PCAP.KD numeric         0</span>
+<span class="co">#&gt; 9      extdebt_gni                   DT.DOD.DECT.GN.ZS numeric         1</span>
+<span class="co">#&gt; 10 debtservice_gni                   DT.TDS.DPPG.GN.ZS numeric         1</span></code></pre></div>
 <p><code>var_name</code> contains variable names for the analysis sample and <code>var_def</code> contains the definitions for these variables. The definitions refer to variables contained in the <code>worldbank</code> dataset (which are conforming to the naming convention of the World Bank). Most definitions are just simple 1:1 transformations of the <code>worldbank</code> dataset but, as you can see from the definition for <code>time</code>, you can also use standard R expressions within the scope of the <code>worldbank</code> data frame. For the R experts: Your definition will be evaluated within a <code><a href="http://dplyr.tidyverse.org/reference/mutate.html">dplyr::mutate()</a></code> call on the base data frame grouped by the cross section and ordered by the time-series identifier, so for example that <code>lead()</code> and <code>lag()</code> should work as expected.</p>
 <p>With the <code>type</code> variable you specify the nature of the variable that you just defined. Possible values are <code>cs_id</code>, <code>ts_id</code>, <code>numeric</code>, <code>logical</code>, and <code>factor</code>. They identify cross-sectional identifier(s), the time-series identifier, numerical variables, Boolean (True/False) type variables, and variables to be treated as grouping factors. Note that the data does not have to have the according class but is has to be coercible to it.</p>
 <p>The <code>can_be_na</code> variable can be omitted. If you do not provide it, it will be set to <code>TRUE</code> for all variables besides the cross-sectional and time-series identifiers. In the <code>worldbank_var_def</code> data frame it is set to <code>FALSE</code> for the variables <code>time</code>, <code>gdp</code>, <code>population</code>, and <code>gpd_capita</code>, meaning that only observations with non-missing values for these variables will be included in the analysis dataset.</p>

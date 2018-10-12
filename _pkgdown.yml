@@ -2,7 +2,7 @@ template:
   params:
     ganalytics: UA-119053376-1
 development:
-  mode: devel
+  mode: release
 navbar:
   structure:
     left:

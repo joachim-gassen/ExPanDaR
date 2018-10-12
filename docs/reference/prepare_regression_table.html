@@ -70,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.2.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.0</span>
       </span>
     </div>
 
@@ -99,6 +99,9 @@
       <a href="../articles/use_ExPanD.html">Using ExPanD for Panel Data Exploration</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -134,8 +137,8 @@
     </div>
 
     <pre class="usage"><span class='fu'>prepare_regression_table</span>(<span class='no'>df</span>, <span class='no'>dvs</span>, <span class='no'>idvs</span>, <span class='kw'>feffects</span> <span class='kw'>=</span> <span class='fu'>rep</span>(<span class='st'>""</span>, <span class='fu'>length</span>(<span class='no'>dvs</span>)),
-  <span class='kw'>clusters</span> <span class='kw'>=</span> <span class='fu'>rep</span>(<span class='st'>""</span>, <span class='fu'>length</span>(<span class='no'>dvs</span>)), <span class='kw'>byvar</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"html"</span>,
-  <span class='kw'>drop_underscore</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>clusters</span> <span class='kw'>=</span> <span class='fu'>rep</span>(<span class='st'>""</span>, <span class='fu'>length</span>(<span class='no'>dvs</span>)), <span class='kw'>models</span> <span class='kw'>=</span> <span class='fu'>rep</span>(<span class='st'>"auto"</span>, <span class='fu'>length</span>(<span class='no'>dvs</span>)),
+  <span class='kw'>byvar</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"html"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -146,19 +149,23 @@
     </tr>
     <tr>
       <th>dvs</th>
-      <td><p>A character vector containing the dependent variable(s).</p></td>
+      <td><p>A character vector containing the variable names for the dependent variable(s).</p></td>
     </tr>
     <tr>
       <th>idvs</th>
-      <td><p>A character vector or a a list of character vectors containing the independent variables.</p></td>
+      <td><p>A character vector or a a list of character vectors containing the variable names of the independent variables.</p></td>
     </tr>
     <tr>
       <th>feffects</th>
-      <td><p>A character vector or a a list of character vectors containing the fixed effects.</p></td>
+      <td><p>A character vector or a a list of character vectors containing the variable names of the fixed effects.</p></td>
     </tr>
     <tr>
       <th>clusters</th>
-      <td><p>A character vector or a a list of character vectors containing the cluster variables.</p></td>
+      <td><p>A character vector or a a list of character vectors containing the variable names of the cluster variables.</p></td>
+    </tr>
+    <tr>
+      <th>models</th>
+      <td><p>A character vector indicating the model types to be estimated ('ols', 'logit', or 'auto')</p></td>
     </tr>
     <tr>
       <th>byvar</th>
@@ -168,11 +175,6 @@
       <th>format</th>
       <td><p>A character scalar that is passed on <code><a href='http://www.rdocumentation.org/packages/stargazer/topics/stargazer'>stargazer</a></code> as <code>type</code> to determine the presentation
 format ("html", "text", or "latex").</p></td>
-    </tr>
-    <tr>
-      <th>drop_underscore</th>
-      <td><p>A quick'n'dirty hack to address a bug in stargazer that triggers it to choke on underscores in variable names.
-If not NULL, all underscores in variable names will be replaced by the given string.</p></td>
     </tr>
     </table>
     
@@ -187,9 +189,13 @@ If not NULL, all underscores in variable names will be replaced by the given str
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This is a wrapper function calling the stargazer package. Depending on whether the dependent variable
-  is numeric or a factor with two levels, the models are estimated
-  using <code><a href='http://www.rdocumentation.org/packages/lfe/topics/felm'>felm</a></code> or <code><a href='http://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></code> (with <code>family = binomial(link="logit")</code>).
-  Fixed effects and clustered standard errors are only supported with continuous dependent variables.
+  is numeric, logical or a factor with two levels, the models are estimated
+  using <code><a href='http://www.rdocumentation.org/packages/lfe/topics/felm'>felm</a></code> (for numeric dependent variables)
+  or <code><a href='http://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></code> (with <code>family = binomial(link="logit")</code>) (for two-level factors or logical variables).
+  You can override this behavior by specifying the model with the <code>models</code> parameter.
+  Multinomial logit models are not supported.
+  For <code><a href='http://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></code>, clustered standard errors are estimated using
+  <code><a href='http://www.rdocumentation.org/packages/multiwayvcov/topics/cluster.vcov'>cluster.vcov</a></code>.
   If run with <code>byvar</code>, only levels that have more observations than coefficients are estimated.</p>
     
 
@@ -224,13 +230,14 @@ If not NULL, all underscores in variable names will be replaced by the given str
 #&gt; [18] "                      (0.125)  (0.060)  (0.075)          "
 #&gt; [19] "                                                         "
 #&gt; [20] "---------------------------------------------------------"
-#&gt; [21] "Fixed effects           year     year     year     year  "
-#&gt; [22] "Std. errors clustered   year     year     year     year  "
-#&gt; [23] "Observations           1,860    1,860    1,860    1,860  "
-#&gt; [24] "R2                     0.994    0.995    0.981    0.989  "
-#&gt; [25] "Adjusted R2            0.994    0.995    0.981    0.989  "
-#&gt; [26] "========================================================="
-#&gt; [27] "Note:                         *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01"</div><div class='input'><span class='no'>t</span> <span class='kw'>&lt;-</span> <span class='fu'>prepare_regression_table</span>(<span class='no'>df</span>, <span class='st'>"DAX"</span>, <span class='fu'>c</span>(<span class='st'>"SMI"</span>, <span class='st'>"CAC"</span>, <span class='st'>"FTSE"</span>), <span class='kw'>byvar</span><span class='kw'>=</span><span class='st'>"year"</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"text"</span>)
+#&gt; [21] "Estimator               ols      ols      ols      ols   "
+#&gt; [22] "Fixed effects           year     year     year     year  "
+#&gt; [23] "Std. errors clustered   year     year     year     year  "
+#&gt; [24] "Observations           1,860    1,860    1,860    1,860  "
+#&gt; [25] "R2                     0.994    0.995    0.981    0.989  "
+#&gt; [26] "Adjusted R2            0.994    0.995    0.981    0.989  "
+#&gt; [27] "========================================================="
+#&gt; [28] "Note:                         *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01"</div><div class='input'><span class='no'>t</span> <span class='kw'>&lt;-</span> <span class='fu'>prepare_regression_table</span>(<span class='no'>df</span>, <span class='st'>"DAX"</span>, <span class='fu'>c</span>(<span class='st'>"SMI"</span>, <span class='st'>"CAC"</span>, <span class='st'>"FTSE"</span>), <span class='kw'>byvar</span><span class='kw'>=</span><span class='st'>"year"</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"text"</span>)
 <span class='fu'>print</span>(<span class='no'>t</span>$<span class='no'>table</span>)</div><div class='output co'>#&gt;  [1] ""                                                                                                                                  
 #&gt;  [2] "=================================================================================================================================="
 #&gt;  [3] "                                                                  Dependent variable:                                             "
@@ -252,13 +259,14 @@ If not NULL, all underscores in variable names will be replaced by the given str
 #&gt; [19] "                       (44.666)    (72.607)   (72.806)   (56.941)     (65.786)   (105.476)   (68.069)     (110.585)    (174.146)  "
 #&gt; [20] "                                                                                                                                  "
 #&gt; [21] "----------------------------------------------------------------------------------------------------------------------------------"
-#&gt; [22] "Fixed effects            None        None       None       None         None        None       None         None          None    "
-#&gt; [23] "Std. errors clustered     No          No         No         No           No          No         No           No            No     "
-#&gt; [24] "Observations             1,860       131        260         260         260         260         260          260          169     "
-#&gt; [25] "R2                       0.990      0.669      0.850       0.973       0.560       0.720       0.932        0.964        0.978    "
-#&gt; [26] "Adjusted R2              0.990      0.661      0.848       0.973       0.555       0.717       0.931        0.964        0.978    "
-#&gt; [27] "=================================================================================================================================="
-#&gt; [28] "Note:                                                                                                  *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01"</div></pre>
+#&gt; [22] "Estimator                 ols        ols        ols         ols         ols         ols         ols          ols          ols     "
+#&gt; [23] "Fixed effects            None        None       None       None         None        None       None         None          None    "
+#&gt; [24] "Std. errors clustered     No          No         No         No           No          No         No           No            No     "
+#&gt; [25] "Observations             1,860       131        260         260         260         260         260          260          169     "
+#&gt; [26] "R2                       0.990      0.669      0.850       0.973       0.560       0.720       0.932        0.964        0.978    "
+#&gt; [27] "Adjusted R2              0.990      0.661      0.848       0.973       0.555       0.717       0.931        0.964        0.978    "
+#&gt; [28] "=================================================================================================================================="
+#&gt; [29] "Note:                                                                                                  *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

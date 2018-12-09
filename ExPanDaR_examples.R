@@ -74,6 +74,13 @@ wb <- calc_variables(worldbank,
                      wb_var_def$type,
                      wb_var_def$can_be_na)
 
+# write_csv(wb, "wb_condensed.csv")
+
+ExPanD(wb, cs_id = "country", ts_id ="year")
+
+# A niced ExPanD version with variable definitions and
+# a short info text to put online.
+
 wb_data_def <- wb_var_def %>%
   left_join(worldbank_data_def, by = c("var_def" = "var_name")) %>%
   select(-var_def) %>%
@@ -81,11 +88,18 @@ wb_data_def <- wb_var_def %>%
          type = type.x) %>%
   select(var_name, var_def, type, can_be_na)
 
-# write_csv(wb, "wb_condensed.csv")
 # write_csv(wb_data_def, "wb_data_def.csv")
 
-ExPanD(wb, cs_id = "country", ts_id ="year")
-ExPanD(wb, df_def = wb_data_def)
+title <- "Explore the Preston Curve with ExPanDaR"
+abstract <- paste(
+  "The data for this sample has been collected using the",
+  "<a href=https://data.worldbank.org>World Bank API</a>.",
+  "See this <a href=https://joachim-gassen.github.io/2018/12/interactive-panel-eda-with-3-lines-of-code/>",
+  "blog post</a> for further information."
+)
+
+ExPanD(wb, df_def = wb_data_def,
+       title = title, abstract = abstract)
 
 
 # --- Use ExPanD to explore IMDB data ------------------------------------------

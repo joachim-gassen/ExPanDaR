@@ -164,7 +164,6 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
     if (!is.null(df_def) && (!is.null(cs_id) || !is.null(ts_id))) stop("provide either df_def or cs_id and ts_id but not both")
     if (!is.data.frame(df) && length(which(!sapply(df, is.data.frame))) > 0) stop("df is a list containing non-dataframe members")
   }
-
   if (!is.data.frame(df) && !is.null(df_def) && is.data.frame(df_def)) df_def <- rep(list(df_def), length(df))
   if (length(factor_cutoff) != 1 && !is.integer(factor_cutoff)) stop("factor_cutoff needs to be an integer scalar.")
 
@@ -176,15 +175,15 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
           df_def[[i]][1:3] <- lapply(df_def[[i]][1:3], as.character)
           if(!identical(names_df[[i]], df_def[[i]]$var_name)) stop ("Provided data definitions have different variable names than data frames")
         }
-        ts_id <- df_def[[1]][df_def[[1]][, 3] == "ts_id", 1]
-        cs_id <- df_def[[1]][df_def[[1]][, 3] == "cs_id", 1]
+        ts_id <- as.character(df_def[[1]][df_def[[1]][, 3] == "ts_id", 1])
+        cs_id <- as.character(df_def[[1]][df_def[[1]][, 3] == "cs_id", 1])
       }
       if (! ts_id %in% names_df[[1]]) stop ("Time series identifier not included in data frames.")
       if (! all(cs_id %in% names_df[[1]])) stop ("Cross sectional identifier(s) not all included in data frames.")
       for (i in 2:length(names_df)) {
         if(!identical(names_df[[1]], names_df[[i]])) stop ("Provided data frames do not have identical variable names")
         if(is.ordered(df[[1]][, ts_id]) &
-           !identical(levels(df[[1]][, ts_id]), levels(df[[2]][, ts_id]))) {
+           !identical(levels(df[[1]][, ts_id]), levels(df[[i]][, ts_id]))) {
           stop("Provided data frames' time series identifiers have different levels")
         }
       }

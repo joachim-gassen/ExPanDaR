@@ -1,7 +1,8 @@
 # ExPanDaR 0.3.0.9000
 
-Nothing new yet.
+Minor issues:
 
+* Allowed more flexible handling of binary variables in ExPanD()
 
 # ExPanDaR 0.3.0
 

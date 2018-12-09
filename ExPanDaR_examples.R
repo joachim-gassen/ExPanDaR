@@ -11,6 +11,7 @@ rm (list=ls())
 
 # --- Use ExPanD with cross-sectional data -------------------------------------
 
+library(ExPanDaR)
 df <- mtcars
 df$cs_id <- row.names(df)
 df$ts_id <-1

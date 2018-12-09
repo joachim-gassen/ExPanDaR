@@ -6,6 +6,8 @@ Minor issues:
 
 * Added additional examples to Github repository (not in package)
 
+* Updated World Bank data
+
 # ExPanDaR 0.3.0
 
 Extensions:

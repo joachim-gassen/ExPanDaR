@@ -82,6 +82,8 @@ ExPanD(df = russell_3000,
        config_list = ExPanD_config_russell_3000)
 ````
 
+Some additional information on how to use ExPanD can be found in the code file `ExPanDaR_examples.R` in the root directory.
+
 
 ## Further Information
 

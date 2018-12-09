@@ -7,6 +7,7 @@
 ^_pkgdown.yml
 ^index*
 ^shinyapps.R
+^ExPanDaR_examples.R
 ^logo.png
 ^cran-comments.md
 ^vignettes/hq_figures$

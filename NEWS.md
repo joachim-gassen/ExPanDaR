@@ -4,6 +4,8 @@ Minor issues:
 
 * Allowed more flexible handling of binary variables in ExPanD()
 
+* Added additional examples to Github repository (not in package)
+
 # ExPanDaR 0.3.0
 
 Extensions:

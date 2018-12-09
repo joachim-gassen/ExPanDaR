@@ -11,10 +11,10 @@ rm (list=ls())
 
 # --- Use ExPanD with cross-sectional data -------------------------------------
 
-data("iris")
-iris$cs_id <- row.names(iris)
-iris$ts_id <- 1
-ExPanD(iris, ts_id = "ts_id", cs_id = "cs_id",
+df <- mtcars
+df$cs_id <- row.names(df)
+df$ts_id <-1
+ExPanD(df, cs_id ="cs_id", ts_id = "ts_id",
        components = c(trend_graph = FALSE, quantile_trend_graph = FALSE))
 
 # ------------------------------------------------------------------------------

@@ -16,7 +16,7 @@ importFrom("stats", "glm")
 # So here goes:
 
 importFrom(DT, datatable)
-importFrom(PKI, PKI.digest)
+importFrom(openssl, sha256)
 importFrom(shinycssloaders, withSpinner)
 importFrom(tictoc, tic)
 importFrom(rio, import)

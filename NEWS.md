@@ -8,6 +8,8 @@ Minor issues:
 
 * Updated World Bank data
 
+* Switched to openssl package (Thank you to Jeroen Ooms for the PR) 
+
 # ExPanDaR 0.3.0
 
 Extensions:

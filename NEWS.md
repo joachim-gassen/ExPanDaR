@@ -8,7 +8,9 @@ Minor issues:
 
 * Updated World Bank data
 
-* Switched to openssl package (Thank you to Jeroen Ooms for the PR) 
+* Switched to openssl package (Thank you to Jeroen Ooms for the PR)
+
+* Marginally improved error checking for config upload
 
 # ExPanDaR 0.3.0
 

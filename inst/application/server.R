@@ -1538,9 +1538,10 @@ function(input, output, session) {
             decrypted <- openssl::aes_cbc_decrypt(encrypted, key)
             config_list <- unserialize(decrypted)
           } else config_list <- readRDS(in_file$datapath)
+          if (!is.list(config_list)) stop()
           isolate(parse_config(config_list))
         }, error = function(cond) {
-          session$sendCustomMessage(type = 'testmessage', message = paste("Unable to read", in_file$datapath))
+          session$sendCustomMessage(type = 'testmessage', message = "Unable to parse file")
         })
     }
   })

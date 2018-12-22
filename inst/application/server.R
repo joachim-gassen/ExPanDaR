@@ -1,5 +1,5 @@
 library(ExPanDaR)
-library(PKI)
+library(openssl)
 library(dplyr)
 
 options(shiny.maxRequestSize = 1024^3)
@@ -7,7 +7,7 @@ options(shiny.maxRequestSize = 1024^3)
 load("shiny_data.Rda")
 factor_cutoff <- shiny_factor_cutoff
 
-key <- PKI::PKI.digest(charToRaw(shiny_key_phrase), "SHA256")
+key <- openssl::sha256(charToRaw(shiny_key_phrase))
 
 DEBUG <- shiny_debug
 if (DEBUG) sample_count <<- 0
@@ -1535,7 +1535,7 @@ function(input, output, session) {
         {
           if (shiny_store_encrypted) {
             encrypted <- readRDS(in_file$datapath)
-            decrypted <- PKI.decrypt(encrypted, key, "aes256")
+            decrypted <- openssl::aes_cbc_decrypt(encrypted, key)
             config_list <- unserialize(decrypted)
           } else config_list <- readRDS(in_file$datapath)
           isolate(parse_config(config_list))
@@ -1550,7 +1550,7 @@ function(input, output, session) {
     content = function(file) {
       if (shiny_store_encrypted) {
         raw <- serialize(reactiveValuesToList(uc), NULL)
-        encrypted <- PKI.encrypt(raw, key, "aes256")
+        encrypted <- openssl::aes_cbc_encrypt(raw, key, iv = NULL)
         saveRDS(encrypted, file)
       } else saveRDS(reactiveValuesToList(uc), file)
     }

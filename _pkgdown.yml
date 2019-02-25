@@ -34,7 +34,7 @@ reference:
   contents:
   - ExPanD
 - title: Workflow functions
-  desc: Functions, mostly also used by ExPanD, that facilitate a typical exploratory data analysis worklfow
+  desc: Functions, mostly also used by ExPanD, that facilitate a typical exploratory data analysis workflow
   contents:
   - prepare_missing_values_graph
   - treat_outliers

@@ -30,48 +30,13 @@ expand_header <- list(
       column (12,
               HTML(shiny_abstract),
               p(),
+              singleton(
+                tags$head(tags$script(src = "message-handler.js"))
+              ),
               hr()
       )
-    )},
-
-  fluidRow(
-    column (12,
-            p("Based on the",
-              HTML("<a href=https://joachim-gassen.github.io/ExPanDaR>ExPanDaR R package</a>"),
-              "developed by Joachim Gassen, Humboldt-Universität zu Berlin,",
-              HTML("<a href=\"mailto:gassen@wiwi.hu-berlin.de\">gassen@wiwi.hu-berlin.de</a>.")),
-            singleton(
-              tags$head(tags$script(src = "message-handler.js"))
-            ),
-            hr()
     )
-  ),
-
-  if(!server_side_data) {
-    fluidRow(
-      column (4, uiOutput("ui_sample")),
-      column (4, uiOutput("ui_select_ids")),
-      column (4, uiOutput("ui_balanced_panel"))
-    ) } else fluidRow(
-    column (6, uiOutput("ui_sample")),
-    column (6, uiOutput("ui_balanced_panel"))
-  ),
-
-  uiOutput("ui_separator1"),
-
-  fluidRow(
-    column (6, uiOutput("ui_subset_factor")),
-    column (6, uiOutput("ui_subset_value"))
-  ),
-
-  uiOutput("ui_separator2"),
-
-  fluidRow(
-    column (6, uiOutput("ui_group_factor")),
-    column (6, uiOutput("ui_outlier_treatment"))
-  ),
-
-  uiOutput("ui_separator17")
+  }
 )
 
 udv_row <- function() {
@@ -83,60 +48,105 @@ udv_row <- function() {
 ll <- length(shiny_components)
 if (simple_call_mode) expand_components <- vector("list", ll) else expand_components <- vector("list", ll + 1)
 lpos <- 1
+html_block_pos <- 1
 for (i in 1:ll) {
-    if (i == 1 & (!"descriptive_table" %in% names(shiny_components) & !simple_call_mode)) {
+  if (i == 1 & (!"descriptive_table" %in% names(shiny_components) & !simple_call_mode)) {
+    expand_components[[lpos]] <- udv_row()
+    lpos <- lpos + 1
+  }
+
+  if(names(shiny_components[i]) == "html_block") {
+    expand_components[[lpos]] <- list(fluidRow(
+      HTML(shiny_html_blocks[html_block_pos])
+    ),
+    uiOutput(paste0("ui_separator", 18 + html_block_pos)))
+
+    html_block_pos <- html_block_pos + 1
+    lpos <- lpos + 1
+  }
+
+  if(names(shiny_components[i]) == "sample_selection") {
+    if(!server_side_data) {
+      expand_components[[lpos]] <- list(fluidRow(
+        column (4, uiOutput("ui_sample")),
+        column (4, uiOutput("ui_select_ids")),
+        column (4, uiOutput("ui_balanced_panel"))),
+        uiOutput("ui_separator1"))
+    } else {
+      expand_components[[lpos]] <- list(fluidRow(
+        column (6, uiOutput("ui_sample")),
+        column (6, uiOutput("ui_balanced_panel"))),
+        uiOutput("ui_separator1"))
+    }
+    lpos <- lpos + 1
+  }
+
+  if(names(shiny_components[i]) == "subset_factor") {
+    expand_components[[lpos]] <- list(fluidRow(
+      column (6, uiOutput("ui_subset_factor")),
+      column (6, uiOutput("ui_subset_value"))
+    ),
+    uiOutput("ui_separator2"))
+    lpos <- lpos + 1
+  }
+
+  if(names(shiny_components[i]) == "grouping") {
+    expand_components[[lpos]] <- list(fluidRow(
+      column (6, uiOutput("ui_group_factor")),
+      column (6, uiOutput("ui_outlier_treatment"))
+    ),
+    uiOutput("ui_separator17"))
+    lpos <- lpos + 1
+  }
+
+  if(names(shiny_components[i]) == "bar_chart") {
+    expand_components[[lpos]] <- list(fluidRow(
+      column (2,
+              uiOutput("ui_bar_chart")
+      ),
+      column (10, withSpinner(plotOutput("bar_chart")))
+    ),
+
+    uiOutput("ui_separator3"))
+    lpos <- lpos + 1
+  }
+
+  if(names(shiny_components[i]) == "missing_values") {
+    expand_components[[lpos]] <- list(fluidRow(
+      column (2,
+              uiOutput("ui_missing_values")
+      ),
+      column (10, withSpinner(plotOutput("missing_values")))
+    ),
+
+    uiOutput("ui_separator4"))
+    lpos <- lpos + 1
+  }
+
+  if(names(shiny_components[i]) == "descriptive_table") {
+    if(!simple_call_mode) {
       expand_components[[lpos]] <- udv_row()
       lpos <- lpos + 1
     }
 
-    if(names(shiny_components[i]) == "bar_chart") {
-      expand_components[[lpos]] <- list(fluidRow(
-        column (2,
-                uiOutput("ui_bar_chart")
-        ),
-        column (10, withSpinner(plotOutput("bar_chart")))
-      ),
+    expand_components[[lpos]] <- list(fluidRow(
+      column(2, uiOutput("ui_descriptive_table_left")),
+      column(10, align="center", uiOutput("ui_descriptive_table_right"))
+    ),
 
-      uiOutput("ui_separator3"))
-      lpos <- lpos + 1
-    }
-
-    if(names(shiny_components[i]) == "missing_values") {
-      expand_components[[lpos]] <- list(fluidRow(
-        column (2,
-                uiOutput("ui_missing_values")
-        ),
-        column (10, withSpinner(plotOutput("missing_values")))
-      ),
-
-      uiOutput("ui_separator4"))
-      lpos <- lpos + 1
-    }
-
-    if(names(shiny_components[i]) == "descriptive_table") {
-      if(!simple_call_mode) {
-        expand_components[[lpos]] <- udv_row()
-        lpos <- lpos + 1
-      }
-
-      expand_components[[lpos]] <- list(fluidRow(
-        column(2, uiOutput("ui_descriptive_table_left")),
-        column(10, align="center", uiOutput("ui_descriptive_table_right"))
-      ),
-
-      uiOutput("ui_separator5"))
-      lpos <- lpos + 1
+    uiOutput("ui_separator5"))
+    lpos <- lpos + 1
   }
 
-    if(names(shiny_components[i]) == "histogram") {
-      expand_components[[lpos]] <- list(fluidRow(
-        column(2, uiOutput("ui_histogram")),
-        column(10, withSpinner(plotOutput("histogram")))
-      ),
+  if(names(shiny_components[i]) == "histogram") {
+    expand_components[[lpos]] <- list(fluidRow(
+      column(2, uiOutput("ui_histogram")),
+      column(10, withSpinner(plotOutput("histogram")))
+    ),
 
-      uiOutput("ui_separator6"))
-      lpos <- lpos + 1
-    }
+    uiOutput("ui_separator6"))
+    lpos <- lpos + 1
+  }
 
   if(names(shiny_components[i]) == "ext_obs") {
     expand_components[[lpos]] <- list(fluidRow(
@@ -259,7 +269,7 @@ expand_footer <- list(
 
   fluidRow(
     column(12, align="center",
-           HTML("ExPanD based on <a href=https://joachim-gassen.github.io/ExPanDaR>ExPanDaR</a>, Joachim Gassen, Humboldt-Universität zu Berlin, 2018<p>")
+           HTML("ExPanD based on <a href=https://joachim-gassen.github.io/ExPanDaR>ExPanDaR</a>, Joachim Gassen, Humboldt-Universität zu Berlin, 2019<p>")
     )
   )
 )

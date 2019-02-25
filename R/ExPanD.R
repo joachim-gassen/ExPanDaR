@@ -48,11 +48,15 @@
 #'   Each variable classified as such will be treated as a factor. In addition,
 #'   ExPanD classifies all logical values and all numerical values with less or
 #'   equal than \code{factor_cutoff} unique values as a factor.
-#' @param components A logical vector indicating the reports that you want
+#' @param components A named logical vector indicating the reports that you want
 #'   ExPanD to generate and their order. See the function head of \code{ExpanD}
 #'   for the list of available reports. By default, all components are reported.
 #'   You can also exclude selected components from the standard order by setting
-#'   then to \code{FALSE}.
+#'   then to \code{FALSE}. In addition, you can include an arbitraty number of
+#'   \code{html_block} reports that contain clean HTML code as contained in
+#'   the \code{html_blocks} öarameter below.
+#' @param html_blocks A character vector containing the clean HTML code for each
+#'   \code{html_block} that is included in \code{components}.
 #' @param store_encrypted Do you want the user-side saved config files to be
 #'   encrypted? A security measure to avoid that users can inject arbitrary code
 #'   in the config list. Probably a good idea when you are hosting sensitive data
@@ -143,7 +147,10 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
                    df_name = deparse(substitute(df)),
                    long_def = TRUE,
                    factor_cutoff = 10L,
-                   components = c(bar_chart = TRUE,
+                   components = c(sample_selection = TRUE,
+                                  subset_factor = TRUE,
+                                  grouping = TRUE,
+                                  bar_chart = TRUE,
                                   missing_values = TRUE,
                                   descriptive_table = TRUE,
                                   histogram = TRUE,
@@ -155,6 +162,7 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
                                   corrplot = TRUE,
                                   scatter_plot = TRUE,
                                   regression = TRUE),
+                   html_blocks = NULL,
                    store_encrypted = FALSE,
                    key_phrase = "What a wonderful key",
                    debug = FALSE, ...) {
@@ -211,20 +219,31 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
     }
   }
 
-  comp_names <- c("bar_chart", "missing_values", "descriptive_table",
-                  "histogram", "ext_obs", "by_group_bar_graph", "by_group_violin_graph",
-                  "trend_graph", "quantile_trend_graph", "corrplot",
-                  "scatter_plot", "regression")
+  comp_names <- c("sample_selection", "subset_factor", "grouping",
+                  "bar_chart", "missing_values", "descriptive_table",
+                  "histogram", "ext_obs", "by_group_bar_graph",
+                  "by_group_violin_graph", "trend_graph",
+                  "quantile_trend_graph", "corrplot", "scatter_plot",
+                  "regression")
 
   if (!is.vector(components) | !is.logical(components)) stop("components needs to be a vector of logical values")
-  if (is.null(names(components)) & length(components) == 12) names(components) <- comp_names
+  # The followiing legacy code is for the old calling style in Version 0.2.0
+  # using unnamed vectors
+  if (is.null(names(components)) & length(components) == 12) {
+    components <- c(rep(TRUE, 3), components)
+    names(components) <- comp_names
+  }
   if (is.null(names(components))) stop(sprintf("Component vector has missing names and is not of valid length %d", length(comp_names)))
-  if (!all(names(components) %in% comp_names)) stop(paste("Component vector has invalid names. Valid names are:", paste(comp_names, collapse = ", ")))
+  if (!all(names(components) %in% c(comp_names, "html_block"))) stop(paste("Component vector has invalid names. Valid names are:", paste(c(comp_names, "html_block"), collapse = ", ")))
   if (all(components == FALSE)) {
     rem_components <- comp_names[!(comp_names %in% names(components))]
     components <- rep(TRUE, length(rem_components))
     names(components) <- rem_components
   }
+  if (any("html_block" %in% names(components))) {
+    if (sum(names(components) == "html_block") != length(html_blocks))
+      stop("Number of html_blocks texts provided does not match number of html_block tags in components")
+  } else if (!is.null(html_blocks)) stop("html_blocks provided but no html_block tag found in components")
 
   if(!is.null(var_def)) var_def[1:3] <- lapply(var_def[1:3], as.character)
 
@@ -250,6 +269,7 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
   shiny_store_encrypted <- store_encrypted
   shiny_debug <- debug
   shiny_components <- components[components]
+  shiny_html_blocks <- html_blocks
   pkg_app_dir <- system.file("application", package = "ExPanDaR")
   file.copy(pkg_app_dir, tempdir(), recursive=TRUE)
   app_dir <- paste0(tempdir(), "/application")

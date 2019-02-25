@@ -777,7 +777,7 @@ function(input, output, session) {
   observe({uc$cluster <<- req(input$cluster)})
   observe({uc$model <<- req(input$model)})
 
-  for (i in 1:18) output[[paste0("ui_separator", i)]] <- renderUI({
+  for (i in 1:30) output[[paste0("ui_separator", i)]] <- renderUI({
     req(uc$subset_factor)
     hr()
   })

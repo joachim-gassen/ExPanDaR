@@ -98,6 +98,25 @@ abstract <- paste(
   "blog post</a> for further information."
 )
 
+html_blocks = c(paste('<div class="col-sm-2"><h3>Intro</h3></div>',
+                      '<div class="col-sm-10">',
+                      "This interactive display allows you to explore the association of",
+                      "gdp per capita with life expectancy. The data are a panel",
+                      "conctructed by countries and year. The bar chart below",
+                      "allows you to explore the time and cross-sectional dimensions",
+                      "of the data",
+                      "</div>"),
+                paste('<div class="col-sm-2"><h3>Included Variables</h3></div>',
+                      '<div class="col-sm-10">',
+                      "Next you see descriptive statstitics for the variables",
+                      "that are included in the sample.",
+                      "Hover with your mouse over the variable names to read",
+                      "the World Bank definitions for the data.",
+                      "</div>"))
+ExPanD(wb, df_def = wb_data_def, title = title, abstract = abstract,
+       components = c(html_block = TRUE, bar_chart = TRUE, html_block = TRUE, descriptive_table = TRUE),
+       html_blocks = html_blocks)
+
 ExPanD(wb, df_def = wb_data_def,
        title = title, abstract = abstract)
 

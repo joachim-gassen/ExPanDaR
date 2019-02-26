@@ -54,7 +54,8 @@
 #'   You can also exclude selected components from the standard order by setting
 #'   then to \code{FALSE}. In addition, you can include an arbitraty number of
 #'   \code{html_block} reports that contain clean HTML code as contained in
-#'   the \code{html_blocks} öarameter below.
+#'   the \code{html_blocks} parameter below. This allows you to customize your
+#'   ExPanD report.
 #' @param html_blocks A character vector containing the clean HTML code for each
 #'   \code{html_block} that is included in \code{components}.
 #' @param store_encrypted Do you want the user-side saved config files to be
@@ -137,7 +138,9 @@
 #'     df_def = russell_3000_data_def,
 #'     df_name = c("Exploratory sample", "Test sample"))
 #'   ExPanD(worldbank, df_def = worldbank_data_def, var_def = worldbank_var_def,
-#'     config_list = ExPanD_config_worldbank)}
+#'     config_list = ExPanD_config_worldbank)
+#'
+#'     }
 #' @export
 
 ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
@@ -150,6 +153,7 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
                    components = c(sample_selection = TRUE,
                                   subset_factor = TRUE,
                                   grouping = TRUE,
+                                  udvars = TRUE,
                                   bar_chart = TRUE,
                                   missing_values = TRUE,
                                   descriptive_table = TRUE,
@@ -219,7 +223,7 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
     }
   }
 
-  comp_names <- c("sample_selection", "subset_factor", "grouping",
+  comp_names <- c("sample_selection", "subset_factor", "grouping", "udvars",
                   "bar_chart", "missing_values", "descriptive_table",
                   "histogram", "ext_obs", "by_group_bar_graph",
                   "by_group_violin_graph", "trend_graph",
@@ -230,7 +234,7 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
   # The followiing legacy code is for the old calling style in Version 0.2.0
   # using unnamed vectors
   if (is.null(names(components)) & length(components) == 12) {
-    components <- c(rep(TRUE, 3), components)
+    components <- c(rep(TRUE, 4), components)
     names(components) <- comp_names
   }
   if (is.null(names(components))) stop(sprintf("Component vector has missing names and is not of valid length %d", length(comp_names)))

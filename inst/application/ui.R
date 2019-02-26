@@ -22,7 +22,9 @@ expand_header <- list(
       #regression table > tbody > tr > td,
       #regression table > tfoot > tr > td {
       padding:0px 5px;
-      }"))),
+      }")),
+    tags$script(src = "message-handler.js")
+  ),
 
   titlePanel(shiny_title),
   if(!is.null(shiny_abstract)) {
@@ -30,9 +32,6 @@ expand_header <- list(
       column (12,
               HTML(shiny_abstract),
               p(),
-              singleton(
-                tags$head(tags$script(src = "message-handler.js"))
-              ),
               hr()
       )
     )
@@ -50,7 +49,9 @@ if (simple_call_mode) expand_components <- vector("list", ll) else expand_compon
 lpos <- 1
 html_block_pos <- 1
 for (i in 1:ll) {
-  if (i == 1 & (!"descriptive_table" %in% names(shiny_components) & !simple_call_mode)) {
+  if (names(shiny_components[i]) == "udvars" &
+      !"descriptive_table" %in% names(shiny_components) &
+      !simple_call_mode) {
     expand_components[[lpos]] <- udv_row()
     lpos <- lpos + 1
   }

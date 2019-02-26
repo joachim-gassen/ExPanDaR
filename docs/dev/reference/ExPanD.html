@@ -148,12 +148,13 @@ interactive panel data exploration</p>
   <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"ExPanD - Explore panel data interactively"</span>, <span class='kw'>abstract</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>df_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/deparse'>deparse</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substitute'>substitute</a></span>(<span class='no'>df</span>)), <span class='kw'>long_def</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>factor_cutoff</span> <span class='kw'>=</span> <span class='fl'>10L</span>, <span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>sample_selection</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>subset_factor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>grouping</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>bar_chart</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>missing_values</span> <span class='kw'>=</span>
-  <span class='fl'>TRUE</span>, <span class='kw'>descriptive_table</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>histogram</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ext_obs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>by_group_bar_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>by_group_violin_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>trend_graph</span> <span class='kw'>=</span>
-  <span class='fl'>TRUE</span>, <span class='kw'>quantile_trend_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>corrplot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>scatter_plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>regression</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>html_blocks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>store_encrypted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>key_phrase</span> <span class='kw'>=</span> <span class='st'>"What a wonderful key"</span>, <span class='kw'>debug</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>subset_factor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>grouping</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>udvars</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>bar_chart</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>missing_values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>descriptive_table</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>histogram</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>ext_obs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>by_group_bar_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>by_group_violin_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>trend_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>quantile_trend_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>corrplot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>scatter_plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>regression</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>html_blocks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>store_encrypted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>key_phrase</span> <span class='kw'>=</span> <span class='st'>"What a wonderful key"</span>,
+  <span class='kw'>debug</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -244,7 +245,8 @@ for the list of available reports. By default, all components are reported.
 You can also exclude selected components from the standard order by setting
 then to <code>FALSE</code>. In addition, you can include an arbitraty number of
 <code>html_block</code> reports that contain clean HTML code as contained in
-the <code>html_blocks</code> öarameter below.</p></td>
+the <code>html_blocks</code> parameter below. This allows you to customize your
+ExPanD report.</p></td>
     </tr>
     <tr>
       <th>html_blocks</th>
@@ -341,6 +343,8 @@ it defaults to being TRUE for all variables other than cs_id and ts_id.</p></dd>
     <span class='kw'>df_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Exploratory sample"</span>, <span class='st'>"Test sample"</span>))
   <span class='fu'>ExPanD</span>(<span class='no'>worldbank</span>, <span class='kw'>df_def</span> <span class='kw'>=</span> <span class='no'>worldbank_data_def</span>, <span class='kw'>var_def</span> <span class='kw'>=</span> <span class='no'>worldbank_var_def</span>,
     <span class='kw'>config_list</span> <span class='kw'>=</span> <span class='no'>ExPanD_config_worldbank</span>)
+
+
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

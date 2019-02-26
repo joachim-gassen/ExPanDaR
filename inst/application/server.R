@@ -410,10 +410,17 @@ function(input, output, session) {
     for(name in allowedFunctions){
       assign(name,match.fun(name), envir=myenv)
     }
-    # And our data frame
+    # And our base data frame
     for(name in names(df)){
       if (is.factor(df[,name])) assign(name, as.character(df[,name]), envir=myenv)
       else assign(name, df[,name], envir=myenv)
+    }
+    # Plus the additional variables contained in the analysis sample
+    ca_smp <- create_ca_sample()
+    new_names_ca_sample <- names(ca_smp)[which(!(names(ca_smp) %in% names(df)))]
+    for(name in new_names_ca_sample){
+      if (is.factor(ca_smp[,name])) assign(name, as.character(ca_smp[,name]), envir=myenv)
+      else assign(name, ca_smp[,name], envir=myenv)
     }
     new_var <- try(eval(parse(text=udv_definition), envir=myenv), silent=TRUE)
     if (length(new_var) == length(df[,1])) return (new_var) else return (NULL)

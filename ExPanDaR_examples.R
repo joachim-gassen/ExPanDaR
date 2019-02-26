@@ -8,17 +8,102 @@
 # Start this with a virgin R session
 
 rm (list=ls())
+library(ExPanDaR)
 
 # --- Use ExPanD with cross-sectional data -------------------------------------
 
-library(ExPanDaR)
+
 df <- mtcars
 df$cs_id <- row.names(df)
 df$ts_id <-1
 ExPanD(df, cs_id ="cs_id", ts_id = "ts_id",
        components = c(trend_graph = FALSE, quantile_trend_graph = FALSE))
 
-# ------------------------------------------------------------------------------
+
+# --- Use the new html_block feature to customize ExPanD reports ---------------
+
+html_blocks <- c(
+  paste('<div class="col-sm-2">&nbsp;</div>',
+        '<div class="col-sm-10">',
+        "<p>&nbsp;</p>",
+        "Below you see the <a href=https://en.wikipedia.org/wiki/Preston_curve>",
+        "Preston Curve</a>, based on data provided by the",
+        "<a href=https://worldbank.org>World Bank</a>.",
+        "It was first documented in the 70ies and indicates a robust",
+        "association of life expectancy with country-level",
+        "income per capita.",
+        "<p>&nbsp;</p>",
+        "This interactive display allows you to assess the robustness",
+        "of this association.",
+        "</div>"),
+  paste('<div class="col-sm-2"><h3>Transform independent variable</h3></div>',
+        '<div class="col-sm-10">',
+        "<p>&nbsp;</p>The Preston Curve is far from",
+        "linear. Maybe you can come up with a transformation",
+        "of <code>gdp_capita</code> that makes the association",
+        "a little bit more well behaved?",
+        "Use the dialog below to define new variables and",
+        "assess their association with <code>lifexpectancy</code>",
+        "in the scatter plot above.",
+        "</div>"),
+  paste('<div class="col-sm-2"><h3>Assess Robustness</h3></div>',
+        '<div class="col-sm-10">',
+        "You see that the linear regression coefficient",
+        "for <code>gdp_capita</code> for <cod>lifeexpectancy</cod>",
+        "is signficant at conventional levels. Does this also",
+        "hold when you use your tranformed independent variable?",
+        "What about additional controls?",
+        "Do you see what happens to the number of observations",
+        "as you include controls?",
+        "What happens when you include fixed effects?",
+        "Are your findings stable across regions or income groups?",
+        "Have fun exploring!",
+        "</div>")
+)
+
+my_wb_config <- ExPanD_config_worldbank
+my_wb_config$reg_x <- c("gdp_capita")
+my_wb_config$reg_fe1 <- "None"
+my_wb_config$reg_fe2 <- "None"
+my_wb_config$cluster <- "None"
+
+ExPanD(worldbank, df_def = worldbank_data_def, var_def = worldbank_var_def,
+       config_list = my_wb_config,
+       title = "Explore the Preston Curve",
+       components = c(html_block = TRUE, scatter_plot = TRUE,
+                     html_block = TRUE, udvars = TRUE,
+                     html_block = TRUE, regression = TRUE),
+       html_blocks = html_blocks)
+
+
+my_r3_config <- ExPanD_config_russell_3000
+my_r3_config$group_factor <- "sector"
+
+ExPanD(df = russell_3000, df_def = russell_3000_data_def,
+       config_list = my_r3_config,
+       abstract = "The data for this sample has been collected from Google Finance and Yahoo Finance.",
+       components = c(html_block = TRUE,
+                      grouping = TRUE,
+                      bar_chart = TRUE,
+                      descriptive_table = TRUE,
+                      histogram = TRUE,
+                      ext_obs = TRUE,
+                      by_group_bar_graph = TRUE,
+                      by_group_violin_graph = TRUE,
+                      corrplot = TRUE,
+                      scatter_plot = TRUE,
+                      regression = TRUE),
+       html_blocks = c(paste('<div class="col-sm-12">',
+                             "This short panel presents you with some",
+                             "financial accounting and stock return data",
+                             "of U.S. firms. When you scroll down,",
+                             "you will see a regression assessing the association",
+                             "of cash flows and accruals with concurrent",
+                             "stock returns. Feel free to experiment with",
+                             "the various exploration tools. Enjoy!",
+                             '</div>')))
+
+
 
 # --- Use ExPanD on a condensed Worldbank data set -----------------------------
 
@@ -97,36 +182,6 @@ abstract <- paste(
   "See this <a href=https://joachim-gassen.github.io/2018/12/interactive-panel-eda-with-3-lines-of-code/>",
   "blog post</a> for further information."
 )
-
-html_blocks = c(paste('<div class="col-sm-2"><h3>Intro</h3></div>',
-                      '<div class="col-sm-10">',
-                      "This interactive display allows you to explore the association of",
-                      "gdp per capita with life expectancy. The data are a panel",
-                      "conctructed by countries and years. The bar chart below",
-                      "allows you to explore the time and cross-sectional dimensions",
-                      "of the data.",
-                      "</div>"),
-                paste('<div class="col-sm-2"><h3>Included Variables</h3></div>',
-                      '<div class="col-sm-10">',
-                      "Next you see descriptive statstitics for the variables",
-                      "that are included in the sample.",
-                      "Hover with your mouse over the variable names to read",
-                      "the World Bank definitions for the data.",
-                      "</div>"),
-                paste('<div class="col-sm-2">&nbsp;</div>',
-                      '<div class="col-sm-10">',
-                      "As you can see in the descriptive table, most variables",
-                      "besides life expectancy and gdp per capita are only",
-                      "available for a subset of obsverations.",
-                      "The display below shows how missing values are distributed",
-                      "accross metrics and time.",
-                      "</div>")
-)
-ExPanD(wb, df_def = wb_data_def, title = title, abstract = abstract,
-       components = c(html_block = TRUE, bar_chart = TRUE,
-                      html_block = TRUE, descriptive_table = TRUE,
-                      html_block = TRUE, missing_values = TRUE),
-       html_blocks = html_blocks)
 
 ExPanD(wb, df_def = wb_data_def,
        title = title, abstract = abstract)

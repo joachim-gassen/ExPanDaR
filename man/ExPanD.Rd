@@ -9,12 +9,13 @@ ExPanD(df = NULL, cs_id = NULL, ts_id = NULL, df_def = NULL,
   title = "ExPanD - Explore panel data interactively", abstract = NULL,
   df_name = deparse(substitute(df)), long_def = TRUE,
   factor_cutoff = 10L, components = c(sample_selection = TRUE,
-  subset_factor = TRUE, grouping = TRUE, bar_chart = TRUE, missing_values =
-  TRUE, descriptive_table = TRUE, histogram = TRUE, ext_obs = TRUE,
-  by_group_bar_graph = TRUE, by_group_violin_graph = TRUE, trend_graph =
-  TRUE, quantile_trend_graph = TRUE, corrplot = TRUE, scatter_plot = TRUE,
-  regression = TRUE), html_blocks = NULL, store_encrypted = FALSE,
-  key_phrase = "What a wonderful key", debug = FALSE, ...)
+  subset_factor = TRUE, grouping = TRUE, udvars = TRUE, bar_chart = TRUE,
+  missing_values = TRUE, descriptive_table = TRUE, histogram = TRUE,
+  ext_obs = TRUE, by_group_bar_graph = TRUE, by_group_violin_graph = TRUE,
+  trend_graph = TRUE, quantile_trend_graph = TRUE, corrplot = TRUE,
+  scatter_plot = TRUE, regression = TRUE), html_blocks = NULL,
+  store_encrypted = FALSE, key_phrase = "What a wonderful key",
+  debug = FALSE, ...)
 }
 \arguments{
 \item{df}{A data frame or a list of data frames containing the panel data that
@@ -79,7 +80,8 @@ for the list of available reports. By default, all components are reported.
 You can also exclude selected components from the standard order by setting
 then to \code{FALSE}. In addition, you can include an arbitraty number of
 \code{html_block} reports that contain clean HTML code as contained in
-the \code{html_blocks} öarameter below.}
+the \code{html_blocks} parameter below. This allows you to customize your
+ExPanD report.}
 
 \item{html_blocks}{A character vector containing the clean HTML code for each
 \code{html_block} that is included in \code{components}.}
@@ -170,5 +172,7 @@ it defaults to being TRUE for all variables other than cs_id and ts_id.} }
     df_def = russell_3000_data_def,
     df_name = c("Exploratory sample", "Test sample"))
   ExPanD(worldbank, df_def = worldbank_data_def, var_def = worldbank_var_def,
-    config_list = ExPanD_config_worldbank)}
+    config_list = ExPanD_config_worldbank)
+
+    }
 }

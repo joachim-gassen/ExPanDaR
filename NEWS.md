@@ -5,8 +5,12 @@ Extensions:
 * Introduced `html_block` tag in `components` to allow users to add self-designed
 html content to `ExPanD()`
 
-* Added `sample_selection`, `subset_factor`, and `grouping` variables to `components`
-in `ExPanD()` so that these parts can also be re-arrannged or ommitted.
+* Added `sample_selection`, `subset_factor`, `grouping` and `udvars` variables 
+to `components` in `ExPanD()` so that these parts can also be re-arrannged 
+or ommitted.
+
+* Allowed user defined variables to be built on analysis varaiables
+
 
 Minor issues:
 

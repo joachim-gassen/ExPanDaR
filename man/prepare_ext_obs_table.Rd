@@ -5,8 +5,8 @@
 \title{Prepares a Table Displaying Extreme Observations}
 \usage{
 prepare_ext_obs_table(df, n = 5, cs_id = NA, ts_id = NA,
-  var = utils::tail(colnames(df[sapply(df, is.numeric) & (!colnames(df) \%in\%
-  c(cs_id, ts_id))]), n = 1), ...)
+  var = utils::tail(colnames(df[sapply(df, is.numeric) & (!colnames(df)
+  \%in\% c(cs_id, ts_id))]), n = 1), ...)
 }
 \arguments{
 \item{df}{Data frame}

@@ -4,8 +4,8 @@
 \alias{prepare_correlation_table}
 \title{Prepares a Correlation Table}
 \usage{
-prepare_correlation_table(df, digits = 2, bold = 0.05, format = "html",
-  ...)
+prepare_correlation_table(df, digits = 2, bold = 0.05,
+  format = "html", ...)
 }
 \arguments{
 \item{df}{Data frame containing at least two variables that are either numeric

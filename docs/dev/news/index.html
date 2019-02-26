@@ -136,9 +136,14 @@
 <h1 class="page-header">
 <a href="#expandar-0-3-0-9000" class="anchor"></a>ExPanDaR 0.3.0.9000<small> Unreleased </small>
 </h1>
+<p>Extensions:</p>
+<ul>
+<li><p>Introduced <code>html_block</code> tag in <code>components</code> to allow users to add self-designed html content to <code><a href="../reference/ExPanD.html">ExPanD()</a></code></p></li>
+<li><p>Added <code>sample_selection</code>, <code>subset_factor</code>, and <code>grouping</code> variables to <code>components</code> in <code><a href="../reference/ExPanD.html">ExPanD()</a></code> so that these parts can also be re-arrannged or ommitted.</p></li>
+</ul>
 <p>Minor issues:</p>
 <ul>
-<li><p>Allowed more flexible handling of binary variables in ExPanD()</p></li>
+<li><p>Allowed more flexible handling of binary variables in <code><a href="../reference/ExPanD.html">ExPanD()</a></code></p></li>
 <li><p>Added additional examples to Github repository (not in package)</p></li>
 <li><p>Updated World Bank data</p></li>
 <li><p>Switched to openssl package (Thank you to Jeroen Ooms for the PR)</p></li>
@@ -153,30 +158,30 @@
 <ul>
 <li><p>Removed the requirement for at least one non-numerical variable</p></li>
 <li><p>Added by group violin plot</p></li>
-<li><p>Included ‘!’ and ‘is.na()’ as allowed functions for user defined variables</p></li>
+<li><p>Included <code>!</code> and <code><a href="https://www.rdocumentation.org/packages/base/topics/NA">is.na()</a></code> as allowed functions for user defined variables</p></li>
 <li><p>Introduced the option to change the order of reported components and to exclude selected components</p></li>
-<li><p>Added clustered standard errors and fixed effects for logit models in prepare_regression_table()</p></li>
-<li><p>Implemented binary response logit models in ExPanD()</p></li>
+<li><p>Added clustered standard errors and fixed effects for logit models in <code><a href="../reference/prepare_regression_table.html">prepare_regression_table()</a></code></p></li>
+<li><p>Implemented binary response logit models in <code><a href="../reference/ExPanD.html">ExPanD()</a></code></p></li>
 </ul>
 <p>Bug fixes:</p>
 <ul>
 <li><p>Fixed a sorting bug in long variable definition construction</p></li>
-<li><p>Fixed a bug in ExPanD() extreme obs plot (was sorting on grouping variable)</p></li>
+<li><p>Fixed a bug in <code><a href="../reference/ExPanD.html">ExPanD()</a></code> extreme obs plot (was sorting on grouping variable)</p></li>
 </ul>
 <p>Minor issues:</p>
 <ul>
 <li><p>Removed the dependency with the CodeDepends package</p></li>
 <li><p>Added rio package to the imports list</p></li>
-<li><p>Added packages used by ExPanD() to NAMESPACE to make CRAN checks happy</p></li>
+<li><p>Added packages used by <code><a href="../reference/ExPanD.html">ExPanD()</a></code> to <code>NAMESPACE</code> to make CRAN checks happy</p></li>
 <li><p>UI cleanups</p></li>
-<li><p>Fixed the definition of oint_ta in r3 dataset</p></li>
-<li><p>Added a check to verify that ts_ids provided as ordered vectors</p></li>
-<li><p>Fixed a typo in worldbank_var_def</p></li>
-<li><p>Removed the drop_undersore parameter in prepare_regression_table() (no longer needed)</p></li>
-<li><p>Work-around for special characters in stargazer column.labels</p></li>
+<li><p>Fixed the definition of <code>oint_ta</code> in <code>r3</code> dataset</p></li>
+<li><p>Added a check to verify that <code>ts_ids</code> provided as ordered vectors</p></li>
+<li><p>Fixed a typo in <code>worldbank_var_def</code></p></li>
+<li><p>Removed the <code>drop_undersore</code> parameter in <code><a href="../reference/prepare_regression_table.html">prepare_regression_table()</a></code> (no longer needed)</p></li>
+<li><p>Work-around for special characters in stargazer <code>column.labels</code></p></li>
 <li><p>Marginally improved error handling for user provided data files</p></li>
-<li><p>Allowed treat_outliers() to route parameters through to stats::quantile() (needed for type parameter)</p></li>
-<li><p>Changed NA handling in “prepare_graph” type functions</p></li>
+<li><p>Allowed <code><a href="../reference/treat_outliers.html">treat_outliers()</a></code> to route parameters through to <code><a href="https://www.rdocumentation.org/packages/stats/topics/quantile">stats::quantile()</a></code> (needed for type parameter)</p></li>
+<li><p>Changed <code>NA</code> handling in <code>prepare_graph</code> type functions</p></li>
 </ul>
 </div>
     <div id="expandar-0-2-0" class="section level1">

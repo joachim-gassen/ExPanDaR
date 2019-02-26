@@ -4,7 +4,7 @@
 \alias{prepare_ext_obs_table}
 \title{Prepares a Table Displaying Extreme Observations}
 \usage{
-prepare_ext_obs_table(df, n = 5, cs_id = NA, ts_id = NA,
+prepare_ext_obs_table(df, n = 5, cs_id = NULL, ts_id = NULL,
   var = utils::tail(colnames(df[sapply(df, is.numeric) & (!colnames(df)
   \%in\% c(cs_id, ts_id))]), n = 1), ...)
 }

@@ -112,9 +112,20 @@ html_blocks = c(paste('<div class="col-sm-2"><h3>Intro</h3></div>',
                       "that are included in the sample.",
                       "Hover with your mouse over the variable names to read",
                       "the World Bank definitions for the data.",
-                      "</div>"))
+                      "</div>"),
+                paste('<div class="col-sm-2">&nbsp;</div>',
+                      '<div class="col-sm-10">',
+                      "As you can see in the descriptive table, most variables",
+                      "besides life expectancy and gdp per capita are only",
+                      "available for a subset of obsverations.",
+                      "The display below shows how missing values are distributed",
+                      "accross metrics and time.",
+                      "</div>")
+)
 ExPanD(wb, df_def = wb_data_def, title = title, abstract = abstract,
-       components = c(html_block = TRUE, bar_chart = TRUE, html_block = TRUE, descriptive_table = TRUE),
+       components = c(html_block = TRUE, bar_chart = TRUE,
+                      html_block = TRUE, descriptive_table = TRUE,
+                      html_block = TRUE, missing_values = TRUE),
        html_blocks = html_blocks)
 
 ExPanD(wb, df_def = wb_data_def,

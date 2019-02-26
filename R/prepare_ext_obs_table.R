@@ -28,7 +28,7 @@
 #' @export
 
 
-prepare_ext_obs_table <- function(df, n = 5, cs_id = NA, ts_id = NA,
+prepare_ext_obs_table <- function(df, n = 5, cs_id = NULL, ts_id = NULL,
                                   var = utils::tail(colnames(df[sapply(df, is.numeric) &
                                                                   (! colnames(df) %in% c(cs_id, ts_id))]),
                                                     n=1), ...) {
@@ -38,8 +38,8 @@ prepare_ext_obs_table <- function(df, n = 5, cs_id = NA, ts_id = NA,
     stop("'n' needs to be <= nrow(df)/2")
   if (length(var) > 1) stop("var needs to identify a single variable")
   if (!var %in% colnames(df)) stop("var need to be in df")
-  if (!is.na(ts_id) && !ts_id %in% colnames(df)) stop("ts_id needs to be in df")
-  if (!is.na(cs_id) && any(! cs_id %in% colnames(df))) stop("cs_id names need to be in df")
+  if (!is.null(ts_id) && !ts_id %in% colnames(df)) stop("ts_id needs to be in df")
+  if (!is.null(cs_id) && any(! cs_id %in% colnames(df))) stop("cs_id names need to be in df")
 
   vars <- stats::na.omit(c(cs_id, ts_id, var))
   if (length(vars) == 1) vars <- c(colnames(df[!colnames(df) %in% var]), var)

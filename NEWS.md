@@ -12,6 +12,13 @@ or ommitted.
 * Allowed user defined variables to be built on analysis varaiables
 
 
+Bug fixes:
+
+* Made Stata import more robust
+
+* Fixed hover code in correlation and scatter plots to adjust for `img_css_ratio`
+
+
 Minor issues:
 
 * Allowed more flexible handling of binary variables in `ExPanD()`

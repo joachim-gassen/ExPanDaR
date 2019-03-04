@@ -1419,8 +1419,10 @@ function(input, output, session) {
       top_pct <- (hover$domain$top - hover$y) / (hover$domain$top - hover$domain$bottom)
 
       # calculate distance from left and bottom side of the picture in pixels
-      left_px <- hover$range$left + left_pct * (hover$range$right - hover$range$left)
-      top_px <- hover$range$top + top_pct * (hover$range$bottom - hover$range$top)
+      left_px <- (hover$range$left + left_pct * (hover$range$right - hover$range$left)) /
+        hover$img_css_ratio$x
+      top_px <- (hover$range$top + top_pct * (hover$range$bottom - hover$range$top)) /
+        hover$img_css_ratio$y
 
       # create style property for tooltip
       # background color is set so tooltip is a bit transparent
@@ -1484,8 +1486,10 @@ function(input, output, session) {
     top_pct <- (hover$domain$top - hover$y) / (hover$domain$top - hover$domain$bottom)
 
     # calculate distance from left and bottom side of the picture in pixels
-    left_px <- hover$range$left + left_pct * (hover$range$right - hover$range$left)
-    top_px <- hover$range$top + top_pct * (hover$range$bottom - hover$range$top)
+    left_px <- (hover$range$left + left_pct * (hover$range$right - hover$range$left)) /
+      hover$img_css_ratio$x
+    top_px <- hover$range$top + top_pct * (hover$range$bottom - hover$range$top) /
+      hover$img_css_ratio$y
 
     # create style property for tooltip
     # background color is set so tooltip is a bit transparent

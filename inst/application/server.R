@@ -610,7 +610,6 @@ function(input, output, session) {
       if (input_file_format == "dta") {
         warning("rio::import failed. Trying with encoding = 'latin1'")
         shiny_df <- try(haven::read_dta(file = input_file$datapath,
-                                        format = input_file_format,
                                         encoding = 'latin1'))
         if (class(shiny_df) == "try-error") {
           warning("This also did not work out. Informing user.")

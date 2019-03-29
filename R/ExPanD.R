@@ -48,12 +48,12 @@
 #'   Each variable classified as such will be treated as a factor. In addition,
 #'   ExPanD classifies all logical values and all numerical values with less or
 #'   equal than \code{factor_cutoff} unique values as a factor.
-#' @param components A named logical vector indicating the reports that you want
+#' @param components A named logical vector indicating the components that you want
 #'   ExPanD to generate and their order. See the function head of \code{ExpanD}
-#'   for the list of available reports. By default, all components are reported.
+#'   for the list of available components. By default, all components are reported.
 #'   You can also exclude selected components from the standard order by setting
-#'   then to \code{FALSE}. In addition, you can include an arbitraty number of
-#'   \code{html_block} reports that contain clean HTML code as contained in
+#'   then to \code{FALSE}. In addition, you can include an arbitrary number of
+#'   \code{html_block} components. Each block will render clean HTML code as contained in
 #'   the \code{html_blocks} parameter below. This allows you to customize your
 #'   ExPanD report.
 #' @param html_blocks A character vector containing the clean HTML code for each
@@ -129,6 +129,18 @@
 #'     components = c(ext_obs = T, descriptive_table = T, regression = T))
 #'   ExPanD(russell_3000, df_def = russell_3000_data_def,
 #'     components = c(missing_values = F, by_group_violin_graph = F))
+#'   ExPanD(russell_3000, df_def = russell_3000_data_def,
+#'     components = c(html_block = T, descriptive_table = T,
+#'     html_block = T, regression = T),
+#'     html_blocks = c(
+#'     paste('<div class="col-sm-2"><h3>HTML Block 1</h3></div>',
+#'     '<div class="col-sm-10">',
+#'     "<p></p>This is a condensed variant of ExPanD with two additional HTML Blocks.",
+#'     "</div>"),
+#'     paste('<div class="col-sm-2"><h3>HTML Block 2</h3></div>',
+#'     '<div class="col-sm-10">',
+#'     "It contains only the descriptive table and the regression component.",
+#'     "</div>")))
 #'   data(ExPanD_config_russell_3000)
 #'   ExPanD(df = russell_3000, df_def = russell_3000_data_def,
 #'     config_list = ExPanD_config_russell_3000)

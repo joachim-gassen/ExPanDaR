@@ -49,10 +49,11 @@ if (simple_call_mode) expand_components <- vector("list", ll) else expand_compon
 lpos <- 1
 html_block_pos <- 1
 for (i in 1:ll) {
-  if (names(shiny_components[i]) == "udvars" &
-      !"descriptive_table" %in% names(shiny_components) &
-      !simple_call_mode) {
-    expand_components[[lpos]] <- udv_row()
+  if (names(shiny_components[i]) == "udvars") {
+    expand_components[[lpos]] <- list(fluidRow(
+      column(6, uiOutput("ui_udv_name")),
+      column(6, uiOutput("ui_udv_def"))),
+      uiOutput("ui_separator15"))
     lpos <- lpos + 1
   }
 
@@ -125,11 +126,6 @@ for (i in 1:ll) {
   }
 
   if(names(shiny_components[i]) == "descriptive_table") {
-    if(!simple_call_mode) {
-      expand_components[[lpos]] <- udv_row()
-      lpos <- lpos + 1
-    }
-
     expand_components[[lpos]] <- list(fluidRow(
       column(2, uiOutput("ui_descriptive_table_left")),
       column(10, align="center", uiOutput("ui_descriptive_table_right"))

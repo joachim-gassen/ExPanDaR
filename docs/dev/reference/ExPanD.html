@@ -102,6 +102,9 @@ interactive panel data exploration" />
       <a href="../articles/ExPanDaR-functions.html">Using the functions of the ExPanDaR package</a>
     </li>
     <li>
+      <a href="../articles/customize_ExPanD.html">Customizing ExPanD</a>
+    </li>
+    <li>
       <a href="../articles/use_ExPanD.html">Using ExPanD for Panel Data Exploration</a>
     </li>
   </ul>
@@ -239,12 +242,12 @@ equal than <code>factor_cutoff</code> unique values as a factor.</p></td>
     </tr>
     <tr>
       <th>components</th>
-      <td><p>A named logical vector indicating the reports that you want
+      <td><p>A named logical vector indicating the components that you want
 ExPanD to generate and their order. See the function head of <code>ExpanD</code>
-for the list of available reports. By default, all components are reported.
+for the list of available components. By default, all components are reported.
 You can also exclude selected components from the standard order by setting
-then to <code>FALSE</code>. In addition, you can include an arbitraty number of
-<code>html_block</code> reports that contain clean HTML code as contained in
+then to <code>FALSE</code>. In addition, you can include an arbitrary number of
+<code>html_block</code> components. Each block will render clean HTML code as contained in
 the <code>html_blocks</code> parameter below. This allows you to customize your
 ExPanD report.</p></td>
     </tr>
@@ -333,6 +336,18 @@ it defaults to being TRUE for all variables other than cs_id and ts_id.</p></dd>
     <span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>ext_obs</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>descriptive_table</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>regression</span> <span class='kw'>=</span> <span class='no'>T</span>))
   <span class='fu'>ExPanD</span>(<span class='no'>russell_3000</span>, <span class='kw'>df_def</span> <span class='kw'>=</span> <span class='no'>russell_3000_data_def</span>,
     <span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>missing_values</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>by_group_violin_graph</span> <span class='kw'>=</span> <span class='no'>F</span>))
+  <span class='fu'>ExPanD</span>(<span class='no'>russell_3000</span>, <span class='kw'>df_def</span> <span class='kw'>=</span> <span class='no'>russell_3000_data_def</span>,
+    <span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>html_block</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>descriptive_table</span> <span class='kw'>=</span> <span class='no'>T</span>,
+    <span class='kw'>html_block</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>regression</span> <span class='kw'>=</span> <span class='no'>T</span>),
+    <span class='kw'>html_blocks</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(
+    <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste</a></span>(<span class='st'>'&lt;div class="col-sm-2"&gt;&lt;h3&gt;HTML Block 1&lt;/h3&gt;&lt;/div&gt;'</span>,
+    <span class='st'>'&lt;div class="col-sm-10"&gt;'</span>,
+    <span class='st'>"&lt;p&gt;&lt;/p&gt;This is a condensed variant of ExPanD with two additional HTML Blocks."</span>,
+    <span class='st'>"&lt;/div&gt;"</span>),
+    <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste</a></span>(<span class='st'>'&lt;div class="col-sm-2"&gt;&lt;h3&gt;HTML Block 2&lt;/h3&gt;&lt;/div&gt;'</span>,
+    <span class='st'>'&lt;div class="col-sm-10"&gt;'</span>,
+    <span class='st'>"It contains only the descriptive table and the regression component."</span>,
+    <span class='st'>"&lt;/div&gt;"</span>)))
   <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>ExPanD_config_russell_3000</span>)
   <span class='fu'>ExPanD</span>(<span class='kw'>df</span> <span class='kw'>=</span> <span class='no'>russell_3000</span>, <span class='kw'>df_def</span> <span class='kw'>=</span> <span class='no'>russell_3000_data_def</span>,
     <span class='kw'>config_list</span> <span class='kw'>=</span> <span class='no'>ExPanD_config_russell_3000</span>)

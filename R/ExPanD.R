@@ -90,7 +90,7 @@
 #' advanced mode uses (a) base sample(s) (the one(s) you provide via \code{df})
 #' and the variable definitions in \code{var_def} to generate an analysis
 #' sample based on the active base sample. In the advanced mode, the app user
-#' can generate additional variables from within the app.
+#' can delete variables from the analysis sample within the app.
 #'
 #' A \code{df_def} or \code{var_def} dataframe can contain the following
 #' variables
@@ -165,9 +165,9 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
                    components = c(sample_selection = TRUE,
                                   subset_factor = TRUE,
                                   grouping = TRUE,
-                                  udvars = TRUE,
                                   bar_chart = TRUE,
                                   missing_values = TRUE,
+                                  udvars = TRUE,
                                   descriptive_table = TRUE,
                                   histogram = TRUE,
                                   ext_obs = TRUE,
@@ -235,8 +235,8 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
     }
   }
 
-  comp_names <- c("sample_selection", "subset_factor", "grouping", "udvars",
-                  "bar_chart", "missing_values", "descriptive_table",
+  comp_names <- c("sample_selection", "subset_factor", "grouping",
+                  "bar_chart", "missing_values", "udvars", "descriptive_table",
                   "histogram", "ext_obs", "by_group_bar_graph",
                   "by_group_violin_graph", "trend_graph",
                   "quantile_trend_graph", "corrplot", "scatter_plot",

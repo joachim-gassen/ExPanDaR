@@ -26,6 +26,8 @@ navbar:
       menu:
       - text: Using ExPanD for Panel Data Exploration
         href: articles/use_ExPanD.html
+      - text: Cutomize ExPanD
+        href: articles/cutomize_Expand.html
       - text: Using the functions of the ExPanDaR package
         href: articles/ExPanDaR-functions.html
 reference:
@@ -62,4 +64,3 @@ reference:
   - worldbank_data_def
   - worldbank_var_def
   - ExPanD_config_worldbank
-

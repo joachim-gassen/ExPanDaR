@@ -9,9 +9,9 @@ ExPanD(df = NULL, cs_id = NULL, ts_id = NULL, df_def = NULL,
   title = "ExPanD - Explore panel data interactively", abstract = NULL,
   df_name = deparse(substitute(df)), long_def = TRUE,
   factor_cutoff = 10L, components = c(sample_selection = TRUE,
-  subset_factor = TRUE, grouping = TRUE, udvars = TRUE, bar_chart = TRUE,
-  missing_values = TRUE, descriptive_table = TRUE, histogram = TRUE,
-  ext_obs = TRUE, by_group_bar_graph = TRUE, by_group_violin_graph = TRUE,
+  subset_factor = TRUE, grouping = TRUE, bar_chart = TRUE, missing_values =
+  TRUE, udvars = TRUE, descriptive_table = TRUE, histogram = TRUE, ext_obs
+  = TRUE, by_group_bar_graph = TRUE, by_group_violin_graph = TRUE,
   trend_graph = TRUE, quantile_trend_graph = TRUE, corrplot = TRUE,
   scatter_plot = TRUE, regression = TRUE), html_blocks = NULL,
   store_encrypted = FALSE, key_phrase = "What a wonderful key",
@@ -124,7 +124,7 @@ When you provide \code{var_def}, ExPanD starts up in the "advanced mode". The
 advanced mode uses (a) base sample(s) (the one(s) you provide via \code{df})
 and the variable definitions in \code{var_def} to generate an analysis
 sample based on the active base sample. In the advanced mode, the app user
-can generate additional variables from within the app.
+can delete variables from the analysis sample within the app.
 
 A \code{df_def} or \code{var_def} dataframe can contain the following
 variables

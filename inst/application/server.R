@@ -319,8 +319,13 @@ function(input, output, session) {
         }
       }
     }
-    if (!is.null(shiny_config_list)) app_config <- shiny_config_list
-    else app_config <- create_config(ca_sample, ca_variable, ca_variable$ds_id[1])
+    base_config <- create_config(ca_sample, ca_variable, ca_variable$ds_id[1])
+    if (!is.null(shiny_config_list)) {
+      for (name in names(base_config)) {
+        if (name %in% names(shiny_config_list)) base_config[[name]] <- shiny_config_list[[name]]
+      }
+    }
+    app_config <- base_config
   }
 
   create_base_sample <- reactive({
@@ -401,7 +406,6 @@ function(input, output, session) {
   }
 
   test_udv_definition <- function(udv_definition) {
-    df <- create_base_sample()
     # Prepare a sandbox environment that should be user code-safe
     myenv = new.env(parent=emptyenv())
     # Define names of R functions which are allowed for calculation
@@ -410,18 +414,23 @@ function(input, output, session) {
     for(name in allowedFunctions){
       assign(name,match.fun(name), envir=myenv)
     }
-    # And our base data frame
+    # Plus the variables contained in the analysis sample
+    df <- create_ca_sample()
     for(name in names(df)){
       if (is.factor(df[,name])) assign(name, as.character(df[,name]), envir=myenv)
       else assign(name, df[,name], envir=myenv)
     }
-    # Plus the additional variables contained in the analysis sample
-    ca_smp <- create_ca_sample()
-    new_names_ca_sample <- names(ca_smp)[which(!(names(ca_smp) %in% names(df)))]
-    for(name in new_names_ca_sample){
-      if (is.factor(ca_smp[,name])) assign(name, as.character(ca_smp[,name]), envir=myenv)
-      else assign(name, ca_smp[,name], envir=myenv)
+
+    # Plus additional variables from base data frame if !simple_call_mode
+    if (!simple_call_mode) {
+      bs <- create_base_sample()
+      new_names_bs <- names(bs)[which(!(names(bs) %in% names(df)))]
+      for(name in new_names_bs){
+        if (is.factor(bs[,name])) assign(name, as.character(bs[,name]), envir=myenv)
+        else assign(name, bs[,name], envir=myenv)
+      }
     }
+
     new_var <- try(eval(parse(text=udv_definition), envir=myenv), silent=TRUE)
     if (length(new_var) == length(df[,1])) return (new_var) else return (NULL)
   }

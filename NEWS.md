@@ -9,7 +9,10 @@ html content to `ExPanD()`
 to `components` in `ExPanD()` so that these parts can also be re-arrannged 
 or ommitted.
 
-* Allowed user defined variables to be built on analysis varaiables
+* Allowed user defined variables to be built on analysis variables and used
+in simple_mode
+
+* Added new vignette to explain new features
 
 
 Bug fixes:
@@ -21,6 +24,8 @@ Bug fixes:
 
 Minor issues:
 
+* Removed non-ASCII characters from NAMESPACE
+
 * Allowed more flexible handling of binary variables in `ExPanD()`
 
 * Added additional examples to Github repository (not in package)
@@ -30,6 +35,7 @@ Minor issues:
 * Switched to openssl package (Thank you to Jeroen Ooms for the PR)
 
 * Marginally improved error checking for config upload
+
 
 # ExPanDaR 0.3.0
 

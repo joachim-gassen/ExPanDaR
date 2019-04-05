@@ -102,7 +102,7 @@ interactive panel data exploration" />
       <a href="../articles/ExPanDaR-functions.html">Using the functions of the ExPanDaR package</a>
     </li>
     <li>
-      <a href="../articles/customize_ExPanD.html">Customizing ExPanD</a>
+      <a href="../articles/customize_ExPanD.html">Customize ExPanD</a>
     </li>
     <li>
       <a href="../articles/use_ExPanD.html">Using ExPanD for Panel Data Exploration</a>
@@ -151,9 +151,9 @@ interactive panel data exploration</p>
   <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"ExPanD - Explore panel data interactively"</span>, <span class='kw'>abstract</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>df_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/deparse'>deparse</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substitute'>substitute</a></span>(<span class='no'>df</span>)), <span class='kw'>long_def</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>factor_cutoff</span> <span class='kw'>=</span> <span class='fl'>10L</span>, <span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>sample_selection</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>subset_factor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>grouping</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>udvars</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>bar_chart</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>missing_values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>descriptive_table</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>histogram</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>ext_obs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>by_group_bar_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>by_group_violin_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>subset_factor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>grouping</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>bar_chart</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>missing_values</span> <span class='kw'>=</span>
+  <span class='fl'>TRUE</span>, <span class='kw'>udvars</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>descriptive_table</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>histogram</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ext_obs</span>
+  <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>by_group_bar_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>by_group_violin_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>trend_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>quantile_trend_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>corrplot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>scatter_plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>regression</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>html_blocks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>store_encrypted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>key_phrase</span> <span class='kw'>=</span> <span class='st'>"What a wonderful key"</span>,
@@ -298,7 +298,7 @@ an error. When you provide only one <code>df_def</code> for multiple data frames
 advanced mode uses (a) base sample(s) (the one(s) you provide via <code>df</code>)
 and the variable definitions in <code>var_def</code> to generate an analysis
 sample based on the active base sample. In the advanced mode, the app user
-can generate additional variables from within the app.</p>
+can delete variables from the analysis sample within the app.</p>
 <p>A <code>df_def</code> or <code>var_def</code> dataframe can contain the following
 variables</p><dl class='dl-horizontal'>
 <dt>"var_name"</dt><dd><p>Required: The names of the variables

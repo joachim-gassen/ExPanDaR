@@ -1,10 +1,10 @@
 ---
-title: "Customizing ExPanD"
+title: "Customize ExPanD"
 author: "Joachim Gassen"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Using ExPanD for Panel Data Exploration}
+  %\VignetteIndexEntry{Customize ExPanD}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

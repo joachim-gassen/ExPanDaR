@@ -59,26 +59,30 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="news/index.html">News</a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    Article
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="articles/ExPanDaR-functions.html">Using the functions of the ExPanDaR package</a>
+<li class="dropdown-header">ExPanD</li>
+    <li>
+      <a href="articles/use_ExPanD.html">Using ExPanD for Panel Data Exploration</a>
     </li>
     <li>
       <a href="articles/customize_ExPanD.html">Customize ExPanD</a>
     </li>
+    <li class="divider">
+    </li>
+<li class="dropdown-header">'ExPanDaR' functions</li>
     <li>
-      <a href="articles/use_ExPanD.html">Using ExPanD for Panel Data Exploration</a>
+      <a href="articles/ExPanDaR-functions.html">Using the functions of the 'ExPanDaR' package</a>
     </li>
   </ul>
-</li>
-<li>
-  <a href="news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -134,7 +138,7 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(<span class="st">"devtools"</span>)) {
   <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)
 }
-devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"joachim-gassen/ExPanDaR"</span>)
+devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"joachim-gassen/ExPanDaR"</span>)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)</code></pre></div>
 </div>
 <div id="basic-usage" class="section level2">

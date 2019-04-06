@@ -10,32 +10,30 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-library(ExPanDaR)
-library(gapminder)
-
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 ```
 
-You can customize ExPanD along several dimensions without interfering at the code level:
+By default, ExPanD offers a set of sample modification and data exploration/visualization components that support a typical EDA workflow. In many situations however, your data does not need all of these components or you might want to center the user experience on a sub-set of these components. In addition, you might want to change the ordering of components, add additional information or even allow the user to define additional variables interactively. You can customize ExPanD along the following dimensions:
 
 - Select components to include and their order
-- Add variable definitions
+- Add informative variable definitions
 - Customize components so that they display certain variables and specifications 
 - Allow users to generate additional variables
 - Add html blocks to support the flow of your app
 
-This vignette will guide you through each of these opportunities.
+This vignette will guide you through each of these opportunities by step-by-step developing a customized ExPanD app. The code in the vignette is additive, meaning that you can source each code block independently from the others to see how the 'ExPanD' app is changed by the customization step-by-step. 
 
 ## Select components to include and their order
 
-When you start ExPanD in the default mode, e.g., by
+When you start ExPanD in default mode, e.g., by
 
-```{r intro, eval = FALSE}
+```{r intro, eval = FALSE, include = FALSE}
 library(ExPanDaR)
 library(gapminder)
+
 ExPanD(df = gapminder, cs_id = "country", ts_id = "year")
 ```
 
@@ -52,9 +50,10 @@ Name                     Description
                          of that factor on which you want to focus the analysis
 
 `grouping`               A drop down menu that gives you the option to name a 
-                         grouping factor. The grouping factor will allow to 
-                         focus certain components on a sub-sample defined by on 
-                         value of that factor
+                         grouping factor. The grouping factor allows the user to 
+                         focus certain components on a sub-sample defined by a 
+                         value of that factor. Also, the grouping coponent
+                         contains the dialog four outlier treatments 
 
 `bar_chart`              A component displaying a bar chart reporting the 
                          observations by time period
@@ -62,11 +61,14 @@ Name                     Description
 `missing_values`         A visual displaying the frequency of missing values for 
                          each variable and time period                
 
+`udvars`                 A component that allows users to define additional
+                         variables (see below)
+
 `descriptive_table`      A descriptive table for all numerical and logical 
                          variables contained in the sample
 
-`histogram`              A histogram that you can adjust to every numerical or 
-                         logical variable
+`histogram`              A histogram to display the distribution of a chosen 
+                         numerical or logical variable
 
 `ext_obs`                A list displaying the 5 most extreme observations for a 
                          chosen variable, overall or by time period 
@@ -80,7 +82,7 @@ Name                     Description
 `trend_graph`            A graph that visualizes the development of up to three 
                          variables over time              
 
-`quantile_trend_graph`   A graph that visualizew the distribution of one chosen 
+`quantile_trend_graph`   A graph that visualizes the distribution of one chosen 
                          variable over time
 
 `corrplot`               A visual representation of Spearman and Pearson 
@@ -88,8 +90,8 @@ Name                     Description
                          in the sample. Exact correlations are displayed when 
                          you hover above the respective cell with your mouse
 
-`scatter_plot`           A scatter plot, where you can use up to 4 dimension 
-                         to represent your data (x, y, size, color). You can 
+`scatter_plot`           A scatter plot, where you can present up to 4 
+                         dimensions of your data (x, y, size, color). You can 
                          choose whether you want a LOESS line to be displayed 
                          and whether you want your sample to be limited to 1,000 
                          observations
@@ -104,16 +106,18 @@ To select the components that you want to display, you have two options: First, 
 ``` {r omit_components, eval = FALSE}
 library(ExPanDaR)
 library(gapminder)
+data(gapminder)
 
 ExPanD(df = gapminder, cs_id = "country", ts_id = "year", 
        components = c(sample_selection = FALSE, missing_values = FALSE))
 ```
 
-Alternatively, you can choose the components that you want to _include_. This gives you also the option to sort the components in your preferred order. Let us assume that we want to focus on the Preston curve association of GDP per capita and life expectancy in the 'gapminder' data. So maybe we want to include the following components:
+Alternatively, you can choose the components that you want to _include_. This also gives you the option to sort the components in your preferred order. Let us assume that we want our app to focus on the Preston curve association of GDP per capita and life expectancy in the 'gapminder' data. So maybe we want to include the following components:
 
 ``` {r select_components, eval = FALSE}
 library(ExPanDaR)
 library(gapminder)
+data(gapminder)
 
 ExPanD(df = gapminder, cs_id = "country", ts_id = "year", 
        components = c(descriptive_table = TRUE, 
@@ -127,10 +131,11 @@ OK. While we are at it, we can also include an informative title and a short int
 ``` {r include_intro, eval = FALSE}
 library(ExPanDaR)
 library(gapminder)
+data(gapminder)
 
 ExPanD(df = gapminder, cs_id = "country", ts_id = "year", 
        title = "Explore the Preston Curve",
-       abstract = paste("This interactive display uses gapminder data to",
+       abstract = paste("This interactive display uses 'gapminder' data to",
                         "let you explore the Preston Curve. Scroll down and enjoy!"),
        components = c(descriptive_table = TRUE, 
                       by_group_violin_graph = TRUE, 
@@ -142,7 +147,7 @@ ExPanD(df = gapminder, cs_id = "country", ts_id = "year",
 ## Add variable definitions
 
 When you look at the descriptive table you see that it does not offer self-explanatory variable names. 
-Also no tool-tips are displayed when you hover over the variable names with your mouse. 
+Also, no tool-tips are displayed when you hover over the variable names with your mouse. 
 
 To add the tool-tip functionality, we need to specify a `df_def` data frame that describes the variables. 
 The upside of this is that we no longer need to specify the cross-sectional and time series identifiers
@@ -151,6 +156,7 @@ as these are also defined in the data frame
 ``` {r include_df_def, eval = FALSE}
 library(ExPanDaR)
 library(gapminder)
+data(gapminder)
 
 df_def <- data.frame(
   var_name = names(gapminder),
@@ -177,7 +183,7 @@ ExPanD(df = gapminder,
        df_def = df_def)
 ```
 
-Now tool-tips in descriptive table inform about our variables. Neat. 
+Now tool-tips for the descriptive table inform about our variables. Neat. 
 
 ## Customize components so that they display certain variables and specifications
 
@@ -190,6 +196,7 @@ First, the simple one: Make the desired changes in the app, save the configurati
 ``` {r include_dl_clist, eval = FALSE}
 library(ExPanDaR)
 library(gapminder)
+data(gapminder)
 
 df_def <- data.frame(
   var_name = names(gapminder),
@@ -223,15 +230,16 @@ Now the hard one. You can specify the changes that you want to apply to the defa
 ``` {r include_manual_clist, eval = FALSE}
 library(ExPanDaR)
 library(gapminder)
+data(gapminder)
 
 df_def <- data.frame(
   var_name = names(gapminder),
   var_def = c("Name of the country",
               "Continent where country is located",
               "Year of data",
-              "Life expectancy in years at birth",
+              "Life expectancy at birth, in years",
               "Population in million",
-              "Gross Domestic Product (GDP) per capita"),
+              "Gross Domestic Product (GDP) per capita in US-$, inflation-adjusted"),
   type = c("cs_id", "factor", "ts_id", rep("numeric", 3)),
   stringsAsFactors = FALSE
 )
@@ -276,6 +284,7 @@ This can be achieved by adding a component `udvars`.
 ``` {r include_udvs, eval = FALSE}
 library(ExPanDaR)
 library(gapminder)
+data(gapminder)
 
 df_def <- data.frame(
   var_name = names(gapminder),
@@ -319,7 +328,7 @@ ExPanD(df = gapminder,
        config_list = clist)
 ```
 
-This generates another component in your app allowing you to define additional variables. It is positioned just below the scatter plot. For fun and jiggles, you can define `logGpdPercap <- log(gdpPercap)` and verify using the scatter plot that using a log-transformed explanatory variable makes the association more linear, reflecting also to a now positive coefficient in the regression model. If you worry about security, the code that is passed to the server via the user variable definition component is sandboxed in a sense that is only includes the variables of the sample and the functions listed in the help text of the component.
+This generates another component in your app allowing the user to define additional variables. It is positioned just below the scatter plot. For fun and jiggles, you can define `logGpdPercap <- log(gdpPercap)` and verify using the scatter plot that using a log-transformed explanatory variable makes the association more linear, reflecting also in a now positive coefficient in the regression model. If you worry about security, the code that is passed to the server via the user variable definition component is sandboxed in a sense that is only includes the variables of the sample and the functions listed in the help text of the component.
 
 Time to move to the finishing touches.
 
@@ -331,6 +340,7 @@ From time to time it might be useful to include some additional text or other in
 ``` {r include_html, eval = FALSE}
 library(ExPanDaR)
 library(gapminder)
+data(gapminder)
 
 df_def <- data.frame(
   var_name = names(gapminder),
@@ -378,9 +388,9 @@ html_blocks <- c(
         "linear. Maybe you can come up with a transformation",
         "of GDP per capita that makes the association",
         "a little bit more well behaved?",
-        "Use the dialog below to define new variables and",
-        "assess their association with life expectancy",
-        "in the scatter plot above.",
+        "Use the dialog below to define a transformed",
+        "measure of GDP per capita and assess its association",
+        "with life expectancy in the scatter plot above.",
         "</div>"),
   paste('<div class="col-sm-2"><h3>Assess Robustness</h3></div>',
         '<div class="col-sm-10">',
@@ -388,7 +398,7 @@ html_blocks <- c(
         "for GDP per capita is <i>negative</i>",
         "and signficant in a panel model with country and year",
         "fixed effects.",
-        "Does this also hold when you use a log-transformrd version",
+        "Does this also hold when you use a log-transformed version",
         "of GDP per capita?",
         "</div>")
 )
@@ -410,8 +420,9 @@ ExPanD(df = gapminder,
        html_blocks = html_blocks)
 ```
 
-This is it. Now we have a (well at least somewhat) customized version of ExPanD. If you do not want to run the code yourself, you can take a quick look at the customized version [here](https://jgassen.shinyapps.io/expand_gapminder).
+This is it. Now we have a customized version of ExPanD focusing on communicating the robsutness of the Preston Curve. 
+If you do not want to run the code yourself, you can take a quick look at the customized version [here](https://jgassen.shinyapps.io/expand_gapminder).
 
-If you want to take customization to the next level, I would suggest forking the code of the 'ExPanDaR' package on github. The code for the app is in the "inst/app" folder of the package.
+If you want to take customization to the next level, you can always fork the code of the 'ExPanDaR' package on GitHub. The code for the shiny app is in the `inst/app` folder of the package.
 
 Enjoy.

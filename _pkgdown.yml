@@ -2,34 +2,43 @@ template:
   params:
     ganalytics: UA-119053376-1
 development:
-  mode: devel
+  mode: auto
 navbar:
-  structure:
-    left:
-    - home
-    - reference
-    - articles
-    right: github
-  components:
-    home:
-      icon: fa-home fa-lg
-      href: index.html
-    reference:
-      text: Reference
-      href: reference/index.html
-    github:
-      text: Code repository
-      icon: fa-github
-      href: https://www.github.com/joachim-gassen/ExPanDaR
-    articles:
-      text: Articles
-      menu:
-      - text: Using ExPanD for Panel Data Exploration
-        href: articles/use_ExPanD.html
-      - text: Cutomize ExPanD
-        href: articles/cutomize_ExPanD.html
-      - text: Using the functions of the ExPanDaR package
-        href: articles/ExPanDaR-functions.html
+  type: default
+  left:
+  - icon: fa-home fa-lg
+    href: index.html
+  - text: Reference
+    href: reference/index.html
+  - text: News
+    href: news/index.html
+  - text: Article
+    menu:
+    - text: ExPanD
+    - text: Using ExPanD for Panel Data Exploration
+      href: articles/use_ExPanD.html
+    - text: Customize ExPanD
+      href: articles/customize_ExPanD.html
+    - text: -------
+    - text: "'ExPanDaR' functions"
+    - text: Using the functions of the 'ExPanDaR' package
+      href: articles/ExPanDaR-functions.html
+  right:
+  - text: Code repository
+    icon: fa-github
+    href: https://www.github.com/joachim-gassen/ExPanDaR
+
+articles:
+- title: ExPanD
+  desc: These vignettes describe how to use and customize the ExPanD app
+  contents:
+  - use_ExPanD
+  - customize_ExPanD
+- title: "'ExPanDaR' Functions"
+  desc: A vignette that features the underlying functions included in the 'ExPanDaR' package
+  contents:
+  - ExPanDaR-functions
+
 reference:
 - title: ExPanD app
   desc:  Shiny-based app for interactive exploratory data analysis
@@ -52,9 +61,9 @@ reference:
   - prepare_regression_table
 - title: Data
   desc: Data set used to showcase the functionality of ExPanD.
-    russell_3000 is a set of financial accounting and stock return data
+    'russell_3000' is a set of financial accounting and stock return data
     for a sample of U.S. firms that are members of the Russell 3000 index.
-    worldbank is a country year panel of macro-economic data provided
+    'worldbank' is a country year panel of macro-economic data provided
     by the World Bank API.
   contents:
   - russell_3000

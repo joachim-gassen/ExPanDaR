@@ -12,7 +12,7 @@ navbar:
     href: reference/index.html
   - text: News
     href: news/index.html
-  - text: Article
+  - text: Articles
     menu:
     - text: ExPanD
     - text: Using ExPanD for Panel Data Exploration

@@ -30,7 +30,7 @@ This vignette will guide you through each of these opportunities by step-by-step
 
 When you start ExPanD in default mode, e.g., by
 
-```{r intro, eval = FALSE, include = FALSE}
+```{r intro, eval = FALSE}
 library(ExPanDaR)
 library(gapminder)
 

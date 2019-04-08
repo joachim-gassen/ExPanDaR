@@ -100,7 +100,7 @@
       <h1>Customize ExPanD</h1>
                         <h4 class="author">Joachim Gassen</h4>
             
-            <h4 class="date">2019-04-06</h4>
+            <h4 class="date">2019-04-08</h4>
       
       
       <div class="hidden name"><code>customize_ExPanD.Rmd</code></div>
@@ -122,6 +122,10 @@
 <h2 class="hasAnchor">
 <a href="#select-components-to-include-and-their-order" class="anchor"></a>Select components to include and their order</h2>
 <p>When you start ExPanD in default mode, e.g., by</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)
+
+<span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder, <span class="dt">cs_id =</span> <span class="st">"country"</span>, <span class="dt">ts_id =</span> <span class="st">"year"</span>)</code></pre></div>
 <p>ExPanD will include all available components in their default order:</p>
 <table class="table">
 <colgroup>

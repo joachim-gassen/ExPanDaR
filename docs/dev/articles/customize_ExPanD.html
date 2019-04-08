@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.3.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.4.0.9000</span>
       </span>
     </div>
 
@@ -101,7 +101,7 @@
       <h1>Customize ExPanD</h1>
                         <h4 class="author">Joachim Gassen</h4>
             
-            <h4 class="date">2019-04-06</h4>
+            <h4 class="date">2019-04-08</h4>
       
       
       <div class="hidden name"><code>customize_ExPanD.Rmd</code></div>
@@ -123,6 +123,10 @@
 <h2 class="hasAnchor">
 <a href="#select-components-to-include-and-their-order" class="anchor"></a>Select components to include and their order</h2>
 <p>When you start ExPanD in default mode, e.g., by</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)
+
+<span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder, <span class="dt">cs_id =</span> <span class="st">"country"</span>, <span class="dt">ts_id =</span> <span class="st">"year"</span>)</code></pre></div>
 <p>ExPanD will include all available components in their default order:</p>
 <table class="table">
 <colgroup>
@@ -331,7 +335,8 @@ clist &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocum
   <span class="dt">reg_x =</span> <span class="st">"gdpPercap"</span>,
   <span class="dt">reg_fe1 =</span> <span class="st">"country"</span>,
   <span class="dt">reg_fe2 =</span> <span class="st">"year"</span>,
-  <span class="dt">cluster =</span> <span class="st">"4"</span> <span class="co"># No this is hard to guess 1: none, 2: first FE, 3: second FE, 4: both FE</span>
+  <span class="dt">cluster =</span> <span class="st">"4"</span> <span class="co"># Now this is hard to guess </span>
+  <span class="co"># 1: none, 2: first FE, 3: second FE, 4: both FE</span>
 )
 
 <span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder,

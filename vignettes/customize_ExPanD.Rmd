@@ -258,7 +258,8 @@ clist <- list(
   reg_x = "gdpPercap",
   reg_fe1 = "country",
   reg_fe2 = "year",
-  cluster = "4" # No this is hard to guess 1: none, 2: first FE, 3: second FE, 4: both FE
+  cluster = "4" # Now this is hard to guess 
+  # 1: none, 2: first FE, 3: second FE, 4: both FE
 )
 
 ExPanD(df = gapminder,

@@ -1,4 +1,8 @@
-# ExPanDaR 0.4.0
+# ExPanDaR 0.4.0.9000
+
+Minor issues:
+
+* Typo fixes in documentation
 
 Extensions:
 

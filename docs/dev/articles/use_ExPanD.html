@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.3.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.4.0.9000</span>
       </span>
     </div>
 
@@ -101,7 +101,7 @@
       <h1>Using ExPanD for Panel Data Exploration</h1>
                         <h4 class="author">Joachim Gassen</h4>
             
-            <h4 class="date">2019-04-06</h4>
+            <h4 class="date">2019-04-08</h4>
       
       
       <div class="hidden name"><code>use_ExPanD.Rmd</code></div>
@@ -205,7 +205,7 @@
 <span class="co">#&gt; 8       gdp_capita                      NY.GDP.PCAP.KD numeric         0</span>
 <span class="co">#&gt; 9      extdebt_gni                   DT.DOD.DECT.GN.ZS numeric         1</span>
 <span class="co">#&gt; 10 debtservice_gni                   DT.TDS.DPPG.GN.ZS numeric         1</span></code></pre></div>
-<p><code>var_name</code> contains variable names for the analysis sample and <code>var_def</code> contains the definitions for these variables. The definitions refer to variables contained in the <code>worldbank</code> dataset (which are conforming to the naming convention of the World Bank). Most definitions are just simple 1:1 transformations of the <code>worldbank</code> dataset but, as you can see from the definition for <code>time</code>, you can also use standard R expressions within the scope of the <code>worldbank</code> data frame. For the R experts: Your definition will be evaluated within a <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">dplyr::mutate()</a></code> call on the base data frame grouped by the cross section and ordered by the time-series identifier, so for example that <code>lead()</code> and <code><a href="https://www.rdocumentation.org/packages/stats/topics/lag">lag()</a></code> should work as expected.</p>
+<p><code>var_name</code> contains variable names for the analysis sample and <code>var_def</code> contains the definitions for these variables. The definitions refer to variables contained in the <code>worldbank</code> dataset (which are conforming to the naming convention of the World Bank). Most definitions are just simple 1:1 transformations of the <code>worldbank</code> dataset but, as you can see from the definition for <code>time</code>, you can also use standard R expressions within the scope of the <code>worldbank</code> data frame. For the R experts: Your definition will be evaluated within a <code><a href="https://www.rdocumentation.org/packages/dplyr/topics/mutate">dplyr::mutate()</a></code> call on the base data frame grouped by the cross section and ordered by the time-series identifier, so for example that <code>lead()</code> and <code><a href="https://www.rdocumentation.org/packages/stats/topics/lag">lag()</a></code> should work as expected.</p>
 <p>With the <code>type</code> variable you specify the nature of the variable that you just defined. Possible values are <code>cs_id</code>, <code>ts_id</code>, <code>numeric</code>, <code>logical</code>, and <code>factor</code>. They identify cross-sectional identifier(s), the time-series identifier, numerical variables, Boolean (True/False) type variables, and variables to be treated as grouping factors. Note that the data does not have to have the according class but is has to be coercible to it.</p>
 <p>The <code>can_be_na</code> variable can be omitted. If you do not provide it, it will be set to <code>TRUE</code> for all variables besides the cross-sectional and time-series identifiers. In the <code>worldbank_var_def</code> data frame it is set to <code>FALSE</code> for the variables <code>time</code>, <code>gdp</code>, <code>population</code>, and <code>gpd_capita</code>, meaning that only observations with non-missing values for these variables will be included in the analysis dataset.</p>
 <p>By customizing this data frame that you provide to <code><a href="../reference/ExPanD.html">ExPanD()</a></code> via the <code>var_def</code> parameter, you can design the analysis sample as you wish. An alternative and more interactive approach is to define variables interactively while running <code><a href="../reference/ExPanD.html">ExPanD()</a></code>. Let’s try. Run the following code to start ExPanD with the <code>worldbank</code> base data in advanced mode.</p>

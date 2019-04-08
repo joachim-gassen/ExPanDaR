@@ -4,6 +4,9 @@ Minor issues:
 
 * Typo fixes in documentation
 
+
+# ExPanDaR 0.4.0
+
 Extensions:
 
 * Introduced `html_block` tag in `components` to allow users to add self-designed

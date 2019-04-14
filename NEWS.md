@@ -2,7 +2,7 @@
 
 Minor issues:
 
-* Typo fixes in documentation
+* Typo fixes
 
 
 # ExPanDaR 0.4.0

@@ -829,7 +829,7 @@ function(input, output, session) {
     tagList(selectInput("subset_factor", label = "Subset factor",
                         c("Full Sample",  unique(c(lfactor$name, llogical$name))),
                           selected = isolate(uc$subset_factor)),
-            helpText("Indicatate whether you want to study the full sample or subset to a specific factor."))
+            helpText("Indicate whether you want to study the full sample or subset to a specific factor."))
 
   })
 
@@ -864,7 +864,7 @@ function(input, output, session) {
             selectInput("outlier_factor", label = "By group factor",
                         c("None",  unique(c(lcs_id$name, lts_id$name, lfactor$name, llogical$name))),
                         selected = isolate(uc$outlier_factor)),
-            helpText("Indicatate whether you want no outlier treatment",
+            helpText("Indicate whether you want no outlier treatment",
                      "or whether you want outliers to be winsorized",
                      "to the given percentile or truncated if they exceed the given percentile.",
                      "Give a by group if you want outlier treatment to be done independently by group."))
@@ -1170,7 +1170,7 @@ function(input, output, session) {
                         choices = list("Standard OLS" = "ols",
                                        "Logit regression" = "logit"),
                         selected = isolate(uc$model)),
-           helpText("Indicatate which estimator you want to use",
+           helpText("Indicate which estimator you want to use",
                     "(only OLS and binary response logit are implemented)"))
     }
   })
@@ -1194,7 +1194,7 @@ function(input, output, session) {
                              choices = list("Standard" = 1, "Clustered for the first fixed effect" = 2,
                                             "Clustered for the second fixed effect" = 3,
                                             "Two-way clustering" = 4), selected = isolate(uc$cluster))),
-    helpText("Indicatate how you want your standard errors to be estimated"))
+    helpText("Indicate how you want your standard errors to be estimated"))
   })
 
   output$bar_chart <- renderPlot({

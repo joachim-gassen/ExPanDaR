@@ -199,7 +199,7 @@ function(input, output, session) {
     if (length(which(v$type == "numeric")) < 2) {
       if (DEBUG) warning("Less than two numerical variables in data")
       session$sendCustomMessage(type = 'testmessage',
-                                message = paste0('Your data contains no less than two numerical variables. At least two are required.'))
+                                message = paste0('Your data contains less than two numerical variables. At least two are required.'))
       return(FALSE)
     }
     return(TRUE)

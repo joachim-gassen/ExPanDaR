@@ -898,7 +898,7 @@ function(input, output, session) {
 
   output$ui_missing_values <- renderUI({
     df <- create_analysis_sample()
-    mytags <- list(h3("Misssing Values"),
+    mytags <- list(h3("Missing Values"),
                    helpText("This graphs shows the ratio of missing values for all variable years."))
     if (uc$group_factor != "None")
       mytags <- append(mytags, list(hr(),

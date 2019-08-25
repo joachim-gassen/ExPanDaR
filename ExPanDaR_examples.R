@@ -7,11 +7,10 @@
 
 # Start this with a virgin R session
 
-rm (list=ls())
+library(tidyverse)
 library(ExPanDaR)
 
 # --- Use ExPanD with cross-sectional data -------------------------------------
-
 
 df <- mtcars
 df$cs_id <- row.names(df)
@@ -19,6 +18,47 @@ df$ts_id <-1
 ExPanD(df, cs_id ="cs_id", ts_id = "ts_id",
        components = c(trend_graph = FALSE, quantile_trend_graph = FALSE))
 
+
+# --- A somewhat more elaborate example with the same data ---------------------
+
+df_var <- tibble(
+  var_name = c("make", "origin", "pseudo_ts", names(mtcars)),
+  var_def = c("Make of car",
+              "Origin of manufacturer",
+              "Pseudo time series indicator",
+              "Miles/(US) gallon",
+              "Number of cylinders",
+              "Displacement (cu.in.)",
+              "Gross horsepower",
+              "Rear axle ratio",
+              "Weight (1000 lbs)",
+              "1/4 mile time",
+              "Engine (0 = V-shaped, 1 = straight)",
+              "Transmission (0 = automatic, 1 = manual)",
+              "Number of forward gears",
+              "Number of carburetors"),
+  type = c("cs_id", "factor", "ts_id",
+           rep("numeric", 7), rep("factor", 2), rep("numeric", 2))
+)
+
+df <- mtcars %>%
+  add_column(make = rownames(mtcars),
+             origin = c(rep("Japan", 3), rep("US", 4),
+                        rep("Europe", 7), rep("US", 3), "Europe",
+                        rep("Japan", 3), rep("US", 4),
+                        rep("Europe", 3), "US", rep("Europe",3)),
+             pseudo_ts = 1, .before = 1)
+
+ExPanD(df, df_def = df_var,
+       components = c(descriptive_table = TRUE,
+                      udvars = TRUE,
+                      ext_obs = TRUE,
+                      histogram = TRUE,
+                      by_group_violin_graph = TRUE,
+                      scatter_plot = TRUE,
+                      regression = TRUE))
+
+# l100km = 235.215/mpg
 
 # --- Use ExPanD on a condensed Worldbank data set -----------------------------
 

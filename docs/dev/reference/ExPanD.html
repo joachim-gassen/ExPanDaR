@@ -159,8 +159,8 @@ interactive panel data exploration</p>
   <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>by_group_bar_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>by_group_violin_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>trend_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>quantile_trend_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>corrplot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>scatter_plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>regression</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>html_blocks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>store_encrypted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>key_phrase</span> <span class='kw'>=</span> <span class='st'>"What a wonderful key"</span>,
-  <span class='kw'>debug</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>export_nb_option</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>store_encrypted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>key_phrase</span> <span class='kw'>=</span> <span class='st'>"What a wonderful key"</span>, <span class='kw'>debug</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -260,6 +260,13 @@ ExPanD report.</p></td>
 <code>html_block</code> that is included in <code>components</code>.</p></td>
     </tr>
     <tr>
+      <th>export_nb_option</th>
+      <td><p>Do you want to give the user the option to download your
+data and an R notebook containg code for the analyses that <code>ExPanD</code> displays?
+Requires "zip" to be in your PATH.
+Defaults to FALSE.</p></td>
+    </tr>
+    <tr>
       <th>store_encrypted</th>
       <td><p>Do you want the user-side saved config files to be
 encrypted? A security measure to avoid that users can inject arbitrary code
@@ -310,7 +317,7 @@ or are to be calculated for the analysis sample</p></dd>
 <dt>"var_def"</dt><dd><p>Required: For a <code>var_def</code> data frame,
 the code that is passed to the data frame
 (grouped by cross-sectional units) in calls to
-<code><a href='https://www.rdocumentation.org/packages/dplyr/topics/mutate'>mutate</a></code> as right hand side
+<code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></code> as right hand side
 to calculate the respective variable.
 For a <code>data_def</code> data frame, a string
 describing the nature of the variable.</p></dd>

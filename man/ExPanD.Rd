@@ -14,8 +14,8 @@ ExPanD(df = NULL, cs_id = NULL, ts_id = NULL, df_def = NULL,
   = TRUE, by_group_bar_graph = TRUE, by_group_violin_graph = TRUE,
   trend_graph = TRUE, quantile_trend_graph = TRUE, corrplot = TRUE,
   scatter_plot = TRUE, regression = TRUE), html_blocks = NULL,
-  store_encrypted = FALSE, key_phrase = "What a wonderful key",
-  debug = FALSE, ...)
+  export_nb_option = FALSE, store_encrypted = FALSE,
+  key_phrase = "What a wonderful key", debug = FALSE, ...)
 }
 \arguments{
 \item{df}{A data frame or a list of data frames containing the panel data that
@@ -85,6 +85,11 @@ ExPanD report.}
 
 \item{html_blocks}{A character vector containing the clean HTML code for each
 \code{html_block} that is included in \code{components}.}
+
+\item{export_nb_option}{Do you want to give the user the option to download your
+data and an R notebook containg code for the analyses that \code{ExPanD} displays?
+Requires "zip" to be in your PATH.
+Defaults to FALSE.}
 
 \item{store_encrypted}{Do you want the user-side saved config files to be
 encrypted? A security measure to avoid that users can inject arbitrary code

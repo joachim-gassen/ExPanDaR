@@ -58,6 +58,10 @@
 #'   ExPanD report.
 #' @param html_blocks A character vector containing the clean HTML code for each
 #'   \code{html_block} that is included in \code{components}.
+#' @param export_nb_option Do you want to give the user the option to download your
+#'   data and an R notebook containg code for the analyses that \code{ExPanD} displays?
+#'   Requires "zip" to be in your PATH.
+#'   Defaults to FALSE.
 #' @param store_encrypted Do you want the user-side saved config files to be
 #'   encrypted? A security measure to avoid that users can inject arbitrary code
 #'   in the config list. Probably a good idea when you are hosting sensitive data
@@ -179,6 +183,7 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
                                   scatter_plot = TRUE,
                                   regression = TRUE),
                    html_blocks = NULL,
+                   export_nb_option = FALSE,
                    store_encrypted = FALSE,
                    key_phrase = "What a wonderful key",
                    debug = FALSE, ...) {
@@ -261,6 +266,7 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
       stop("Number of html_blocks texts provided does not match number of html_block tags in components")
   } else if (!is.null(html_blocks)) stop("html_blocks provided but no html_block tag found in components")
 
+  if (!is.logical(export_nb_option)) stop("export_nb_option needs to be a logical value")
   if(!is.null(var_def)) var_def[1:3] <- lapply(var_def[1:3], as.character)
 
   shiny_df <- df
@@ -286,6 +292,8 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
   shiny_debug <- debug
   shiny_components <- components[components]
   shiny_html_blocks <- html_blocks
+  shiny_export_nb_option <- export_nb_option
+
   pkg_app_dir <- system.file("application", package = "ExPanDaR")
   file.copy(pkg_app_dir, tempdir(), recursive=TRUE)
   app_dir <- paste0(tempdir(), "/application")

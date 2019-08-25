@@ -271,6 +271,22 @@ expand_footer <- list(
   )
 )
 
+if(shiny_export_nb_option) {
+  expand_footer <- c(
+    expand_footer[1:2],
+    list(
+      fluidRow(
+        column(12, align="center",
+               downloadButton('nb_download', 'Export Data and Notebook Code'),
+               helpText("Click here to export a zip file containing data and R notebook code to continue the analysis in R")
+        )
+      ),
+      hr()
+    ),
+    expand_footer[3]
+  )
+}
+
 do.call(fluidPage, c(expand_header,
                      expand_components,
                      expand_footer))

@@ -1,5 +1,11 @@
 # ExPanDaR 0.4.0.9000
 
+Extensions:
+
+* Started to implement an export option that allows users to download a 
+zip file containing the data and a R notebook based variant of the ExPanD
+analysis (`export_nb_option = TRUE`)
+
 Minor issues:
 
 * Typo fixes
@@ -14,7 +20,7 @@ html content to `ExPanD()`
 
 * Added `sample_selection`, `subset_factor`, `grouping` and `udvars` variables 
 to `components` in `ExPanD()` so that these parts can also be re-arrannged 
-or ommitted.
+or ommitted
 
 * Allowed user defined variables to be built on analysis variables and used
 in simple_mode

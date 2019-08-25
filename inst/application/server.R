@@ -1566,13 +1566,89 @@ function(input, output, session) {
   })
 
   output$download <- downloadHandler(
-    filename = function() { "ExPanD.RDS" },
+    filename ="ExPanD.RDS",
     content = function(file) {
       if (shiny_store_encrypted) {
         raw <- serialize(reactiveValuesToList(uc), NULL)
         encrypted <- openssl::aes_cbc_encrypt(raw, key, iv = NULL)
         saveRDS(encrypted, file)
       } else saveRDS(reactiveValuesToList(uc), file)
+    }
+  )
+
+  output$nb_download <- downloadHandler(
+    filename = "ExPanD_nb.zip",
+    content = function(file) {
+      start_lines <- c(
+        bar_chart = 116,
+        missing_values = 151,
+        descriptive_table = 163,
+        histogram = 174,
+        ext_obs = 188,
+        by_group_bar_graph = 211,
+        by_group_violin_graph = 233,
+        trend_graph = 250,
+        quantile_trend_graph = 270,
+        corrplot = 287,
+        scatter_plot = 301,
+        regression = 326,
+        end_note = 356
+      )
+
+      nb_template <- scan("expand_nb_prototype.Rmd", what="character", sep = "\n")
+      nb_template[2] <- paste(nb_template[2], shiny_title)
+      nb_template_len <- length(nb_template)
+      if (!is.null(shiny_abstract)) {
+        nb <- c(
+          nb_template[1:6],
+          "### Abstract",
+          shiny_abstract,
+          rep(" ", 2),
+          nb_template[7:37]
+        )
+      } else nb <- nb_template[1:37]
+
+      dput(reactiveValuesToList(uc), file = "nb_uc_temp.R", control = NULL)
+      uc_code <- scan("nb_uc_temp.R", what="character", sep = "\n")
+      uc_code[1] <- paste("uc <-", uc_code[1])
+
+      nb <- c(
+        nb,
+        uc_code,
+        " ",
+        paste("factor_cutoff <-", factor_cutoff),
+        nb_template[38:(start_lines[1] - 1)]
+      )
+
+      pos_html_blocks <- 0
+      for (blk in names(shiny_components)) {
+        if (blk %in% names(start_lines)) {
+          pos <- which(blk == names(start_lines))
+          line_start <- start_lines[pos]
+          line_end <- start_lines[pos + 1] - 1
+          nb <- c(nb, nb_template[line_start:line_end])
+        }
+        if (blk == "html_block") {
+          pos_html_blocks <- pos_html_blocks + 1
+          nb <- c(nb, shiny_html_blocks[pos_html_blocks], rep(" ", 2))
+        }
+      }
+
+      nb <- c(nb, nb_template[start_lines["end_note"]:length(nb_template)])
+
+      write(nb, file = "ExPanD_nb_code.Rmd", sep = "\n")
+
+      nb_df <- create_ca_sample()
+      nb_df_def <- cas_definition
+      if (length(uc$udvars) != 0) {
+        nb_df <- cbind(nb_df, udv_sample)
+        nb_df_def <- rbind(nb_df_def, udv_definition)
+      }
+      nb_df_def <- nb_df_def[!nb_df_def$var_name %in% uc$delvars,]
+      nb_df <- nb_df[, as.character(nb_df_def$var_name)]
+
+      save(nb_df, nb_df_def, file = "ExPanD_nb_data.Rdata")
+      zip(file, files = c("ExPanD_nb_code.Rmd", "ExPanD_nb_data.Rdata"))
     }
   )
 }

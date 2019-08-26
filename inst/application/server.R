@@ -1608,7 +1608,7 @@ function(input, output, session) {
         )
       } else nb <- nb_template[1:37]
 
-      dput(reactiveValuesToList(uc), file = "nb_uc_temp.R", control = NULL)
+      dput(reactiveValuesToList(uc), file = "nb_uc_temp.R")
       uc_code <- scan("nb_uc_temp.R", what="character", sep = "\n")
       uc_code[1] <- paste("uc <-", uc_code[1])
 

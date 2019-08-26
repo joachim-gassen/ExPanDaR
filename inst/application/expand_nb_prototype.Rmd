@@ -13,6 +13,7 @@ suppressWarnings(suppressMessages({
   library(kableExtra)
   library(htmltools)
   library(tidyverse)
+  library(scales)
   library(ExPanDaR)
 }))
  
@@ -133,7 +134,7 @@ if (uc$bar_chart_var2 != "None" & (!uc$bar_chart_relative)) {
   if (uc$bar_chart_var2 != "None") {
     p <- ggplot(df, aes(df[, uc$bar_chart_var1])) +
       geom_bar(aes(fill=df[, uc$bar_chart_var2]), position = "fill") +
-      abs(x = uc$bar_chart_var1, fill = uc$bar_chart_var2, y = "Percent") +
+      labs(x = uc$bar_chart_var1, fill = uc$bar_chart_var2, y = "Percent") +
       scale_y_continuous(labels = percent_format())
   } else {
     p <- ggplot(df, aes(df[,uc$bar_chart_var1])) +
@@ -193,9 +194,9 @@ vars <- c(lcs_id$name, lts_id$name, uc$ext_obs_var)
 if (uc$group_factor != "None") vars <- c(vars, uc$group_factor)
 df <- smp[, vars]
 if (uc$ext_obs_period_by != "All")
-  small_df <- df[small_df[, lts_id$name] == uc$ext_obs_period_by, ]
+  df <- df[df[, lts_id$name] == uc$ext_obs_period_by, ]
 if (uc$ext_obs_group_by != "All")
-  df <- small_df[df[, uc$group_factor] == uc$ext_obs_group_by, vars]
+  df <- df[df[, uc$group_factor] == uc$ext_obs_group_by, vars]
 df <- droplevels(df[complete.cases(df),])
 if (nrow(df) <= 10) {
   cat("Not enough data to generate table")

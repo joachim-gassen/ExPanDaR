@@ -1576,6 +1576,150 @@ function(input, output, session) {
     }
   )
 
+  create_nb_code_for_component <- function(comp) {
+    if (comp == "bar_chart") return({
+      nb_code <- c(
+        "### Bar Chart", " ",
+        "```{r bar_chart}", " ",
+        "df <- smp"
+      )
+      if (uc$bar_chart_group_by != "All")
+        nb_code <- c(nb_code,
+                     sprintf('df <- df[df$%s == "%s", ]',
+                             uc$group_factor,
+                             uc$bar_chart_group_by))
+      nb_code <- c(nb_code,
+                   sprintf('df$%s <- as.factor(df$%s)', uc$bar_chart_var1, uc$bar_chart_var1))
+
+      if (uc$bar_chart_var2 != "None")
+        nb_code <- c(nb_code,
+                     sprintf('df$%s <- as.factor(df$%s)', uc$bar_chart_var2, uc$bar_chart_var2))
+
+      if (uc$bar_chart_var2 != "None" & (!uc$bar_chart_relative)) {
+        nb_code <- c(nb_code,
+                     sprintf('p <- ggplot(df, aes(x = %s)) +', uc$bar_chart_var1),
+                     sprintf('  geom_bar(aes(fill= %s), position = "stack") +', uc$bar_chart_var2),
+                     sprintf('  labs(x = "%s", fill = "%s")', uc$bar_chart_var1, uc$bar_chart_var2))
+      } else if (uc$bar_chart_var2 != "None") {
+        nb_code <- c(nb_code,
+                     sprintf('p <- ggplot(df, aes(x = %s)) +', uc$bar_chart_var1),
+                     sprintf('  geom_bar(aes(fill = %s), position = "fill") +', uc$bar_chart_var2),
+                     sprintf('  labs(x = "%s", fill = "%s", y = "Percent") +', uc$bar_chart_var1, uc$bar_chart_var2),
+                     'scale_y_continuous(labels = percent_format())')
+      } else {
+        nb_code <- c(nb_code,
+                     sprintf('p <- ggplot(df, aes(x = %s)) +', uc$bar_chart_var1),
+                     sprintf('geom_bar() + labs(x = "%s")', uc$bar_chart_var1))
+      }
+
+      if (length(levels(df[,uc$bar_chart_var1])) > 10 &&
+          !anyNA(suppressWarnings(as.numeric(as.character(df[, uc$bar_chart_var1])))))
+        nb_code <- c(nb_code,
+                     sprintf('p <- p + scale_x_discrete(breaks = pretty(as.numeric(as.character(df$%s)), n = 10))', uc$bar_chart_var1))
+
+      nb_code <- c(nb_code, "p", " ", "```", " ", " ")
+
+      nb_code
+    })
+
+
+    if(comp == "missing_values") return({
+      nb_code <- c(
+        "### Missing Values", " ",
+        "```{r missing_values}", " ",
+        "df <- smp"
+      )
+      if (uc$missing_values_group_by != "All")
+        nb_code <- c(nb_code,
+                     sprintf('df <- df[df$%s == "%s",]',
+                             uc$group_factor,
+                             uc$missing_values_group_by))
+      nb_code <- c(nb_code,
+                   sprintf('prepare_missing_values_graph(df, "%s")', lts_id$name),
+                   " ", "```", " ", " ")
+
+      nb_code
+    })
+
+
+    if(comp == "descriptive_table") return({
+      nb_code <- c(
+        "### Descriptive Statistics", " ",
+        "```{r descriptive_statistics}", " ",
+        "df <- smp",
+        "t <- prepare_descriptive_table(smp)",
+        "t$kable_ret  %>%",
+        '  kable_styling("condensed", full_width = F, position = "center")',
+        " ", "```", " ", " ")
+
+      nb_code
+    })
+
+
+    if(comp == "histogram") return({
+      nb_code <- c(
+        "### Histogram", " ",
+        "```{r histogram}", " "
+      )
+
+      if (uc$hist_group_by == "All")
+        nb_code <- c(nb_code,
+                     sprintf('var <- as.numeric(smp$%s)', uc$hist_var))
+      else
+        nb_code <- c(nb_code,
+                     sprintf('var <- as.numeric(smp$%s[smp$%s == "%s"])',
+                             uc$hist_var, uc$group_factor, uc$hist_group_by))
+
+      nb_code <- c(nb_code,
+                   sprintf('hist(var, main="", xlab = "%s", col="red", right = FALSE, breaks= %d)',
+                           uc$hist_var, uc$hist_nr_of_breaks),
+                   " ", "```", " ", " ")
+
+      nb_code
+    })
+
+
+    if(comp == "ext_obs") return({
+      nb_code <- c(
+        "### Extreme Observations", " ",
+        "```{r extreme_obs}", " ",
+        "df <- smp")
+
+      if (uc$group_factor != "None")
+        nb_code <- c(nb_code,
+                     sprintf('vars <- c("%s", "%s", "%s", "%s")',
+                             lcs_id$name, lts_id$name, uc$ext_obs_var, uc$group_factor))
+      else nb_code <- c(nb_code,
+                        sprintf('vars <- c("%s", "%s", "%s")',
+                                lcs_id$name, lts_id$name, uc$ext_obs_var))
+
+      if (uc$ext_obs_period_by != "All")
+        nb_code <- c(nb_code,
+                     sprintf('df <- df[df$%s == "%s", ]',
+                             lts_id$name, uc$ext_obs_period_by))
+      if (uc$ext_obs_group_by != "All")
+        nb_code <- c(nb_code,
+                     sprintf('df <- df[df$%s == "%s", ]',
+                             uc$group_factor, uc$ext_obs_group_by))
+
+      nb_code <- c(nb_code,
+        "df <- df[, vars]",
+        "df <- droplevels(df[complete.cases(df), ])",
+        "if (nrow(df) <= 10) {",
+        '  cat("Not enough data to generate table")',
+        "} else {",
+        sprintf('  tab <- prepare_ext_obs_table(df, var = "%s")', uc$ext_obs_var),
+        "  tab$kable_ret %>%",
+        "    kable_styling()",
+        "}",
+        " ", "```", " ", " ")
+
+      nb_code
+    })
+
+    return("")
+  }
+
   output$nb_download <- downloadHandler(
     filename = "ExPanD_nb.zip",
     content = function(file) {
@@ -1623,10 +1767,14 @@ function(input, output, session) {
       pos_html_blocks <- 0
       for (blk in names(shiny_components)) {
         if (blk %in% names(start_lines)) {
-          pos <- which(blk == names(start_lines))
-          line_start <- start_lines[pos]
-          line_end <- start_lines[pos + 1] - 1
-          nb <- c(nb, nb_template[line_start:line_end])
+          comp_code <- create_nb_code_for_component(blk)
+          if(length(comp_code) <= 1) {
+            pos <- which(blk == names(start_lines))
+            line_start <- start_lines[pos]
+            line_end <- start_lines[pos + 1] - 1
+            comp_code <- nb_template[line_start:line_end]
+          }
+          nb <- c(nb, comp_code)
         }
         if (blk == "html_block") {
           pos_html_blocks <- pos_html_blocks + 1

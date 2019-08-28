@@ -1579,6 +1579,82 @@ function(input, output, session) {
   create_nb_code_for_component <- function(comp) {
     df <- create_analysis_sample()
 
+
+    if (comp == "create_sample") return({
+      nb_code <- c(
+        "### Create Sample", " ",
+        "This step reads the raw data provided by `ExPanD()` and generates the sample for the analysis.",
+        " ",
+        "```{r create_sample}", " ",
+        "create_sample <- function(df, df_def) {",
+        "  # Set infinite numerical variables to NA",
+        "  df[, df_def$var_name[df_def$type == \"numeric\"]] <-",
+        "    lapply(df[, df_def$var_name[df_def$type == \"numeric\"]], function(x) ifelse(is.finite(x), x, NA))",
+        " ",
+        "  # Delete numerical variables that only contain NAs",
+        "  all_na_vars <- sapply(df, function (x) all(is.na(x)))",
+        "  df_def <- df_def[!all_na_vars,]",
+        "  df <- df[, df_def$var_name]",
+        " ",
+        "  # Drop observations that are NA in variables that are not allowed to",
+        "  df <- df[complete.cases(df[, df_def$var_name[which(df_def$can_be_na == FALSE)]]), ]"
+      )
+
+      if ((uc$subset_factor != "Full Sample") & (uc$subset_value != "All"))
+        nc_code <- c(nb_code,
+                     " ",
+                     "  # Subset the analysis as requested in ExPanD()",
+                     sprintf('  df <- df[df$%s == "%s", ]', uc$subset_factor, uc$subset_value))
+
+      if (uc$balanced_panel)
+        nc_code <- c(nb_code,
+                     " ",
+                     "  # Balance sample as requested in ExPanD()",
+                     '  df <- group_by_at(df, vars(one_of(df_def$var_name[df_def$type  == "cs_id"]))) %>%',
+                     '    mutate(nobs = n())',
+                     '  max_nobs <- length(levels(as.data.frame(df[, df_def$var_name[df_def$type  == "ts_id"]])[,1]))',
+                     '  bal_df <- as.data.frame(select(filter(df, nobs == max_nobs), -nobs))',
+                     '  df <- as.data.frame(bal_df)')
+
+      if (uc$outlier_treatment > 1) {
+        if (uc$outlier_factor == "None")
+          group <- "NULL"
+        else
+          group = sprintf('"%s"', df[,uc$outlier_factor])
+
+        nums <- sprintf('c("%s")', paste(df_def$var_name[df_def$type == "numeric"], collapse = '", "'))
+
+        nc_code <- c(nb_code,
+                     " ",
+                     "  # Outlier treatment as requested in ExPanD()")
+      }
+
+      if (uc$outlier_treatment == 2)
+        nb_code <- c(nb_code, sprintf('  df[, %s] <- treat_outliers(df[, %s], 0.01, FALSE, %s)', nums, nums, group))
+      if (uc$outlier_treatment == 3)
+        nb_code <- c(nb_code, sprintf('  df[, %s] <- treat_outliers(df[, %s], 0.05, FALSE, %s)', nums, nums, group))
+      if (uc$outlier_treatment == 4)
+        nb_code <- c(nb_code, sprintf('  df[, %s] <- treat_outliers(df[, %s], 0.01, TRUE, %s)', nums, nums, group))
+      if (uc$outlier_treatment == 5)
+        nb_code <- c(nb_code, sprintf('  df[, %s] <- treat_outliers(df[, %s], 0.05, TRUE, %s)', nums, nums, group))
+
+      nb_code <- c(nb_code,
+                   " ",
+                   "  df <- droplevels(df)",
+                   "  return(list(df = df, df_def = df_def))",
+                   "}",
+                   " ",
+                   "load(\"expand_nb_data.Rdata\")",
+                   " ",
+                   "smp_list <- create_sample(nb_df, nb_df_def)",
+                   "smp <- smp_list$df",
+                   "smp_def <- smp_list$df_def",
+                   " ", "```", " ", " ")
+
+      nb_code
+    })
+
+
     if (comp == "bar_chart") return({
       nb_code <- c(
         "### Bar Chart", " ",
@@ -1976,23 +2052,12 @@ function(input, output, session) {
           "### Abstract",
           shiny_abstract,
           rep(" ", 2),
-          nb_template[7:37]
+          nb_template[7:41]
         )
-      } else nb <- nb_template[1:37]
+      } else nb <- nb_template[1:41]
 
-      dput(reactiveValuesToList(uc), file = "nb_uc_temp.R")
-      uc_code <- scan("nb_uc_temp.R", what="character", sep = "\n")
-      uc_code[1] <- paste("uc <-", uc_code[1])
-
-      nb <- c(
-        nb,
-        uc_code,
-        " ",
-        paste("factor_cutoff <-", factor_cutoff),
-        nb_template[38:115]
-      )
-
-      nb_blocks <- c(names(shiny_components)[!names(shiny_components) %in%
+      nb_blocks <- c("create_sample",
+                     names(shiny_components)[!names(shiny_components) %in%
                                                c("sample_selection", "subset_factor",
                                                  "grouping", "udvars")],
                      "end_note")

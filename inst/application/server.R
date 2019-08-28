@@ -1577,6 +1577,8 @@ function(input, output, session) {
   )
 
   create_nb_code_for_component <- function(comp) {
+    df <- create_analysis_sample()
+
     if (comp == "bar_chart") return({
       nb_code <- c(
         "### Bar Chart", " ",

@@ -1719,28 +1719,254 @@ function(input, output, session) {
       nb_code
     })
 
+
+    if (uc$bgbg_group_by == "All") {
+      prepare_by_group_bar_graph(df[, c(uc$bgbg_byvar, uc$bgbg_var)],
+                                 uc$bgbg_byvar, uc$bgbg_var, get(uc$bgbg_stat), uc$bgbg_sort_by_stat)$plot +
+        ylab(paste(uc$bgbg_stat, uc$bgbg_var))
+    } else {
+      prepare_by_group_bar_graph(df[df[, uc$group_factor] == uc$bgbg_group_by, c(uc$bgbg_byvar, uc$bgbg_var)],
+                                 uc$bgbg_byvar, uc$bgbg_var, get(uc$bgbg_stat), uc$bgbg_sort_by_stat)$plot +
+        ylab(paste(uc$bgbg_stat, uc$bgbg_var))
+    }
+
+
+    if(comp == "by_group_bar_graph") return({
+      nb_code <- c(
+        "### By Group Bar Graph", " ",
+        "```{r by_group_bar_graph}", " ",
+        "df <- smp", "")
+
+      if (uc$bgbg_stat == "q25")
+        nb_code <- c(nb_code,
+                     'q25 <- function(x, na.rm) {quantile(x, 0.25, na.rm)}')
+      if (uc$bgbg_stat == "q75")
+        nb_code <- c(nb_code,
+                     'q75 <- function(x, na.rm) {quantile(x, 0.75, na.rm)}')
+
+      if (uc$bgbg_group_by != "All") {
+        nb_code <- c(nb_code,
+                     sprintf('df <- df[df$%s == "%s", ]',
+                             uc$group_factor, uc$bgbg_group_by))
+      }
+
+      nb_code <- c(nb_code,
+                   sprintf('prepare_by_group_bar_graph(df, "%s", "%s", %s, %s)$plot +',
+                           uc$bgbg_byvar, uc$bgbg_var, uc$bgbg_stat, uc$bgbg_sort_by_stat),
+                   sprintf('  ylab("%s %s")', uc$bgbg_stat, uc$bgbg_var),
+                   " ", "```", " ", " ")
+
+      nb_code
+    })
+
+
+    if(comp == "by_group_violin_graph") return({
+      nb_code <- c(
+        "### By Group Violin Graph", " ",
+        "```{r by_group_violin_graph}", " ",
+        "df <- smp", "")
+
+      if (uc$bgvg_group_by != "All") {
+        nb_code <- c(nb_code,
+                     sprintf('df <- df[df$%s == "%s", ]',
+                             uc$group_factor, uc$bgvg_group_by))
+      }
+
+      nb_code <- c(nb_code,
+                   sprintf('prepare_by_group_violin_graph(df, "%s", "%s", %s)',
+                           uc$bgvg_byvar, uc$bgvg_var, uc$bgvg_sort_by_stat),
+                   " ", "```", " ", " ")
+
+      nb_code
+    })
+
+
+    if(comp == "trend_graph") return({
+      nb_code <- c(
+        "### Trend Graph", " ",
+        "```{r trend_graph}", " ")
+
+      vars <- c(lts_id$name, uc$trend_graph_var1, uc$trend_graph_var2, uc$trend_graph_var3)
+      vars <- vars[which(!vars %in% "None")]
+
+      if (uc$trend_graph_group_by == "All") {
+        nb_code <- c(nb_code, sprintf('df <- smp[, c("%s")]', paste(vars, collapse = '", "')), "")
+      } else {
+        nb_code <- c(nb_code,
+                     sprintf('df <- df[df$%s == "%s", %s]',
+                             uc$group_factor, uc$trend_graph_group_by, vars))
+      }
+
+      nb_code <- c(nb_code,
+                   sprintf('prepare_trend_graph(df, "%s")$plot', lts_id$name),
+                   " ", "```", " ", " ")
+
+      nb_code
+    })
+
+
+    if(comp == "quantile_trend_graph") return({
+      nb_code <- c(
+        "### Quantile Trend Graph", " ",
+        "```{r quantile_trend_graph}", " ")
+
+      quantiles <- as.numeric(uc$quantile_trend_graph_quantiles)
+
+      if (uc$quantile_trend_graph_group_by != "All") {
+        nb_code <- c(nb_code,
+                     sprintf('df <- df[df$%s == "%s", ]',
+                             uc$group_factor, uc$quantile_trend_graph_group_by))
+      }
+
+      nb_code <- c(nb_code,
+                   sprintf('prepare_quantile_trend_graph(df, "%s", c(%s), "%s")$plot',
+                           lts_id$name, paste(quantiles, collapse = ", "), uc$quantile_trend_graph_var),
+                   " ", "```", " ", " ")
+
+      nb_code
+    })
+
+
+    if(comp == "corrplot") return({
+      nb_code <- c(
+        "### Correlation Graph", " ",
+        "```{r corrplot}", " ",
+        "df <- smp", "")
+
+      if (uc$corrplot_group_by != "All") {
+        nb_code <- c(nb_code,
+                     sprintf('df <- df[df$%s == "%s", ]',
+                             uc$group_factor, uc$corrplot_group_by))
+      }
+
+      vars <- which(sapply(df, function(x) all(is.numeric(x) | is.logical(x))))
+      vars <- vars[vars %in% which(!sapply(df, function(x) all(is.na(x))))]
+      vars <- vars[vars %in% which(!sapply(df, function(x) (all(duplicated(x)[-1]))))]
+
+      nb_code <- c(nb_code,
+                   sprintf('ret <- prepare_correlation_graph(df[, c(%s)])', paste(vars, collapse = ", ")),
+                   " ", "```", " ", " ")
+
+      nb_code
+    })
+
+
+    if(comp == "scatter_plot") return({
+      nb_code <- c(
+        "### Scatter Plot", " ",
+        "```{r scatter_plot}", " ",
+        "df <- smp", "")
+
+      if (uc$scatter_group_by != "All") {
+        nb_code <- c(nb_code,
+                     sprintf('df <- df[df$%s == "%s", ]',
+                             uc$group_factor, uc$scatter_group_by))
+      }
+
+      vars <- c(lcs_id$name, lts_id$name,
+                uc$scatter_x, uc$scatter_y, uc$scatter_color, uc$scatter_size)
+      vars <- vars[which(!vars %in% "None")]
+
+      nb_code <- c(nb_code,
+                   sprintf('df <- df[, c("%s")]', paste(vars, collapse = '", "')),
+                   "df <- df[complete.cases(df), ]")
+
+      scatter_df <- df[, vars]
+      scatter_df <- scatter_df[complete.cases(scatter_df), ]
+
+      if (uc$scatter_color %in% lfactor$name)
+        nb_code <- c(nb_code,
+                     sprintf('df$%s <- as.factor(df$%s)', uc$scatter_color, uc$scatter_color))
+      if (uc$scatter_sample & (nrow(scatter_df) > 1000)) {
+        nb_code <- c(nb_code,
+                     "set.seed(42)",
+                     "df <- sample_n(df, 1000)")
+      }
+
+      parm_str <- sprintf('"%s", "%s"', uc$scatter_x, uc$scatter_y)
+      if (uc$scatter_color != "None") parm_str <- paste0(parm_str, sprintf(', "%s"', uc$scatter_color))
+      if (uc$scatter_size != "None") parm_str <- paste0(parm_str, sprintf(', "%s"', uc$scatter_size))
+      if (uc$scatter_loess) parm_str <- paste0(parm_str, ", 1")
+
+      nb_code <- c(nb_code,
+                   sprintf('prepare_scatter_plot(df, %s)', parm_str),
+                   " ", "```", " ", " ")
+
+      nb_code
+    })
+
+
+    if(comp == "regression") return({
+      nb_code <- c(
+        "### Regresssion Table", " ",
+        "```{r regression}", " ",
+        "df <- smp", "")
+
+      vars <- c(uc$reg_y, uc$reg_x, uc$reg_fe1, uc$reg_fe2, uc$reg_by)
+      vars <- vars[!vars %in% "None"]
+
+      nb_code <- c(nb_code,
+                   sprintf('df <- df[, c("%s")]', paste(vars, collapse = '", "')),
+                   "df <- df[complete.cases(df), ]")
+
+
+      if (uc$reg_by != "None")
+        nb_code <- c(nb_code,
+                     sprintf('df$%s <- as.factor(df$%s)', uc$reg_by, uc$reg_by))
+      if (!uc$reg_y %in% c(lnumeric$name, llogical$name))
+        nb_code <- c(nb_code,
+                     sprintf('df$%s <- as.factor(df$%s)', uc$reg_y, uc$reg_y))
+
+      nb_code <- c(nb_code, "df <- droplevels(df)")
+
+
+      feffect <- ""
+      if (uc$reg_fe1 != "None") {
+        feffect <- uc$reg_fe1
+        if (uc$reg_fe2 != "None") feffect <- c(feffect, uc$reg_fe2)
+      } else if (uc$reg_fe2 != "None") feffect <- uc$reg_fe2
+      cluster <- ""
+      if (uc$cluster == 2) cluster <- uc$reg_fe1
+      if (uc$cluster == 3) cluster <- uc$reg_fe2
+      if (uc$cluster == 4) cluster <- c(uc$reg_fe1, uc$reg_fe2)
+      cluster <- cluster[!cluster %in% "None"]
+      reg_by <- ifelse(uc$reg_by != "None", uc$reg_by, "")
+
+
+      parm_str <- sprintf('df, dvs = "%s", idvs = c("%s")',  uc$reg_y, paste(uc$reg_x, collapse = '", "'))
+      if (feffect != "") parm_str <- paste0(parm_str,
+                                            sprintf(', feffects = c("%s")', paste(feffects, collapse = '", "')))
+      if (cluster != "") parm_str <- paste0(parm_str,
+                                            sprintf(', clusters = c("%s")', paste(clusters, collapse = '", "')))
+
+      if (reg_by != "") parm_str <- paste0(parm_str,
+                                            sprintf(', byvar = "%s"', uc$reg_by))
+
+      parm_str <- paste0(parm_str, sprintf(', models = "%s"', uc$model))
+
+      nb_code <- c(nb_code,
+                   sprintf('t <- prepare_regression_table(%s)', parm_str),
+                   "HTML(t$table)",
+                   " ", "```", " ", " ")
+
+      nb_code
+    })
+
+
+    if(comp == "end_note") return({
+      nb_code <- c(
+        "### Note", " ",
+        "This Notebook has been automatically generated using the [ExPanDaR](https://joachim-gassen.github.io/ExPanDaR) package.", " "
+        )
+    })
+
     return("")
   }
+
 
   output$nb_download <- downloadHandler(
     filename = "ExPanD_nb.zip",
     content = function(file) {
-      start_lines <- c(
-        bar_chart = 116,
-        missing_values = 151,
-        descriptive_table = 163,
-        histogram = 174,
-        ext_obs = 188,
-        by_group_bar_graph = 211,
-        by_group_violin_graph = 233,
-        trend_graph = 250,
-        quantile_trend_graph = 270,
-        corrplot = 287,
-        scatter_plot = 301,
-        regression = 326,
-        end_note = 356
-      )
-
       nb_template <- scan("expand_nb_prototype.Rmd", what="character", sep = "\n")
       nb_template[2] <- paste(nb_template[2], shiny_title)
       nb_template_len <- length(nb_template)
@@ -1763,28 +1989,25 @@ function(input, output, session) {
         uc_code,
         " ",
         paste("factor_cutoff <-", factor_cutoff),
-        nb_template[38:(start_lines[1] - 1)]
+        nb_template[38:115]
       )
 
+      nb_blocks <- c(names(shiny_components)[!names(shiny_components) %in%
+                                               c("sample_selection", "subset_factor",
+                                                 "grouping", "udvars")],
+                     "end_note")
       pos_html_blocks <- 0
-      for (blk in names(shiny_components)) {
-        if (blk %in% names(start_lines)) {
-          comp_code <- create_nb_code_for_component(blk)
-          if(length(comp_code) <= 1) {
-            pos <- which(blk == names(start_lines))
-            line_start <- start_lines[pos]
-            line_end <- start_lines[pos + 1] - 1
-            comp_code <- nb_template[line_start:line_end]
-          }
-          nb <- c(nb, comp_code)
-        }
+      for (blk in nb_blocks) {
         if (blk == "html_block") {
           pos_html_blocks <- pos_html_blocks + 1
           nb <- c(nb, shiny_html_blocks[pos_html_blocks], rep(" ", 2))
+        } else {
+          comp_code <- create_nb_code_for_component(blk)
+          if(length(comp_code) <= 1) {
+            stop(sprintf('Encountered unknown notebook block: "%s"', blk))
+          } else nb <- c(nb, comp_code)
         }
       }
-
-      nb <- c(nb, nb_template[start_lines["end_note"]:length(nb_template)])
 
       write(nb, file = "ExPanD_nb_code.Rmd", sep = "\n")
 

@@ -1618,13 +1618,13 @@ function(input, output, session) {
       )
 
       if ((uc$subset_factor != "Full Sample") & (uc$subset_value != "All"))
-        nc_code <- c(nb_code,
+        nb_code <- c(nb_code,
                      " ",
                      "  # Subset the analysis as requested in ExPanD()",
                      sprintf('  df <- df[df$%s == "%s", ]', uc$subset_factor, uc$subset_value))
 
       if (uc$balanced_panel)
-        nc_code <- c(nb_code,
+        nb_code <- c(nb_code,
                      " ",
                      "  # Balance sample as requested in ExPanD()",
                      '  df <- group_by_at(df, vars(one_of(df_def$var_name[df_def$type  == "cs_id"]))) %>%',
@@ -1976,9 +1976,9 @@ function(input, output, session) {
       }
 
       parm_str <- sprintf('"%s", "%s"', uc$scatter_x, uc$scatter_y)
-      if (uc$scatter_color != "None") parm_str <- paste0(parm_str, sprintf(', "%s"', uc$scatter_color))
-      if (uc$scatter_size != "None") parm_str <- paste0(parm_str, sprintf(', "%s"', uc$scatter_size))
-      if (uc$scatter_loess) parm_str <- paste0(parm_str, ", 1")
+      if (uc$scatter_color != "None") parm_str <- paste0(parm_str, sprintf(', color = "%s"', uc$scatter_color))
+      if (uc$scatter_size != "None") parm_str <- paste0(parm_str, sprintf(', size = "%s"', uc$scatter_size))
+      if (uc$scatter_loess) parm_str <- paste0(parm_str, ", loess = 1")
 
       nb_code <- c(nb_code,
                    sprintf('prepare_scatter_plot(df, %s)', parm_str),

@@ -1579,6 +1579,22 @@ function(input, output, session) {
   create_nb_code_for_component <- function(comp) {
     df <- create_analysis_sample()
 
+    if (comp == "setup") return({
+      nb_code <- c(
+        "### Setup", " ",
+        "```{r setup}", " ",
+        "suppressWarnings(suppressMessages({",
+          "  library(knitr)",
+          "  library(kableExtra)",
+          "  library(htmltools)",
+          "  library(tidyverse)",
+          "  library(scales)",
+          "  library(ExPanDaR)",
+        "}))",
+        " ", "```", " ", " "
+      )
+    })
+
 
     if (comp == "create_sample") return({
       nb_code <- c(
@@ -1589,7 +1605,8 @@ function(input, output, session) {
         "create_sample <- function(df, df_def) {",
         "  # Set infinite numerical variables to NA",
         "  df[, df_def$var_name[df_def$type == \"numeric\"]] <-",
-        "    lapply(df[, df_def$var_name[df_def$type == \"numeric\"]], function(x) ifelse(is.finite(x), x, NA))",
+        "    lapply(df[, df_def$var_name[df_def$type == \"numeric\"]],",
+        "      function(x) ifelse(is.finite(x), x, NA))",
         " ",
         "  # Delete numerical variables that only contain NAs",
         "  all_na_vars <- sapply(df, function (x) all(is.na(x)))",
@@ -1622,21 +1639,20 @@ function(input, output, session) {
         else
           group = sprintf('"%s"', df[,uc$outlier_factor])
 
-        nums <- sprintf('c("%s")', paste(df_def$var_name[df_def$type == "numeric"], collapse = '", "'))
-
-        nc_code <- c(nb_code,
+        nb_code <- c(nb_code,
                      " ",
-                     "  # Outlier treatment as requested in ExPanD()")
+                     "  # Outlier treatment as requested in ExPanD()",
+                     '  nums <- df_def$var_name[df_def$type == "numeric"]')
       }
 
       if (uc$outlier_treatment == 2)
-        nb_code <- c(nb_code, sprintf('  df[, %s] <- treat_outliers(df[, %s], 0.01, FALSE, %s)', nums, nums, group))
+        nb_code <- c(nb_code, sprintf('  df[, nums] <- treat_outliers(df[, nums], 0.01, FALSE, %s)', group))
       if (uc$outlier_treatment == 3)
-        nb_code <- c(nb_code, sprintf('  df[, %s] <- treat_outliers(df[, %s], 0.05, FALSE, %s)', nums, nums, group))
+        nb_code <- c(nb_code, sprintf('  df[, nums] <- treat_outliers(df[, nums], 0.05, FALSE, %s)', group))
       if (uc$outlier_treatment == 4)
-        nb_code <- c(nb_code, sprintf('  df[, %s] <- treat_outliers(df[, %s], 0.01, TRUE, %s)', nums, nums, group))
+        nb_code <- c(nb_code, sprintf('  df[, nums] <- treat_outliers(df[, nums], 0.01, TRUE, %s)', group))
       if (uc$outlier_treatment == 5)
-        nb_code <- c(nb_code, sprintf('  df[, %s] <- treat_outliers(df[, %s], 0.05, TRUE, %s)', nums, nums, group))
+        nb_code <- c(nb_code, sprintf('  df[, nums] <- treat_outliers(df[, nums], 0.05, TRUE, %s)', group))
 
       nb_code <- c(nb_code,
                    " ",
@@ -2011,9 +2027,9 @@ function(input, output, session) {
 
       parm_str <- sprintf('df, dvs = "%s", idvs = c("%s")',  uc$reg_y, paste(uc$reg_x, collapse = '", "'))
       if (feffect != "") parm_str <- paste0(parm_str,
-                                            sprintf(', feffects = c("%s")', paste(feffects, collapse = '", "')))
+                                            sprintf(', feffects = c("%s")', paste(feffect, collapse = '", "')))
       if (cluster != "") parm_str <- paste0(parm_str,
-                                            sprintf(', clusters = c("%s")', paste(clusters, collapse = '", "')))
+                                            sprintf(', clusters = c("%s")', paste(cluster, collapse = '", "')))
 
       if (reg_by != "") parm_str <- paste0(parm_str,
                                             sprintf(', byvar = "%s"', uc$reg_by))
@@ -2043,25 +2059,27 @@ function(input, output, session) {
   output$nb_download <- downloadHandler(
     filename = "ExPanD_nb.zip",
     content = function(file) {
-      nb_template <- scan("expand_nb_prototype.Rmd", what="character", sep = "\n")
-      nb_template[2] <- paste(nb_template[2], shiny_title)
-      nb_template_len <- length(nb_template)
-      if (!is.null(shiny_abstract)) {
-        nb <- c(
-          nb_template[1:6],
-          "### Abstract",
-          shiny_abstract,
-          rep(" ", 2),
-          nb_template[7:41]
-        )
-      } else nb <- nb_template[1:41]
+      nb <- c(
+        "---",
+        sprintf("title: %s", shiny_title),
+        "output: html_notebook",
+        "---", " ", " "
+      )
 
-      nb_blocks <- c("create_sample",
+      if (!is.null(shiny_abstract)) {
+        nb <- c(nb,
+          "### Abstract",
+          shiny_abstract, " ", " "
+        )
+      }
+
+      nb_blocks <- c("setup", "create_sample",
                      names(shiny_components)[!names(shiny_components) %in%
                                                c("sample_selection", "subset_factor",
                                                  "grouping", "udvars")],
                      "end_note")
       pos_html_blocks <- 0
+
       for (blk in nb_blocks) {
         if (blk == "html_block") {
           pos_html_blocks <- pos_html_blocks + 1

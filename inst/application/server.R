@@ -1812,17 +1812,6 @@ function(input, output, session) {
     })
 
 
-    if (uc$bgbg_group_by == "All") {
-      prepare_by_group_bar_graph(df[, c(uc$bgbg_byvar, uc$bgbg_var)],
-                                 uc$bgbg_byvar, uc$bgbg_var, get(uc$bgbg_stat), uc$bgbg_sort_by_stat)$plot +
-        ylab(paste(uc$bgbg_stat, uc$bgbg_var))
-    } else {
-      prepare_by_group_bar_graph(df[df[, uc$group_factor] == uc$bgbg_group_by, c(uc$bgbg_byvar, uc$bgbg_var)],
-                                 uc$bgbg_byvar, uc$bgbg_var, get(uc$bgbg_stat), uc$bgbg_sort_by_stat)$plot +
-        ylab(paste(uc$bgbg_stat, uc$bgbg_var))
-    }
-
-
     if(comp == "by_group_bar_graph") return({
       nb_code <- c(
         "### By Group Bar Graph", " ",

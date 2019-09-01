@@ -1582,7 +1582,7 @@ function(input, output, session) {
     if (comp == "setup") return({
       nb_code <- c(
         "### Setup", " ",
-        "```{r setup}", " ",
+        "```{r setup}",
         "suppressWarnings(suppressMessages({",
           "  library(knitr)",
           "  library(kableExtra)",
@@ -1591,7 +1591,8 @@ function(input, output, session) {
           "  library(scales)",
           "  library(ExPanDaR)",
         "}))",
-        " ", "```", " ", " "
+        "knitr::opts_chunk$set(fig.align = 'center')",
+        "```", " ", " "
       )
     })
 
@@ -1601,7 +1602,7 @@ function(input, output, session) {
         "### Create Sample", " ",
         "This step reads the raw data provided by `ExPanD()` and generates the sample for the analysis.",
         " ",
-        "```{r create_sample}", " ",
+        "```{r create_sample}",
         "create_sample <- function(df, df_def) {",
         "  # Set infinite numerical variables to NA",
         "  df[, df_def$var_name[df_def$type == \"numeric\"]] <-",
@@ -1665,7 +1666,7 @@ function(input, output, session) {
                    "smp_list <- create_sample(nb_df, nb_df_def)",
                    "smp <- smp_list$df",
                    "smp_def <- smp_list$df_def",
-                   " ", "```", " ", " ")
+                   "```", " ", " ")
 
       nb_code
     })
@@ -1674,7 +1675,7 @@ function(input, output, session) {
     if (comp == "bar_chart") return({
       nb_code <- c(
         "### Bar Chart", " ",
-        "```{r bar_chart}", " ",
+        "```{r bar_chart}",
         "df <- smp"
       )
       if (uc$bar_chart_group_by != "All")
@@ -1711,7 +1712,7 @@ function(input, output, session) {
         nb_code <- c(nb_code,
                      sprintf('p <- p + scale_x_discrete(breaks = pretty(as.numeric(as.character(df$%s)), n = 10))', uc$bar_chart_var1))
 
-      nb_code <- c(nb_code, "p", " ", "```", " ", " ")
+      nb_code <- c(nb_code, "p", "```", " ", " ")
 
       nb_code
     })
@@ -1720,7 +1721,7 @@ function(input, output, session) {
     if(comp == "missing_values") return({
       nb_code <- c(
         "### Missing Values", " ",
-        "```{r missing_values}", " ",
+        "```{r missing_values}",
         "df <- smp"
       )
       if (uc$missing_values_group_by != "All")
@@ -1730,7 +1731,7 @@ function(input, output, session) {
                              uc$missing_values_group_by))
       nb_code <- c(nb_code,
                    sprintf('prepare_missing_values_graph(df, "%s")', lts_id$name),
-                   " ", "```", " ", " ")
+                   "```", " ", " ")
 
       nb_code
     })
@@ -1739,12 +1740,12 @@ function(input, output, session) {
     if(comp == "descriptive_table") return({
       nb_code <- c(
         "### Descriptive Statistics", " ",
-        "```{r descriptive_statistics}", " ",
+        "```{r descriptive_statistics}",
         "df <- smp",
         "t <- prepare_descriptive_table(smp)",
         "t$kable_ret  %>%",
         '  kable_styling("condensed", full_width = F, position = "center")',
-        " ", "```", " ", " ")
+        "```", " ", " ")
 
       nb_code
     })
@@ -1753,7 +1754,7 @@ function(input, output, session) {
     if(comp == "histogram") return({
       nb_code <- c(
         "### Histogram", " ",
-        "```{r histogram}", " "
+        "```{r histogram}"
       )
 
       if (uc$hist_group_by == "All")
@@ -1767,7 +1768,7 @@ function(input, output, session) {
       nb_code <- c(nb_code,
                    sprintf('hist(var, main="", xlab = "%s", col="red", right = FALSE, breaks= %d)',
                            uc$hist_var, uc$hist_nr_of_breaks),
-                   " ", "```", " ", " ")
+                   "```", " ", " ")
 
       nb_code
     })
@@ -1776,7 +1777,7 @@ function(input, output, session) {
     if(comp == "ext_obs") return({
       nb_code <- c(
         "### Extreme Observations", " ",
-        "```{r extreme_obs}", " ",
+        "```{r extreme_obs}",
         "df <- smp")
 
       if (uc$group_factor != "None")
@@ -1806,7 +1807,7 @@ function(input, output, session) {
         "  tab$kable_ret %>%",
         "    kable_styling()",
         "}",
-        " ", "```", " ", " ")
+        "```", " ", " ")
 
       nb_code
     })
@@ -1815,8 +1816,8 @@ function(input, output, session) {
     if(comp == "by_group_bar_graph") return({
       nb_code <- c(
         "### By Group Bar Graph", " ",
-        "```{r by_group_bar_graph}", " ",
-        "df <- smp", "")
+        "```{r by_group_bar_graph}",
+        "df <- smp")
 
       if (uc$bgbg_stat == "q25")
         nb_code <- c(nb_code,
@@ -1835,7 +1836,7 @@ function(input, output, session) {
                    sprintf('prepare_by_group_bar_graph(df, "%s", "%s", %s, %s)$plot +',
                            uc$bgbg_byvar, uc$bgbg_var, uc$bgbg_stat, uc$bgbg_sort_by_stat),
                    sprintf('  ylab("%s %s")', uc$bgbg_stat, uc$bgbg_var),
-                   " ", "```", " ", " ")
+                   "```", " ", " ")
 
       nb_code
     })
@@ -1844,8 +1845,8 @@ function(input, output, session) {
     if(comp == "by_group_violin_graph") return({
       nb_code <- c(
         "### By Group Violin Graph", " ",
-        "```{r by_group_violin_graph}", " ",
-        "df <- smp", "")
+        "```{r by_group_violin_graph}",
+        "df <- smp")
 
       if (uc$bgvg_group_by != "All") {
         nb_code <- c(nb_code,
@@ -1856,7 +1857,7 @@ function(input, output, session) {
       nb_code <- c(nb_code,
                    sprintf('prepare_by_group_violin_graph(df, "%s", "%s", %s)',
                            uc$bgvg_byvar, uc$bgvg_var, uc$bgvg_sort_by_stat),
-                   " ", "```", " ", " ")
+                   "```", " ", " ")
 
       nb_code
     })
@@ -1865,7 +1866,7 @@ function(input, output, session) {
     if(comp == "trend_graph") return({
       nb_code <- c(
         "### Trend Graph", " ",
-        "```{r trend_graph}", " ")
+        "```{r trend_graph}")
 
       vars <- c(lts_id$name, uc$trend_graph_var1, uc$trend_graph_var2, uc$trend_graph_var3)
       vars <- vars[which(!vars %in% "None")]
@@ -1880,7 +1881,7 @@ function(input, output, session) {
 
       nb_code <- c(nb_code,
                    sprintf('prepare_trend_graph(df, "%s")$plot', lts_id$name),
-                   " ", "```", " ", " ")
+                   "```", " ", " ")
 
       nb_code
     })
@@ -1889,7 +1890,7 @@ function(input, output, session) {
     if(comp == "quantile_trend_graph") return({
       nb_code <- c(
         "### Quantile Trend Graph", " ",
-        "```{r quantile_trend_graph}", " ")
+        "```{r quantile_trend_graph}")
 
       quantiles <- as.numeric(uc$quantile_trend_graph_quantiles)
 
@@ -1902,7 +1903,7 @@ function(input, output, session) {
       nb_code <- c(nb_code,
                    sprintf('prepare_quantile_trend_graph(df, "%s", c(%s), "%s")$plot',
                            lts_id$name, paste(quantiles, collapse = ", "), uc$quantile_trend_graph_var),
-                   " ", "```", " ", " ")
+                   "```", " ", " ")
 
       nb_code
     })
@@ -1911,8 +1912,8 @@ function(input, output, session) {
     if(comp == "corrplot") return({
       nb_code <- c(
         "### Correlation Graph", " ",
-        "```{r corrplot}", " ",
-        "df <- smp", "")
+        "```{r corrplot}",
+        "df <- smp")
 
       if (uc$corrplot_group_by != "All") {
         nb_code <- c(nb_code,
@@ -1926,7 +1927,7 @@ function(input, output, session) {
 
       nb_code <- c(nb_code,
                    sprintf('ret <- prepare_correlation_graph(df[, c(%s)])', paste(vars, collapse = ", ")),
-                   " ", "```", " ", " ")
+                   "```", " ", " ")
 
       nb_code
     })
@@ -1935,8 +1936,8 @@ function(input, output, session) {
     if(comp == "scatter_plot") return({
       nb_code <- c(
         "### Scatter Plot", " ",
-        "```{r scatter_plot}", " ",
-        "df <- smp", "")
+        "```{r scatter_plot}",
+        "df <- smp")
 
       if (uc$scatter_group_by != "All") {
         nb_code <- c(nb_code,
@@ -1971,7 +1972,7 @@ function(input, output, session) {
 
       nb_code <- c(nb_code,
                    sprintf('prepare_scatter_plot(df, %s)', parm_str),
-                   " ", "```", " ", " ")
+                   "```", " ", " ")
 
       nb_code
     })
@@ -1980,8 +1981,8 @@ function(input, output, session) {
     if(comp == "regression") return({
       nb_code <- c(
         "### Regresssion Table", " ",
-        "```{r regression}", " ",
-        "df <- smp", "")
+        "```{r regression}",
+        "df <- smp")
 
       vars <- c(uc$reg_y, uc$reg_x, uc$reg_fe1, uc$reg_fe2, uc$reg_by)
       vars <- vars[!vars %in% "None"]
@@ -2028,7 +2029,7 @@ function(input, output, session) {
       nb_code <- c(nb_code,
                    sprintf('t <- prepare_regression_table(%s)', parm_str),
                    "HTML(t$table)",
-                   " ", "```", " ", " ")
+                   "```", " ", " ")
 
       nb_code
     })

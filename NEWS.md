@@ -2,7 +2,7 @@
 
 Extensions:
 
-* Started to implement an export option that allows users to download a 
+* Implemented an export option that allows users to download a 
 zip file containing the data and a R notebook based variant of the ExPanD
 analysis (`export_nb_option = TRUE`)
 

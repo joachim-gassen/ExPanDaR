@@ -22,7 +22,8 @@ You are visiting the github repository of the ExPanDaR (Explore Panel Data with 
 ExPanD has two purposes:
 
 - Enable users to assess the robustness of empirical evidence without providing them with access to the underlying data.
-- Provide a toolbox for researchers to explore panel data on the fly. 
+- Provide a toolbox for researchers to explore panel data on the fly, now also
+allowing them to download R notebook code that reflects their analysis. 
 
 While I hope that ExPanD will be particularly helpful in the academic review, publication and replication process I also think that it is convenient for typical exploratory data analysis workflows. In addition, it has already proven to be helpful in the classroom.
 
@@ -48,7 +49,8 @@ install.packages("ExPanDaR")
 library(ExPanDaR)
 ````
 
-Or, if you want to install the current development version from Github:
+Or, if you want to install the current development version from Github 
+that includes the new notebook export option:
 
 ```{r, eval=FALSE}
 if (!require("devtools")) {
@@ -67,19 +69,24 @@ You can either start ExPanD without arguments so that it starts with a file uplo
 ExPanD()
 ````
 
-...or start with one of the two example datasets that come with the package:
+...or start with one of the two example datasets that come with the package.
+Please note: The last parameter (`export_nb_option`) is currently only supported
+by the development version of the package available on Github and has to be 
+omitted when you use the CRAN version.
 
 ```{r, eval=FALSE}
 ExPanD(df = worldbank,  
        df_def = worldbank_data_def, 
        var_def = worldbank_var_def,
        df_name = "World Bank Data",
-       config_list = ExPanD_config_worldbank)
+       config_list = ExPanD_config_worldbank,
+       export_nb_option = TRUE)
 
 ExPanD(df = russell_3000,  
        df_def = russell_3000_data_def, 
        df_name = "Russell 3000",
-       config_list = ExPanD_config_russell_3000)
+       config_list = ExPanD_config_russell_3000,
+       export_nb_option = TRUE)
 ````
 
 Some additional information on how to use ExPanD can be found in the code file `ExPanDaR_examples.R` in the root directory.

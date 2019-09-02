@@ -2094,7 +2094,7 @@ function(input, output, session) {
       nb_df <- nb_df[, as.character(nb_df_def$var_name)]
 
       save(nb_df, nb_df_def, file = "ExPanD_nb_data.Rdata")
-      zip(file, files = c("ExPanD_nb_code.Rmd", "ExPanD_nb_data.Rdata"))
+      zip::zipr(file, files = c("ExPanD_nb_code.Rmd", "ExPanD_nb_data.Rdata"))
     }
   )
 }

@@ -35,14 +35,14 @@ prepare_correlation_table <- function(df, digits = 2, bold = 0.05, format = "htm
   if (!is.numeric(bold) | length(bold) != 1 | bold < 0 | bold >= 1)
     stop("argument 'bold' needs to be a numerical scalar with 0 <= bold < 1")
 
-  pcorr <- Hmisc::rcorr(as.matrix(df), type="pearson")
-  scorr <- Hmisc::rcorr(as.matrix(df), type="spearman")
+  pcorr <- cor_mat(as.matrix(df), method="pearson", na.action = "na.omit", exact = FALSE)
+  scorr <- cor_mat(as.matrix(df), method="spearman", na.action = "na.omit", exact = FALSE)
   correl_r <- pcorr$r
   correl_r[lower.tri(correl_r)] <- scorr$r[lower.tri(scorr$r)]
   correl_n <- pcorr$n
   correl_n[lower.tri(correl_n)] <- scorr$n[lower.tri(scorr$n)]
-  correl_p <- pcorr$P
-  correl_p[lower.tri(correl_p)] <- scorr$P[lower.tri(scorr$P)]
+  correl_p <- pcorr$p
+  correl_p[lower.tri(correl_p)] <- scorr$p[lower.tri(scorr$p)]
   diag(correl_p) <- 1
   fted_correl_r <- matrix(sapply(1:ncol(correl_r)^2,
                           function(pos) kableExtra::cell_spec(sprintf(paste0("%.", digits, "f"), correl_r[pos]),

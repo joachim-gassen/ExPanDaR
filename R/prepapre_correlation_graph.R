@@ -1,3 +1,26 @@
+cor_mat <- function(x, ...) {
+  mat <- as.matrix(x)
+  n <- ncol(mat)
+  out_r <- out_n <- out_p <- matrix(NA, n, n)
+  diag(out_r) <- 0
+  diag(out_p) <- 0
+  diag(out_n) <- 0
+
+  for (i in 1:(n - 1)) {
+    for (j in (i + 1):n) {
+      tmp <- stats::cor.test(mat[, i], mat[, j], ...)
+      out_r[i, j] <- out_r[j, i] <- tmp$estimate
+      out_p[i, j] <- out_p[j, i] <- tmp$p.value
+      out_n[i, j] <- out_n[j, i] <- sum(!is.na(mat[, i]) & !is.na(mat[, j]))
+    }
+  }
+  colnames(out_r) <- rownames(out_r) <- colnames(mat)
+  colnames(out_p) <- rownames(out_p) <- colnames(mat)
+  colnames(out_n) <- rownames(out_n) <- colnames(mat)
+  list(r = out_r, p = out_p, n = out_n)
+}
+
+
 #' @title Prepares a Correlation Graph
 #'
 #' @description
@@ -25,18 +48,20 @@ prepare_correlation_graph <- function(df) {
   if (nrow(df) < 5 | ncol(df) < 2)
     stop("'df' needs to contain at least two variables and five observations of numerical data")
 
-  pcorr <- Hmisc::rcorr(as.matrix(df), type="pearson")
-  scorr <- Hmisc::rcorr(as.matrix(df), type="spearman")
+  pcorr <- cor_mat(as.matrix(df), method="pearson", na.action = "na.omit", exact = FALSE)
+  scorr <- cor_mat(as.matrix(df), method="spearman", na.action = "na.omit", exact = FALSE)
   correl_r <- pcorr$r
   correl_r[lower.tri(correl_r)] <- scorr$r[lower.tri(scorr$r)]
   # Hmisc:rcorr returns r/rho values > 1 from time to time
   # (of course only by a very small margin) and this
   # causes corrplot to choke
+  # Not sure wheter cor.test() does the same leaving
+  # this here for the time being
   correl_r <- pmin(correl_r,1)
   correl_n <- pcorr$n
   correl_n[lower.tri(correl_n)] <- scorr$n[lower.tri(scorr$n)]
-  correl_p <- pcorr$P
-  correl_p[lower.tri(correl_p)] <- scorr$P[lower.tri(scorr$P)]
+  correl_p <- pcorr$p
+  correl_p[lower.tri(correl_p)] <- scorr$p[lower.tri(scorr$p)]
   corrplot::corrplot(correl_r, type = "upper", method="ellipse", tl.pos="lt", tl.col="black", bg="grey90", addgrid.col="white")
   corrplot::corrplot(correl_r, add=TRUE, type = "lower", diag=FALSE, tl.pos="n", cl.pos="n", method="ellipse", bg="grey90", addgrid.col="white")
   return(list(df_corr = correl_r, df_prob = correl_p, df_n = correl_n))

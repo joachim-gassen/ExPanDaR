@@ -2,6 +2,7 @@
 
 Extensions:
 
+* Modified ExPanD() to process cross-sectional data with useful defaults
 * Implemented an export option that allows users to download a 
 zip file containing the data and a R notebook based variant of the ExPanD
 analysis (`export_nb_option = TRUE`)

@@ -1,5 +1,5 @@
 
-# ExPanDaR: Explore Panel Data Interactively <img src="logo.png" align="right" />
+# ExPanDaR: Explore Your Data Interactively <img src="logo.png" align="right" />
 
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
@@ -18,11 +18,11 @@ analysis.
 
 ExPanD has two purposes:
 
+  - Provide a toolbox for researchers to explore data on the fly, now
+    also allowing them to download R notebook code that reflects their
+    analysis.
   - Enable users to assess the robustness of empirical evidence without
     providing them with access to the underlying data.
-  - Provide a toolbox for researchers to explore panel data on the fly,
-    now also allowing them to download R notebook code that reflects
-    their analysis.
 
 While I hope that ExPanD will be particularly helpful in the academic
 review, publication and replication process I also think that it is
@@ -77,10 +77,19 @@ file upload dialog…
 ExPanD()
 ```
 
+…or use it to explore a cross-sectional data frame with at least two
+numeric variables…
+
+``` r
+ExPanD(mtcars)
+```
+
 …or start with one of the two example datasets that come with the
-package. Please note: The last parameter (`export_nb_option`) is
-currently only supported by the development version of the package
-available on Github and has to be omitted when you use the CRAN version.
+package to understand hot to use it on long-format planel data.
+
+Please note: The last parameter (`export_nb_option`) is currently only
+supported by the development version of the package available on Github
+and has to be omitted when you use the CRAN version.
 
 ``` r
 ExPanD(df = worldbank,  

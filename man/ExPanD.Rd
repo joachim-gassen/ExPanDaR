@@ -2,11 +2,11 @@
 % Please edit documentation in R/ExPanD.R
 \name{ExPanD}
 \alias{ExPanD}
-\title{Explore Panel Data (ExPanD)}
+\title{Explore Your Data (ExPanD)}
 \usage{
 ExPanD(df = NULL, cs_id = NULL, ts_id = NULL, df_def = NULL,
   var_def = NULL, config_list = NULL,
-  title = "ExPanD - Explore panel data interactively", abstract = NULL,
+  title = "ExPanD - Explore your data!", abstract = NULL,
   df_name = deparse(substitute(df)), long_def = TRUE,
   factor_cutoff = 10L, components = c(sample_selection = TRUE,
   subset_factor = TRUE, grouping = TRUE, bar_chart = TRUE, missing_values =
@@ -18,34 +18,36 @@ ExPanD(df = NULL, cs_id = NULL, ts_id = NULL, df_def = NULL,
   key_phrase = "What a wonderful key", debug = FALSE, ...)
 }
 \arguments{
-\item{df}{A data frame or a list of data frames containing the panel data that
+\item{df}{A data frame or a list of data frames containing the data that
 you want to explore. If NULL, ExPanD will start up with a file upload
 dialog.}
 
 \item{cs_id}{A character vector containing the names of the variables that
-identify the cross-section in your data.
-Can only be NULL if \code{df_def} is provided instead.}
+identify the cross-section in your data. \code{df_def} overrides if
+provided.}
 
 \item{ts_id}{A character scalar identifying the name of
 the variable that identifies the time series in your data. The according
 variable needs to be coercible to an ordered vector.
 If you provide a time series indicator that already is an ordered vector,
 ExPanD will verify that it has the same levels for each data frame
-and throw an error otherwise.
-Can only be NULL if \code{df_def} is provided instead.}
+and throw an error otherwise. \code{df_def} overrides if
+provided. If \code{cs_id} and \code{ts_id} are not provided either
+directly of by \code{df_def}, the data is treated as cross-sectional and
+only appropriate displays are included.}
 
 \item{df_def}{An optional dataframe (or a list of dataframes) containing
 variable names, definitions and types. If NULL (the default) ExPanD
-uses \code{cs_id} and \code{ts_id} to identify the panel structure and
+uses \code{cs_id} and \code{ts_id} to identify the data structure and
 determines the variable types (factor, numeric, logical) based on the
 classes of the data. See the details section for further information.}
 
 \item{var_def}{If you specify here a dataframe containing variable names and
 variable definitions, ExPanD will use these on the provided sample(s) to
-create the analysis sample. In that case, the user gets the opportunity to
-add additional variables in the app. See the details section
+create the analysis sample. See the details section
 for the structure of the \code{var_def} dataframe. If NULL (default)
-the sample(s) provided by \code{df} will be used as analysis sample(s) directly.}
+the sample(s) provided by \code{df} will be used as analysis sample(s)
+directly.}
 
 \item{config_list}{a list containing the startup configuration for ExPanD to
 display. Take a look at \code{data(ExPanD_config_russell_3000)} for the
@@ -88,8 +90,7 @@ ExPanD report.}
 
 \item{export_nb_option}{Do you want to give the user the option to download your
 data and an R notebook containg code for the analyses that \code{ExPanD} displays?
-Requires "zip" to be in your PATH.
-Defaults to FALSE.}
+Defaults to \code{FALSE}.}
 
 \item{store_encrypted}{Do you want the user-side saved config files to be
 encrypted? A security measure to avoid that users can inject arbitrary code
@@ -108,7 +109,8 @@ Probably not.}
 }
 \description{
 A shiny based web app that uses ExPanDaR functionality for
-interactive panel data exploration
+interactive data exploration. Designed for long-form panel data but works on
+simple cross-sectional data as well.
 }
 \details{
 If you start ExPanD without any options, it will start with an upload
@@ -116,9 +118,18 @@ dialog so that the user (e.g., you) can upload a data file
 for analysis. Supported formats are as provided
 by the \code{rio} package.
 
+When you start ExPanD with a dataframe as the only parameter, it will assume
+the data to be cross-sectional and will use its row names as the
+cross-sectional identifier.
+
+When you have panel data in long format, set the \code{ts_id} and
+\code{cs_id} parameters to identify the variables that determine
+the time series and cross-sectional dimensions.
+
 If you provide variable definitions in \code{df_def} and/or \code{var_def},
 ExPanD displays these as tooltips in the descriptive table of the
-ExPanD app.
+ExPanD app. In this case, you need to identify the panel dimensions in the
+variable definitions (see below).
 
 When you provide more than one data frame in \code{df}, make sure that all have
 the same variables and variable types defined. If not, ExPanD will throw
@@ -157,10 +168,18 @@ it defaults to being TRUE for all variables other than cs_id and ts_id.} }
 \examples{
 \dontrun{
   ExPanD()
+
   # Use this if you want to read very large files via the file dialog
   options(shiny.maxRequestSize = 1024^3)
   ExPanD()
 
+  # Explore cross-sectional data
+  ExPanD(mtcars)
+
+  # Include the option to download notebook code and data
+  ExPanD(mtcars, export_nb_option = TRUE)
+
+  # Use ExPanD on long-form panel data
   data(russell_3000)
   ExPanD(russell_3000, c("coid", "coname"), "period")
   ExPanD(russell_3000, df_def = russell_3000_data_def)

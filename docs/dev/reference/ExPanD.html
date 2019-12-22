@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Explore Panel Data (ExPanD) — ExPanD • ExPanDaR</title>
+<title>Explore Your Data (ExPanD) — ExPanD • ExPanDaR</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,11 @@
 
 
 
-<meta property="og:title" content="Explore Panel Data (ExPanD) — ExPanD" />
+<meta property="og:title" content="Explore Your Data (ExPanD) — ExPanD" />
 
 <meta property="og:description" content="A shiny based web app that uses ExPanDaR functionality for
-interactive panel data exploration" />
+interactive data exploration. Designed for long-form panel data but works on
+simple cross-sectional data as well." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -137,7 +138,7 @@ interactive panel data exploration" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Explore Panel Data (ExPanD)</h1>
+    <h1>Explore Your Data (ExPanD)</h1>
     
     <div class="hidden name"><code>ExPanD.Rd</code></div>
     </div>
@@ -145,13 +146,14 @@ interactive panel data exploration" />
     <div class="ref-description">
     
     <p>A shiny based web app that uses ExPanDaR functionality for
-interactive panel data exploration</p>
+interactive data exploration. Designed for long-form panel data but works on
+simple cross-sectional data as well.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>ExPanD</span>(<span class='kw'>df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cs_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ts_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>df_def</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>var_def</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>config_list</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"ExPanD - Explore panel data interactively"</span>, <span class='kw'>abstract</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"ExPanD - Explore your data!"</span>, <span class='kw'>abstract</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>df_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/deparse'>deparse</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substitute'>substitute</a></span>(<span class='no'>df</span>)), <span class='kw'>long_def</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>factor_cutoff</span> <span class='kw'>=</span> <span class='fl'>10L</span>, <span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>sample_selection</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>subset_factor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>grouping</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>bar_chart</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>missing_values</span> <span class='kw'>=</span>
@@ -167,15 +169,15 @@ interactive panel data exploration</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>df</th>
-      <td><p>A data frame or a list of data frames containing the panel data that
+      <td><p>A data frame or a list of data frames containing the data that
 you want to explore. If NULL, ExPanD will start up with a file upload
 dialog.</p></td>
     </tr>
     <tr>
       <th>cs_id</th>
       <td><p>A character vector containing the names of the variables that
-identify the cross-section in your data.
-Can only be NULL if <code>df_def</code> is provided instead.</p></td>
+identify the cross-section in your data. <code>df_def</code> overrides if
+provided.</p></td>
     </tr>
     <tr>
       <th>ts_id</th>
@@ -184,14 +186,16 @@ the variable that identifies the time series in your data. The according
 variable needs to be coercible to an ordered vector.
 If you provide a time series indicator that already is an ordered vector,
 ExPanD will verify that it has the same levels for each data frame
-and throw an error otherwise.
-Can only be NULL if <code>df_def</code> is provided instead.</p></td>
+and throw an error otherwise. <code>df_def</code> overrides if
+provided. If <code>cs_id</code> and <code>ts_id</code> are not provided either
+directly of by <code>df_def</code>, the data is treated as cross-sectional and
+only appropriate displays are included.</p></td>
     </tr>
     <tr>
       <th>df_def</th>
       <td><p>An optional dataframe (or a list of dataframes) containing
 variable names, definitions and types. If NULL (the default) ExPanD
-uses <code>cs_id</code> and <code>ts_id</code> to identify the panel structure and
+uses <code>cs_id</code> and <code>ts_id</code> to identify the data structure and
 determines the variable types (factor, numeric, logical) based on the
 classes of the data. See the details section for further information.</p></td>
     </tr>
@@ -199,10 +203,10 @@ classes of the data. See the details section for further information.</p></td>
       <th>var_def</th>
       <td><p>If you specify here a dataframe containing variable names and
 variable definitions, ExPanD will use these on the provided sample(s) to
-create the analysis sample. In that case, the user gets the opportunity to
-add additional variables in the app. See the details section
+create the analysis sample. See the details section
 for the structure of the <code>var_def</code> dataframe. If NULL (default)
-the sample(s) provided by <code>df</code> will be used as analysis sample(s) directly.</p></td>
+the sample(s) provided by <code>df</code> will be used as analysis sample(s)
+directly.</p></td>
     </tr>
     <tr>
       <th>config_list</th>
@@ -263,8 +267,7 @@ ExPanD report.</p></td>
       <th>export_nb_option</th>
       <td><p>Do you want to give the user the option to download your
 data and an R notebook containg code for the analyses that <code>ExPanD</code> displays?
-Requires "zip" to be in your PATH.
-Defaults to FALSE.</p></td>
+Defaults to <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>store_encrypted</th>
@@ -297,9 +300,16 @@ Probably not.</p></td>
 dialog so that the user (e.g., you) can upload a data file
 for analysis. Supported formats are as provided
 by the <code>rio</code> package.</p>
+<p>When you start ExPanD with a dataframe as the only parameter, it will assume
+the data to be cross-sectional and will use its row names as the
+cross-sectional identifier.</p>
+<p>When you have panel data in long format, set the <code>ts_id</code> and
+<code>cs_id</code> parameters to identify the variables that determine
+the time series and cross-sectional dimensions.</p>
 <p>If you provide variable definitions in <code>df_def</code> and/or <code>var_def</code>,
 ExPanD displays these as tooltips in the descriptive table of the
-ExPanD app.</p>
+ExPanD app. In this case, you need to identify the panel dimensions in the
+variable definitions (see below).</p>
 <p>When you provide more than one data frame in <code>df</code>, make sure that all have
 the same variables and variable types defined. If not, ExPanD will throw
 an error. When you provide only one <code>df_def</code> for multiple data frames,
@@ -335,10 +345,18 @@ it defaults to being TRUE for all variables other than cs_id and ts_id.</p></dd>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
   <span class='fu'>ExPanD</span>()
+
   <span class='co'># Use this if you want to read very large files via the file dialog</span>
   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>options</a></span>(<span class='kw'>shiny.maxRequestSize</span> <span class='kw'>=</span> <span class='fl'>1024</span>^<span class='fl'>3</span>)
   <span class='fu'>ExPanD</span>()
 
+  <span class='co'># Explore cross-sectional data</span>
+  <span class='fu'>ExPanD</span>(<span class='no'>mtcars</span>)
+
+  <span class='co'># Include the option to download notebook code and data</span>
+  <span class='fu'>ExPanD</span>(<span class='no'>mtcars</span>, <span class='kw'>export_nb_option</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+  <span class='co'># Use ExPanD on long-form panel data</span>
   <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>russell_3000</span>)
   <span class='fu'>ExPanD</span>(<span class='no'>russell_3000</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"coid"</span>, <span class='st'>"coname"</span>), <span class='st'>"period"</span>)
   <span class='fu'>ExPanD</span>(<span class='no'>russell_3000</span>, <span class='kw'>df_def</span> <span class='kw'>=</span> <span class='no'>russell_3000_data_def</span>)

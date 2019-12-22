@@ -1,32 +1,35 @@
-#' @title Explore Panel Data (ExPanD)
+#' @title Explore Your Data (ExPanD)
 #'
 #' @description A shiny based web app that uses ExPanDaR functionality for
-#' interactive panel data exploration
+#' interactive data exploration. Designed for long-form panel data but works on
+#' simple cross-sectional data as well.
 #'
-#' @param df A data frame or a list of data frames containing the panel data that
+#' @param df A data frame or a list of data frames containing the data that
 #'   you want to explore. If NULL, ExPanD will start up with a file upload
 #'   dialog.
 #' @param cs_id A character vector containing the names of the variables that
-#'   identify the cross-section in your data.
-#'   Can only be NULL if \code{df_def} is provided instead.
+#'   identify the cross-section in your data. \code{df_def} overrides if
+#'   provided.
 #' @param ts_id A character scalar identifying the name of
 #'   the variable that identifies the time series in your data. The according
 #'   variable needs to be coercible to an ordered vector.
 #'   If you provide a time series indicator that already is an ordered vector,
 #'   ExPanD will verify that it has the same levels for each data frame
-#'   and throw an error otherwise.
-#'   Can only be NULL if \code{df_def} is provided instead.
+#'   and throw an error otherwise. \code{df_def} overrides if
+#'   provided. If \code{cs_id} and \code{ts_id} are not provided either
+#'   directly of by \code{df_def}, the data is treated as cross-sectional and
+#'   only appropriate displays are included.
 #' @param df_def An optional dataframe (or a list of dataframes) containing
 #'   variable names, definitions and types. If NULL (the default) ExPanD
-#'   uses \code{cs_id} and \code{ts_id} to identify the panel structure and
+#'   uses \code{cs_id} and \code{ts_id} to identify the data structure and
 #'   determines the variable types (factor, numeric, logical) based on the
 #'   classes of the data. See the details section for further information.
 #' @param var_def If you specify here a dataframe containing variable names and
 #'   variable definitions, ExPanD will use these on the provided sample(s) to
-#'   create the analysis sample. In that case, the user gets the opportunity to
-#'   add additional variables in the app. See the details section
+#'   create the analysis sample. See the details section
 #'   for the structure of the \code{var_def} dataframe. If NULL (default)
-#'   the sample(s) provided by \code{df} will be used as analysis sample(s) directly.
+#'   the sample(s) provided by \code{df} will be used as analysis sample(s)
+#'   directly.
 #' @param config_list a list containing the startup configuration for ExPanD to
 #'   display. Take a look at \code{data(ExPanD_config_russell_3000)} for the
 #'   format. The easiest way to generate a config list is to customize the
@@ -60,8 +63,7 @@
 #'   \code{html_block} that is included in \code{components}.
 #' @param export_nb_option Do you want to give the user the option to download your
 #'   data and an R notebook containg code for the analyses that \code{ExPanD} displays?
-#'   Requires "zip" to be in your PATH.
-#'   Defaults to FALSE.
+#'   Defaults to \code{FALSE}.
 #' @param store_encrypted Do you want the user-side saved config files to be
 #'   encrypted? A security measure to avoid that users can inject arbitrary code
 #'   in the config list. Probably a good idea when you are hosting sensitive data
@@ -81,9 +83,18 @@
 #' for analysis. Supported formats are as provided
 #' by the \code{rio} package.
 #'
+#' When you start ExPanD with a dataframe as the only parameter, it will assume
+#' the data to be cross-sectional and will use its row names as the
+#' cross-sectional identifier.
+#'
+#' When you have panel data in long format, set the \code{ts_id} and
+#' \code{cs_id} parameters to identify the variables that determine
+#' the time series and cross-sectional dimensions.
+#'
 #' If you provide variable definitions in \code{df_def} and/or \code{var_def},
 #' ExPanD displays these as tooltips in the descriptive table of the
-#' ExPanD app.
+#' ExPanD app. In this case, you need to identify the panel dimensions in the
+#' variable definitions (see below).
 #'
 #' When you provide more than one data frame in \code{df}, make sure that all have
 #' the same variables and variable types defined. If not, ExPanD will throw
@@ -122,10 +133,18 @@
 #' @examples
 #' \dontrun{
 #'   ExPanD()
+#'
 #'   # Use this if you want to read very large files via the file dialog
 #'   options(shiny.maxRequestSize = 1024^3)
 #'   ExPanD()
 #'
+#'   # Explore cross-sectional data
+#'   ExPanD(mtcars)
+#'
+#'   # Include the option to download notebook code and data
+#'   ExPanD(mtcars, export_nb_option = TRUE)
+#'
+#'   # Use ExPanD on long-form panel data
 #'   data(russell_3000)
 #'   ExPanD(russell_3000, c("coid", "coname"), "period")
 #'   ExPanD(russell_3000, df_def = russell_3000_data_def)
@@ -161,7 +180,7 @@
 
 ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
                    df_def = NULL, var_def = NULL, config_list = NULL,
-                   title = "ExPanD - Explore panel data interactively",
+                   title = "ExPanD - Explore your data!",
                    abstract = NULL,
                    df_name = deparse(substitute(df)),
                    long_def = TRUE,
@@ -187,28 +206,54 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
                    store_encrypted = FALSE,
                    key_phrase = "What a wonderful key",
                    debug = FALSE, ...) {
-  if (!is.null(df) && !is.data.frame(df) && !is.list(df)) stop("df is neither a dataframe nor a list of dataframes")
-  if (!is.null(df)) {
-    if (is.null(df_def) && (is.null(cs_id) || is.null(ts_id))) stop("df is provided but not df_def and either cs_id or ts_id is NULL")
-    if (!is.null(df_def) && (!is.null(cs_id) || !is.null(ts_id))) stop("provide either df_def or cs_id and ts_id but not both")
-    if (!is.data.frame(df) && length(which(!sapply(df, is.data.frame))) > 0) stop("df is a list containing non-dataframe members")
+  orig_df_name <- deparse(substitute(df))
+  shiny_df_name <- df_name
+  if (!is.null(df) && !is.data.frame(df) && !is.list(df))
+    stop("df is neither a dataframe nor a list of dataframes")
+  if (!is.null(df) && !is.data.frame(df) &&
+      length(which(!sapply(df, is.data.frame))) > 0)
+    stop("df is a list containing non-dataframe members")
+  if (!is.data.frame(df) && !is.null(df_def) && is.data.frame(df_def))
+    df_def <- rep(list(df_def), length(df))
+  if (length(factor_cutoff) != 1 && !is.integer(factor_cutoff))
+    stop("factor_cutoff needs to be an integer scalar.")
+
+  shiny_cs_data <- !is.null(df) && is.null(ts_id) &&
+    is.null(cs_id) && is.null(df_def)
+  if (shiny_cs_data) {
+    ts_id <- "ts_id"
+    cs_id <- "cs_id"
   }
-  if (!is.data.frame(df) && !is.null(df_def) && is.data.frame(df_def)) df_def <- rep(list(df_def), length(df))
-  if (length(factor_cutoff) != 1 && !is.integer(factor_cutoff)) stop("factor_cutoff needs to be an integer scalar.")
+  if(!is.null(df_def)) cs_id <- NULL
 
   if(!is.null(df)) {
     if(!is.data.frame(df)) {
+      if (shiny_cs_data) {
+        lapply(df, function(x) x[, "cs_id"] <- row.names(x))
+        lapply(df, function(x) x[, "ts_id"] <- 1)
+        if(!is.null(df_def)) {
+          df_def <- lapply(
+            df_def,
+            function(x) rbind(
+              x,
+              list("cs_id", "Cross-sectional indicator", "cs_id", FALSE),
+              list("ts_id", "Pseudo time series indicator", "ts_id", FALSE)
+            )
+          )
+        }
+      }
       names_df <- lapply(df, names)
       if (!is.null(df_def)) {
         for(i in 1: length(names_df)) {
           df_def[[i]][1:3] <- lapply(df_def[[i]][1:3], as.character)
-          if(!identical(names_df[[i]], df_def[[i]]$var_name)) stop ("Provided data definitions have different variable names than data frames")
+          if(!identical(names_df[[i]], df_def[[i]]$var_name))
+            stop ("Provided data definitions have different variable names than data frames")
         }
         ts_id <- as.character(df_def[[1]][df_def[[1]][, 3] == "ts_id", 1])
         cs_id <- as.character(df_def[[1]][df_def[[1]][, 3] == "cs_id", 1])
       }
       if (! ts_id %in% names_df[[1]]) stop ("Time series identifier not included in data frames.")
-      if (! all(cs_id %in% names_df[[1]])) stop ("Cross sectional identifier(s) not all included in data frames.")
+      if (! all(cs_id %in% names_df[[1]])) stop ("Not all cross sectional identifier(s) are included in data frames.")
       for (i in 2:length(names_df)) {
         if(!identical(names_df[[1]], names_df[[i]])) stop ("Provided data frames do not have identical variable names")
         if(is.ordered(df[[1]][, ts_id]) &
@@ -217,6 +262,17 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
         }
       }
     } else {
+      if (shiny_cs_data) {
+        df$cs_id <- row.names(df)
+        df$ts_id <- 1
+        if (!is.null(df_def)) {
+          df_def <- rbind(
+            df_def,
+            list("cs_id", "Cross-sectional indicator", "cs_id", FALSE),
+            list("ts_id", "Pseudo time series indicator", "ts_id", FALSE)
+          )
+        }
+      }
       if (!is.null(df_def)) {
         df_def[1:3] <- lapply(df_def[1:3], as.character)
         if(!identical(names(df), df_def$var_name)) stop ("Provided data definitions have different variable names than data frame")
@@ -266,7 +322,15 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
       stop("Number of html_blocks texts provided does not match number of html_block tags in components")
   } else if (!is.null(html_blocks)) stop("html_blocks provided but no html_block tag found in components")
 
-  if (!is.logical(export_nb_option)) stop("export_nb_option needs to be a logical value")
+  if(shiny_cs_data) {
+    components <- components[!names(components) %in%
+                               c("missing_values", "trend_graph",
+                                 "quantile_trend_graph")]
+  }
+
+  if (!is.logical(export_nb_option))
+    stop("export_nb_option needs to be a logical value")
+
   if(!is.null(var_def)) var_def[1:3] <- lapply(var_def[1:3], as.character)
 
   shiny_df <- df
@@ -278,12 +342,11 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
   shiny_title <- title
   shiny_abstract <- abstract
   if (is.data.frame(df)) {
-    shiny_df_id <- deparse(substitute(df))
+    shiny_df_id <- orig_df_name
   } else {
     shiny_df_id <- names(df)
     if (is.null(shiny_df_id)) shiny_df_id <- paste0("df list member ", 1:length(df))
   }
-  shiny_df_name <- df_name
   if (!is.data.frame(df) && length(df_name) == 1) shiny_df_name <- paste(df_name, 1:length(df))
   shiny_long_def <- long_def
   shiny_factor_cutoff <- factor_cutoff

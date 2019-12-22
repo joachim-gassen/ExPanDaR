@@ -5,18 +5,19 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Explore Panel Data Interactively • ExPanDaR</title>
+<title>Explore Your Data Interactively • ExPanDaR</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Explore Panel Data Interactively">
+<script src="pkgdown.js"></script><meta property="og:title" content="Explore Your Data Interactively">
 <meta property="og:description" content="Provides a shiny-based front end (the 'ExPanD' app) and
-    a set of functions for exploratory panel data analysis. Run as a web-based app, 
-    'ExPanD' enables users to assess the robustness of empirical evidence without 
-    providing them access to the underlying data. You can also use the functions 
-    of the package to support your exploratory data analysis workflow. Refer to 
-    the vignettes of the package for more information on how to use 'ExPanD' 
-    and/or the functions of this package.">
+    a set of functions for exploratory panel data analysis. Run as a web-based 
+    app, 'ExPanD' enables users to assess the robustness of empirical evidence 
+    without providing them access to the underlying data. You can export a 
+    notebook containing the analysis of 'ExPanD' and/or use the functions of the 
+    package to support your exploratory data analysis workflow. Refer to the 
+    vignettes of the package for more information on how to use 'ExPanD' and/or 
+    the functions of this package.">
 <meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
 <meta name="robots" content="noindex">
@@ -109,9 +110,9 @@
     
     
 <p><img src="logo.png"></p>
-<div id="expandar-explore-panel-data-interactively" class="section level1">
+<div id="expandar-explore-your-data-interactively" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#expandar-explore-panel-data-interactively" class="anchor"></a>ExPanDaR: Explore Panel Data Interactively</h1></div>
+<a href="#expandar-explore-your-data-interactively" class="anchor"></a>ExPanDaR: Explore Your Data Interactively</h1></div>
 <p><a href="http://www.repostatus.org/#active"><img src="http://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed."></a> <a href="https://travis-ci.org/joachim-gassen/ExPanDaR"><img src="https://travis-ci.org/joachim-gassen/ExPanDaR.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://cran.r-project.org/package=ExPanDaR"><img src="http://www.r-pkg.org/badges/version/ExPanDaR" alt="CRAN_Status_Badge"></a> <a href="https://cran.r-project.org/package=ExPanDaR"><img src="http://cranlogs.r-pkg.org/badges/grand-total/ExPanDaR" alt="CRAN_Download_Badge"></a></p>
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
@@ -119,8 +120,8 @@
 <p>This is the documentation of the ExPanDaR (Explore Panel Data with R) package. ExPanDaR provides the code base for the ExPanD web app. ExPanD is a shiny based app supporting interactive exploratory data analysis.</p>
 <p>ExPanD has two purposes:</p>
 <ul>
+<li>Provide a toolbox for researchers to explore data on the fly, now also allowing them to download R notebook code that reflects their analysis.</li>
 <li>Enable users to assess the robustness of empirical evidence without providing them with access to the underlying data.</li>
-<li>Provide a toolbox for researchers to explore panel data on the fly.</li>
 </ul>
 <p>While I hope that ExPanD will be particularly helpful in the academic review, publication and replication process I also think that it is convenient for typical exploratory data analysis workflows. In addition, it has already proven to be helpful in the classroom.</p>
 <p>This is what ExPanD looks like:</p>
@@ -132,31 +133,36 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>If you are in for the full treat and want to test ExPanD from within R, run the following in your R session to install the ExPanDaR package from CRAN.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"ExPanDaR"</span>)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)</code></pre></div>
-<p>Or, if you want to install the current development version from Github:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(<span class="st">"devtools"</span>)) {
-  <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)
-}
-devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"joachim-gassen/ExPanDaR"</span>)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"ExPanDaR"</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)</a></code></pre></div>
+<p>Or, if you want to install the current development version from Github that includes the new notebook export option:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(<span class="st">"devtools"</span>)) {</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">}</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"joachim-gassen/ExPanDaR"</span>)</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)</a></code></pre></div>
 </div>
 <div id="basic-usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#basic-usage" class="anchor"></a>Basic Usage</h2>
 <p>You can either start ExPanD without arguments so that it starts with a file upload dialog…</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/ExPanD.html">ExPanD</a></span>()</code></pre></div>
-<p>…or start with one of the two example datasets that come with the package:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> worldbank,  
-       <span class="dt">df_def =</span> worldbank_data_def, 
-       <span class="dt">var_def =</span> worldbank_var_def,
-       <span class="dt">df_name =</span> <span class="st">"World Bank Data"</span>,
-       <span class="dt">config_list =</span> ExPanD_config_worldbank)
-
-<span class="kw"><a href="reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> russell_<span class="dv">3000</span>,  
-       <span class="dt">df_def =</span> russell_3000_data_def, 
-       <span class="dt">df_name =</span> <span class="st">"Russell 3000"</span>,
-       <span class="dt">config_list =</span> ExPanD_config_russell_<span class="dv">3000</span>)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="reference/ExPanD.html">ExPanD</a></span>()</a></code></pre></div>
+<p>…or use it to explore a cross-sectional data frame with at least two numeric variables…</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="reference/ExPanD.html">ExPanD</a></span>(mtcars)</a></code></pre></div>
+<p>…or start with one of the two example datasets that come with the package to understand hot to use it on long-format planel data.</p>
+<p>Please note: The last parameter (<code>export_nb_option</code>) is currently only supported by the development version of the package available on Github and has to be omitted when you use the CRAN version.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> worldbank,  </a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">       <span class="dt">df_def =</span> worldbank_data_def, </a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">       <span class="dt">var_def =</span> worldbank_var_def,</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">       <span class="dt">df_name =</span> <span class="st">"World Bank Data"</span>,</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">       <span class="dt">config_list =</span> ExPanD_config_worldbank,</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">       <span class="dt">export_nb_option =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="kw"><a href="reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> russell_<span class="dv">3000</span>,  </a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">       <span class="dt">df_def =</span> russell_<span class="dv">3000</span>_data_def, </a>
+<a class="sourceLine" id="cb5-10" data-line-number="10">       <span class="dt">df_name =</span> <span class="st">"Russell 3000"</span>,</a>
+<a class="sourceLine" id="cb5-11" data-line-number="11">       <span class="dt">config_list =</span> ExPanD_config_russell_<span class="dv">3000</span>,</a>
+<a class="sourceLine" id="cb5-12" data-line-number="12">       <span class="dt">export_nb_option =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 </div>
 <div id="further-information" class="section level2">
 <h2 class="hasAnchor">

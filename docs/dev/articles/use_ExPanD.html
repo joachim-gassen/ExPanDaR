@@ -101,7 +101,7 @@
       <h1>Using ExPanD for Panel Data Exploration</h1>
                         <h4 class="author">Joachim Gassen</h4>
             
-            <h4 class="date">2019-08-25</h4>
+            <h4 class="date">2019-12-22</h4>
       
       
       <div class="hidden name"><code>use_ExPanD.Rmd</code></div>
@@ -123,30 +123,30 @@
 <a href="#starting-expand-to-upload-a-local-file-containing-panel-data" class="anchor"></a>Starting ExPanD to upload a local file containing panel data</h2>
 <p>The easiest way to start using ExPanD is to use it with a local data file containing panel data. ExPanD supports Stata, SAS, CSV, Excel and R file formats.</p>
 <p>For using ExPanD from within R, you have to install the ExPanDaR package and start ExPanD.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"joachim-gassen/ExPanDaR"</span>)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)
-
-<span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>()</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"joachim-gassen/ExPanDaR"</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>()</a></code></pre></div>
 <p>Alternatively, you can simply access the online hosted version of the ExPanD app <a href="https://jgassen.shinyapps.io/expand/">here</a> (no R required).</p>
 <p>After starting ExPanD, you will be greeted with a bare bones file upload dialog.</p>
 <p><img src="figures/ExPanD_file_01.jpg" width="90%" style="display: block; margin: auto;"></p>
 <p>Now you need a file to explore. Feel free to use whatever you want but for our first use case I will use the well-known <code>gapminder</code> dataset provided by the gapminder package (click <a href="https://www.gapminder.org">here</a> if you do not know the gapminder initiative).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)
-<span class="co"># write.csv(gapminder, file = "gapminder.csv", row.names = FALSE)</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(gapminder, <span class="dv">10</span>)
-<span class="co">#&gt; # A tibble: 10 x 6</span>
-<span class="co">#&gt;    country     continent  year lifeExp      pop gdpPercap</span>
-<span class="co">#&gt;    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 Afghanistan Asia       1952    28.8  8425333      779.</span>
-<span class="co">#&gt;  2 Afghanistan Asia       1957    30.3  9240934      821.</span>
-<span class="co">#&gt;  3 Afghanistan Asia       1962    32.0 10267083      853.</span>
-<span class="co">#&gt;  4 Afghanistan Asia       1967    34.0 11537966      836.</span>
-<span class="co">#&gt;  5 Afghanistan Asia       1972    36.1 13079460      740.</span>
-<span class="co">#&gt;  6 Afghanistan Asia       1977    38.4 14880372      786.</span>
-<span class="co">#&gt;  7 Afghanistan Asia       1982    39.9 12881816      978.</span>
-<span class="co">#&gt;  8 Afghanistan Asia       1987    40.8 13867957      852.</span>
-<span class="co">#&gt;  9 Afghanistan Asia       1992    41.7 16317921      649.</span>
-<span class="co">#&gt; 10 Afghanistan Asia       1997    41.8 22227415      635.</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co"># write.csv(gapminder, file = "gapminder.csv", row.names = FALSE)</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(gapminder, <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; # A tibble: 10 x 6</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;    country     continent  year lifeExp      pop gdpPercap</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;  1 Afghanistan Asia       1952    28.8  8425333      779.</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;  2 Afghanistan Asia       1957    30.3  9240934      821.</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;  3 Afghanistan Asia       1962    32.0 10267083      853.</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt;  4 Afghanistan Asia       1967    34.0 11537966      836.</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt;  5 Afghanistan Asia       1972    36.1 13079460      740.</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt;  6 Afghanistan Asia       1977    38.4 14880372      786.</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt;  7 Afghanistan Asia       1982    39.9 12881816      978.</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt;  8 Afghanistan Asia       1987    40.8 13867957      852.</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt;  9 Afghanistan Asia       1992    41.7 16317921      649.</span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; 10 Afghanistan Asia       1997    41.8 22227415      635.</span></a></code></pre></div>
 <p>To use ExPanD, you need the following:</p>
 <ul>
 <li>A panel dataset in long format with at least two numerical variables and without duplicate observations (as identified by the cross-sectional and time-series dimension),</li>
@@ -154,8 +154,8 @@
 <li>a variable that is coercible to an ordered factor and that identifies (and sorts) the time dimension of your panel.</li>
 </ul>
 <p>As you see, the gapminder file contains country-year data. It is organized in a long format by using <code>country</code> as cross-sectional identifier and <code>year</code> as time-series identifier. Each of the additional variables is then stored in a separate column. It has one factor (<code>continent</code>) and three numerical variables (<code>lifeExp</code>, <code>pop</code> and <code>gdpPercap</code>). So, it complies with the above requirements, assuming that is has no duplicates:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/any">any</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/duplicated">duplicated</a></span>(gapminder[,<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"country"</span>, <span class="st">"year"</span>)]))
-<span class="co">#&gt; [1] FALSE</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/any">any</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/duplicated">duplicated</a></span>(gapminder[,<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"country"</span>, <span class="st">"year"</span>)]))</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; [1] FALSE</span></a></code></pre></div>
 <p>OK. Use the commented-out <code><a href="https://www.rdocumentation.org/packages/utils/topics/write.table">write.csv()</a></code> function call above to save the CSV file to your system and the file dialog to load it into ExPanD (if you are not using R, you can download the CSV file <a href="https://github.com/joachim-gassen/ExPanDaR/raw/master/vignettes/data/gapminder.csv">here</a>). After uploading the file, two dialog boxes will appear asking you to select the cross-sectional identifier(s) and the time-series identifier.</p>
 <p><img src="figures/ExPanD_file_02.jpg" width="90%" style="display: block; margin: auto;"></p>
 <p>Select <code>country</code> as the cross-sectional identifier and <code>year</code> as the time-series identifier. ExPanD will now process the data to display it so that you can start exploring.</p>
@@ -164,11 +164,11 @@
 <h2 class="hasAnchor">
 <a href="#starting-expand-with-a-data-frame-containing-panel-data" class="anchor"></a>Starting ExPanD with a data frame containing panel data</h2>
 <p>Alternatively, if you are using R you can bypass the file upload dialog by specifying a data frame and its cross-sectional as well as time-series identifiers.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"joachim-gassen/ExPanDaR"</span>)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)
-
-<span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder, <span class="dt">cs_id =</span> <span class="st">"country"</span>, <span class="dt">ts_id =</span> <span class="st">"year"</span>)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"joachim-gassen/ExPanDaR"</span>)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder, <span class="dt">cs_id =</span> <span class="st">"country"</span>, <span class="dt">ts_id =</span> <span class="st">"year"</span>)</a></code></pre></div>
 </div>
 <div id="exploring-data" class="section level2">
 <h2 class="hasAnchor">
@@ -183,8 +183,8 @@
 <p><img src="figures/ExPanD_simple_03.jpg" width="90%" style="display: block; margin: auto;"></p>
 <p>The association has become more robust across regions and the scatter plot now shows a positive association across the complete range of winsorized GDP per capita.</p>
 <p>Continue to play around with your data. Let us assume that at some point you find something that you consider worth preserving so that next time you start ExPanD with the gapminder dataset, it starts directly into the view that you just have. No problem! Just scroll down to the bottom of the page. There, you will find a save dialog (and a load dialog as well, just in case). Save your ExPanD choices to a place that you will remember. The file that will be stored is a plain list, saved as a RDS file. Assuming that you named the file “ExPanD_config.RDS” and stored in your current work directory, you can now start ExPanD right into your favorite analysis by providing this list.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ExPanD_config &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readRDS">readRDS</a></span>(<span class="st">"ExPanD_config.RDS"</span>)
-<span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder, <span class="dt">cs_id =</span> <span class="st">"country"</span>, <span class="dt">ts_id =</span> <span class="st">"year"</span>, <span class="dt">config_list =</span> ExPanD_config)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">ExPanD_config &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readRDS">readRDS</a></span>(<span class="st">"ExPanD_config.RDS"</span>)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder, <span class="dt">cs_id =</span> <span class="st">"country"</span>, <span class="dt">ts_id =</span> <span class="st">"year"</span>, <span class="dt">config_list =</span> ExPanD_config)</a></code></pre></div>
 </div>
 <div id="defining-additional-variables" class="section level2">
 <h2 class="hasAnchor">
@@ -193,28 +193,28 @@
 <p>The questions of the last paragraph are typical for exploratory data analysis workflows and ExPanD is equipped to handle them. When started in its “advanced mode”, it provides two samples: A base sample and an analysis sample. You can then define additional variables based on the base sample interactively.</p>
 <p>When you call ExPanD without options, it will start into the advanced mode, generating an analysis sample that is identical to the sample that you uploaded. When you start ExPanD by providing it with a data frame at the command line, you decide whether you want to use the “simple” or “advanced” mode. When you prepare a data frame containing variable definitions via the <code>var_def</code> parameter, ExPanD will start in the advanced mode.</p>
 <p>A variable definition file has to contain at least three character columns: <code>var_name</code>, <code>var_def</code> and <code>type</code>. In addition, it can contain a logical column <code>can_be_na</code>. Let’s take a look at the variable definition data frame for the <code>worldbank</code> dataset provided by the ExPanDaR package.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(worldbank_var_def, <span class="dv">10</span>)
-<span class="co">#&gt;           var_name                             var_def    type can_be_na</span>
-<span class="co">#&gt; 1          country                             country   cs_id         0</span>
-<span class="co">#&gt; 2           region                              region  factor         0</span>
-<span class="co">#&gt; 3           income                              income  factor         0</span>
-<span class="co">#&gt; 4             year                                year   ts_id         0</span>
-<span class="co">#&gt; 5             time as.numeric(as.character(year))-1960 numeric         0</span>
-<span class="co">#&gt; 6              gdp                      NY.GDP.MKTP.KD numeric         0</span>
-<span class="co">#&gt; 7       population                         SP.POP.TOTL numeric         0</span>
-<span class="co">#&gt; 8       gdp_capita                      NY.GDP.PCAP.KD numeric         0</span>
-<span class="co">#&gt; 9      extdebt_gni                   DT.DOD.DECT.GN.ZS numeric         1</span>
-<span class="co">#&gt; 10 debtservice_gni                   DT.TDS.DPPG.GN.ZS numeric         1</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(worldbank_var_def, <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt;           var_name                             var_def    type can_be_na</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; 1          country                             country   cs_id         0</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; 2           region                              region  factor         0</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; 3           income                              income  factor         0</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; 4             year                                year   ts_id         0</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; 5             time as.numeric(as.character(year))-1960 numeric         0</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; 6              gdp                      NY.GDP.MKTP.KD numeric         0</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; 7       population                         SP.POP.TOTL numeric         0</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; 8       gdp_capita                      NY.GDP.PCAP.KD numeric         0</span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; 9      extdebt_gni                   DT.DOD.DECT.GN.ZS numeric         1</span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt; 10 debtservice_gni                   DT.TDS.DPPG.GN.ZS numeric         1</span></a></code></pre></div>
 <p><code>var_name</code> contains variable names for the analysis sample and <code>var_def</code> contains the definitions for these variables. The definitions refer to variables contained in the <code>worldbank</code> dataset (which are conforming to the naming convention of the World Bank). Most definitions are just simple 1:1 transformations of the <code>worldbank</code> dataset but, as you can see from the definition for <code>time</code>, you can also use standard R expressions within the scope of the <code>worldbank</code> data frame. For the R experts: Your definition will be evaluated within a <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">dplyr::mutate()</a></code> call on the base data frame grouped by the cross section and ordered by the time-series identifier, so for example that <code>lead()</code> and <code><a href="https://www.rdocumentation.org/packages/stats/topics/lag">lag()</a></code> should work as expected.</p>
 <p>With the <code>type</code> variable you specify the nature of the variable that you just defined. Possible values are <code>cs_id</code>, <code>ts_id</code>, <code>numeric</code>, <code>logical</code>, and <code>factor</code>. They identify cross-sectional identifier(s), the time-series identifier, numerical variables, Boolean (True/False) type variables, and variables to be treated as grouping factors. Note that the data does not have to have the according class but is has to be coercible to it.</p>
 <p>The <code>can_be_na</code> variable can be omitted. If you do not provide it, it will be set to <code>TRUE</code> for all variables besides the cross-sectional and time-series identifiers. In the <code>worldbank_var_def</code> data frame it is set to <code>FALSE</code> for the variables <code>time</code>, <code>gdp</code>, <code>population</code>, and <code>gpd_capita</code>, meaning that only observations with non-missing values for these variables will be included in the analysis dataset.</p>
 <p>By customizing this data frame that you provide to <code><a href="../reference/ExPanD.html">ExPanD()</a></code> via the <code>var_def</code> parameter, you can design the analysis sample as you wish. An alternative and more interactive approach is to define variables interactively while running <code><a href="../reference/ExPanD.html">ExPanD()</a></code>. Let’s try. Run the following code to start ExPanD with the <code>worldbank</code> base data in advanced mode.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)
-
-<span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> worldbank, 
-       <span class="dt">df_def =</span> worldbank_data_def,
-       <span class="dt">var_def =</span> worldbank_var_def,
-       <span class="dt">config_list =</span> ExPanD_config_worldbank)</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> worldbank, </a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">       <span class="dt">df_def =</span> worldbank_data_def,</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">       <span class="dt">var_def =</span> worldbank_var_def,</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">       <span class="dt">config_list =</span> ExPanD_config_worldbank)</a></code></pre></div>
 <p>What you will see is a similar analysis to the gapminder analysis of the first use case but with a more extensive dataset. The scatter plot and the regression analysis are displayed below.</p>
 <p><img src="figures/ExPanD_worldbank_01.jpg" width="90%" style="display: block; margin: auto;"></p>
 <p>It shows a positive association of GDP per capita with life expectancy after controlling for public spending on health and income inequality (which happens to be negatively associated with life expectancy). As you see from the table, the number of observations is 1,068. How does this reconcile with the roughly 8,500 observations that the World Bank sample has data for? A quick look at the missing values graph below helps to understand the issue.</p>
@@ -260,14 +260,14 @@
 </ul>
 <p>We will revisit the second statement. To do so, we use the dataset <code>russell_3000</code> that is included with the ExPanDaR package. Most capital market based research uses data from commercial data vendors, requiring researchers to obtain a costly license. To circumvent this barrier to open science, we collect data from publicly available APIs (Yahoo and Google Finance) using the <code>tidyquant</code> package. The sample comprises available data for a sample of U.S. listed firms that where members of the Russell 3000 index in 2017. The data are more or less as provided by <code>tidyquant</code> and are used here for illustrative purposes only.</p>
 <p>To explore the data and to test a model on the data, we split the <code>russell_3000</code> in two equally sized randomly selected samples: The “training sample” and the “test sample”. The idea is that we will explore the training sample but will infer the significance of our association test from the test sample. Run the following to generate the two samples and to start ExPanD with them.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">42</span>)
-training_sample &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(russell_<span class="dv">3000</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(.<span class="dv">5</span><span class="op">*</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(russell_<span class="dv">3000</span>)))
-test_sample &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sets">setdiff</a></span>(<span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(russell_<span class="dv">3000</span>), training_sample)
-
-<span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(russell_<span class="dv">3000</span>[training_sample, ], russell_<span class="dv">3000</span>[test_sample, ]),
-       <span class="dt">df_def =</span> russell_3000_data_def,
-       <span class="dt">df_name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Training sample"</span>, <span class="st">"Test sample"</span>))</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">42</span>)</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">training_sample &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(russell_<span class="dv">3000</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(.<span class="dv">5</span><span class="op">*</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(russell_<span class="dv">3000</span>)))</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">test_sample &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sets">setdiff</a></span>(<span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(russell_<span class="dv">3000</span>), training_sample)</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(russell_<span class="dv">3000</span>[training_sample, ], russell_<span class="dv">3000</span>[test_sample, ]),</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">       <span class="dt">df_def =</span> russell_<span class="dv">3000</span>_data_def,</a>
+<a class="sourceLine" id="cb8-8" data-line-number="8">       <span class="dt">df_name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Training sample"</span>, <span class="st">"Test sample"</span>))</a></code></pre></div>
 <p>ExPanD starts displaying the training sample. As you can infer from the bar chart and the descriptive table, the <code>russell_3000</code> dataset contains a short unbalanced panel of four years and 2,289 firms. Also, you have varying amounts of missing data across the variables of the dataset with some variables containing no values for the first fiscal year of the sample. When you hover with your mouse over the variable names in the descriptive table a tool-tip will present you with hopefully informative variable definitions.</p>
 <p>Where do the variable definitions come from? When you take a look at the <code><a href="../reference/ExPanD.html">ExPanD()</a></code> function call, you will notice the <code>df_def</code> parameter. It points to a data frame provided by the ExPanDaR package that provides the variable definitions.</p>
 <p>The variables that we are interested in are <code>return</code> (the annual stock market return and our dependent variable), <code>nioa</code> (net income, deflated by average total assets), <code>cfoa</code> (cash flow from operations, deflated by average total assets) and <code>accoa</code> (total accruals, deflated by average total assets). To explore their level of association, I suggest that you start with analyzing the scatter plot of cash flow and returns. You will notice that, again, extreme observations are relatively influential. Limit their influence by winsorizing to the 1 % and 99 % percentile. After doing that, you will get an image that looks like the screenshot below.</p>

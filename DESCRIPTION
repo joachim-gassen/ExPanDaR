@@ -1,6 +1,6 @@
 Package: ExPanDaR
 Type: Package
-Title: Explore Panel Data Interactively
+Title: Explore Your Data Interactively
 Version: 0.4.0.9000
 Authors@R: person("Joachim", "Gassen", role = c("aut", "cre"), 
     email = "gassen@wiwi.hu-berlin.de",

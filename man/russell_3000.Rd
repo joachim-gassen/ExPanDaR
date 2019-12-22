@@ -24,9 +24,6 @@ data(russell_3000)
 prepare_missing_values_graph(russell_3000, ts_id = "period")
 
 }
-\keyword{accounting}
-\keyword{capital}
+\keyword{acccounting}
 \keyword{data}
-\keyword{data,}
-\keyword{datasets,}
-\keyword{market}
+\keyword{datasets}

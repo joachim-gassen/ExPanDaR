@@ -8,7 +8,7 @@
 #'
 #' @format An object of class \code{"data.frame"}.
 #'
-#' @keywords datasets, accounting data, capital market data
+#' @keywords data datasets acccounting
 #'
 #' @source Has been collected using the \code{\link[tidyquant]{tq_get}} function family in Summer 2017.
 #'  The code to generate this data is available in the
@@ -39,8 +39,6 @@
 #'
 #' @format An object of class \code{"data.frame"}.
 #'
-#' @keywords ExPanD, config
-#'
 #' @examples
 #' data(russell_3000)
 #' data(russell_3000_data_def)
@@ -61,8 +59,6 @@
 #'
 #' @format An object of class \code{"list"}.
 #'
-#' @keywords ExPanD, config
-#'
 #' @examples
 #' data(russell_3000)
 #' data(russell_3000_data_def)
@@ -82,7 +78,7 @@
 #'
 #' @format An object of class \code{"data.frame"}.
 #'
-#' @keywords datasets, macroeconomic data, country level data
+#' @keywords data datasets macroeconomic
 #'
 #' @source Has been collected using the \code{\link[wbstats]{wb}} function
 #'  from the World Bank API in March 2018.
@@ -121,8 +117,6 @@
 #'
 #' @format An object of class \code{"data.frame"}.
 #'
-#' @keywords ExPanD, config
-#'
 #' @examples
 #' data(worldbank)
 #' data(worldbank_data_def)
@@ -145,8 +139,6 @@
 #'
 #' @format An object of class \code{"data.frame"}.
 #'
-#' @keywords ExPanD, config
-#'
 #' @examples
 #' data(worldbank)
 #' data(worldbank_data_def)
@@ -167,8 +159,6 @@
 #' @usage data(ExPanD_config_worldbank)
 #'
 #' @format An object of class \code{"list"}.
-#'
-#' @keywords ExPanD, config
 #'
 #' @examples
 #' data(worldbank)

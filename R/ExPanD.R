@@ -62,7 +62,7 @@
 #' @param html_blocks A character vector containing the clean HTML code for each
 #'   \code{html_block} that is included in \code{components}.
 #' @param export_nb_option Do you want to give the user the option to download your
-#'   data and an R notebook containg code for the analyses that \code{ExPanD} displays?
+#'   data and an R notebook containing code for the analyses that \code{ExPanD} displays?
 #'   Defaults to \code{FALSE}.
 #' @param store_encrypted Do you want the user-side saved config files to be
 #'   encrypted? A security measure to avoid that users can inject arbitrary code

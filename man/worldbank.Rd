@@ -31,9 +31,6 @@ data(ExPanD_config_worldbank)
 }
 
 }
-\keyword{country}
 \keyword{data}
-\keyword{data,}
-\keyword{datasets,}
-\keyword{level}
+\keyword{datasets}
 \keyword{macroeconomic}

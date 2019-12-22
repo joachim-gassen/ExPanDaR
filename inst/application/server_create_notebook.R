@@ -19,7 +19,7 @@ create_nb_code_for_component <- function(comp) {
   })
 
 
-  if (comp == "create_sample" && !local) return({
+  if (comp == "create_sample") return({
     nb_code <- c(
       "### Create Sample", " ",
       "This step reads the raw data provided by `ExPanD()` and generates the sample for the analysis.",

@@ -21,5 +21,4 @@ data(ExPanD_config_worldbank)
     var_def = worldbank_var_def, config_list = ExPanD_config_worldbank)
 }
 }
-\keyword{ExPanD,}
-\keyword{config}
+\keyword{datasets}

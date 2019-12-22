@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -100,7 +100,7 @@
       <h1>Customize ExPanD</h1>
                         <h4 class="author">Joachim Gassen</h4>
             
-            <h4 class="date">2019-04-08</h4>
+            <h4 class="date">2019-12-22</h4>
       
       
       <div class="hidden name"><code>customize_ExPanD.Rmd</code></div>
@@ -122,15 +122,15 @@
 <h2 class="hasAnchor">
 <a href="#select-components-to-include-and-their-order" class="anchor"></a>Select components to include and their order</h2>
 <p>When you start ExPanD in default mode, e.g., by</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)
-
-<span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder, <span class="dt">cs_id =</span> <span class="st">"country"</span>, <span class="dt">ts_id =</span> <span class="st">"year"</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder, <span class="dt">cs_id =</span> <span class="st">"country"</span>, <span class="dt">ts_id =</span> <span class="st">"year"</span>)</a></code></pre></div>
 <p>ExPanD will include all available components in their default order:</p>
 <table class="table">
 <colgroup>
-<col width="31%">
-<col width="68%">
+<col width="30%">
+<col width="69%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">Name</th>
@@ -147,7 +147,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>grouping</code></td>
-<td align="left">A drop down menu that gives you the option to name a grouping factor. The grouping factor allows the user to focus certain components on a sub-sample defined by a value of that factor. Also, the grouping coponent contains the dialog four outlier treatments</td>
+<td align="left">A drop down menu that gives you the option to name a grouping factor. The grouping factor allows the user to focus certain components on a sub-sample defined by a value of that factor. Also, the grouping component contains the dialog four outlier treatments</td>
 </tr>
 <tr class="even">
 <td align="left"><code>bar_chart</code></td>
@@ -204,68 +204,68 @@
 </tbody>
 </table>
 <p>To select the components that you want to display, you have two options: First, you can simply indicate the components that you want to <em>omit</em>. The remaining components stay in the original order. As an example, the ‘gapminder’ data set does not have any missing values and is a balanced sample. This mean that we can safely omit the sample selection component as well as the display of missing values.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(gapminder)
-
-<span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder, <span class="dt">cs_id =</span> <span class="st">"country"</span>, <span class="dt">ts_id =</span> <span class="st">"year"</span>, 
-       <span class="dt">components =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">sample_selection =</span> <span class="ot">FALSE</span>, <span class="dt">missing_values =</span> <span class="ot">FALSE</span>))</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(gapminder)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder, <span class="dt">cs_id =</span> <span class="st">"country"</span>, <span class="dt">ts_id =</span> <span class="st">"year"</span>, </a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">       <span class="dt">components =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">sample_selection =</span> <span class="ot">FALSE</span>, <span class="dt">missing_values =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
 <p>Alternatively, you can choose the components that you want to <em>include</em>. This also gives you the option to sort the components in your preferred order. Let us assume that we want our app to focus on the Preston curve association of GDP per capita and life expectancy in the ‘gapminder’ data. So maybe we want to include the following components:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(gapminder)
-
-<span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder, <span class="dt">cs_id =</span> <span class="st">"country"</span>, <span class="dt">ts_id =</span> <span class="st">"year"</span>, 
-       <span class="dt">components =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">descriptive_table =</span> <span class="ot">TRUE</span>, 
-                      <span class="dt">by_group_violin_graph =</span> <span class="ot">TRUE</span>, 
-                      <span class="dt">scatter_plot =</span> <span class="ot">TRUE</span>, 
-                      <span class="dt">regression =</span> <span class="ot">TRUE</span>))</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(gapminder)</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder, <span class="dt">cs_id =</span> <span class="st">"country"</span>, <span class="dt">ts_id =</span> <span class="st">"year"</span>, </a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">       <span class="dt">components =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">descriptive_table =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">                      <span class="dt">by_group_violin_graph =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">                      <span class="dt">scatter_plot =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">                      <span class="dt">regression =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
 <p>OK. While we are at it, we can also include an informative title and a short intro sentence.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(gapminder)
-
-<span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder, <span class="dt">cs_id =</span> <span class="st">"country"</span>, <span class="dt">ts_id =</span> <span class="st">"year"</span>, 
-       <span class="dt">title =</span> <span class="st">"Explore the Preston Curve"</span>,
-       <span class="dt">abstract =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"This interactive display uses 'gapminder' data to"</span>,
-                        <span class="st">"let you explore the Preston Curve. Scroll down and enjoy!"</span>),
-       <span class="dt">components =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">descriptive_table =</span> <span class="ot">TRUE</span>, 
-                      <span class="dt">by_group_violin_graph =</span> <span class="ot">TRUE</span>, 
-                      <span class="dt">scatter_plot =</span> <span class="ot">TRUE</span>, 
-                      <span class="dt">regression =</span> <span class="ot">TRUE</span>))</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(gapminder)</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder, <span class="dt">cs_id =</span> <span class="st">"country"</span>, <span class="dt">ts_id =</span> <span class="st">"year"</span>, </a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">       <span class="dt">title =</span> <span class="st">"Explore the Preston Curve"</span>,</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">       <span class="dt">abstract =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"This interactive display uses 'gapminder' data to"</span>,</a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">                        <span class="st">"let you explore the Preston Curve. Scroll down and enjoy!"</span>),</a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">       <span class="dt">components =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">descriptive_table =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb4-10" data-line-number="10">                      <span class="dt">by_group_violin_graph =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb4-11" data-line-number="11">                      <span class="dt">scatter_plot =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb4-12" data-line-number="12">                      <span class="dt">regression =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
 </div>
 <div id="add-variable-definitions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#add-variable-definitions" class="anchor"></a>Add variable definitions</h2>
 <p>When you look at the descriptive table you see that it does not offer self-explanatory variable names. Also, no tool-tips are displayed when you hover over the variable names with your mouse.</p>
 <p>To add the tool-tip functionality, we need to specify a <code>df_def</code> data frame that describes the variables. The upside of this is that we no longer need to specify the cross-sectional and time series identifiers as these are also defined in the data frame</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(gapminder)
-
-df_def &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(
-  <span class="dt">var_name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(gapminder),
-  <span class="dt">var_def =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Name of the country"</span>,
-              <span class="st">"Continent where country is located"</span>,
-              <span class="st">"Year of data"</span>,
-              <span class="st">"Life expectancy in years at birth"</span>,
-              <span class="st">"Population in million"</span>,
-              <span class="st">"Gross Domestic Product (GDP) per capita"</span>),
-  <span class="dt">type =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"cs_id"</span>, <span class="st">"factor"</span>, <span class="st">"ts_id"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="st">"numeric"</span>, <span class="dv">3</span>))
-)
-
-gapminder<span class="op">$</span>pop &lt;-<span class="st"> </span>gapminder<span class="op">$</span>pop <span class="op">/</span><span class="st"> </span><span class="fl">1e6</span>
-
-<span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder,
-       <span class="dt">title =</span> <span class="st">"Explore the Preston Curve"</span>,
-       <span class="dt">abstract =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"This interactive display uses 'gapminder' data to"</span>,
-                        <span class="st">"let you explore the Preston Curve. Scroll down and enjoy!"</span>),
-       <span class="dt">components =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">descriptive_table =</span> <span class="ot">TRUE</span>, 
-                      <span class="dt">by_group_violin_graph =</span> <span class="ot">TRUE</span>, 
-                      <span class="dt">quantile_trend_graph =</span> <span class="ot">TRUE</span>, 
-                      <span class="dt">scatter_plot =</span> <span class="ot">TRUE</span>, 
-                      <span class="dt">regression =</span> <span class="ot">TRUE</span>),
-       <span class="dt">df_def =</span> df_def)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(gapminder)</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">df_def &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">  <span class="dt">var_name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(gapminder),</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">  <span class="dt">var_def =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Name of the country"</span>,</a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">              <span class="st">"Continent where country is located"</span>,</a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">              <span class="st">"Year of data"</span>,</a>
+<a class="sourceLine" id="cb5-10" data-line-number="10">              <span class="st">"Life expectancy in years at birth"</span>,</a>
+<a class="sourceLine" id="cb5-11" data-line-number="11">              <span class="st">"Population in million"</span>,</a>
+<a class="sourceLine" id="cb5-12" data-line-number="12">              <span class="st">"Gross Domestic Product (GDP) per capita"</span>),</a>
+<a class="sourceLine" id="cb5-13" data-line-number="13">  <span class="dt">type =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"cs_id"</span>, <span class="st">"factor"</span>, <span class="st">"ts_id"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="st">"numeric"</span>, <span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb5-14" data-line-number="14">)</a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16">gapminder<span class="op">$</span>pop &lt;-<span class="st"> </span>gapminder<span class="op">$</span>pop <span class="op">/</span><span class="st"> </span><span class="fl">1e6</span></a>
+<a class="sourceLine" id="cb5-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder,</a>
+<a class="sourceLine" id="cb5-19" data-line-number="19">       <span class="dt">title =</span> <span class="st">"Explore the Preston Curve"</span>,</a>
+<a class="sourceLine" id="cb5-20" data-line-number="20">       <span class="dt">abstract =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"This interactive display uses 'gapminder' data to"</span>,</a>
+<a class="sourceLine" id="cb5-21" data-line-number="21">                        <span class="st">"let you explore the Preston Curve. Scroll down and enjoy!"</span>),</a>
+<a class="sourceLine" id="cb5-22" data-line-number="22">       <span class="dt">components =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">descriptive_table =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb5-23" data-line-number="23">                      <span class="dt">by_group_violin_graph =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb5-24" data-line-number="24">                      <span class="dt">quantile_trend_graph =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb5-25" data-line-number="25">                      <span class="dt">scatter_plot =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb5-26" data-line-number="26">                      <span class="dt">regression =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb5-27" data-line-number="27">       <span class="dt">df_def =</span> df_def)</a></code></pre></div>
 <p>Now tool-tips for the descriptive table inform about our variables. Neat.</p>
 </div>
 <div id="customize-components-so-that-they-display-certain-variables-and-specifications" class="section level2">
@@ -274,129 +274,130 @@ gapminder<span class="op">$</span>pop &lt;-<span class="st"> </span>gapminder<sp
 <p>When you scroll down the components you will see that the scatter plot is not showing the typical Preston curve by default. We want to change that so that the scatter plot is based on the full sample and includes a LOESS line. It should show GDP per capita as X and life expectancy as Y, with population defining the size of the data points and the continent their color. Also, we want to estimate a panel model of life expectancy with country and year firm fixed effects, two-way clustered standard errors and GDP per capita as explanatory variable (Population is time constant in the ‘gapminder’ data set and as such subsumed by country fixed effects).</p>
 <p>There are two ways to achieve that, a simple one and a hard one.</p>
 <p>First, the simple one: Make the desired changes in the app, save the configuration of the app to a file that you can remember (button towards the bottom of the page), read that file with <code><a href="https://www.rdocumentation.org/packages/base/topics/readRDS">readRDS()</a></code> into your environment and provide the resulting list as the parameter <code>config_list</code> to the <code><a href="../reference/ExPanD.html">ExPanD()</a></code> function call. Below, I assume that you saved the configuration of the app as <code>my_config.RDS</code> to the working directory.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(gapminder)
-
-df_def &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(
-  <span class="dt">var_name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(gapminder),
-  <span class="dt">var_def =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Name of the country"</span>,
-              <span class="st">"Continent where country is located"</span>,
-              <span class="st">"Year of data"</span>,
-              <span class="st">"Life expectancy in years at birth"</span>,
-              <span class="st">"Population in million"</span>,
-              <span class="st">"Gross Domestic Product (GDP) per capita"</span>),
-  <span class="dt">type =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"cs_id"</span>, <span class="st">"factor"</span>, <span class="st">"ts_id"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="st">"numeric"</span>, <span class="dv">3</span>))
-)
-
-gapminder<span class="op">$</span>pop &lt;-<span class="st"> </span>gapminder<span class="op">$</span>pop <span class="op">/</span><span class="st"> </span><span class="fl">1e6</span>
-
-clist &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readRDS">readRDS</a></span>(<span class="st">"my_config.RDS"</span>)
-
-<span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder,
-       <span class="dt">title =</span> <span class="st">"Explore the Preston Curve"</span>,
-       <span class="dt">abstract =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"This interactive display uses 'gapminder' data to"</span>,
-                        <span class="st">"let you explore the Preston Curve. Scroll down and enjoy!"</span>),
-       <span class="dt">components =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">descriptive_table =</span> <span class="ot">TRUE</span>, 
-                      <span class="dt">by_group_violin_graph =</span> <span class="ot">TRUE</span>, 
-                      <span class="dt">scatter_plot =</span> <span class="ot">TRUE</span>, 
-                      <span class="dt">regression =</span> <span class="ot">TRUE</span>),
-       <span class="dt">df_def =</span> df_def,
-       <span class="dt">config_list =</span> clist)</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(gapminder)</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">df_def &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">  <span class="dt">var_name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(gapminder),</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">  <span class="dt">var_def =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Name of the country"</span>,</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">              <span class="st">"Continent where country is located"</span>,</a>
+<a class="sourceLine" id="cb6-9" data-line-number="9">              <span class="st">"Year of data"</span>,</a>
+<a class="sourceLine" id="cb6-10" data-line-number="10">              <span class="st">"Life expectancy in years at birth"</span>,</a>
+<a class="sourceLine" id="cb6-11" data-line-number="11">              <span class="st">"Population in million"</span>,</a>
+<a class="sourceLine" id="cb6-12" data-line-number="12">              <span class="st">"Gross Domestic Product (GDP) per capita"</span>),</a>
+<a class="sourceLine" id="cb6-13" data-line-number="13">  <span class="dt">type =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"cs_id"</span>, <span class="st">"factor"</span>, <span class="st">"ts_id"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="st">"numeric"</span>, <span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb6-14" data-line-number="14">)</a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16">gapminder<span class="op">$</span>pop &lt;-<span class="st"> </span>gapminder<span class="op">$</span>pop <span class="op">/</span><span class="st"> </span><span class="fl">1e6</span></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18">clist &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readRDS">readRDS</a></span>(<span class="st">"my_config.RDS"</span>)</a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder,</a>
+<a class="sourceLine" id="cb6-21" data-line-number="21">       <span class="dt">title =</span> <span class="st">"Explore the Preston Curve"</span>,</a>
+<a class="sourceLine" id="cb6-22" data-line-number="22">       <span class="dt">abstract =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"This interactive display uses 'gapminder' data to"</span>,</a>
+<a class="sourceLine" id="cb6-23" data-line-number="23">                        <span class="st">"let you explore the Preston Curve. Scroll down and enjoy!"</span>),</a>
+<a class="sourceLine" id="cb6-24" data-line-number="24">       <span class="dt">components =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">descriptive_table =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb6-25" data-line-number="25">                      <span class="dt">by_group_violin_graph =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb6-26" data-line-number="26">                      <span class="dt">scatter_plot =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb6-27" data-line-number="27">                      <span class="dt">regression =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb6-28" data-line-number="28">       <span class="dt">df_def =</span> df_def,</a>
+<a class="sourceLine" id="cb6-29" data-line-number="29">       <span class="dt">config_list =</span> clist)</a></code></pre></div>
 <p>Now the hard one. You can specify the changes that you want to apply to the default configuration directly in the code. Take a look at <code>clist</code> to understand how the data is structured. I hope that most list member names are somewhat self explanatory.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(gapminder)
-
-df_def &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(
-  <span class="dt">var_name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(gapminder),
-  <span class="dt">var_def =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Name of the country"</span>,
-              <span class="st">"Continent where country is located"</span>,
-              <span class="st">"Year of data"</span>,
-              <span class="st">"Life expectancy at birth, in years"</span>,
-              <span class="st">"Population in million"</span>,
-              <span class="st">"Gross Domestic Product (GDP) per capita in US-$, inflation-adjusted"</span>),
-  <span class="dt">type =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"cs_id"</span>, <span class="st">"factor"</span>, <span class="st">"ts_id"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="st">"numeric"</span>, <span class="dv">3</span>)),
-  <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>
-)
-
-gapminder<span class="op">$</span>pop &lt;-<span class="st"> </span>gapminder<span class="op">$</span>pop <span class="op">/</span><span class="st"> </span><span class="fl">1e6</span>
-
-clist &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(
-  <span class="dt">scatter_x =</span> <span class="st">"gdpPercap"</span>,
-  <span class="dt">scatter_y =</span> <span class="st">"lifeExp"</span>,
-  <span class="dt">scatter_size =</span> <span class="st">"pop"</span>,
-  <span class="dt">scatter_color =</span> <span class="st">"continent"</span>,
-  <span class="dt">scatter_loess =</span> <span class="ot">TRUE</span>,
-  <span class="dt">scatter_sample =</span> <span class="ot">FALSE</span>,
-  
-  <span class="dt">reg_y =</span> <span class="st">"lifeExp"</span>,
-  <span class="dt">reg_x =</span> <span class="st">"gdpPercap"</span>,
-  <span class="dt">reg_fe1 =</span> <span class="st">"country"</span>,
-  <span class="dt">reg_fe2 =</span> <span class="st">"year"</span>,
-  <span class="dt">cluster =</span> <span class="st">"4"</span> <span class="co"># No this is hard to guess 1: none, 2: first FE, 3: second FE, 4: both FE</span>
-)
-
-<span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder,
-       <span class="dt">title =</span> <span class="st">"Explore the Preston Curve"</span>,
-       <span class="dt">abstract =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"This interactive display uses 'gapminder' data to"</span>,
-                        <span class="st">"let you explore the Preston Curve. Scroll down and enjoy!"</span>),
-       <span class="dt">components =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">descriptive_table =</span> <span class="ot">TRUE</span>, 
-                      <span class="dt">by_group_violin_graph =</span> <span class="ot">TRUE</span>, 
-                      <span class="dt">scatter_plot =</span> <span class="ot">TRUE</span>, 
-                      <span class="dt">regression =</span> <span class="ot">TRUE</span>),
-       <span class="dt">df_def =</span> df_def,
-       <span class="dt">config_list =</span> clist)</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(gapminder)</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">df_def &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">  <span class="dt">var_name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(gapminder),</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">  <span class="dt">var_def =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Name of the country"</span>,</a>
+<a class="sourceLine" id="cb7-8" data-line-number="8">              <span class="st">"Continent where country is located"</span>,</a>
+<a class="sourceLine" id="cb7-9" data-line-number="9">              <span class="st">"Year of data"</span>,</a>
+<a class="sourceLine" id="cb7-10" data-line-number="10">              <span class="st">"Life expectancy at birth, in years"</span>,</a>
+<a class="sourceLine" id="cb7-11" data-line-number="11">              <span class="st">"Population in million"</span>,</a>
+<a class="sourceLine" id="cb7-12" data-line-number="12">              <span class="st">"Gross Domestic Product (GDP) per capita in US-$, inflation-adjusted"</span>),</a>
+<a class="sourceLine" id="cb7-13" data-line-number="13">  <span class="dt">type =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"cs_id"</span>, <span class="st">"factor"</span>, <span class="st">"ts_id"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="st">"numeric"</span>, <span class="dv">3</span>)),</a>
+<a class="sourceLine" id="cb7-14" data-line-number="14">  <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb7-15" data-line-number="15">)</a>
+<a class="sourceLine" id="cb7-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb7-17" data-line-number="17">gapminder<span class="op">$</span>pop &lt;-<span class="st"> </span>gapminder<span class="op">$</span>pop <span class="op">/</span><span class="st"> </span><span class="fl">1e6</span></a>
+<a class="sourceLine" id="cb7-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb7-19" data-line-number="19">clist &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
+<a class="sourceLine" id="cb7-20" data-line-number="20">  <span class="dt">scatter_x =</span> <span class="st">"gdpPercap"</span>,</a>
+<a class="sourceLine" id="cb7-21" data-line-number="21">  <span class="dt">scatter_y =</span> <span class="st">"lifeExp"</span>,</a>
+<a class="sourceLine" id="cb7-22" data-line-number="22">  <span class="dt">scatter_size =</span> <span class="st">"pop"</span>,</a>
+<a class="sourceLine" id="cb7-23" data-line-number="23">  <span class="dt">scatter_color =</span> <span class="st">"continent"</span>,</a>
+<a class="sourceLine" id="cb7-24" data-line-number="24">  <span class="dt">scatter_loess =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb7-25" data-line-number="25">  <span class="dt">scatter_sample =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb7-26" data-line-number="26">  </a>
+<a class="sourceLine" id="cb7-27" data-line-number="27">  <span class="dt">reg_y =</span> <span class="st">"lifeExp"</span>,</a>
+<a class="sourceLine" id="cb7-28" data-line-number="28">  <span class="dt">reg_x =</span> <span class="st">"gdpPercap"</span>,</a>
+<a class="sourceLine" id="cb7-29" data-line-number="29">  <span class="dt">reg_fe1 =</span> <span class="st">"country"</span>,</a>
+<a class="sourceLine" id="cb7-30" data-line-number="30">  <span class="dt">reg_fe2 =</span> <span class="st">"year"</span>,</a>
+<a class="sourceLine" id="cb7-31" data-line-number="31">  <span class="dt">cluster =</span> <span class="st">"4"</span> <span class="co"># Now this is hard to guess </span></a>
+<a class="sourceLine" id="cb7-32" data-line-number="32">  <span class="co"># 1: none, 2: first FE, 3: second FE, 4: both FE</span></a>
+<a class="sourceLine" id="cb7-33" data-line-number="33">)</a>
+<a class="sourceLine" id="cb7-34" data-line-number="34"></a>
+<a class="sourceLine" id="cb7-35" data-line-number="35"><span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder,</a>
+<a class="sourceLine" id="cb7-36" data-line-number="36">       <span class="dt">title =</span> <span class="st">"Explore the Preston Curve"</span>,</a>
+<a class="sourceLine" id="cb7-37" data-line-number="37">       <span class="dt">abstract =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"This interactive display uses 'gapminder' data to"</span>,</a>
+<a class="sourceLine" id="cb7-38" data-line-number="38">                        <span class="st">"let you explore the Preston Curve. Scroll down and enjoy!"</span>),</a>
+<a class="sourceLine" id="cb7-39" data-line-number="39">       <span class="dt">components =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">descriptive_table =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb7-40" data-line-number="40">                      <span class="dt">by_group_violin_graph =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb7-41" data-line-number="41">                      <span class="dt">scatter_plot =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb7-42" data-line-number="42">                      <span class="dt">regression =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb7-43" data-line-number="43">       <span class="dt">df_def =</span> df_def,</a>
+<a class="sourceLine" id="cb7-44" data-line-number="44">       <span class="dt">config_list =</span> clist)</a></code></pre></div>
 <p>Now we have our customized components well documented in code. The scatter plot exhibits the Preston curve. The association is non-linear, potentially explaining the negative coefficient in the panel model. Maybe we want to allow the user to address this issue on-the-fly by defining additional variables?</p>
 </div>
 <div id="allow-users-to-generate-additional-variables" class="section level2">
 <h2 class="hasAnchor">
 <a href="#allow-users-to-generate-additional-variables" class="anchor"></a>Allow users to generate additional variables</h2>
 <p>This can be achieved by adding a component <code>udvars</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(gapminder)
-
-df_def &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(
-  <span class="dt">var_name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(gapminder),
-  <span class="dt">var_def =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Name of the country"</span>,
-              <span class="st">"Continent where country is located"</span>,
-              <span class="st">"Year of data"</span>,
-              <span class="st">"Life expectancy in years at birth"</span>,
-              <span class="st">"Population in million"</span>,
-              <span class="st">"Gross Domestic Product (GDP) per capita"</span>),
-  <span class="dt">type =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"cs_id"</span>, <span class="st">"factor"</span>, <span class="st">"ts_id"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="st">"numeric"</span>, <span class="dv">3</span>)),
-  <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>
-)
-
-gapminder<span class="op">$</span>pop &lt;-<span class="st"> </span>gapminder<span class="op">$</span>pop <span class="op">/</span><span class="st"> </span><span class="fl">1e6</span>
-
-clist &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(
-  <span class="dt">scatter_x =</span> <span class="st">"gdpPercap"</span>,
-  <span class="dt">scatter_y =</span> <span class="st">"lifeExp"</span>,
-  <span class="dt">scatter_size =</span> <span class="st">"pop"</span>,
-  <span class="dt">scatter_color =</span> <span class="st">"continent"</span>,
-  <span class="dt">scatter_loess =</span> <span class="ot">TRUE</span>,
-  <span class="dt">scatter_sample =</span> <span class="ot">FALSE</span>,
-  
-  <span class="dt">reg_y =</span> <span class="st">"lifeExp"</span>,
-  <span class="dt">reg_x =</span> <span class="st">"gdpPercap"</span>,
-  <span class="dt">reg_fe1 =</span> <span class="st">"country"</span>,
-  <span class="dt">reg_fe2 =</span> <span class="st">"year"</span>,
-  <span class="dt">cluster =</span> <span class="st">"4"</span> <span class="co"># No this is hard to guess 1: none, 2: first FE, 3: second FE, 4: both FE</span>
-)
-
-<span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder,
-       <span class="dt">title =</span> <span class="st">"Explore the Preston Curve"</span>,
-       <span class="dt">abstract =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"This interactive display uses 'gapminder' data to"</span>,
-                        <span class="st">"let you explore the Preston Curve. Scroll down and enjoy!"</span>),
-       <span class="dt">components =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">descriptive_table =</span> <span class="ot">TRUE</span>, 
-                      <span class="dt">by_group_violin_graph =</span> <span class="ot">TRUE</span>, 
-                      <span class="dt">scatter_plot =</span> <span class="ot">TRUE</span>, 
-                      <span class="dt">udvars =</span> <span class="ot">TRUE</span>,
-                      <span class="dt">regression =</span> <span class="ot">TRUE</span>),
-       <span class="dt">df_def =</span> df_def,
-       <span class="dt">config_list =</span> clist)</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(gapminder)</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">df_def &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">  <span class="dt">var_name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(gapminder),</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">  <span class="dt">var_def =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Name of the country"</span>,</a>
+<a class="sourceLine" id="cb8-8" data-line-number="8">              <span class="st">"Continent where country is located"</span>,</a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">              <span class="st">"Year of data"</span>,</a>
+<a class="sourceLine" id="cb8-10" data-line-number="10">              <span class="st">"Life expectancy in years at birth"</span>,</a>
+<a class="sourceLine" id="cb8-11" data-line-number="11">              <span class="st">"Population in million"</span>,</a>
+<a class="sourceLine" id="cb8-12" data-line-number="12">              <span class="st">"Gross Domestic Product (GDP) per capita"</span>),</a>
+<a class="sourceLine" id="cb8-13" data-line-number="13">  <span class="dt">type =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"cs_id"</span>, <span class="st">"factor"</span>, <span class="st">"ts_id"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="st">"numeric"</span>, <span class="dv">3</span>)),</a>
+<a class="sourceLine" id="cb8-14" data-line-number="14">  <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15">)</a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17">gapminder<span class="op">$</span>pop &lt;-<span class="st"> </span>gapminder<span class="op">$</span>pop <span class="op">/</span><span class="st"> </span><span class="fl">1e6</span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19">clist &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
+<a class="sourceLine" id="cb8-20" data-line-number="20">  <span class="dt">scatter_x =</span> <span class="st">"gdpPercap"</span>,</a>
+<a class="sourceLine" id="cb8-21" data-line-number="21">  <span class="dt">scatter_y =</span> <span class="st">"lifeExp"</span>,</a>
+<a class="sourceLine" id="cb8-22" data-line-number="22">  <span class="dt">scatter_size =</span> <span class="st">"pop"</span>,</a>
+<a class="sourceLine" id="cb8-23" data-line-number="23">  <span class="dt">scatter_color =</span> <span class="st">"continent"</span>,</a>
+<a class="sourceLine" id="cb8-24" data-line-number="24">  <span class="dt">scatter_loess =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb8-25" data-line-number="25">  <span class="dt">scatter_sample =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb8-26" data-line-number="26">  </a>
+<a class="sourceLine" id="cb8-27" data-line-number="27">  <span class="dt">reg_y =</span> <span class="st">"lifeExp"</span>,</a>
+<a class="sourceLine" id="cb8-28" data-line-number="28">  <span class="dt">reg_x =</span> <span class="st">"gdpPercap"</span>,</a>
+<a class="sourceLine" id="cb8-29" data-line-number="29">  <span class="dt">reg_fe1 =</span> <span class="st">"country"</span>,</a>
+<a class="sourceLine" id="cb8-30" data-line-number="30">  <span class="dt">reg_fe2 =</span> <span class="st">"year"</span>,</a>
+<a class="sourceLine" id="cb8-31" data-line-number="31">  <span class="dt">cluster =</span> <span class="st">"4"</span> <span class="co"># No this is hard to guess 1: none, 2: first FE, 3: second FE, 4: both FE</span></a>
+<a class="sourceLine" id="cb8-32" data-line-number="32">)</a>
+<a class="sourceLine" id="cb8-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb8-34" data-line-number="34"><span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder,</a>
+<a class="sourceLine" id="cb8-35" data-line-number="35">       <span class="dt">title =</span> <span class="st">"Explore the Preston Curve"</span>,</a>
+<a class="sourceLine" id="cb8-36" data-line-number="36">       <span class="dt">abstract =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"This interactive display uses 'gapminder' data to"</span>,</a>
+<a class="sourceLine" id="cb8-37" data-line-number="37">                        <span class="st">"let you explore the Preston Curve. Scroll down and enjoy!"</span>),</a>
+<a class="sourceLine" id="cb8-38" data-line-number="38">       <span class="dt">components =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">descriptive_table =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb8-39" data-line-number="39">                      <span class="dt">by_group_violin_graph =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb8-40" data-line-number="40">                      <span class="dt">scatter_plot =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb8-41" data-line-number="41">                      <span class="dt">udvars =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb8-42" data-line-number="42">                      <span class="dt">regression =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb8-43" data-line-number="43">       <span class="dt">df_def =</span> df_def,</a>
+<a class="sourceLine" id="cb8-44" data-line-number="44">       <span class="dt">config_list =</span> clist)</a></code></pre></div>
 <p>This generates another component in your app allowing the user to define additional variables. It is positioned just below the scatter plot. For fun and jiggles, you can define <code>logGpdPercap &lt;- log(gdpPercap)</code> and verify using the scatter plot that using a log-transformed explanatory variable makes the association more linear, reflecting also in a now positive coefficient in the regression model. If you worry about security, the code that is passed to the server via the user variable definition component is sandboxed in a sense that is only includes the variables of the sample and the functions listed in the help text of the component.</p>
 <p>Time to move to the finishing touches.</p>
 </div>
@@ -404,87 +405,87 @@ clist &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocum
 <h2 class="hasAnchor">
 <a href="#add-html-blocks-to-support-the-flow-of-your-app" class="anchor"></a>Add html blocks to support the flow of your app</h2>
 <p>From time to time it might be useful to include some additional text or other info in between components. For that, you have the option to include an arbitrary number of HTML blocks as additional components. Each html block will be wrapped in a fluid row, so you can use columns similar to what you would do in shiny.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(gapminder)
-
-df_def &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(
-  <span class="dt">var_name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(gapminder),
-  <span class="dt">var_def =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Name of the country"</span>,
-              <span class="st">"Continent where country is located"</span>,
-              <span class="st">"Year of data"</span>,
-              <span class="st">"Life expectancy in years at birth"</span>,
-              <span class="st">"Population in million"</span>,
-              <span class="st">"Gross Domestic Product (GDP) per capita"</span>),
-  <span class="dt">type =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"cs_id"</span>, <span class="st">"factor"</span>, <span class="st">"ts_id"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="st">"numeric"</span>, <span class="dv">3</span>)),
-  <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>
-)
-
-gapminder<span class="op">$</span>pop &lt;-<span class="st"> </span>gapminder<span class="op">$</span>pop <span class="op">/</span><span class="st"> </span><span class="fl">1e6</span>
-
-clist &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(
-  <span class="dt">scatter_x =</span> <span class="st">"gdpPercap"</span>,
-  <span class="dt">scatter_y =</span> <span class="st">"lifeExp"</span>,
-  <span class="dt">scatter_size =</span> <span class="st">"pop"</span>,
-  <span class="dt">scatter_color =</span> <span class="st">"continent"</span>,
-  <span class="dt">scatter_loess =</span> <span class="ot">TRUE</span>,
-  <span class="dt">scatter_sample =</span> <span class="ot">FALSE</span>,
-  
-  <span class="dt">reg_y =</span> <span class="st">"lifeExp"</span>,
-  <span class="dt">reg_x =</span> <span class="st">"gdpPercap"</span>,
-  <span class="dt">reg_fe1 =</span> <span class="st">"country"</span>,
-  <span class="dt">reg_fe2 =</span> <span class="st">"year"</span>,
-  <span class="dt">cluster =</span> <span class="st">"4"</span> <span class="co"># No this is hard to guess 1: none, 2: first FE, 3: second FE, 4: both FE</span>
-)
-
-html_blocks &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(
-  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">'&lt;div class="col-sm-2"&gt;&lt;h3&gt;Variation of life expectancy'</span>,
-        <span class="st">"across regions and income levels&lt;/h3&gt;&lt;/div&gt;"</span>,
-        <span class="st">'&lt;div class="col-sm-10"&gt;'</span>,
-        <span class="st">"&lt;p&gt;&amp;nbsp;&lt;/p&gt;As you see below, life expectancy varies widely"</span>,
-        <span class="st">"across countries and continents. One potential reason for this"</span>,
-        <span class="st">"variation is the difference in income levels across countries."</span>,
-        <span class="st">"This association is visualized by the"</span>,
-        <span class="st">"&lt;a href=https://en.wikipedia.org/wiki/Preston_curve&gt;"</span>,
-        <span class="st">"Preston Curve&lt;/a&gt; that you also find below."</span>,
-        <span class="st">"&lt;/div&gt;"</span>),
-  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">'&lt;div class="col-sm-2"&gt;&lt;h3&gt;Transform variables&lt;/h3&gt;&lt;/div&gt;'</span>, 
-        <span class="st">'&lt;div class="col-sm-10"&gt;'</span>,
-        <span class="st">"The Preston Curve is far from"</span>,
-        <span class="st">"linear. Maybe you can come up with a transformation"</span>,
-        <span class="st">"of GDP per capita that makes the association"</span>,
-        <span class="st">"a little bit more well behaved?"</span>,
-        <span class="st">"Use the dialog below to define a transformed"</span>,
-        <span class="st">"measure of GDP per capita and assess its association"</span>,
-        <span class="st">"with life expectancy in the scatter plot above."</span>,
-        <span class="st">"&lt;/div&gt;"</span>),
-  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">'&lt;div class="col-sm-2"&gt;&lt;h3&gt;Assess Robustness&lt;/h3&gt;&lt;/div&gt;'</span>,
-        <span class="st">'&lt;div class="col-sm-10"&gt;'</span>,
-        <span class="st">"You see below that the linear regression coefficient"</span>,
-        <span class="st">"for GDP per capita is &lt;i&gt;negative&lt;/i&gt;"</span>,
-        <span class="st">"and signficant in a panel model with country and year"</span>,
-        <span class="st">"fixed effects."</span>,
-        <span class="st">"Does this also hold when you use a log-transformed version"</span>,
-        <span class="st">"of GDP per capita?"</span>,
-        <span class="st">"&lt;/div&gt;"</span>)
-)
-
-<span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder,
-       <span class="dt">title =</span> <span class="st">"Explore the Preston Curve"</span>,
-       <span class="dt">abstract =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"This interactive display uses 'gapminder' data to"</span>,
-                        <span class="st">"let you explore the Preston Curve. Scroll down and enjoy!"</span>),
-       <span class="dt">components =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">descriptive_table =</span> <span class="ot">TRUE</span>, 
-                      <span class="dt">html_block =</span> <span class="ot">TRUE</span>,
-                      <span class="dt">by_group_violin_graph =</span> <span class="ot">TRUE</span>, 
-                      <span class="dt">scatter_plot =</span> <span class="ot">TRUE</span>,
-                      <span class="dt">html_block =</span> <span class="ot">TRUE</span>,
-                      <span class="dt">udvars =</span> <span class="ot">TRUE</span>,
-                      <span class="dt">html_block =</span> <span class="ot">TRUE</span>,
-                      <span class="dt">regression =</span> <span class="ot">TRUE</span>),
-       <span class="dt">df_def =</span> df_def,
-       <span class="dt">config_list =</span> clist,
-       <span class="dt">html_blocks =</span> html_blocks)</code></pre></div>
-<p>This is it. Now we have a customized version of ExPanD focusing on communicating the robsutness of the Preston Curve. If you do not want to run the code yourself, you can take a quick look at the customized version <a href="https://jgassen.shinyapps.io/expand_gapminder">here</a>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gapminder)</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(gapminder)</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">df_def &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">  <span class="dt">var_name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(gapminder),</a>
+<a class="sourceLine" id="cb9-7" data-line-number="7">  <span class="dt">var_def =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Name of the country"</span>,</a>
+<a class="sourceLine" id="cb9-8" data-line-number="8">              <span class="st">"Continent where country is located"</span>,</a>
+<a class="sourceLine" id="cb9-9" data-line-number="9">              <span class="st">"Year of data"</span>,</a>
+<a class="sourceLine" id="cb9-10" data-line-number="10">              <span class="st">"Life expectancy in years at birth"</span>,</a>
+<a class="sourceLine" id="cb9-11" data-line-number="11">              <span class="st">"Population in million"</span>,</a>
+<a class="sourceLine" id="cb9-12" data-line-number="12">              <span class="st">"Gross Domestic Product (GDP) per capita"</span>),</a>
+<a class="sourceLine" id="cb9-13" data-line-number="13">  <span class="dt">type =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"cs_id"</span>, <span class="st">"factor"</span>, <span class="st">"ts_id"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="st">"numeric"</span>, <span class="dv">3</span>)),</a>
+<a class="sourceLine" id="cb9-14" data-line-number="14">  <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb9-15" data-line-number="15">)</a>
+<a class="sourceLine" id="cb9-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb9-17" data-line-number="17">gapminder<span class="op">$</span>pop &lt;-<span class="st"> </span>gapminder<span class="op">$</span>pop <span class="op">/</span><span class="st"> </span><span class="fl">1e6</span></a>
+<a class="sourceLine" id="cb9-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb9-19" data-line-number="19">clist &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
+<a class="sourceLine" id="cb9-20" data-line-number="20">  <span class="dt">scatter_x =</span> <span class="st">"gdpPercap"</span>,</a>
+<a class="sourceLine" id="cb9-21" data-line-number="21">  <span class="dt">scatter_y =</span> <span class="st">"lifeExp"</span>,</a>
+<a class="sourceLine" id="cb9-22" data-line-number="22">  <span class="dt">scatter_size =</span> <span class="st">"pop"</span>,</a>
+<a class="sourceLine" id="cb9-23" data-line-number="23">  <span class="dt">scatter_color =</span> <span class="st">"continent"</span>,</a>
+<a class="sourceLine" id="cb9-24" data-line-number="24">  <span class="dt">scatter_loess =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb9-25" data-line-number="25">  <span class="dt">scatter_sample =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb9-26" data-line-number="26">  </a>
+<a class="sourceLine" id="cb9-27" data-line-number="27">  <span class="dt">reg_y =</span> <span class="st">"lifeExp"</span>,</a>
+<a class="sourceLine" id="cb9-28" data-line-number="28">  <span class="dt">reg_x =</span> <span class="st">"gdpPercap"</span>,</a>
+<a class="sourceLine" id="cb9-29" data-line-number="29">  <span class="dt">reg_fe1 =</span> <span class="st">"country"</span>,</a>
+<a class="sourceLine" id="cb9-30" data-line-number="30">  <span class="dt">reg_fe2 =</span> <span class="st">"year"</span>,</a>
+<a class="sourceLine" id="cb9-31" data-line-number="31">  <span class="dt">cluster =</span> <span class="st">"4"</span> <span class="co"># No this is hard to guess 1: none, 2: first FE, 3: second FE, 4: both FE</span></a>
+<a class="sourceLine" id="cb9-32" data-line-number="32">)</a>
+<a class="sourceLine" id="cb9-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb9-34" data-line-number="34">html_blocks &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(</a>
+<a class="sourceLine" id="cb9-35" data-line-number="35">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">'&lt;div class="col-sm-2"&gt;&lt;h3&gt;Variation of life expectancy'</span>,</a>
+<a class="sourceLine" id="cb9-36" data-line-number="36">        <span class="st">"across regions and income levels&lt;/h3&gt;&lt;/div&gt;"</span>,</a>
+<a class="sourceLine" id="cb9-37" data-line-number="37">        <span class="st">'&lt;div class="col-sm-10"&gt;'</span>,</a>
+<a class="sourceLine" id="cb9-38" data-line-number="38">        <span class="st">"&lt;p&gt;&amp;nbsp;&lt;/p&gt;As you see below, life expectancy varies widely"</span>,</a>
+<a class="sourceLine" id="cb9-39" data-line-number="39">        <span class="st">"across countries and continents. One potential reason for this"</span>,</a>
+<a class="sourceLine" id="cb9-40" data-line-number="40">        <span class="st">"variation is the difference in income levels across countries."</span>,</a>
+<a class="sourceLine" id="cb9-41" data-line-number="41">        <span class="st">"This association is visualized by the"</span>,</a>
+<a class="sourceLine" id="cb9-42" data-line-number="42">        <span class="st">"&lt;a href=https://en.wikipedia.org/wiki/Preston_curve&gt;"</span>,</a>
+<a class="sourceLine" id="cb9-43" data-line-number="43">        <span class="st">"Preston Curve&lt;/a&gt; that you also find below."</span>,</a>
+<a class="sourceLine" id="cb9-44" data-line-number="44">        <span class="st">"&lt;/div&gt;"</span>),</a>
+<a class="sourceLine" id="cb9-45" data-line-number="45">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">'&lt;div class="col-sm-2"&gt;&lt;h3&gt;Transform variables&lt;/h3&gt;&lt;/div&gt;'</span>, </a>
+<a class="sourceLine" id="cb9-46" data-line-number="46">        <span class="st">'&lt;div class="col-sm-10"&gt;'</span>,</a>
+<a class="sourceLine" id="cb9-47" data-line-number="47">        <span class="st">"The Preston Curve is far from"</span>,</a>
+<a class="sourceLine" id="cb9-48" data-line-number="48">        <span class="st">"linear. Maybe you can come up with a transformation"</span>,</a>
+<a class="sourceLine" id="cb9-49" data-line-number="49">        <span class="st">"of GDP per capita that makes the association"</span>,</a>
+<a class="sourceLine" id="cb9-50" data-line-number="50">        <span class="st">"a little bit more well behaved?"</span>,</a>
+<a class="sourceLine" id="cb9-51" data-line-number="51">        <span class="st">"Use the dialog below to define a transformed"</span>,</a>
+<a class="sourceLine" id="cb9-52" data-line-number="52">        <span class="st">"measure of GDP per capita and assess its association"</span>,</a>
+<a class="sourceLine" id="cb9-53" data-line-number="53">        <span class="st">"with life expectancy in the scatter plot above."</span>,</a>
+<a class="sourceLine" id="cb9-54" data-line-number="54">        <span class="st">"&lt;/div&gt;"</span>),</a>
+<a class="sourceLine" id="cb9-55" data-line-number="55">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">'&lt;div class="col-sm-2"&gt;&lt;h3&gt;Assess Robustness&lt;/h3&gt;&lt;/div&gt;'</span>,</a>
+<a class="sourceLine" id="cb9-56" data-line-number="56">        <span class="st">'&lt;div class="col-sm-10"&gt;'</span>,</a>
+<a class="sourceLine" id="cb9-57" data-line-number="57">        <span class="st">"You see below that the linear regression coefficient"</span>,</a>
+<a class="sourceLine" id="cb9-58" data-line-number="58">        <span class="st">"for GDP per capita is &lt;i&gt;negative&lt;/i&gt;"</span>,</a>
+<a class="sourceLine" id="cb9-59" data-line-number="59">        <span class="st">"and signficant in a panel model with country and year"</span>,</a>
+<a class="sourceLine" id="cb9-60" data-line-number="60">        <span class="st">"fixed effects."</span>,</a>
+<a class="sourceLine" id="cb9-61" data-line-number="61">        <span class="st">"Does this also hold when you use a log-transformed version"</span>,</a>
+<a class="sourceLine" id="cb9-62" data-line-number="62">        <span class="st">"of GDP per capita?"</span>,</a>
+<a class="sourceLine" id="cb9-63" data-line-number="63">        <span class="st">"&lt;/div&gt;"</span>)</a>
+<a class="sourceLine" id="cb9-64" data-line-number="64">)</a>
+<a class="sourceLine" id="cb9-65" data-line-number="65"></a>
+<a class="sourceLine" id="cb9-66" data-line-number="66"><span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>(<span class="dt">df =</span> gapminder,</a>
+<a class="sourceLine" id="cb9-67" data-line-number="67">       <span class="dt">title =</span> <span class="st">"Explore the Preston Curve"</span>,</a>
+<a class="sourceLine" id="cb9-68" data-line-number="68">       <span class="dt">abstract =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"This interactive display uses 'gapminder' data to"</span>,</a>
+<a class="sourceLine" id="cb9-69" data-line-number="69">                        <span class="st">"let you explore the Preston Curve. Scroll down and enjoy!"</span>),</a>
+<a class="sourceLine" id="cb9-70" data-line-number="70">       <span class="dt">components =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">descriptive_table =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb9-71" data-line-number="71">                      <span class="dt">html_block =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb9-72" data-line-number="72">                      <span class="dt">by_group_violin_graph =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb9-73" data-line-number="73">                      <span class="dt">scatter_plot =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb9-74" data-line-number="74">                      <span class="dt">html_block =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb9-75" data-line-number="75">                      <span class="dt">udvars =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb9-76" data-line-number="76">                      <span class="dt">html_block =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb9-77" data-line-number="77">                      <span class="dt">regression =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb9-78" data-line-number="78">       <span class="dt">df_def =</span> df_def,</a>
+<a class="sourceLine" id="cb9-79" data-line-number="79">       <span class="dt">config_list =</span> clist,</a>
+<a class="sourceLine" id="cb9-80" data-line-number="80">       <span class="dt">html_blocks =</span> html_blocks)</a></code></pre></div>
+<p>This is it. Now we have a customized version of ExPanD focusing on communicating the robustness of the Preston Curve. If you do not want to run the code yourself, you can take a quick look at the customized version <a href="https://jgassen.shinyapps.io/expand_gapminder">here</a>.</p>
 <p>If you want to take customization to the next level, you can always fork the code of the ‘ExPanDaR’ package on GitHub. The code for the shiny app is in the <code>inst/app</code> folder of the package.</p>
 <p>Enjoy.</p>
 </div>

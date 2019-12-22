@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -223,106 +223,106 @@ If provided, the resulting vector must not contain NAs and needs to be such so t
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='fl'>1</span>:<span class='fl'>1000</span>), <span class='kw'>b</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Normal'>rnorm</a></span>(<span class='fl'>1000</span>), <span class='kw'>c</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>5</span>], <span class='fl'>1000</span>, <span class='kw'>replace</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
 <span class='no'>winsorized_df</span> <span class='kw'>&lt;-</span> <span class='fu'>treat_outliers</span>(<span class='no'>df</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;        a                b             c      
-#&gt;  Min.   :   1.0   Min.   :-2.938978   A:197  
-#&gt;  1st Qu.: 250.8   1st Qu.:-0.686197   B:217  
-#&gt;  Median : 500.5   Median : 0.008579   C:196  
-#&gt;  Mean   : 500.5   Mean   : 0.004340   D:206  
-#&gt;  3rd Qu.: 750.2   3rd Qu.: 0.666959   E:184  
+#&gt;  Min.   :   1.0   Min.   :-2.938978   A:211  
+#&gt;  1st Qu.: 250.8   1st Qu.:-0.686197   B:196  
+#&gt;  Median : 500.5   Median : 0.008579   C:195  
+#&gt;  Mean   : 500.5   Mean   : 0.004340   D:188  
+#&gt;  3rd Qu.: 750.2   3rd Qu.: 0.666959   E:210  
 #&gt;  Max.   :1000.0   Max.   : 2.755418          </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>winsorized_df</span>)</div><div class='output co'>#&gt;        a                b             c      
-#&gt;  Min.   : 10.99   Min.   :-2.291499   A:197  
-#&gt;  1st Qu.:250.75   1st Qu.:-0.686197   B:217  
-#&gt;  Median :500.50   Median : 0.008579   C:196  
-#&gt;  Mean   :500.50   Mean   : 0.003761   D:206  
-#&gt;  3rd Qu.:750.25   3rd Qu.: 0.666959   E:184  
+#&gt;  Min.   : 10.99   Min.   :-2.291499   A:211  
+#&gt;  1st Qu.:250.75   1st Qu.:-0.686197   B:196  
+#&gt;  Median :500.50   Median : 0.008579   C:195  
+#&gt;  Mean   :500.50   Mean   : 0.003761   D:188  
+#&gt;  3rd Qu.:750.25   3rd Qu.: 0.666959   E:210  
 #&gt;  Max.   :990.01   Max.   : 2.223346          </div><div class='input'>
 <span class='no'>winsorized_df</span> <span class='kw'>&lt;-</span> <span class='fu'>treat_outliers</span>(<span class='no'>df</span>, <span class='fl'>0.05</span>, <span class='kw'>by</span><span class='kw'>=</span><span class='st'>"c"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/by'>by</a></span>(<span class='no'>df</span>, <span class='no'>df</span>$<span class='no'>c</span>, <span class='no'>summary</span>)</div><div class='output co'>#&gt; df$c: A
 #&gt;        a               b            c      
-#&gt;  Min.   :  7.0   Min.   :-2.27411   A:197  
-#&gt;  1st Qu.:232.0   1st Qu.:-0.58165   B:  0  
-#&gt;  Median :481.0   Median :-0.01595   C:  0  
-#&gt;  Mean   :467.3   Mean   :-0.02177   D:  0  
-#&gt;  3rd Qu.:697.0   3rd Qu.: 0.62418   E:  0  
-#&gt;  Max.   :992.0   Max.   : 2.65490          
-#&gt; ------------------------------------------------------------ 
-#&gt; df$c: B
-#&gt;        a             b            c      
-#&gt;  Min.   :  1   Min.   :-2.36221   A:  0  
-#&gt;  1st Qu.:260   1st Qu.:-0.75172   B:217  
-#&gt;  Median :510   Median :-0.02011   C:  0  
-#&gt;  Mean   :500   Mean   :-0.00111   D:  0  
-#&gt;  3rd Qu.:734   3rd Qu.: 0.71837   E:  0  
-#&gt;  Max.   :997   Max.   : 2.41166          
-#&gt; ------------------------------------------------------------ 
-#&gt; df$c: C
-#&gt;        a               b             c      
-#&gt;  Min.   :  3.0   Min.   :-2.612334   A:  0  
-#&gt;  1st Qu.:236.5   1st Qu.:-0.681883   B:  0  
-#&gt;  Median :467.0   Median : 0.055197   C:196  
-#&gt;  Mean   :493.6   Mean   :-0.001837   D:  0  
-#&gt;  3rd Qu.:756.5   3rd Qu.: 0.658370   E:  0  
-#&gt;  Max.   :998.0   Max.   : 2.648932          
-#&gt; ------------------------------------------------------------ 
-#&gt; df$c: D
-#&gt;        a                b            c      
-#&gt;  Min.   :   2.0   Min.   :-2.93898   A:  0  
-#&gt;  1st Qu.: 271.5   1st Qu.:-0.81511   B:  0  
-#&gt;  Median : 552.0   Median :-0.09748   C:  0  
-#&gt;  Mean   : 519.6   Mean   :-0.08223   D:206  
-#&gt;  3rd Qu.: 759.2   3rd Qu.: 0.59962   E:  0  
-#&gt;  Max.   :1000.0   Max.   : 2.68256          
-#&gt; ------------------------------------------------------------ 
-#&gt; df$c: E
-#&gt;        a               b           c      
-#&gt;  Min.   : 17.0   Min.   :-2.3902   A:  0  
-#&gt;  1st Qu.:272.2   1st Qu.:-0.5324   B:  0  
-#&gt;  Median :541.5   Median : 0.1201   C:  0  
-#&gt;  Mean   :522.5   Mean   : 0.1422   D:  0  
-#&gt;  3rd Qu.:792.0   3rd Qu.: 0.8461   E:184  
-#&gt;  Max.   :988.0   Max.   : 2.7554          </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/by'>by</a></span>(<span class='no'>winsorized_df</span>, <span class='no'>df</span>$<span class='no'>c</span>, <span class='no'>summary</span>)</div><div class='output co'>#&gt; df$c: A
-#&gt;        a               b            c      
-#&gt;  Min.   : 39.4   Min.   :-1.52242   A:197  
-#&gt;  1st Qu.:232.0   1st Qu.:-0.58165   B:  0  
-#&gt;  Median :481.0   Median :-0.01595   C:  0  
-#&gt;  Mean   :466.6   Mean   :-0.02917   D:  0  
-#&gt;  3rd Qu.:697.0   3rd Qu.: 0.62418   E:  0  
-#&gt;  Max.   :940.8   Max.   : 1.36131          
+#&gt;  Min.   :  1.0   Min.   :-2.93898   A:211  
+#&gt;  1st Qu.:195.5   1st Qu.:-0.67253   B:  0  
+#&gt;  Median :424.0   Median : 0.05836   C:  0  
+#&gt;  Mean   :454.5   Mean   :-0.01647   D:  0  
+#&gt;  3rd Qu.:714.5   3rd Qu.: 0.62014   E:  0  
+#&gt;  Max.   :997.0   Max.   : 2.65490          
 #&gt; ------------------------------------------------------------ 
 #&gt; df$c: B
 #&gt;        a               b            c      
-#&gt;  Min.   : 63.8   Min.   :-1.58519   A:  0  
-#&gt;  1st Qu.:260.0   1st Qu.:-0.75172   B:217  
-#&gt;  Median :510.0   Median :-0.02011   C:  0  
-#&gt;  Mean   :500.8   Mean   :-0.01075   D:  0  
-#&gt;  3rd Qu.:734.0   3rd Qu.: 0.71837   E:  0  
-#&gt;  Max.   :948.4   Max.   : 1.55765          
+#&gt;  Min.   :  4.0   Min.   :-2.64521   A:  0  
+#&gt;  1st Qu.:316.0   1st Qu.:-0.65723   B:196  
+#&gt;  Median :514.5   Median :-0.03952   C:  0  
+#&gt;  Mean   :522.3   Mean   : 0.05547   D:  0  
+#&gt;  3rd Qu.:743.5   3rd Qu.: 0.69145   E:  0  
+#&gt;  Max.   :998.0   Max.   : 2.75542          
 #&gt; ------------------------------------------------------------ 
 #&gt; df$c: C
-#&gt;        a               b             c      
-#&gt;  Min.   : 43.5   Min.   :-1.816475   A:  0  
-#&gt;  1st Qu.:236.5   1st Qu.:-0.681883   B:  0  
-#&gt;  Median :467.0   Median : 0.055197   C:196  
-#&gt;  Mean   :493.8   Mean   :-0.009225   D:  0  
-#&gt;  3rd Qu.:756.5   3rd Qu.: 0.658370   E:  0  
-#&gt;  Max.   :968.2   Max.   : 1.507916          
+#&gt;        a               b            c      
+#&gt;  Min.   : 17.0   Min.   :-2.49536   A:  0  
+#&gt;  1st Qu.:265.5   1st Qu.:-0.85995   B:  0  
+#&gt;  Median :508.0   Median : 0.00851   C:195  
+#&gt;  Mean   :514.1   Mean   :-0.03429   D:  0  
+#&gt;  3rd Qu.:752.0   3rd Qu.: 0.81945   E:  0  
+#&gt;  Max.   :986.0   Max.   : 2.15876          
+#&gt; ------------------------------------------------------------ 
+#&gt; df$c: D
+#&gt;        a               b            c      
+#&gt;  Min.   :  7.0   Min.   :-2.80801   A:  0  
+#&gt;  1st Qu.:240.8   1st Qu.:-0.56325   B:  0  
+#&gt;  Median :489.0   Median : 0.07030   C:  0  
+#&gt;  Mean   :488.9   Mean   : 0.04557   D:188  
+#&gt;  3rd Qu.:727.5   3rd Qu.: 0.64076   E:  0  
+#&gt;  Max.   :994.0   Max.   : 2.48082          
+#&gt; ------------------------------------------------------------ 
+#&gt; df$c: E
+#&gt;        a                b            c      
+#&gt;  Min.   :   2.0   Min.   :-2.39020   A:  0  
+#&gt;  1st Qu.: 264.5   1st Qu.:-0.71428   B:  0  
+#&gt;  Median : 538.0   Median :-0.07711   C:  0  
+#&gt;  Mean   : 524.2   Mean   :-0.02350   D:  0  
+#&gt;  3rd Qu.: 797.2   3rd Qu.: 0.64704   E:210  
+#&gt;  Max.   :1000.0   Max.   : 2.69237          </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/by'>by</a></span>(<span class='no'>winsorized_df</span>, <span class='no'>df</span>$<span class='no'>c</span>, <span class='no'>summary</span>)</div><div class='output co'>#&gt; df$c: A
+#&gt;        a               b            c      
+#&gt;  Min.   : 34.0   Min.   :-1.86553   A:211  
+#&gt;  1st Qu.:195.5   1st Qu.:-0.67253   B:  0  
+#&gt;  Median :424.0   Median : 0.05836   C:  0  
+#&gt;  Mean   :453.8   Mean   :-0.01338   D:  0  
+#&gt;  3rd Qu.:714.5   3rd Qu.: 0.62014   E:  0  
+#&gt;  Max.   :943.5   Max.   : 1.65662          
+#&gt; ------------------------------------------------------------ 
+#&gt; df$c: B
+#&gt;        a               b            c      
+#&gt;  Min.   : 71.0   Min.   :-1.49200   A:  0  
+#&gt;  1st Qu.:316.0   1st Qu.:-0.65723   B:196  
+#&gt;  Median :514.5   Median :-0.03952   C:  0  
+#&gt;  Mean   :523.5   Mean   : 0.05128   D:  0  
+#&gt;  3rd Qu.:743.5   3rd Qu.: 0.69145   E:  0  
+#&gt;  Max.   :964.5   Max.   : 1.80135          
+#&gt; ------------------------------------------------------------ 
+#&gt; df$c: C
+#&gt;        a               b            c      
+#&gt;  Min.   : 89.7   Min.   :-1.78623   A:  0  
+#&gt;  1st Qu.:265.5   1st Qu.:-0.85995   B:  0  
+#&gt;  Median :508.0   Median : 0.00851   C:195  
+#&gt;  Mean   :515.5   Mean   :-0.03373   D:  0  
+#&gt;  3rd Qu.:752.0   3rd Qu.: 0.81945   E:  0  
+#&gt;  Max.   :950.9   Max.   : 1.67637          
 #&gt; ------------------------------------------------------------ 
 #&gt; df$c: D
 #&gt;        a                b            c      
-#&gt;  Min.   : 72.25   Min.   :-1.69480   A:  0  
-#&gt;  1st Qu.:271.50   1st Qu.:-0.81511   B:  0  
-#&gt;  Median :552.00   Median :-0.09748   C:  0  
-#&gt;  Mean   :519.69   Mean   :-0.07152   D:206  
-#&gt;  3rd Qu.:759.25   3rd Qu.: 0.59962   E:  0  
-#&gt;  Max.   :944.50   Max.   : 1.67448          
+#&gt;  Min.   : 51.35   Min.   :-1.47564   A:  0  
+#&gt;  1st Qu.:240.75   1st Qu.:-0.56325   B:  0  
+#&gt;  Median :489.00   Median : 0.07030   C:  0  
+#&gt;  Mean   :488.28   Mean   : 0.04023   D:188  
+#&gt;  3rd Qu.:727.50   3rd Qu.: 0.64076   E:  0  
+#&gt;  Max.   :933.25   Max.   : 1.47381          
 #&gt; ------------------------------------------------------------ 
 #&gt; df$c: E
-#&gt;        a               b           c      
-#&gt;  Min.   : 54.2   Min.   :-1.3727   A:  0  
-#&gt;  1st Qu.:272.2   1st Qu.:-0.5324   B:  0  
-#&gt;  Median :541.5   Median : 0.1201   C:  0  
-#&gt;  Mean   :522.6   Mean   : 0.1510   D:  0  
-#&gt;  3rd Qu.:792.0   3rd Qu.: 0.8461   E:184  
-#&gt;  Max.   :940.2   Max.   : 1.8834          </div><div class='input'>
+#&gt;        a               b            c      
+#&gt;  Min.   : 52.6   Min.   :-1.49300   A:  0  
+#&gt;  1st Qu.:264.5   1st Qu.:-0.71428   B:  0  
+#&gt;  Median :538.0   Median :-0.07711   C:  0  
+#&gt;  Mean   :523.9   Mean   :-0.03049   D:  0  
+#&gt;  3rd Qu.:797.2   3rd Qu.: 0.64704   E:210  
+#&gt;  Max.   :944.6   Max.   : 1.53394          </div><div class='input'>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/hist'>hist</a></span>(<span class='fu'>treat_outliers</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Normal'>rnorm</a></span>(<span class='fl'>1000</span>)), <span class='kw'>breaks</span><span class='kw'>=</span><span class='fl'>100</span>)</div><div class='img'><img src='treat_outliers-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

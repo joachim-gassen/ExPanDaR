@@ -7,16 +7,11 @@
 
 # Start this with a virgin R session
 
-library(tidyverse)
 library(ExPanDaR)
 
 # --- Use ExPanD with cross-sectional data -------------------------------------
 
-df <- mtcars
-df$cs_id <- row.names(df)
-df$ts_id <-1
-ExPanD(df, cs_id ="cs_id", ts_id = "ts_id",
-       components = c(trend_graph = FALSE, quantile_trend_graph = FALSE))
+ExPanD(mtcars, export_nb_option = TRUE)
 
 
 # --- Use ExPanD on a condensed Worldbank data set -----------------------------
@@ -75,7 +70,7 @@ wb <- calc_variables(worldbank,
 
 # write_csv(wb, "wb_condensed.csv")
 
-ExPanD(wb, cs_id = "country", ts_id ="year")
+ExPanD(wb, cs_id = "country", ts_id ="year", export_nb_option = TRUE)
 
 # A niced ExPanD version with variable definitions and
 # a short info text to put online.
@@ -93,12 +88,13 @@ title <- "Explore the Preston Curve with ExPanDaR"
 abstract <- paste(
   "The data for this sample has been collected using the",
   "<a href=https://data.worldbank.org>World Bank API</a>.",
-  "See this <a href=https://joachim-gassen.github.io/2018/12/interactive-panel-eda-with-3-lines-of-code/>",
+  "See this <a href=https://joachim-gassen.github.io/2018/12/interactive-panel-eda-with-3-lines-of-code>",
   "blog post</a> for further information."
 )
 
 ExPanD(wb, df_def = wb_data_def,
-       title = title, abstract = abstract)
+       title = title, abstract = abstract,
+       export_nb_option = TRUE)
 
 
 # --- Customize ExPanD to explore EPA fuel economy data-------------------------
@@ -246,8 +242,10 @@ html_blocks <- c(
         "the models by car class ('subset' option).",
         "Try a by year regression to assess the development of fuel economy",
         "over time. <br> <br>",
-        "If you like your analysis, you can download the configuration",
-        "and reload it at a later stage using the buttons below.",
+        "If you like your analysis, you can download a zipfile containing",
+        "the data and an R notebook reporting the analysis. Alternatively,",
+        "you can store the ExPanD configuration and reload it at a later",
+        "stage.",
         "</div>")
 )
 
@@ -310,7 +308,8 @@ ExPanD(vehicles, df_def = df_def, config_list = cl,
                       html_block = TRUE,
                       regression = TRUE,
                       html_block = TRUE),
-       html_blocks = html_blocks
+       html_blocks = html_blocks,
+       export_nb_option = TRUE
 )
 
 
@@ -392,6 +391,7 @@ imdb <- title_ratings %>%
 
 
 ExPanD(imdb, ts_id = "ts_id", cs_id = c("tconst", "title"),
-       components = c(trend_graph = FALSE, quantile_trend_graph = FALSE))
+       components = c(trend_graph = FALSE, quantile_trend_graph = FALSE),
+       export_nb_option = TRUE)
 
 # ------------------------------------------------------------------------------

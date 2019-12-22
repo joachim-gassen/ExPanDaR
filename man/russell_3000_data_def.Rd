@@ -26,5 +26,4 @@ data(ExPanD_config_russell_3000)
   ExPanD(russell_3000, df_def = russell_3000_data_def, config_list = ExPanD_config_russell_3000)
 }
 }
-\keyword{ExPanD,}
-\keyword{config}
+\keyword{datasets}

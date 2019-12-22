@@ -40,11 +40,11 @@ an instance of ExPanD that hosts World Bank data or click
 [here](https://jgassen.shinyapps.io/expand_r3/) for a financial
 accounting and stock returns dataset of U.S. firms.
 
-If you want to analyze your own panel data instead, you can also access
-a variant of ExPanD app [here](https://jgassen.shinyapps.io/expand/)
-that allows user-side data uploads. No worries: Your data won’t be
-stored on the server and will get erased from memory as soon as you
-close the web connection.
+If you want to analyze your own data instead, you can also access a
+variant of ExPanD app [here](https://jgassen.shinyapps.io/expand/) that
+allows user-side data uploads. No worries: Your data won’t be stored on
+the server and will get erased from memory as soon as you close the web
+connection.
 
 ## Installation
 
@@ -57,8 +57,7 @@ install.packages("ExPanDaR")
 library(ExPanDaR)
 ```
 
-Or, if you want to install the current development version from Github
-that includes the new notebook export option:
+Or, if you want to install the current development version from Github:
 
 ``` r
 if (!require("devtools")) {
@@ -85,11 +84,12 @@ ExPanD(mtcars)
 ```
 
 …or start with one of the two example datasets that come with the
-package to understand hot to use it on long-format planel data.
+package to understand hot to use it on long-format panel data.
 
-Please note: The last parameter (`export_nb_option`) is currently only
-supported by the development version of the package available on Github
-and has to be omitted when you use the CRAN version.
+Please note: The last parameter (`export_nb_option`) allows the user to
+download a notebook and the data to continue the analysis in R. Maybe
+not the best idea if you are hosting your app publicly and want to keep
+its data private.
 
 ``` r
 ExPanD(df = worldbank,  

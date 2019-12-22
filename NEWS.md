@@ -1,4 +1,4 @@
-# ExPanDaR 0.4.0.9000
+# ExPanDaR 0.5.0
 
 Extensions:
 
@@ -20,8 +20,8 @@ Extensions:
 html content to `ExPanD()`
 
 * Added `sample_selection`, `subset_factor`, `grouping` and `udvars` variables 
-to `components` in `ExPanD()` so that these parts can also be re-arrannged 
-or ommitted
+to `components` in `ExPanD()` so that these parts can also be re-arranged 
+or omitted
 
 * Allowed user defined variables to be built on analysis variables and used
 in simple_mode

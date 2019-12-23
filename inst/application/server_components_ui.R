@@ -216,7 +216,7 @@ output$ui_ext_obs <- renderUI({
     mytags <- append(mytags, list(selectInput("ext_obs_group_by", label = "Select group to subset to",
                                               c("All", sort(levels(as.factor(df[,uc$group_factor])))),
                                               selected = isolate(uc$ext_obs_group_by))))
-  if (cross_sec_data()) mytags <- append(
+  if (!cross_sec_data()) mytags <- append(
     mytags, list(selectInput("ext_obs_period_by", label = "Select period to subset to",
                              c("All", levels(df[,lts_id$col])),
                              selected = isolate(uc$ext_obs_period_by)))

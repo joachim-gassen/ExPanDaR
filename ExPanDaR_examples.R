@@ -8,6 +8,7 @@
 # Start this with a virgin R session
 
 library(ExPanDaR)
+ExPanD()
 
 # --- Use ExPanD with cross-sectional data -------------------------------------
 
@@ -280,7 +281,7 @@ abstract <- paste(
   "<br>&nbsp;<br>",
   "It is based on the 'ExPanD' display provided by the",
   "<a href=https://joachim-gassen.github.io/ExPanDaR>'ExPanDaR' package</a>.",
-  "Click <a href=https://jgassen.shinyapps.io/expand/>here</a> to explore your",
+  "Click <a href=https://jgassen.shinyapps.io/expand>here</a> to explore your",
   "own data with 'ExPanD'.",
   "<br>&nbsp;<br>",
   "Otherwise: Scroll down and start exploring!"

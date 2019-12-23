@@ -292,7 +292,13 @@ expand_footer <- reactive({
     fluidRow(
       column(
         12, align="center",
-        HTML("ExPanD based on <a href=https://joachim-gassen.github.io/ExPanDaR>ExPanDaR</a>, Joachim Gassen, Humboldt-Universität zu Berlin, 2019<p>")
+        HTML("ExPanD based on <a href=https://joachim-gassen.github.io/ExPanDaR>",
+             "ExPanDaR</a>, <a href=https://twitter.com/JoachimGassen>",
+             "Joachim Gassen</a>,",
+             "<a href=https://www.wiwi.hu-berlin.de/rewe>",
+             "Humboldt-Universität zu Berlin</a> and",
+             "<a href=https://www.accounting-for-transparency.de>",
+             "TRR 266 Accounting for Transparency</a>, 2019<p>")
       )
     )
   ))

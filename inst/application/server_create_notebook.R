@@ -83,7 +83,7 @@ create_nb_code_for_component <- function(comp) {
                  "  return(list(df = df, df_def = df_def))",
                  "}",
                  " ",
-                 "load(\"expand_nb_data.Rdata\")",
+                 "load(\"ExPanD_nb_data.Rdata\")",
                  " ",
                  "smp_list <- create_sample(nb_df, nb_df_def)",
                  "smp <- smp_list$df",

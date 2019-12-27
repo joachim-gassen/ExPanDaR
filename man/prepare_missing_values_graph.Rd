@@ -4,7 +4,8 @@
 \alias{prepare_missing_values_graph}
 \title{Prepares a Graph Displaying Missing Values in Panel Data}
 \usage{
-prepare_missing_values_graph(df, ts_id, no_factors = FALSE)
+prepare_missing_values_graph(df, ts_id, no_factors = FALSE,
+  binary = FALSE)
 }
 \arguments{
 \item{df}{Data frame containing the data.}
@@ -12,8 +13,11 @@ prepare_missing_values_graph(df, ts_id, no_factors = FALSE)
 \item{ts_id}{A string containing the name of the variable indicating the time dimension.
 Needs to be coercible into an ordered factor.}
 
-\item{no_factors}{A logical variable indicating whether you want to limit the plot to
-logical and numerical variables. Defaults to FALSE.}
+\item{no_factors}{A logical value indicating whether you want to limit the plot to
+logical and numerical variables. Defaults to \code{FALSE}.}
+
+\item{binary}{If set to \code{TRUE}, the plot uses a binary scale only high-lightening
+whether values are missing or not. Defaults to \code{FALSE}.}
 }
 \value{
 A \code{ggplot2} plot.
@@ -28,4 +32,5 @@ This was inspired by a
 }
 \examples{
 prepare_missing_values_graph(russell_3000, ts_id="period")
+prepare_missing_values_graph(russell_3000, ts_id="period", binary = TRUE)
 }

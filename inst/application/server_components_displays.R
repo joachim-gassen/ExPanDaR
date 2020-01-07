@@ -8,8 +8,6 @@ output$bar_chart <- renderPlot({
     df[, uc$bar_chart_var2] <- as.factor(df[, uc$bar_chart_var2])
   if (uc$bar_chart_group_by != "All")
     df <- df[df[, uc$group_factor] == uc$bar_chart_group_by,]
-  if (!anyNA(suppressWarnings(as.numeric(as.character(df[, uc$bar_chart_var1])))))
-    numeric_bar_chart_var1 <- as.numeric(as.character(df[, uc$bar_chart_var1]))
   if (uc$bar_chart_var2 != "None" & (!uc$bar_chart_relative))
     p <- ggplot2::ggplot(df, ggplot2::aes(df[,uc$bar_chart_var1])) +
     ggplot2::geom_bar(ggplot2::aes(fill=df[,uc$bar_chart_var2]), position = "stack") +
@@ -21,9 +19,17 @@ output$bar_chart <- renderPlot({
     ggplot2::scale_y_continuous(labels = scales::percent_format())
   else p <- ggplot2::ggplot(df, ggplot2::aes(df[,uc$bar_chart_var1])) +
     ggplot2::geom_bar() + ggplot2::labs(x = uc$bar_chart_var1)
-  if (length(levels(df[,uc$bar_chart_var1])) > 10 &&
-      !anyNA(suppressWarnings(as.numeric(as.character(df[, uc$bar_chart_var1])))))
-    p <- p + ggplot2::scale_x_discrete(breaks = pretty(as.numeric(as.character(df[, uc$bar_chart_var1])), n = 10))
+  if (length(levels(df[,uc$bar_chart_var1])) > 5) {
+    if (!anyNA(suppressWarnings(
+      as.numeric(as.character(df[, uc$bar_chart_var1]))
+    ))) {
+      p <- p + ggplot2::scale_x_discrete(
+        breaks = pretty(as.numeric(as.character(df[, uc$bar_chart_var1])), n = 10)
+      )
+    } else {
+      p <- p + ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90))
+    }
+  }
   p
 })
 

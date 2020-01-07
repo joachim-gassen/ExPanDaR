@@ -129,10 +129,19 @@ create_nb_code_for_component <- function(comp) {
                    sprintf('geom_bar() + labs(x = "%s")', uc$bar_chart_var1))
     }
 
-    if (length(levels(df[,uc$bar_chart_var1])) > 10 &&
-        !anyNA(suppressWarnings(as.numeric(as.character(df[, uc$bar_chart_var1])))))
-      nb_code <- c(nb_code,
-                   sprintf('p <- p + scale_x_discrete(breaks = pretty(as.numeric(as.character(df$%s)), n = 10))', uc$bar_chart_var1))
+    if (length(unique(df[,uc$bar_chart_var1])) > 5) {
+      if (!anyNA(suppressWarnings(as.numeric(df[, uc$bar_chart_var1])))) {
+        nb_code <- c(
+          nb_code,
+          sprintf('p <- p + scale_x_discrete(breaks = pretty(as.numeric(as.character(df$%s)), n = 10))', uc$bar_chart_var1)
+        )
+      } else {
+        nb_code <- c(
+          nb_code,
+          "p <- p + ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90))"
+        )
+      }
+    }
 
     nb_code <- c(nb_code, "p", "```", " ", " ")
 

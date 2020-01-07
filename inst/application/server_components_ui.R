@@ -52,17 +52,26 @@ output$ui_select_ids <- renderUI({
 })
 
 output$ui_subset_factor <- renderUI({
-  req (uc$subset_factor)
+  req(isolate(uc$subset_factor))
   df <- create_analysis_sample()
+  if (isolate(uc$subset_factor) != "Full Sample")
+    avail_choices <- c(
+      "Full Sample",
+      sort(unique(c(lfactor$name, llogical$name, isolate(uc$subset_factor))))
+    )
+  else avail_choices <- c(
+    "Full Sample",
+    sort(unique(c(lfactor$name, llogical$name)))
+  )
+
   tagList(selectInput("subset_factor", label = "Subset factor",
-                      c("Full Sample",  unique(c(lfactor$name, llogical$name))),
+                      avail_choices,
                       selected = isolate(uc$subset_factor)),
           helpText("Indicate whether you want to study the full sample or subset to a specific factor."))
-
 })
 
 output$ui_subset_value <- renderUI({
-  req (uc$subset_factor)
+  req(isolate(uc$subset_factor))
   df <- create_analysis_sample()
   if (uc$subset_factor != "Full Sample") {
     tagList(selectInput("subset_value", label = "Select subsample",
@@ -100,9 +109,11 @@ output$ui_outlier_treatment <- renderUI({
 
 output$ui_balanced_panel <- renderUI({
   req(uc$subset_factor)
-  # Here I removed the isolate wrapper a while ago but now I do not longer understand why. Need to check this.
-  tagList(checkboxInput("balanced_panel", "Balanced panel", value = uc$balanced_panel),
-          helpText("Check if you want only observations included that have data for all periods."))
+  if (!cross_sec_data()) {
+    # Here I removed the isolate wrapper a while ago but now I do not longer understand why. Need to check this.
+    tagList(checkboxInput("balanced_panel", "Balanced panel", value = uc$balanced_panel),
+            helpText("Check if you want only observations included that have data for all periods."))
+  }
 })
 
 output$ui_bar_chart <- renderUI({

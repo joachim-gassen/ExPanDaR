@@ -322,7 +322,7 @@ function(input, output, session) {
   })
 
   create_base_sample <- reactive({
-    req(uc$subset_factor)
+    req(isolate(uc$subset_factor))
     bsd <- data.frame(base_variable,
                       can_be_na = TRUE)
     bs <- base_data[base_data$ds_id == uc$sample, as.character(bsd$var_name)]
@@ -333,7 +333,7 @@ function(input, output, session) {
   })
 
   create_ca_sample <- reactive({
-    req(uc$subset_factor)
+    req(isolate(uc$subset_factor))
     cas_definition <<- ca_variable[ca_variable$ds_id == uc$sample, -1]
     smp <- ca_sample[ca_sample$ds_id == uc$sample, as.character(cas_definition$var_name)]
     smp[, cas_definition$var_name[cas_definition$type == "ts_id"]] <-
@@ -342,7 +342,7 @@ function(input, output, session) {
   })
 
   create_analysis_sample <- reactive({
-    req(uc$subset_factor)
+    req(isolate(uc$subset_factor))
     if (DEBUG) sample_count <<- sample_count + 1
     if (DEBUG) tictoc::tic("create_analysis_sample")
 
@@ -592,7 +592,7 @@ function(input, output, session) {
   observeEvent(input$subset_factor, {
     if (req(input$subset_factor) != uc$subset_factor) {
       uc$subset_factor <<- req(input$subset_factor)
-      uc$subset_value <<- "All"
+      if (uc$subset_value != "All") uc$subset_value <<- "All"
     }
   })
 

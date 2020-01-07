@@ -1,5 +1,5 @@
 # --- Header -------------------------------------------------------------------
-# (C) Joachim Gassen 2018, gassen@wiwi.hu-berlin.de, see LICENSE for license
+# (C) Joachim Gassen 2020, gassen@wiwi.hu-berlin.de, see LICENSE for license
 #
 # This file contains some simple use cases for the ExPanDaR package.
 # It is not a part of the package itself.

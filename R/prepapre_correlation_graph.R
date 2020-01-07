@@ -2,9 +2,9 @@ cor_mat <- function(x, ...) {
   mat <- as.matrix(x)
   n <- ncol(mat)
   out_r <- out_n <- out_p <- matrix(NA, n, n)
-  diag(out_r) <- 0
-  diag(out_p) <- 0
-  diag(out_n) <- 0
+  diag(out_r) <- 1
+  diag(out_p) <- 0.00
+  diag(out_n) <- colSums(!is.na(mat))
 
   for (i in 1:(n - 1)) {
     for (j in (i + 1):n) {

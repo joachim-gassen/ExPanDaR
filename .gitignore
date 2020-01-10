@@ -4,5 +4,5 @@
 .Ruserdata
 .DS_Store
 inst/application/shiny_data.Rda
-
+*.Rproj
 inst/doc

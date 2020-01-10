@@ -8,7 +8,7 @@
 # Start this with a virgin R session
 
 library(ExPanDaR)
-ExPanD()
+ExPanD(export_nb_option = TRUE)
 
 # --- Use ExPanD with cross-sectional data -------------------------------------
 

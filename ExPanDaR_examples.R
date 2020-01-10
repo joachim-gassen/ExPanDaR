@@ -373,26 +373,32 @@ imdb <- title_ratings %>%
   filter(titleType == "movie" | titleType == "tvSeries",
          numVotes >= 10000,
          isAdult == 0) %>%
-  mutate(year = as.ordered(startYear),
+  mutate(year = startYear,
          lead_actor_age = ifelse(startYear - lead_actor_yob > 0,
                                  startYear - lead_actor_yob, NA),
          director_age = ifelse(startYear - director_yob > 0,
                                startYear - director_yob, NA),
          genre = str_split(genres, ',', simplify = TRUE)[,1],
-         type = ifelse(titleType == "movie", "Movie", "TV Series"),
-         ts_id = 1) %>%
+         type = ifelse(titleType == "movie", "Movie", "TV Series")) %>%
   rename(avg_rating = averageRating,
          num_votes = numVotes,
          length_minutes = runtimeMinutes,
          title = primaryTitle) %>%
-  select(ts_id, tconst, year, type, title, genre,
+  select(tconst, year, type, title, genre,
          num_votes, avg_rating, length_minutes,
          director_name, director_age,
          lead_actor_name, lead_actor_age, lead_actor_gender)
 
-
-ExPanD(imdb, ts_id = "ts_id", cs_id = c("tconst", "title"),
-       components = c(trend_graph = FALSE, quantile_trend_graph = FALSE),
-       export_nb_option = TRUE)
+row.names(imdb) <- paste(imdb$tconst, imdb$title)
+cl <- readRDS("~/Desktop/IMDb_ExPanD.RDS")
+ExPanD(
+  imdb, config_list = cl,
+  components = c(bar_chart = FALSE),
+  title = "Explore IMDb Data", abstract = paste(
+    "Data as provided by the fabulous",
+    "<a href=https://www.imdb.com>Internet Movie Database</a>."
+  ),
+  export_nb_option = TRUE
+)
 
 # ------------------------------------------------------------------------------

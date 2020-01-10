@@ -1,3 +1,10 @@
+# ExPanDaR 0.5.0.9000
+
+Minor Issues: 
+
+* Included manual zip package import in NAMESPACE to make devtoools:check() 
+happy on various CRAN systems
+
 # ExPanDaR 0.5.0
 
 Extensions:

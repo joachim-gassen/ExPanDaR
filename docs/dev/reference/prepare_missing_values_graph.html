@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.4.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.5.0.9000</span>
       </span>
     </div>
 
@@ -147,7 +147,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>prepare_missing_values_graph</span>(<span class='no'>df</span>, <span class='no'>ts_id</span>, <span class='kw'>no_factors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>prepare_missing_values_graph</span>(<span class='no'>df</span>, <span class='no'>ts_id</span>, <span class='kw'>no_factors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>binary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -163,8 +164,13 @@ Needs to be coercible into an ordered factor.</p></td>
     </tr>
     <tr>
       <th>no_factors</th>
-      <td><p>A logical variable indicating whether you want to limit the plot to
-logical and numerical variables. Defaults to FALSE.</p></td>
+      <td><p>A logical value indicating whether you want to limit the plot to
+logical and numerical variables. Defaults to <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>binary</th>
+      <td><p>If set to <code>TRUE</code>, the plot uses a binary scale only high-lightening
+whether values are missing or not. Defaults to <code>FALSE</code>.</p></td>
     </tr>
     </table>
     
@@ -180,7 +186,7 @@ logical and numerical variables. Defaults to FALSE.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>prepare_missing_values_graph</span>(<span class='no'>russell_3000</span>, <span class='kw'>ts_id</span><span class='kw'>=</span><span class='st'>"period"</span>)</div><div class='img'><img src='prepare_missing_values_graph-1.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>prepare_missing_values_graph</span>(<span class='no'>russell_3000</span>, <span class='kw'>ts_id</span><span class='kw'>=</span><span class='st'>"period"</span>)</div><div class='img'><img src='prepare_missing_values_graph-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>prepare_missing_values_graph</span>(<span class='no'>russell_3000</span>, <span class='kw'>ts_id</span><span class='kw'>=</span><span class='st'>"period"</span>, <span class='kw'>binary</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='prepare_missing_values_graph-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

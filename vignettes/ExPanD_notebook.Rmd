@@ -4,7 +4,7 @@ author: "Joachim Gassen"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Using the functions of the ExPanDaR package}
+  %\VignetteIndexEntry{Using the ExPanD Notebook function}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

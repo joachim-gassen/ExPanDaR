@@ -84,8 +84,14 @@ output$ui_subset_value <- renderUI({
 output$ui_group_factor <- renderUI({
   req(uc$group_factor)
   df <- create_analysis_sample()
+  if (cross_sec_data()) avail_choices <- c(
+    "None",  sort(unique(c(lfactor$name, llogical$name)))
+  )
+  else avail_choices <- c(
+    "None",  sort(unique(c(lcs_id$name, lts_id$name, lfactor$name, llogical$name)))
+  )
   tagList(selectInput("group_factor", label = "Group factor",
-                      c("None",  unique(c(lcs_id$name, lts_id$name, lfactor$name, llogical$name))),
+                      avail_choices,
                       selected = isolate(uc$group_factor)),
           helpText("Select a factor for subsetting specific analyses to."))
 
@@ -94,12 +100,18 @@ output$ui_group_factor <- renderUI({
 output$ui_outlier_treatment <- renderUI({
   req(uc$subset_factor)
   df <- create_analysis_sample()
+  if (cross_sec_data()) avail_choices <- c(
+    "None",  sort(unique(c(lfactor$name, llogical$name)))
+  )
+  else avail_choices <- c(
+    "None",  sort(unique(c(lcs_id$name, lts_id$name, lfactor$name, llogical$name)))
+  )
   tagList(radioButtons("outlier_treatment", "Outlier treatment",
                        choices = list("No treatment" = 1, "Winsorization 1%/99%" = 2, "Winsorization 5%/95%" = 3,
                                       "Truncation 1%/99%" = 4, "Truncation 5%/95%" = 5),
                        selected = uc$outlier_treatment),
           selectInput("outlier_factor", label = "By group factor",
-                      c("None",  unique(c(lcs_id$name, lts_id$name, lfactor$name, llogical$name))),
+                      avail_choices,
                       selected = isolate(uc$outlier_factor)),
           helpText("Indicate whether you want no outlier treatment",
                    "or whether you want outliers to be winsorized",
@@ -237,12 +249,14 @@ output$ui_ext_obs <- renderUI({
 
 output$ui_by_group_bar_graph <- renderUI({
   df <- create_analysis_sample()
+  if (cross_sec_data()) suitable_vars <- unique(c(lfactor$name, llogical$name))
+  else suitable_vars <- unique(c(lts_id$name, lfactor$name, llogical$name))
   mytags <- list(h3("By Group Bar Chart"),
                  selectInput("bgbg_var", label = "Select variable to display",
                              c(lnumeric$name, llogical$name),
                              selected = isolate(uc$bgbg_var)),
                  selectInput("bgbg_byvar", label = "Select variable to group by",
-                             unique(c(lts_id$name, lfactor$name)),
+                             suitable_vars,
                              selected = isolate(uc$bgbg_byvar)),
                  selectInput("bgbg_stat", label = "Select statistic to display",
                              c("Mean" = "mean",
@@ -264,12 +278,14 @@ output$ui_by_group_bar_graph <- renderUI({
 
 output$ui_by_group_violin_graph <- renderUI({
   df <- create_analysis_sample()
+  if (cross_sec_data()) suitable_vars <- unique(c(lfactor$name, llogical$name))
+  else suitable_vars <- unique(c(lts_id$name, lfactor$name, llogical$name))
   mytags <- list(h3("By Group Violin Chart"),
                  selectInput("bgvg_var", label = "Select variable to display",
                              c(lnumeric$name, llogical$name),
                              selected = isolate(uc$bgvg_var)),
                  selectInput("bgvg_byvar", label = "Select variable to group by",
-                             unique(c(lts_id$name, lfactor$name)),
+                             suitable_vars,
                              selected = isolate(uc$bgvg_byvar)),
                  checkboxInput("bgvg_sort_by_stat", "Sort by group means", value = uc$bgvg_sort_by_stat),
                  helpText("(Note: Consider treating your outliers if this graph looks odd)"),
@@ -347,6 +363,10 @@ output$ui_corrplot <- renderUI({
 
 output$ui_scatter_plot <- renderUI({
   df <- create_analysis_sample()
+  if (cross_sec_data())
+    suitable_vars <- names(df)[which(!names(df) %in%
+                                       unique(c(lts_id$name, lcs_id$name)))]
+  else suitable_vars <- names(df)[which(!names(df) %in% lcs_id$name)]
   mytags <- list(
     h3("Scatter Plot"),
     selectInput("scatter_x", label = "Select the x variable to display",
@@ -359,7 +379,7 @@ output$ui_scatter_plot <- renderUI({
                 c("None", lnumeric$name, l2level$name),
                 selected = isolate(uc$scatter_size)),
     selectInput("scatter_color", label = "Select the variable to be reflected by color",
-                c("None", names(df)),
+                c("None", suitable_vars),
                 selected = isolate(uc$scatter_color)),
     checkboxInput("scatter_sample",
                   label = "Sample 1,000 observations to display if number of observations is higher",
@@ -378,6 +398,8 @@ output$ui_scatter_plot <- renderUI({
 
 output$ui_regression <- renderUI({
   df <- create_analysis_sample()
+  if (cross_sec_data()) suitable_vars <- unique(c("None", lfactor$name))
+  else suitable_vars <- unique(c("None", lcs_id$name, lts_id$name, lfactor$name))
   tagList(
     h3("Regression Analysis"),
     selectInput("reg_y", label = "Select the dependent variable",
@@ -388,14 +410,14 @@ output$ui_regression <- renderUI({
                 selected = isolate(uc$reg_x)),
     hr(),
     selectInput("reg_fe1", label = "Select a categorial variable as the first fixed effect",
-                unique(c("None", lcs_id$name, lts_id$name, lfactor$name)),
+                suitable_vars,
                 selected = isolate(uc$reg_fe1)),
     selectInput("reg_fe2", label = "Select a categorial variable as the second fixed effect",
-                unique(c("None", lcs_id$name, lts_id$name, lfactor$name)),
+                suitable_vars,
                 selected = isolate(uc$reg_fe2)),
     hr(),
     selectInput("reg_by", label = "Select a categorial variable to subset the estimated models on",
-                unique(c("None", lts_id$name, lfactor$name)),
+                suitable_vars[which(!suitable_vars %in% lcs_id$name)],
                 selected = isolate(uc$reg_by))
   )
 })

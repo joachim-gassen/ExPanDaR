@@ -389,10 +389,9 @@ imdb <- title_ratings %>%
          director_name, director_age,
          lead_actor_name, lead_actor_age, lead_actor_gender)
 
-row.names(imdb) <- paste(imdb$tconst, imdb$title)
 cl <- readRDS("~/Desktop/IMDb_ExPanD.RDS")
 ExPanD(
-  imdb, config_list = cl,
+  imdb, cs_id = c("tconst", "title"), config_list = cl,
   components = c(bar_chart = FALSE),
   title = "Explore IMDb Data", abstract = paste(
     "Data as provided by the fabulous",

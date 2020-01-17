@@ -23,18 +23,20 @@ you want to explore. If NULL, ExPanD will start up with a file upload
 dialog.}
 
 \item{cs_id}{A character vector containing the names of the variables that
-identify the cross-section in your data. \code{df_def} overrides if
-provided.}
+identify the cross-section in your data. If only \code{cs_id} and not
+\code{ts_id} is provided, the data is treated as cross-sectional, and only
+appropriate displays are included. \code{df_def} overrides if provided.}
 
 \item{ts_id}{A character scalar identifying the name of
 the variable that identifies the time series in your data. The according
 variable needs to be coercible to an ordered vector.
 If you provide a time series indicator that already is an ordered vector,
 ExPanD will verify that it has the same levels for each data frame
-and throw an error otherwise. \code{df_def} overrides if
-provided. If \code{cs_id} and \code{ts_id} are not provided either
-directly of by \code{df_def}, the data is treated as cross-sectional and
-only appropriate displays are included.}
+and throw an error otherwise. If \code{cs_id} and \code{ts_id} are not
+provided either directly of by \code{df_def}, the data is treated as
+cross-sectional,observations are identifed by row names and
+only appropriate displays are included. \code{df_def} overrides if
+provided.}
 
 \item{df_def}{An optional dataframe (or a list of dataframes) containing
 variable names, definitions and types. If NULL (the default) ExPanD

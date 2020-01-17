@@ -105,6 +105,9 @@
     <li>
       <a href="../articles/customize_ExPanD.html">Customize ExPanD</a>
     </li>
+    <li>
+      <a href="../articles/ExPanD_notebook.html">Using the ExPanD Notebook function</a>
+    </li>
     <li class="divider"></li>
     <li class="dropdown-header">'ExPanDaR' functions</li>
     <li>
@@ -142,9 +145,15 @@
 <h1 class="page-header">
 <a href="#expandar-0-5-0-9000" class="anchor"></a>ExPanDaR 0.5.0.9000<small> Unreleased </small>
 </h1>
+<p>Extensions:</p>
+<ul>
+<li>Added a vignette to explain the notebook export option of <code><a href="../reference/ExPanD.html">ExPanD()</a></code> and the resulting notebook</li>
+</ul>
 <p>Minor Issues:</p>
 <ul>
-<li>Included manual zip package import in NAMESPACE to make devtoools:check() happy on various CRAN systems</li>
+<li><p>Allowed <code><a href="../reference/ExPanD.html">ExPanD()</a></code> to be called with <code>ts_id = NULL</code> and <code>cs_id != NULL</code> so that data frame variables can be specified as cross-sectional identifiers in the cross-sectional mode</p></li>
+<li><p>Removed some artefacts in cross-sectional mode where cross-sectional and time series indentifiers were still provided as variable options in the <code><a href="../reference/ExPanD.html">ExPanD()</a></code> app</p></li>
+<li><p>Included manual zip package import in <code>NAMESPACE</code> to make <code>devtoools::check()</code> happy on various CRAN systems</p></li>
 </ul>
 </div>
     <div id="expandar-0-5-0" class="section level1">
@@ -153,12 +162,12 @@
 </h1>
 <p>Extensions:</p>
 <ul>
-<li><p>Modified ExPanD() to process cross-sectional data with useful defaults</p></li>
+<li><p>Modified <code><a href="../reference/ExPanD.html">ExPanD()</a></code> to process cross-sectional data with useful defaults</p></li>
 <li><p>Implemented an export option that allows users to download a zip file containing the data and a R notebook based variant of the ExPanD analysis (<code>export_nb_option = TRUE</code>)</p></li>
 </ul>
 <p>Minor issues:</p>
 <ul>
-<li><p>Added an option ‘binary’ to prepare_missing_values_graph() to visualize whether any values are missing</p></li>
+<li><p>Added an option ‘binary’ to <code><a href="../reference/prepare_missing_values_graph.html">prepare_missing_values_graph()</a></code> to visualize whether any values are missing</p></li>
 <li><p>Typo fixes</p></li>
 </ul>
 </div>
@@ -180,7 +189,7 @@
 </ul>
 <p>Minor issues:</p>
 <ul>
-<li><p>Removed non-ASCII characters from NAMESPACE</p></li>
+<li><p>Removed non-ASCII characters from <code>NAMESPACE</code></p></li>
 <li><p>Allowed more flexible handling of binary variables in <code><a href="../reference/ExPanD.html">ExPanD()</a></code></p></li>
 <li><p>Added additional examples to Github repository (not in package)</p></li>
 <li><p>Updated World Bank data</p></li>

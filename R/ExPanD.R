@@ -8,17 +8,19 @@
 #'   you want to explore. If NULL, ExPanD will start up with a file upload
 #'   dialog.
 #' @param cs_id A character vector containing the names of the variables that
-#'   identify the cross-section in your data. \code{df_def} overrides if
-#'   provided.
+#'   identify the cross-section in your data. If only \code{cs_id} and not
+#'   \code{ts_id} is provided, the data is treated as cross-sectional, and only
+#'   appropriate displays are included. \code{df_def} overrides if provided.
 #' @param ts_id A character scalar identifying the name of
 #'   the variable that identifies the time series in your data. The according
 #'   variable needs to be coercible to an ordered vector.
 #'   If you provide a time series indicator that already is an ordered vector,
 #'   ExPanD will verify that it has the same levels for each data frame
-#'   and throw an error otherwise. \code{df_def} overrides if
-#'   provided. If \code{cs_id} and \code{ts_id} are not provided either
-#'   directly of by \code{df_def}, the data is treated as cross-sectional and
-#'   only appropriate displays are included.
+#'   and throw an error otherwise. If \code{cs_id} and \code{ts_id} are not
+#'   provided either directly of by \code{df_def}, the data is treated as
+#'   cross-sectional,observations are identifed by row names and
+#'   only appropriate displays are included. \code{df_def} overrides if
+#'   provided.
 #' @param df_def An optional dataframe (or a list of dataframes) containing
 #'   variable names, definitions and types. If NULL (the default) ExPanD
 #'   uses \code{cs_id} and \code{ts_id} to identify the data structure and
@@ -213,30 +215,51 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
   if (!is.null(df) && !is.data.frame(df) &&
       length(which(!sapply(df, is.data.frame))) > 0)
     stop("df is a list containing non-dataframe members")
+
+  if (!is.null(df_def) && !is.data.frame(df_def) && !is.list(df_def))
+    stop("df_def is neither a dataframe nor a list of dataframes")
+  if (!is.null(df_def) && !is.data.frame(df_def) &&
+      length(which(!sapply(df_def, is.data.frame))) > 0)
+    stop("df_def is a list containing non-dataframe members")
+
   if (!is.data.frame(df) && !is.null(df_def) && is.data.frame(df_def))
     df_def <- rep(list(df_def), length(df))
   if (length(factor_cutoff) != 1 && !is.integer(factor_cutoff))
     stop("factor_cutoff needs to be an integer scalar.")
 
-  shiny_cs_data <- !is.null(df) && is.null(ts_id) &&
-    is.null(cs_id) && is.null(df_def)
+  shiny_cs_data <- !is.null(df) && is.null(ts_id) && is.null(df_def)
+  if (!is.null(df_def)) {
+    if (is.data.frame(df_def)) shiny_cs_data <- ! "ts_id" %in% df_def$type
+    else shiny_cs_data <- ! "ts_id" %in% df_def[[1]][, "type"]
+  }
   if (shiny_cs_data) {
     ts_id <- "ts_id"
-    cs_id <- "cs_id"
+    if (is.null(cs_id)) {
+      create_cs_id <- TRUE
+      cs_id <- "cs_id"
+    } else create_cs_id <- FALSE
   }
   if(!is.null(df_def)) cs_id <- NULL
 
   if(!is.null(df)) {
     if(!is.data.frame(df)) {
       if (shiny_cs_data) {
-        lapply(df, function(x) x[, "cs_id"] <- row.names(x))
+        if (create_cs_id) lapply(df, function(x) x[, "cs_id"] <- row.names(x))
         lapply(df, function(x) x[, "ts_id"] <- 1)
         if(!is.null(df_def)) {
+          if (create_cs_id) {
+            df_def <- lapply(
+              df_def,
+              function(x) rbind(
+                x,
+                list("cs_id", "Cross-sectional indicator", "cs_id", FALSE)
+              )
+            )
+          }
           df_def <- lapply(
             df_def,
             function(x) rbind(
               x,
-              list("cs_id", "Cross-sectional indicator", "cs_id", FALSE),
               list("ts_id", "Pseudo time series indicator", "ts_id", FALSE)
             )
           )
@@ -263,12 +286,17 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
       }
     } else {
       if (shiny_cs_data) {
-        df$cs_id <- row.names(df)
+        if (create_cs_id) df$cs_id <- row.names(df)
         df$ts_id <- 1
         if (!is.null(df_def)) {
+          if (create_cs_id) {
+            df_def <- rbind(
+              df_def,
+              list("cs_id", "Cross-sectional indicator", "cs_id", FALSE)
+            )
+          }
           df_def <- rbind(
             df_def,
-            list("cs_id", "Cross-sectional indicator", "cs_id", FALSE),
             list("ts_id", "Pseudo time series indicator", "ts_id", FALSE)
           )
         }

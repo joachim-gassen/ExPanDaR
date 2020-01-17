@@ -19,6 +19,8 @@ navbar:
       href: articles/use_ExPanD.html
     - text: Customize ExPanD
       href: articles/customize_ExPanD.html
+    - text: Using the ExPanD Notebook function
+      href: articles/ExPanD_notebook.html
     - text: -------
     - text: "'ExPanDaR' functions"
     - text: Using the functions of the 'ExPanDaR' package

@@ -109,6 +109,9 @@ simple cross-sectional data as well." />
     <li>
       <a href="../articles/customize_ExPanD.html">Customize ExPanD</a>
     </li>
+    <li>
+      <a href="../articles/ExPanD_notebook.html">Using the ExPanD Notebook function</a>
+    </li>
     <li class="divider"></li>
     <li class="dropdown-header">'ExPanDaR' functions</li>
     <li>
@@ -176,8 +179,9 @@ dialog.</p></td>
     <tr>
       <th>cs_id</th>
       <td><p>A character vector containing the names of the variables that
-identify the cross-section in your data. <code>df_def</code> overrides if
-provided.</p></td>
+identify the cross-section in your data. If only <code>cs_id</code> and not
+<code>ts_id</code> is provided, the data is treated as cross-sectional, and only
+appropriate displays are included. <code>df_def</code> overrides if provided.</p></td>
     </tr>
     <tr>
       <th>ts_id</th>
@@ -186,10 +190,11 @@ the variable that identifies the time series in your data. The according
 variable needs to be coercible to an ordered vector.
 If you provide a time series indicator that already is an ordered vector,
 ExPanD will verify that it has the same levels for each data frame
-and throw an error otherwise. <code>df_def</code> overrides if
-provided. If <code>cs_id</code> and <code>ts_id</code> are not provided either
-directly of by <code>df_def</code>, the data is treated as cross-sectional and
-only appropriate displays are included.</p></td>
+and throw an error otherwise. If <code>cs_id</code> and <code>ts_id</code> are not
+provided either directly of by <code>df_def</code>, the data is treated as
+cross-sectional,observations are identifed by row names and
+only appropriate displays are included. <code>df_def</code> overrides if
+provided.</p></td>
     </tr>
     <tr>
       <th>df_def</th>

@@ -1,23 +1,40 @@
 # ExPanDaR 0.5.0.9000
 
+Extensions:
+
+* Added a vignette to explain the notebook export option of `ExPanD()` and the 
+resulting notebook
+
+
 Minor Issues: 
 
-* Included manual zip package import in NAMESPACE to make devtoools:check() 
+* Allowed `ExPanD()` to be called with `ts_id = NULL` and `cs_id != NULL` so
+that data frame variables can be specified as cross-sectional identifiers
+in the cross-sectional mode
+
+* Removed some artefacts in cross-sectional mode where cross-sectional and
+time series indentifiers were still provided as variable options in the 
+`ExPanD()` app
+
+* Included manual zip package import in `NAMESPACE` to make `devtoools::check()` 
 happy on various CRAN systems
+
 
 # ExPanDaR 0.5.0
 
 Extensions:
 
-* Modified ExPanD() to process cross-sectional data with useful defaults
+* Modified `ExPanD()` to process cross-sectional data with useful defaults
 
 * Implemented an export option that allows users to download a 
 zip file containing the data and a R notebook based variant of the ExPanD
 analysis (`export_nb_option = TRUE`)
 
+
 Minor issues:
 
-* Added an option 'binary' to prepare_missing_values_graph() to visualize whether any values are missing
+* Added an option 'binary' to `prepare_missing_values_graph()` to visualize 
+whether any values are missing
 
 * Typo fixes
 
@@ -26,8 +43,8 @@ Minor issues:
 
 Extensions:
 
-* Introduced `html_block` tag in `components` to allow users to add self-designed
-html content to `ExPanD()`
+* Introduced `html_block` tag in `components` to allow users to add 
+self-designed html content to `ExPanD()`
 
 * Added `sample_selection`, `subset_factor`, `grouping` and `udvars` variables 
 to `components` in `ExPanD()` so that these parts can also be re-arranged 
@@ -43,12 +60,13 @@ Bug fixes:
 
 * Made Stata import more robust
 
-* Fixed hover code in correlation and scatter plots to adjust for `img_css_ratio`
+* Fixed hover code in correlation and scatter plots to adjust for 
+`img_css_ratio`
 
 
 Minor issues:
 
-* Removed non-ASCII characters from NAMESPACE
+* Removed non-ASCII characters from `NAMESPACE`
 
 * Allowed more flexible handling of binary variables in `ExPanD()`
 
@@ -71,9 +89,11 @@ Extensions:
 
 * Included `!` and `is.na()` as allowed functions for user defined variables
 
-* Introduced the option to change the order of reported components and to exclude selected components
+* Introduced the option to change the order of reported components and to 
+exclude selected components
 
-* Added clustered standard errors and fixed effects for logit models in `prepare_regression_table()`
+* Added clustered standard errors and fixed effects for logit models in 
+`prepare_regression_table()`
 
 * Implemented binary response logit models in `ExPanD()`
 
@@ -101,13 +121,15 @@ Minor issues:
 
 * Fixed a typo in `worldbank_var_def`
 
-* Removed the `drop_undersore` parameter in `prepare_regression_table()` (no longer needed)
+* Removed the `drop_undersore` parameter in `prepare_regression_table()` 
+(no longer needed)
 
 * Work-around for special characters in stargazer `column.labels`
 
 * Marginally improved error handling for user provided data files
 
-* Allowed `treat_outliers()` to route parameters through to `stats::quantile()` (needed for type parameter)
+* Allowed `treat_outliers()` to route parameters through to `stats::quantile()` 
+(needed for type parameter)
 
 * Changed `NA` handling in `prepare_graph` type functions
 

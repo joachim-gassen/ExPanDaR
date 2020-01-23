@@ -86,8 +86,8 @@ you should be rewarded with a file download dialog, asking you to store a file
 named `ExPanD_nb.zip`. Store and unzip it wherever you like. It contains two
 files
 
-- A notebook file `ExPanD_nb_code.Rmd` ans
-- A data file `ExPanD_nb_data.RData` containing data and variable definitions.
+- A notebook file `ExPanD_nb_code.Rmd` and
+- a data file `ExPanD_nb_data.RData` containing data and variable definitions.
 
 ## Exploring the Notebook Code
 
@@ -201,10 +201,11 @@ hist(var, main="", xlab = "nioa", col="red", right = FALSE, breaks= 150)
 ```
 
 you directly see the effect of winsorization on the data (Net Income divided
-by average total assets in this case). Most of the chunks make use of the 
-wrapper functions provided by the `ExPanDaR` package. For one, the fifth chunk
-uses `prepare_descriptive_table()` to quickly produce a standard descriptive
-statistics table. 
+by average total assets in this case).
+
+Most of the chunks make use of the wrapper functions provided by the `ExPanDaR` 
+package. For one, the fifth chunk uses `prepare_descriptive_table()` to quickly 
+produce a standard descriptive statistics table. 
 
 ```{r descriptive_statistics}
 df <- smp
@@ -237,7 +238,7 @@ prepare_scatter_plot(df, "nioa", "return", color = "sector", size = "toas", loes
 
 Let's assume that in addition you want to see how cash flows from operations
 relate to stock returns. Easy! Just replace `"nioa"`, the name of the net income
-variable with `"cfoa"`, the name of the cash flow variable.
+variable with `"cfoa"`, the name of the cash flow from operations variable.
 
 ```{r scatter_plot2}
 df <- smp

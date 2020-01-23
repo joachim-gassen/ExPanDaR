@@ -104,7 +104,7 @@
       <h1>Using the ExPanD Notebook function</h1>
                         <h4 class="author">Joachim Gassen</h4>
             
-            <h4 class="date">2020-01-17</h4>
+            <h4 class="date">2020-01-23</h4>
       
       
       <div class="hidden name"><code>ExPanD_notebook.Rmd</code></div>
@@ -128,8 +128,8 @@
 <p><img src="figures/expand_export_button.png" width="80%" style="display: block; margin: auto;"></p>
 <p>you should be rewarded with a file download dialog, asking you to store a file named <code>ExPanD_nb.zip</code>. Store and unzip it wherever you like. It contains two files</p>
 <ul>
-<li>A notebook file <code>ExPanD_nb_code.Rmd</code> ans</li>
-<li>A data file <code>ExPanD_nb_data.RData</code> containing data and variable definitions.</li>
+<li>A notebook file <code>ExPanD_nb_code.Rmd</code> and</li>
+<li>a data file <code>ExPanD_nb_data.RData</code> containing data and variable definitions.</li>
 </ul>
 </div>
 <div id="exploring-the-notebook-code" class="section level2">
@@ -703,7 +703,8 @@ TRUE
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">var &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/numeric">as.numeric</a></span>(smp<span class="op">$</span>nioa)</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/hist">hist</a></span>(var, <span class="dt">main=</span><span class="st">""</span>, <span class="dt">xlab =</span> <span class="st">"nioa"</span>, <span class="dt">col=</span><span class="st">"red"</span>, <span class="dt">right =</span> <span class="ot">FALSE</span>, <span class="dt">breaks=</span> <span class="dv">150</span>)</a></code></pre></div>
 <p><img src="ExPanD_notebook_files/figure-html/histogram-1.png" width="576" style="display: block; margin: auto;"></p>
-<p>you directly see the effect of winsorization on the data (Net Income divided by average total assets in this case). Most of the chunks make use of the wrapper functions provided by the <code>ExPanDaR</code> package. For one, the fifth chunk uses <code><a href="../reference/prepare_descriptive_table.html">prepare_descriptive_table()</a></code> to quickly produce a standard descriptive statistics table.</p>
+<p>you directly see the effect of winsorization on the data (Net Income divided by average total assets in this case).</p>
+<p>Most of the chunks make use of the wrapper functions provided by the <code>ExPanDaR</code> package. For one, the fifth chunk uses <code><a href="../reference/prepare_descriptive_table.html">prepare_descriptive_table()</a></code> to quickly produce a standard descriptive statistics table.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">df &lt;-<span class="st"> </span>smp</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2">t &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prepare_descriptive_table.html">prepare_descriptive_table</a></span>(smp)</a>
 <a class="sourceLine" id="cb7-3" data-line-number="3">t<span class="op">$</span>kable_ret  <span class="op">%&gt;%</span></a>
@@ -1306,7 +1307,7 @@ return
 <a class="sourceLine" id="cb8-4" data-line-number="4">df<span class="op">$</span>sector &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">as.factor</a></span>(df<span class="op">$</span>sector)</a>
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="kw"><a href="../reference/prepare_scatter_plot.html">prepare_scatter_plot</a></span>(df, <span class="st">"nioa"</span>, <span class="st">"return"</span>, <span class="dt">color =</span> <span class="st">"sector"</span>, <span class="dt">size =</span> <span class="st">"toas"</span>, <span class="dt">loess =</span> <span class="dv">1</span>)</a></code></pre></div>
 <p><img src="ExPanD_notebook_files/figure-html/scatter_plot1-1.png" width="576" style="display: block; margin: auto;"></p>
-<p>Let’s assume that in addition you want to see how cash flows from operations relate to stock returns. Easy! Just replace <code>"nioa"</code>, the name of the net income variable with <code>"cfoa"</code>, the name of the cash flow variable.</p>
+<p>Let’s assume that in addition you want to see how cash flows from operations relate to stock returns. Easy! Just replace <code>"nioa"</code>, the name of the net income variable with <code>"cfoa"</code>, the name of the cash flow from operations variable.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">df &lt;-<span class="st"> </span>smp</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2">df &lt;-<span class="st"> </span>df[, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"coid"</span>, <span class="st">"coname"</span>, <span class="st">"period"</span>, <span class="st">"cfoa"</span>, <span class="st">"return"</span>, <span class="st">"sector"</span>, <span class="st">"toas"</span>)]</a>
 <a class="sourceLine" id="cb9-3" data-line-number="3">df &lt;-<span class="st"> </span>df[<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/complete.cases">complete.cases</a></span>(df), ]</a>

@@ -36,6 +36,7 @@ articles:
   contents:
   - use_ExPanD
   - customize_ExPanD
+  - ExPanD_notebook
 - title: "'ExPanDaR' Functions"
   desc: A vignette that features the underlying functions included in the 'ExPanDaR' package
   contents:

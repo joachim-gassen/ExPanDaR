@@ -298,7 +298,7 @@ expand_footer <- reactive({
              "<a href=https://www.wiwi.hu-berlin.de/rewe>",
              "Humboldt-Universität zu Berlin</a> and",
              "<a href=https://www.accounting-for-transparency.de>",
-             "TRR 266 Accounting for Transparency</a>, 2019<p>")
+             "TRR 266 Accounting for Transparency</a>, 2020<p>")
       )
     )
   ))

@@ -452,9 +452,9 @@ create_nb_code_for_component <- function(comp) {
 
 
     parm_str <- sprintf('df, dvs = "%s", idvs = c("%s")',  uc$reg_y, paste(uc$reg_x, collapse = '", "'))
-    if (feffect != "") parm_str <- paste0(parm_str,
+    if (feffect[1] != "") parm_str <- paste0(parm_str,
                                           sprintf(', feffects = c("%s")', paste(feffect, collapse = '", "')))
-    if (cluster != "") parm_str <- paste0(parm_str,
+    if (cluster[1] != "") parm_str <- paste0(parm_str,
                                           sprintf(', clusters = c("%s")', paste(cluster, collapse = '", "')))
 
     if (reg_by != "") parm_str <- paste0(parm_str,

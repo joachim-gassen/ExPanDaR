@@ -207,11 +207,14 @@ function(input, output, session) {
   uc <- reactiveValues()
   app_config <- NULL
   data_source <- NULL
+  upload_sample <- NULL
+  upload_variable <- NULL
   ca_sample <- NULL
   ca_variable <- NULL
   base_data <- NULL
   base_variable <- NULL
   cross_sec_data <- reactiveVal(shiny_cs_data)
+  user_data_ready <- reactiveVal(FALSE)
 
   source("server_components_ui.R", local = TRUE)
   source("server_components_displays.R", local = TRUE)
@@ -258,7 +261,7 @@ function(input, output, session) {
       ca_variable <- v
     } else {
       order_cols <- c("ds_id", cs_id, ts_id)
-      base_data <- s %>% arrange_(.dots = order_cols)
+      base_data <- s %>% arrange(!!! rlang::syms(order_cols))
       base_variable <- v
 
       code <- paste0("base_data %>% group_by(ds_id, ",
@@ -310,19 +313,19 @@ function(input, output, session) {
   components <- reactive({
     if (server_side_data) shiny_components
     else {
-      if (cross_sec_data())
-        shiny_components[!names(shiny_components) %in%
-                           c("missing_values", "trend_graph",
-                             "quantile_trend_graph")]
+      if (! user_data_ready()) c(sample_selection = TRUE)
       else {
-        if(!is.null(ca_variable)) shiny_components
-        else c(sample_selection = TRUE)
+        if (cross_sec_data())
+          shiny_components[!names(shiny_components) %in%
+                             c("missing_values", "trend_graph",
+                               "quantile_trend_graph")]
+        else shiny_components
       }
     }
   })
 
   create_base_sample <- reactive({
-    req(isolate(uc$subset_factor))
+    req(uc$config_parsed)
     bsd <- data.frame(base_variable,
                       can_be_na = TRUE)
     bs <- base_data[base_data$ds_id == uc$sample, as.character(bsd$var_name)]
@@ -333,7 +336,7 @@ function(input, output, session) {
   })
 
   create_ca_sample <- reactive({
-    req(isolate(uc$subset_factor))
+    req(uc$config_parsed)
     cas_definition <<- ca_variable[ca_variable$ds_id == uc$sample, -1]
     smp <- ca_sample[ca_sample$ds_id == uc$sample, as.character(cas_definition$var_name)]
     smp[, cas_definition$var_name[cas_definition$type == "ts_id"]] <-
@@ -342,7 +345,7 @@ function(input, output, session) {
   })
 
   create_analysis_sample <- reactive({
-    req(isolate(uc$subset_factor))
+    req(uc$config_parsed)
     if (DEBUG) sample_count <<- sample_count + 1
     if (DEBUG) tictoc::tic("create_analysis_sample")
 
@@ -405,6 +408,7 @@ function(input, output, session) {
 
     if (DEBUG) current_as <<- smp
     if (DEBUG) current_sd <<- sample_definition
+    if (DEBUG) message(do.call(tictoc::toc.outmsg, tictoc::toc(quiet = TRUE)))
 
     return(smp)
   })
@@ -461,6 +465,12 @@ function(input, output, session) {
     input_file <- input$infile
     if (is.null(input_file)) return(NULL)
 
+    user_data_ready(FALSE)
+    ca_sample <<- NULL
+    ca_variable <<- NULL
+    reset_config()
+    cross_sec_data(FALSE)
+
     input_file_format <- tools::file_ext(input_file$name)
     shiny_df <- try(rio::import(file = input_file$datapath,
                                 format = input_file_format))
@@ -508,35 +518,36 @@ function(input, output, session) {
     ret <- load_sample(shiny_df, shiny_df_id, "User uploaded data")
 
     data_source <<- ret[[1]]
-    ca_sample <<- ret[[2]]
-    ca_variable <<- ret[[3]]
+    upload_sample <<- ret[[2]]
+    upload_variable <<- ret[[3]]
 
-    uc$sample <<- ca_sample$ds_id[1]
-    uc$subset_factor <<- NULL
+    updateSelectInput(session, "cs_id", selected = "")
+    updateSelectInput(session, "ts_id", selected = "")
+    uc$sample <<- upload_sample$ds_id[1]
   })
 
   observeEvent({c(input$ts_id, input$cs_id)}, {
     req(input$cs_id, input$ts_id)
-    if (check_ids(ca_sample, input$cs_id, input$ts_id)) {
-      if (length(ca_variable$var_name[ca_variable$type == "cs_id"]) > 0) {
-        df <- ca_sample[,which(ca_variable$type %in% c("cs_id", "ts_id")) + 1]
-        for (i in 1:ncol(df)) {
-          if(is.numeric(df[,i])) ca_variable$type[ca_variable$var_name == colnames(df[i])] <<- "numeric"
-          else if(is.logical(df[,i])) ca_variable$type[ca_variable$var_name == colnames(df[i])] <<- "logical"
-          else ca_variable$type[ca_variable$var_name == colnames(df[i])] <<- "factor"
-        }
-      }
-
+    ca_sample <<- upload_sample
+    ca_variable <<- upload_variable
+    if (check_ids(upload_sample, input$cs_id, input$ts_id)) {
       cs_id <- input$cs_id
       ts_id <- input$ts_id
-      if (cs_id == "cs_id" && ts_id == "ts_id") {
+      if (ts_id == "ts_id") {
         cross_sec_data(TRUE)
+      }
+      if (! "cs_id" %in% cs_id ) {
+        ca_variable <<- ca_variable %>% filter(var_name != "cs_id")
+      }
+      if (ts_id != "ts_id") {
+        ca_variable <<- ca_variable %>% filter(var_name != "ts_id")
       }
 
       ca_variable <<- add_ids(ca_variable, ca_variable$ds_id[1], cs_id, ts_id)
       if (check_whether_data_is_valid(ca_variable)) {
         order_cols <- c("ds_id", cs_id, ts_id)
-        ca_sample <<- as.data.frame(ca_sample %>% arrange_(.dots = order_cols))
+        ca_sample <<- as.data.frame(ca_sample %>%
+                                      arrange(!!! rlang::syms(order_cols)))
         base_data <<- ca_sample
         base_variable <<- ca_variable
         ca_variable$var_def <<- ca_variable$var_name
@@ -544,16 +555,17 @@ function(input, output, session) {
           ifelse(ca_variable$type == "cs_id" | ca_variable$type == "ts_id", FALSE, TRUE)
 
         app_config <<- create_config(ca_sample, ca_variable, ca_variable$ds_id[1])
-        # force invalidation... let's see whether this is sufficient. Looks like it.
-        temp <<- uc$sample
-        uc$sample <<- NULL
-        uc$sample <<- temp
+        uc$config_parsed <<- FALSE
         parse_config(app_config)
+        user_data_ready(TRUE)
+        updateSelectInput(session, "cs_id", selected = cs_id)
+        updateSelectInput(session, "ts_id", selected = ts_id)
       } else {
         uc$sample <<- NULL
         ca_sample <<- NULL
         ca_variable <<- NULL
         data_source <<- NULL
+        user_data_ready(FALSE)
       }
     } else session$sendCustomMessage(type = 'testmessage',
                                      message = paste("The variables you selected yield duplicate observations. Choose different variables and/or check your sample."))
@@ -565,7 +577,7 @@ function(input, output, session) {
   })
 
   observeEvent(input$sample, {
-    req(uc$subset_factor)
+    req(uc$config_parsed)
     if (req(input$sample) != uc$sample) {
       uc$sample <<- input$sample
       uc$subset_value <<- "All"

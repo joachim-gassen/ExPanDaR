@@ -21,6 +21,7 @@ importFrom(shinycssloaders, withSpinner)
 importFrom(tictoc, tic)
 importFrom(rio, import)
 importFrom(zip, zip)
+importFrom(rlang, syms)
 
 # Normal export stuff follows
 

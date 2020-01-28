@@ -7,13 +7,15 @@ check_vars <- function(cross_sectional = FALSE) {
     factor_names <- unique(c(lfactor$name, lcs_id$name, llogical$name, "None"))
   numeric_names <- c(lnumeric$name, llogical$name, "None")
   depvar_names <- unique(c(lnumeric$name, llogical$name, l2level$name))
+
   if (!uc$bar_chart_var1 %in% factor_names) uc$bar_chart_var1 = factor_names[1]
   if (!uc$bar_chart_var2 %in% factor_names) uc$bar_chart_var2 = "None"
   if (!uc$bgbg_var %in% numeric_names) uc$bgbg_var = numeric_names[1]
   if (!uc$bgbg_byvar %in% factor_names) uc$bgbg_byvar = factor_names[1]
   if (!uc$bgvg_var %in% numeric_names) uc$bgvg_var = numeric_names[1]
   if (!uc$bgvg_byvar %in% factor_names) uc$bgvg_byvar = factor_names[1]
-  if (!uc$hist_var %in% numeric_names) uc$hist_var = numeric_names[1]
+  if (uc$bgbg_var == uc$bgbg_byvar) uc$bgbg_var = numeric_names[2]
+  if (uc$bgvg_var == uc$bgvg_byvar) uc$bgvg_var = numeric_names[2]
   if (!uc$hist_var %in% numeric_names) uc$hist_var = numeric_names[1]
   if (!uc$ext_obs_var %in% numeric_names) uc$ext_obs_var = numeric_names[1]
   if (!uc$trend_graph_var1 %in% numeric_names) uc$trend_graph_var1 = numeric_names[1]
@@ -189,5 +191,14 @@ parse_config <- function(l) {
       else uc[[name]] <<- default_config[[name]]
     }
     if (length(isolate(uc$udvars)) != 0) create_udv_sample()
+    uc$config_parsed <<- TRUE
   }
+}
+
+reset_config <- function() {
+  for (name in names(default_config)) {
+    uc[[name]] <<- NULL
+  }
+  uc$sample <<- NULL
+  uc$config_parsed <<- NULL
 }

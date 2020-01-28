@@ -6,9 +6,16 @@ Extensions:
 resulting notebook
 
 
+Bug fixes:
+
+* Removed bug that stopped displays from rendering on user uploaded data
+
+
 Minor Issues: 
 
-* Allowed `ExPanD()` to be called with `ts_id = NULL` and `cs_id != NULL` so
+* Updated World Bank data
+
+* Allowed `ExPanD()` to be called with `ts_id == NULL` and `cs_id != NULL` so
 that data frame variables can be specified as cross-sectional identifiers
 in the cross-sectional mode
 
@@ -18,6 +25,9 @@ time series indentifiers were still provided as variable options in the
 
 * Included manual zip package import in `NAMESPACE` to make `devtoools::check()` 
 happy on various CRAN systems
+
+* Changed shinyapps.io URLs in vignettes to plain HTTP as winbuilder seems to
+have an issue with the SSL handshake of shinyapps.io
 
 
 # ExPanDaR 0.5.0

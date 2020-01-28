@@ -8,10 +8,12 @@ cor_mat <- function(x, ...) {
 
   for (i in 1:(n - 1)) {
     for (j in (i + 1):n) {
-      tmp <- stats::cor.test(mat[, i], mat[, j], ...)
-      out_r[i, j] <- out_r[j, i] <- tmp$estimate
-      out_p[i, j] <- out_p[j, i] <- tmp$p.value
-      out_n[i, j] <- out_n[j, i] <- sum(!is.na(mat[, i]) & !is.na(mat[, j]))
+      out_n[i, j] <- out_n[j, i] <- sum(is.finite(mat[, i]) & is.finite(mat[, j]))
+      if (out_n[i, j] > 2) {
+        tmp <- stats::cor.test(mat[, i], mat[, j], ...)
+        out_r[i, j] <- out_r[j, i] <- tmp$estimate
+        out_p[i, j] <- out_p[j, i] <- tmp$p.value
+      }
     }
   }
   colnames(out_r) <- rownames(out_r) <- colnames(mat)

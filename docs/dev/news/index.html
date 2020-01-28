@@ -149,11 +149,17 @@
 <ul>
 <li>Added a vignette to explain the notebook export option of <code><a href="../reference/ExPanD.html">ExPanD()</a></code> and the resulting notebook</li>
 </ul>
+<p>Bug fixes:</p>
+<ul>
+<li>Removed bug that stopped displays from rendering on user uploaded data</li>
+</ul>
 <p>Minor Issues:</p>
 <ul>
-<li><p>Allowed <code><a href="../reference/ExPanD.html">ExPanD()</a></code> to be called with <code>ts_id = NULL</code> and <code>cs_id != NULL</code> so that data frame variables can be specified as cross-sectional identifiers in the cross-sectional mode</p></li>
+<li><p>Updated World Bank data</p></li>
+<li><p>Allowed <code><a href="../reference/ExPanD.html">ExPanD()</a></code> to be called with <code>ts_id == NULL</code> and <code>cs_id != NULL</code> so that data frame variables can be specified as cross-sectional identifiers in the cross-sectional mode</p></li>
 <li><p>Removed some artefacts in cross-sectional mode where cross-sectional and time series indentifiers were still provided as variable options in the <code><a href="../reference/ExPanD.html">ExPanD()</a></code> app</p></li>
 <li><p>Included manual zip package import in <code>NAMESPACE</code> to make <code>devtoools::check()</code> happy on various CRAN systems</p></li>
+<li><p>Changed shinyapps.io URLs in vignettes to plain HTTP as winbuilder seems to have an issue with the SSL handshake of shinyapps.io</p></li>
 </ul>
 </div>
     <div id="expandar-0-5-0" class="section level1">

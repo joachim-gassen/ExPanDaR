@@ -32,7 +32,7 @@ While the first two use macro-economic data to explore the association of gross 
 financial accounting performance measures and concurrent stock returns.
 
 If you do not use R you can still use the ExPanD app to explore panel data! In this case,
-access the hosted variant of the ExPanD app [here](https://jgassen.shinyapps.io/expand/) 
+access the hosted variant of the ExPanD app [here](http://jgassen.shinyapps.io/expand/) 
 and follow the advice below on how to upload a suitable panel data file for online exploration. 
 No worries: Your data won't be stored on the server and will be deleted from memory 
 once the connection to the server is closed.
@@ -52,7 +52,7 @@ ExPanD()
 ```
 
 Alternatively, you can simply access the online hosted version of the ExPanD app 
-[here](https://jgassen.shinyapps.io/expand/) (no R required).
+[here](http://jgassen.shinyapps.io/expand/) (no R required).
 
 After starting ExPanD, you will be greeted with a bare bones file upload dialog.
 
@@ -309,4 +309,4 @@ As the screenshot shows, we find no significant coefficient for $accoa$. This in
 
 In many instances, you as a researcher want to provide readers, editors and/or reviewers the opportunity to assess the robustness of your findings but are unable to provide them with the underlying data as this data is subject to commercial licensing or other usage restrictions. By uploading your ExPanD instance on a public server, you can make your results accessible without sharing the data. As shiny apps can be hosted on dedicated servers, this is easily achieved. Maybe you noticed the "Publish" icon in the top-right corner of your ExPanD window. Click on it to learn more about your options.
 
-As an example, you can access an ExPanD-based extension of a current working paper of our team [here](https://jgassen.shinyapps.io/expacc/).
+As an example, you can access an ExPanD-based extension of a current working paper of our team [here](http://jgassen.shinyapps.io/expacc/).

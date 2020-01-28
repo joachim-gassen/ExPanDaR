@@ -1,9 +1,6 @@
-# (C) Joachim Gassen 2018, gassen@wiwi.hu-berlin.de, see LICENSE file for details
+# (C) Joachim Gassen 2020, gassen@wiwi.hu-berlin.de, see LICENSE file for details
 #
 # This code generates the Worldbank dataset.
-
-# clear workspace
-rm(list=ls())
 
 library(dplyr)
 library(tidyr)
@@ -15,18 +12,15 @@ refresh <- TRUE
 pull_worldbank_data <- function() {
   new_cache <- wbcache()
   all_vars <- as.character(unique(new_cache$indicators$indicatorID))
-  vars <- c("SP.POP.TOTL", "NY.GDP.MKTP.KD", "SP.DYN.LE00.IN",
-            "SI.POV.GINI", "SH.XPD.PUBL.ZS", "SH.XPD.PRIV.ZS",
-            "SH.DYN.MORT", "SL.UEM.TOTL.ZS", "SH.MED.PHYS.ZS",
-            "SE.XPD.TOTL.GD.ZS", "SE.ADT.LITR.ZS", "NY.GDP.PCAP.KD",
-            "NY.GDP.PCAP.KD.ZG", "NY.GNS.ICTR.ZS", "NY.GNP.PCAP.KD",
-            "NE.EXP.GNFS.ZS", "NE.DAB.TOTL.ZS", "NE.CON.PETC.ZS",
-            "NE.CON.GOVT.ZS", "NE.TRD.GNFS.ZS", "NE.CON.TETC.ZS",
-            "NY.GDS.TOTL.ZS", "NE.IMP.GNFS.ZS", "EN.ATM.CO2E.PC",
-            "DT.INT.DECT.GN.ZS", "DT.DOD.DECT.GN.ZS", "BX.KLT.DINV.WD.GD.ZS",
-            "DT.TDS.DPPG.GN.ZS", "MS.MIL.XPND.GD.ZS", "GB.XPD.RSDV.GD.ZS")
+  vars <- c("SP.POP.TOTL", "NY.GDP.MKTP.KD", "NY.GDP.PCAP.KD",
+            "DT.DOD.DECT.GN.ZS", "DT.TDS.DPPG.GN.ZS", "NY.GDS.TOTL.ZS",
+            "NE.EXP.GNFS.ZS", "NE.IMP.GNFS.ZS", "GB.XPD.RSDV.GD.ZS",
+            "SE.XPD.TOTL.GD.ZS", "SH.XPD.CHEX.GD.ZS", "MS.MIL.XPND.GD.ZS",
+            "EN.ATM.CO2E.PC", "SL.UEM.TOTL.ZS", "SI.POV.GINI",
+            "SE.ADT.LITR.ZS", "SH.DYN.MORT", "SP.DYN.LE00.IN")
 
-  data_wide <- wb(indicator = vars, mrv = 70, return_wide = TRUE)
+  data_wide <- wb(indicator = vars, mrv = 70,
+                  return_wide = TRUE, cache = new_cache)
 
   new_cache$indicators[new_cache$indicators[,"indicatorID"] %in% vars, ] %>%
     rename(var_name = indicatorID) %>%
@@ -66,8 +60,8 @@ if (refresh) {
   wb_list <- pull_worldbank_data()
   worldbank <- wb_list[[1]]
   worldbank_data_def <- wb_list[[2]]
-  save(worldbank, file = "data/worldbank.RData")
-  save(worldbank_data_def, file = "data/worldbank_data_def.RData")
+  save(worldbank, file = "data/worldbank.RData", version = 2)
+  save(worldbank_data_def, file = "data/worldbank_data_def.RData", version = 2)
 } else {
   load("data/worldbank.RData")
   load("data/worldbank_data_def.RData")
@@ -75,7 +69,7 @@ if (refresh) {
 
 if (refresh) {
   worldbank_var_def <- read.csv("data-raw/worldbank_var_def.csv", stringsAsFactors = FALSE)
-  save(worldbank_var_def, file = "data/worldbank_var_def.RData")
+  save(worldbank_var_def, file = "data/worldbank_var_def.RData", version = 2)
 } else load("data/worldbank_var_def.RData")
 
 load("data/ExPanD_config_worldbank.RData")

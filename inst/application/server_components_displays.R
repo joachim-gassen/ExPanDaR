@@ -201,7 +201,7 @@ output$quantile_trend_graph <- renderPlot({
 })
 
 output$corrplot.ui <- renderUI({
-  req(uc$subset_factor)
+  req(uc$config_parsed)
   isolate(plotOutput("corrplot", hover = hoverOpts("corrplot_hover", delay = 100, delayType = "debounce"),
                      height = max(min(length(c(lnumeric$col, llogical$col))*50,1000), 300),
                      width = max(min(length(c(lnumeric$col, llogical$col))*50,1000), 300)))

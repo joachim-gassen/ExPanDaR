@@ -244,11 +244,13 @@ output$ui_expand_components <- renderUI(tagList(expand_components()))
 output$download <- downloadHandler(
   filename ="ExPanD.RDS",
   content = function(file) {
+    save_uc <- reactiveValuesToList(uc)
+    save_uc$config_parsed <- NULL
     if (shiny_store_encrypted) {
-      raw <- serialize(reactiveValuesToList(uc), NULL)
+      raw <- serialize(save_uc, NULL)
       encrypted <- openssl::aes_cbc_encrypt(raw, key, iv = NULL)
       saveRDS(encrypted, file)
-    } else saveRDS(reactiveValuesToList(uc), file)
+    } else saveRDS(save_uc, file)
   }
 )
 

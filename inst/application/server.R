@@ -325,7 +325,7 @@ function(input, output, session) {
   })
 
   create_base_sample <- reactive({
-    req(uc$config_parsed)
+    req(uc$sample)
     bsd <- data.frame(base_variable,
                       can_be_na = TRUE)
     bs <- base_data[base_data$ds_id == uc$sample, as.character(bsd$var_name)]
@@ -336,7 +336,7 @@ function(input, output, session) {
   })
 
   create_ca_sample <- reactive({
-    req(uc$config_parsed)
+    req(uc$sample)
     cas_definition <<- ca_variable[ca_variable$ds_id == uc$sample, -1]
     smp <- ca_sample[ca_sample$ds_id == uc$sample, as.character(cas_definition$var_name)]
     smp[, cas_definition$var_name[cas_definition$type == "ts_id"]] <-

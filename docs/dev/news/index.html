@@ -73,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.5.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.5.1.9000</span>
       </span>
     </div>
 
@@ -141,9 +141,18 @@
       
     </div>
 
-    <div id="expandar-0-5-0-9000" class="section level1">
+    <div id="expandar-0-5-1-9000" class="section level1">
 <h1 class="page-header">
-<a href="#expandar-0-5-0-9000" class="anchor"></a>ExPanDaR 0.5.0.9000<small> Unreleased </small>
+<a href="#expandar-0-5-1-9000" class="anchor"></a>ExPanDaR 0.5.1.9000<small> Unreleased </small>
+</h1>
+<p>Bug fixes:</p>
+<ul>
+<li>Fixed a small issue in the Notebook generation code for the time trend and quantile trend chunks.</li>
+</ul>
+</div>
+    <div id="expandar-0-5-1" class="section level1">
+<h1 class="page-header">
+<a href="#expandar-0-5-1" class="anchor"></a>ExPanDaR 0.5.1<small> Unreleased </small>
 </h1>
 <p>Extensions:</p>
 <ul>
@@ -151,7 +160,7 @@
 </ul>
 <p>Bug fixes:</p>
 <ul>
-<li>Removed bug that stopped displays from rendering on user uploaded data</li>
+<li>Fixed bug that stopped <code><a href="../reference/ExPanD.html">ExPanD()</a></code> displays from rendering on user uploaded panel data</li>
 </ul>
 <p>Minor Issues:</p>
 <ul>
@@ -159,7 +168,7 @@
 <li><p>Allowed <code><a href="../reference/ExPanD.html">ExPanD()</a></code> to be called with <code>ts_id == NULL</code> and <code>cs_id != NULL</code> so that data frame variables can be specified as cross-sectional identifiers in the cross-sectional mode</p></li>
 <li><p>Removed some artefacts in cross-sectional mode where cross-sectional and time series indentifiers were still provided as variable options in the <code><a href="../reference/ExPanD.html">ExPanD()</a></code> app</p></li>
 <li><p>Included manual zip package import in <code>NAMESPACE</code> to make <code>devtoools::check()</code> happy on various CRAN systems</p></li>
-<li><p>Changed shinyapps.io URLs in vignettes to plain HTTP as winbuilder seems to have an issue with the SSL handshake of shinyapps.io</p></li>
+<li><p>Changed shinyapps.io URLs in vignettes to plain HTTP as win-builder seems to have an issue with the SSL handshake of shinyapps.io</p></li>
 </ul>
 </div>
     <div id="expandar-0-5-0" class="section level1">
@@ -251,7 +260,8 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#expandar-0-5-0-9000">0.5.0.9000</a></li>
+        <li><a href="#expandar-0-5-1-9000">0.5.1.9000</a></li>
+        <li><a href="#expandar-0-5-1">0.5.1</a></li>
         <li><a href="#expandar-0-5-0">0.5.0</a></li>
         <li><a href="#expandar-0-4-0">0.4.0</a></li>
         <li><a href="#expandar-0-3-0">0.3.0</a></li>

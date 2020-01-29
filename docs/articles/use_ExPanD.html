@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.1</span>
       </span>
     </div>
 
@@ -68,6 +68,9 @@
     </li>
     <li>
       <a href="../articles/customize_ExPanD.html">Customize ExPanD</a>
+    </li>
+    <li>
+      <a href="../articles/ExPanD_notebook.html">Using the ExPanD Notebook function</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">'ExPanDaR' functions</li>
@@ -100,7 +103,7 @@
       <h1>Using ExPanD for Panel Data Exploration</h1>
                         <h4 class="author">Joachim Gassen</h4>
             
-            <h4 class="date">2020-01-10</h4>
+            <h4 class="date">2020-01-29</h4>
       
       
       <div class="hidden name"><code>use_ExPanD.Rmd</code></div>
@@ -116,7 +119,7 @@
 <li>provide users the opportunity to assess the robustness of your findings without providing them access to the underlying data.</li>
 </ul>
 <p>This vignette will guide you through the process of using ExPanD by discussing three use cases. While the first two use macro-economic data to explore the association of gross domestic production (GDP) per capita with life expectancy at birth, the last use case explores the association between financial accounting performance measures and concurrent stock returns.</p>
-<p>If you do not use R you can still use the ExPanD app to explore panel data! In this case, access the hosted variant of the ExPanD app <a href="https://jgassen.shinyapps.io/expand/">here</a> and follow the advice below on how to upload a suitable panel data file for online exploration. No worries: Your data won’t be stored on the server and will be deleted from memory once the connection to the server is closed.</p>
+<p>If you do not use R you can still use the ExPanD app to explore panel data! In this case, access the hosted variant of the ExPanD app <a href="http://jgassen.shinyapps.io/expand/">here</a> and follow the advice below on how to upload a suitable panel data file for online exploration. No worries: Your data won’t be stored on the server and will be deleted from memory once the connection to the server is closed.</p>
 <div id="starting-expand-to-upload-a-local-file-containing-panel-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#starting-expand-to-upload-a-local-file-containing-panel-data" class="anchor"></a>Starting ExPanD to upload a local file containing panel data</h2>
@@ -126,7 +129,7 @@
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>()</a></code></pre></div>
-<p>Alternatively, you can simply access the online hosted version of the ExPanD app <a href="https://jgassen.shinyapps.io/expand/">here</a> (no R required).</p>
+<p>Alternatively, you can simply access the online hosted version of the ExPanD app <a href="http://jgassen.shinyapps.io/expand/">here</a> (no R required).</p>
 <p>After starting ExPanD, you will be greeted with a bare bones file upload dialog.</p>
 <p><img src="figures/ExPanD_file_01.jpg" width="90%" style="display: block; margin: auto;"></p>
 <p>Now you need a file to explore. Feel free to use whatever you want but for our first use case I will use the well-known <code>gapminder</code> dataset provided by the gapminder package (click <a href="https://www.gapminder.org">here</a> if you do not know the gapminder initiative).</p>
@@ -283,7 +286,7 @@
 <h2 class="hasAnchor">
 <a href="#making-expand-available-to-users-without-providing-them-raw-data-access" class="anchor"></a>Making ExPanD available to users without providing them raw data access</h2>
 <p>In many instances, you as a researcher want to provide readers, editors and/or reviewers the opportunity to assess the robustness of your findings but are unable to provide them with the underlying data as this data is subject to commercial licensing or other usage restrictions. By uploading your ExPanD instance on a public server, you can make your results accessible without sharing the data. As shiny apps can be hosted on dedicated servers, this is easily achieved. Maybe you noticed the “Publish” icon in the top-right corner of your ExPanD window. Click on it to learn more about your options.</p>
-<p>As an example, you can access an ExPanD-based extension of a current working paper of our team <a href="https://jgassen.shinyapps.io/expacc/">here</a>.</p>
+<p>As an example, you can access an ExPanD-based extension of a current working paper of our team <a href="http://jgassen.shinyapps.io/expacc/">here</a>.</p>
 </div>
   </div>
 

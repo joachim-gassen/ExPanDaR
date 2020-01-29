@@ -1,4 +1,4 @@
-# ExPanDaR 0.5.0.9000
+# ExPanDaR 0.5.1
 
 Extensions:
 
@@ -8,7 +8,8 @@ resulting notebook
 
 Bug fixes:
 
-* Removed bug that stopped displays from rendering on user uploaded data
+* Fixed bug that stopped `ExPanD()` displays from rendering on user uploaded 
+panel data
 
 
 Minor Issues: 
@@ -26,7 +27,7 @@ time series indentifiers were still provided as variable options in the
 * Included manual zip package import in `NAMESPACE` to make `devtoools::check()` 
 happy on various CRAN systems
 
-* Changed shinyapps.io URLs in vignettes to plain HTTP as winbuilder seems to
+* Changed shinyapps.io URLs in vignettes to plain HTTP as win-builder seems to
 have an issue with the SSL handshake of shinyapps.io
 
 

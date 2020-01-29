@@ -1,3 +1,11 @@
+# ExPanDaR 0.5.1.9000
+
+Bug fixes:
+
+* Fixed a small issue in the Notebook generation code for the time trend and
+quantile trend chunks.
+
+
 # ExPanDaR 0.5.1
 
 Extensions:

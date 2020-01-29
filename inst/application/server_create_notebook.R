@@ -302,21 +302,22 @@ create_nb_code_for_component <- function(comp) {
   if(comp == "trend_graph") return({
     nb_code <- c(
       "### Trend Graph", " ",
-      "```{r trend_graph}")
+      "```{r trend_graph}",
+      "df <- smp")
 
-    vars <- c(lts_id$name, uc$trend_graph_var1, uc$trend_graph_var2, uc$trend_graph_var3)
+    vars <- c(uc$trend_graph_var1, uc$trend_graph_var2, uc$trend_graph_var3)
     vars <- vars[which(!vars %in% "None")]
 
-    if (uc$trend_graph_group_by == "All") {
-      nb_code <- c(nb_code, sprintf('df <- smp[, c("%s")]', paste(vars, collapse = '", "')), "")
-    } else {
+    if (uc$trend_graph_group_by != "All") {
       nb_code <- c(nb_code,
-                   sprintf('df <- df[df$%s == "%s", %s]',
-                           uc$group_factor, uc$trend_graph_group_by, vars))
+                   sprintf('df <- df[df$%s == "%s", ]',
+                           uc$group_factor, uc$trend_graph_group_by))
     }
 
     nb_code <- c(nb_code,
-                 sprintf('prepare_trend_graph(df, "%s")$plot', lts_id$name),
+                 sprintf('prepare_trend_graph(df, "%s", c("%s"))$plot',
+                         lts_id$name,
+                         paste(vars, collapse = '", "')),
                  "```", " ", " ")
 
     nb_code
@@ -326,7 +327,8 @@ create_nb_code_for_component <- function(comp) {
   if(comp == "quantile_trend_graph") return({
     nb_code <- c(
       "### Quantile Trend Graph", " ",
-      "```{r quantile_trend_graph}")
+      "```{r quantile_trend_graph}",
+      "df <- smp")
 
     quantiles <- as.numeric(uc$quantile_trend_graph_quantiles)
 
@@ -338,7 +340,8 @@ create_nb_code_for_component <- function(comp) {
 
     nb_code <- c(nb_code,
                  sprintf('prepare_quantile_trend_graph(df, "%s", c(%s), "%s")$plot',
-                         lts_id$name, paste(quantiles, collapse = ", "), uc$quantile_trend_graph_var),
+                         lts_id$name, paste(quantiles, collapse = ", "),
+                         uc$quantile_trend_graph_var),
                  "```", " ", " ")
 
     nb_code

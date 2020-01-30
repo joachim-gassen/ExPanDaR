@@ -16,7 +16,7 @@ resdevelop_gdp,GB.XPD.RSDV.GD.ZS,numeric,1
 govtspendeducation_gdp,SE.XPD.TOTL.GD.ZS,numeric,1
 healthexpenditure_gdp,SH.XPD.CHEX.GD.ZS,numeric,1
 militaryexpenditure_gdp,MS.MIL.XPND.GD.ZS,numeric,1
-c02_emissions_capita,EN.ATM.CO2E.PC,numeric,1
+co2_emissions_capita,EN.ATM.CO2E.PC,numeric,1
 unemployment,SL.UEM.TOTL.ZS,numeric,1
 giniindex,SI.POV.GINI,numeric,1
 literacy_rate,SE.ADT.LITR.ZS,numeric,1

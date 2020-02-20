@@ -3,7 +3,15 @@
 Bug fixes:
 
 * Fixed a small issue in the Notebook generation code for the time trend and
-quantile trend chunks.
+quantile trend chunks
+
+* Fixed display of `prepare_regression_table()` for logit model by group tables
+with fixed effects
+
+
+Minor Issues:
+
+* Spelling
 
 
 # ExPanDaR 0.5.1
@@ -136,7 +144,7 @@ Minor issues:
 
 * Fixed the definition of `oint_ta` in `r3` dataset
 
-* Added a check to verify that `ts_ids` provided as ordered vectors 
+* Added a check to verify that `ts_id` is provided as an ordered vector 
 
 * Fixed a typo in `worldbank_var_def`
 

@@ -65,7 +65,7 @@ estimate_model <- function(df, dl) {
       p <- test[,4]
     }
     if (feffects[1] != "") {
-        omit_vars <- (length(idvs) + 1):length(model$coefficients)
+        omit_vars <- names(model$coefficients)[! names(model$coefficients) %in% idvs]
     }
   } else {
     model <- lfe::felm(f, data=df, psdef=FALSE)
@@ -248,6 +248,9 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
     add.lines <- list(mt_str, success_str, fe_str, cl_str, pr2_str)
   else add.lines <- list(mt_str, fe_str, cl_str, n_str, r2_str, adjr2_str)
 
+  if (!is.null(omit_vars)) {
+    omit_vars <- unique(c("^Constant$", paste0("^", omit_vars, "$")))
+  }
   if (byvar != "") {
     # Stargazer 5.2.2 seems to have a bug on how column.labels are treated in text/html
     # Escaping labels does not help and even sometimes introduces an error.

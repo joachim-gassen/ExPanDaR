@@ -3,11 +3,11 @@
 \docType{data}
 \name{worldbank}
 \alias{worldbank}
-\title{A Snapshot of Macroeconomic Data as Provided by the World Bank API (1960 - 2016)}
+\title{A Snapshot of Macroeconomic Data as Provided by the World Bank API (1960 - 2018)}
 \format{An object of class \code{"data.frame"}.}
 \source{
 Has been collected using the \code{\link[wbstats]{wb}} function
- from the World Bank API in March 2018.
+ from the World Bank API in Jan 2020.
  The code to generate this data is available in the
  \href{https://github.com/joachim-gassen/ExPanDaR}{github repository} of this package.
  Use in scientific studies is not advised without prior cleaning/checking.

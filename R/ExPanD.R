@@ -200,6 +200,7 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
                                   by_group_violin_graph = TRUE,
                                   trend_graph = TRUE,
                                   quantile_trend_graph = TRUE,
+                                  by_group_trend_graph = TRUE,
                                   corrplot = TRUE,
                                   scatter_plot = TRUE,
                                   regression = TRUE),
@@ -328,14 +329,14 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
                   "bar_chart", "missing_values", "udvars", "descriptive_table",
                   "histogram", "ext_obs", "by_group_bar_graph",
                   "by_group_violin_graph", "trend_graph",
-                  "quantile_trend_graph", "corrplot", "scatter_plot",
-                  "regression")
+                  "quantile_trend_graph", "by_group_trend_graph", "corrplot",
+                  "scatter_plot", "regression")
 
   if (!is.vector(components) | !is.logical(components)) stop("components needs to be a vector of logical values")
-  # The followiing legacy code is for the old calling style in Version 0.2.0
+  # The following legacy code is for the old calling style in Version 0.2.0
   # using unnamed vectors
   if (is.null(names(components)) & length(components) == 12) {
-    components <- c(rep(TRUE, 4), components)
+    components <- c(T, T, T, components[1:2], T, components[3:9], T, components[10:12])
     names(components) <- comp_names
   }
   if (is.null(names(components))) stop(sprintf("Component vector has missing names and is not of valid length %d", length(comp_names)))
@@ -353,7 +354,7 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
   if(shiny_cs_data) {
     components <- components[!names(components) %in%
                                c("missing_values", "trend_graph",
-                                 "quantile_trend_graph")]
+                                 "quantile_trend_graph", "by_group_trend_graph")]
   }
 
   if (!is.logical(export_nb_option))

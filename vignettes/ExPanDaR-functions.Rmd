@@ -150,9 +150,15 @@ graph <- prepare_quantile_trend_graph(r3win[c("period", "return")], "period", c(
 graph$plot
 ```
 
-Nothing special going on here (not really surprising, given the short time span that the sample covers).
+Nothing special going on here (not really surprising, given the short time span that the sample covers). Let's see how profitability varies across sectors by using the  
+`prepare_by_group_trend_graph()` function.
 
-Finally, `prepare_scatter_plot()` produces the mother of all plots, the scatter plot.
+```{r bgtg_plot}
+graph <- prepare_by_group_trend_graph(r3win, "period", "sector", "nioa")
+graph$plot
+```
+
+The health sector is clearly less profitable compared to the others, which can be explained by small growing firms. Finally, `prepare_scatter_plot()` produces the mother of all plots, the scatter plot.
 
 ```{r scatter_plot, fig.width = 7, fig.height= 6}
 prepare_scatter_plot(r3win, x="nioa", y="return", color="sector", size="toas", loess = 1)

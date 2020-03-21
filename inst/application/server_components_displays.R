@@ -200,6 +200,21 @@ output$quantile_trend_graph <- renderPlot({
                                     c(lts_id$name, uc$quantile_trend_graph_var)], lts_id$name, quantiles)
 })
 
+output$by_group_trend_graph <- renderPlot({
+  req(uc$bgtg_var, uc$bgtg_byvar)
+  df <- create_analysis_sample()
+  if (uc$bgtg_group_by == "All")
+    varlist <- c(lts_id$name, uc$bgtg_byvar, uc$bgtg_var)
+  else
+    varlist <- c(lts_id$name, uc$group_factor, uc$bgtg_byvar, uc$bgtg_var)
+  df <- df[,varlist]
+  if (uc$bgtg_group_by == "All")
+    prepare_by_group_trend_graph(df, lts_id$name, uc$bgtg_byvar, uc$bgtg_var)
+  else prepare_by_group_trend_graph(df[df[, uc$group_factor] == uc$bgtg_group_by,
+                                       -which(names(df) %in% uc$group_factor)],
+                                    lts_id$name, uc$bgtg_byvar, uc$bgtg_var)
+})
+
 output$corrplot.ui <- renderUI({
   req(uc$config_parsed)
   isolate(plotOutput("corrplot", hover = hoverOpts("corrplot_hover", delay = 100, delayType = "debounce"),

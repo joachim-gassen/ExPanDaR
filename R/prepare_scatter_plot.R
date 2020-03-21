@@ -50,6 +50,6 @@ prepare_scatter_plot <- function(df, x, y, color = "", size = "", loess = 0,
     ggplot2::guides(color=ggplot2::guide_legend(color, override.aes = list(alpha = 1)))
   if (size_there) scatter <- scatter +
     ggplot2::guides(size=ggplot2::guide_legend(size, override.aes = list(alpha = 1)))
-  if (loess > 0) scatter + ggplot2::geom_smooth(method = "loess")
+  if (loess > 0) scatter + ggplot2::geom_smooth()
   else scatter
 }

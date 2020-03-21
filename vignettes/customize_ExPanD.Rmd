@@ -85,6 +85,9 @@ Name                     Description
 `quantile_trend_graph`   A graph that visualizes the distribution of one chosen 
                          variable over time
 
+`by_group_trend_graph`   A grouped time trend graph that visualizes the 
+                         development of one variable across groups over time              
+
 `corrplot`               A visual representation of Spearman and Pearson 
                          correlations of the numerical and logical variables 
                          in the sample. Exact correlations are displayed when 

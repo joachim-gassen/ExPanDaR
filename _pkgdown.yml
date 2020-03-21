@@ -58,6 +58,7 @@ reference:
   - prepare_by_group_violin_graph
   - prepare_trend_graph
   - prepare_quantile_trend_graph
+  - prepare_by_group_trend_graph
   - prepare_correlation_table
   - prepare_correlation_graph
   - prepare_scatter_plot

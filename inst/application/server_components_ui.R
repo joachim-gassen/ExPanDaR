@@ -347,6 +347,28 @@ output$ui_quantile_trend_graph <- renderUI({
   tagList(mytags)
 })
 
+output$ui_by_group_trend_graph <- renderUI({
+  req(uc$config_parsed)
+  df <- create_analysis_sample()
+  suitable_vars <- unique(c(lfactor$name, llogical$name))
+  suitable_vars <- suitable_vars[suitable_vars != lts_id$name]
+  mytags <- list(
+    h3("By Group Time Trend Graph"),
+    selectInput("bgtg_var", label = "Select variable to display",
+                c(lnumeric$name, llogical$name),
+                selected = isolate(uc$bgtg_var)),
+    selectInput("bgtg_byvar", label = "Select variable to group by",
+                suitable_vars,
+                selected = isolate(uc$bgtg_byvar))
+  )
+  if (uc$group_factor != "None")
+    mytags <- append(mytags, list(hr(),
+                                  selectInput("bgtg_group_by", label = "Select group to subset to",
+                                              c("All", sort(levels(as.factor(df[,uc$group_factor])))),
+                                              selected = isolate(uc$bgtg_group_by))))
+  tagList(mytags)
+})
+
 output$ui_corrplot <- renderUI({
   req(uc$config_parsed)
   df <- create_analysis_sample()
@@ -386,7 +408,7 @@ output$ui_scatter_plot <- renderUI({
                   label = "Sample 1,000 observations to display if number of observations is higher",
                   value = isolate(uc$scatter_sample)),
     checkboxInput("scatter_loess",
-                  label="Display Loess smoother",
+                  label="Display smoother",
                   value = isolate(uc$scatter_loess)),
     helpText("(Note: This might take a while to compute for large samples)"))
   if (uc$group_factor != "None")

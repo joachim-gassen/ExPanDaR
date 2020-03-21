@@ -1,3 +1,31 @@
+# Helper function that tries to convert the time series indicator to
+# different data types to get nicer tick brakes if possible
+# Used by all time_trend functions.
+
+try_convert_ts_id <- function(ts_id) {
+  if(!(is.numeric(ts_id) ||
+       inherits(ts_id, 'Date') ||
+       inherits(ts_id, 'POSIXct') ||
+       inherits(ts_id, 'POSIXlt'))) {
+    try_conv <- try(suppressWarnings(as.Date(as.character(ts_id))), silent = T)
+    if(!inherits(try_conv, 'try-error') && !anyNA(try_conv)) {
+      ts_id <- try_conv
+    } else {
+      try_conv <- try(suppressWarnings(as.numeric(as.character(ts_id))), silent = T)
+      if(!inherits(try_conv, 'try-error') && !anyNA(try_conv)) {
+        ts_id <- try_conv
+      } else {
+        try_conv <- try(suppressWarnings(strptime(as.character(ts_id), "%Y-%m-%d %H:%M:%S")), silent = T)
+        if(!inherits(try_conv, 'try-error') && !anyNA(try_conv)) {
+          ts_id <- try_conv
+        }  else if (!is.factor(ts_id)) ts_id <- as.ordered(ts_id)
+      }
+    }
+  }
+  ts_id
+}
+
+
 #' @title Prepares a Trend Graph
 #'
 #' @description
@@ -36,13 +64,7 @@ prepare_trend_graph <- function(df, ts_id,
   if (any(! var %in% colnames(df))) stop("var names need to be in df")
 
   df <- droplevels(df[stats::complete.cases(df[, c(ts_id, var)]), c(ts_id, var)])
-  if(!is.numeric(ts_id)) xnum <- suppressWarnings(as.numeric(as.character(df[,ts_id]))) else xnum <- ts_id
-  if (anyNA(xnum)) {
-    x_is_factor <- TRUE
-  } else {
-    df[,ts_id] <- xnum
-    x_is_factor <- FALSE
-  }
+  df[, ts_id] <- try_convert_ts_id(df[, ts_id])
 
   gf <- tidyr::gather_(data = df,
                        key_col = "variable",
@@ -53,9 +75,9 @@ prepare_trend_graph <- function(df, ts_id,
               se = stats::sd(value, na.rm=TRUE)/sqrt(length(which(!is.na(value)))))
   gf <- as.data.frame(gf)
 
-  if (x_is_factor) {
+  if (is.factor(df[, ts_id])) {
     plot <- ggplot2::ggplot(gf, ggplot2::aes_string(x = ts_id, color="variable", group = "variable")) +
-      ggplot2::stat_summary(fun.y=sum, geom="line", ggplot2::aes(y = mean)) +
+      ggplot2::stat_summary(fun = sum, geom = "line", ggplot2::aes(y = mean)) +
       ggplot2::geom_errorbar(ggplot2::aes(ymin = mean-se, ymax = mean+se), width = .1) +
       ggplot2::geom_point(ggplot2::aes(y = mean)) + ggplot2::xlab(ts_id) + ggplot2::ylab("")
   } else {

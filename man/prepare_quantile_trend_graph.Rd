@@ -6,7 +6,7 @@
 \usage{
 prepare_quantile_trend_graph(df, ts_id, quantiles = c(0.05, 0.25, 0.5,
   0.75, 0.95), var = utils::tail(colnames(df[sapply(df, is.numeric) &
-  colnames(df) != ts_id]), n = 1))
+  colnames(df) != ts_id]), n = 1), points = TRUE)
 }
 \arguments{
 \item{df}{Data frame containing the ordered factor and the numerical variable
@@ -20,6 +20,8 @@ to be plotted}
 \item{var}{a string containing the column name of the variable
 to be plotted. Defaults to the last numerical variable of the data frame
 that is not \code{ts_id}.}
+
+\item{points}{Do you want points to indicate the statistics? Defaults to \code{TRUE}.}
 }
 \value{
 A list containing two items:

@@ -191,6 +191,15 @@ expand_components <- reactive({
         lpos <- lpos + 1
       }
 
+      if(names(comp[i]) == "by_group_trend_graph") {
+        expand_components[[lpos]] <- list(fluidRow(
+          column(2, uiOutput("ui_by_group_trend_graph")),
+          column(10, withSpinner(plotOutput("by_group_trend_graph", height="600px")))
+        ),
+        hr())
+        lpos <- lpos + 1
+      }
+
       if(names(comp[i]) == "corrplot") {
         expand_components[[lpos]] <- list(fluidRow(
           column(2,uiOutput("ui_corrplot")),

@@ -22,6 +22,9 @@ check_vars <- function(cross_sectional = FALSE) {
   if (!uc$trend_graph_var2 %in% numeric_names) uc$trend_graph_var2 = "None"
   if (!uc$trend_graph_var3 %in% numeric_names) uc$trend_graph_var3 = "None"
   if (!uc$quantile_trend_graph_var %in% numeric_names) uc$quantile_trend_graph_var = numeric_names[1]
+  if (!uc$bgtg_var %in% numeric_names) uc$bgtg_var = numeric_names[1]
+  if (!uc$bgtg_byvar %in% factor_names) uc$bgtg_byvar = factor_names[1]
+  if (uc$bgtg_var == uc$bgtg_byvar) uc$bgtg_var = numeric_names[2]
   if (!uc$scatter_x %in% numeric_names) uc$scatter_x = numeric_names[1]
   if (!uc$scatter_y %in% numeric_names) uc$scatter_y = numeric_names[2]
   if (!uc$scatter_size %in% numeric_names) uc$scatter_size = "None"

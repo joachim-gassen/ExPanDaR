@@ -1,5 +1,13 @@
 # ExPanDaR 0.5.1.9000
 
+Extensions:
+
+* Added a `prepare_by_group_trend_graph()` function to plot time trends by
+grouping variable
+
+* Included grouped time trend plots in `ExPanD()`
+
+
 Bug fixes:
 
 * Fixed a small issue in the Notebook generation code for the time trend and

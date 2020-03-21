@@ -264,6 +264,8 @@ cl <- list(
   scatter_y = "mpg_hwy",
   bgvg_byvar = "class",
   quantile_trend_graph_var = "mpg_hwy",
+  bgtg_var = "mpg_hwy",
+  bgtg_byvar = "class",
   bgbg_byvar = "country",
   scatter_color = "country", bar_chart_var2 = "class",
   ext_obs_var = "mpg_hwy",
@@ -302,6 +304,7 @@ ExPanD(vehicles, df_def = df_def, config_list = cl,
                       html_block = TRUE,
                       trend_graph = TRUE,
                       quantile_trend_graph = TRUE,
+                      by_group_trend_graph = TRUE,
                       html_block = TRUE,
                       scatter_plot = TRUE,
                       html_block = TRUE,
@@ -389,7 +392,7 @@ imdb <- title_ratings %>%
          director_name, director_age,
          lead_actor_name, lead_actor_age, lead_actor_gender)
 
-cl <- readRDS("~/Desktop/IMDb_ExPanD.RDS")
+cl <- readRDS("IMDb_ExPanD.RDS")
 ExPanD(
   imdb, cs_id = c("tconst", "title"), config_list = cl,
   components = c(bar_chart = FALSE),

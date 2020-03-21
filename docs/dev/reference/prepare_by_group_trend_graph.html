@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Prepares a Quantile Trend Graph — prepare_quantile_trend_graph • ExPanDaR</title>
+<title>Prepares a By Group Trend Graph — prepare_by_group_trend_graph • ExPanDaR</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +30,10 @@
 
 
 
-<meta property="og:title" content="Prepares a Quantile Trend Graph — prepare_quantile_trend_graph" />
+<meta property="og:title" content="Prepares a By Group Trend Graph — prepare_by_group_trend_graph" />
 
-<meta property="og:description" content="Reads a data frame
-and plots the quantiles of the specified variable
-by an ordered factor (normally the time-series indicator)" />
+<meta property="og:description" content="Reads a data frame and line plots the selected variables (which need to be numeric)
+ by group and an ordered factor (normally the time-series indicator)." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -141,67 +140,66 @@ by an ordered factor (normally the time-series indicator)" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Prepares a Quantile Trend Graph</h1>
+    <h1>Prepares a By Group Trend Graph</h1>
     
-    <div class="hidden name"><code>prepare_quantile_trend_graph.Rd</code></div>
+    <div class="hidden name"><code>prepare_by_group_trend_graph.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Reads a data frame
-and plots the quantiles of the specified variable
-by an ordered factor (normally the time-series indicator)</p>
+    <p>Reads a data frame and line plots the selected variables (which need to be numeric)
+ by group and an ordered factor (normally the time-series indicator).</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>prepare_quantile_trend_graph</span>(<span class='no'>df</span>, <span class='no'>ts_id</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.05</span>, <span class='fl'>0.25</span>, <span class='fl'>0.5</span>,
-  <span class='fl'>0.75</span>, <span class='fl'>0.95</span>), <span class='kw'>var</span> <span class='kw'>=</span> <span class='kw pkg'>utils</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>tail</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>colnames</a></span>(<span class='no'>df</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>sapply</a></span>(<span class='no'>df</span>, <span class='no'>is.numeric</span>) <span class='kw'>&amp;</span>
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>colnames</a></span>(<span class='no'>df</span>) <span class='kw'>!=</span> <span class='no'>ts_id</span>]), <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>), <span class='kw'>points</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>prepare_by_group_trend_graph</span>(<span class='no'>df</span>, <span class='no'>ts_id</span>, <span class='no'>group_var</span>, <span class='no'>var</span>, <span class='kw'>points</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>error_bars</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>df</th>
-      <td><p>Data frame containing the ordered factor and the numerical variable
-to be plotted</p></td>
+      <td><p>Data frame containing the ordered factor and a set of numerical variables
+to be plotted.</p></td>
     </tr>
     <tr>
       <th>ts_id</th>
       <td><p>a string containing the column name of the ordered factor
-(normally the time-series indicator)</p></td>
+(normally the time-series indicator).</p></td>
     </tr>
     <tr>
-      <th>quantiles</th>
-      <td><p>a numerical vector containing the quantiles that are to be plotted</p></td>
+      <th>group_var</th>
+      <td><p>a variable coercible into a factor to group the data on.</p></td>
     </tr>
     <tr>
       <th>var</th>
-      <td><p>a string containing the column name of the variable
-to be plotted. Defaults to the last numerical variable of the data frame
-that is not <code>ts_id</code>.</p></td>
+      <td><p>The name of the variable that you want to plot.</p></td>
     </tr>
     <tr>
       <th>points</th>
-      <td><p>Do you want points to indicate the statistics? Defaults to <code>TRUE</code>.</p></td>
+      <td><p>Do you want points to indicate the observations? Defaults to <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>error_bars</th>
+      <td><p>Do you want error bars to be plotted? Defaults to <code>FALSE</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list containing two items:</p><dl class='dl-horizontal'>
- <dt>"df"</dt><dd><p>A data frame containing the plotted quantiles</p></dd>
- <dt>"plot"</dt><dd><p>The plot as returned by <code>ggplot</code></p></dd>
+ <dt>"df"</dt><dd><p>A data frame containing the plotted means and standard errors by group</p></dd>
+ <dt>"plot</dt><dd><p>The plot as returned by <code>ggplot</code></p></dd>
 </dl>
 
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>prepare_quantile_trend_graph</span>(<span class='no'>worldbank</span>, <span class='st'>"year"</span>, <span class='kw'>var</span> <span class='kw'>=</span> <span class='st'>"SP.DYN.LE00.IN"</span>)$<span class='no'>plot</span> +
-  <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span>(<span class='st'>"Life expectancy at birth world-wide"</span>)</div><div class='img'><img src='prepare_quantile_trend_graph-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Round'>floor</a></span>(<span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/time'>time</a></span>(<span class='kw pkg'>datasets</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/datasets/topics/EuStockMarkets'>EuStockMarkets</a></span>)),
-                 <span class='kw'>DAX</span> <span class='kw'>=</span> <span class='kw pkg'>datasets</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/datasets/topics/EuStockMarkets'>EuStockMarkets</a></span>[,<span class='st'>"DAX"</span>])
-<span class='no'>graph</span> <span class='kw'>&lt;-</span> <span class='fu'>prepare_quantile_trend_graph</span>(<span class='no'>df</span>, <span class='st'>"year"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.05</span>, <span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>, <span class='fl'>0.95</span>))
-<span class='no'>graph</span>$<span class='no'>plot</span></div><div class='img'><img src='prepare_quantile_trend_graph-2.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='no'>worldbank</span>
+<span class='no'>df</span>$<span class='no'>gdp_capita</span> <span class='kw'>&lt;-</span> <span class='no'>worldbank</span>$<span class='no'>NY.GDP.PCAP.KD</span>
+<span class='no'>graph</span> <span class='kw'>&lt;-</span> <span class='fu'>prepare_by_group_trend_graph</span>(<span class='no'>df</span>, <span class='st'>"year"</span>, <span class='st'>"region"</span>, <span class='st'>"gdp_capita"</span>)
+<span class='no'>graph</span>$<span class='no'>plot</span></div><div class='img'><img src='prepare_by_group_trend_graph-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

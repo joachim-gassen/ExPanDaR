@@ -348,6 +348,27 @@ create_nb_code_for_component <- function(comp) {
   })
 
 
+  if(comp == "by_group_trend_graph") return({
+    nb_code <- c(
+      "### By Group Trend Graph", " ",
+      "```{r by_group_trend_graph}",
+      "df <- smp")
+
+    if (uc$bgtg_group_by != "All") {
+      nb_code <- c(nb_code,
+                   sprintf('df <- df[df$%s == "%s", ]',
+                           uc$group_factor, uc$bgtg_group_by))
+    }
+
+    nb_code <- c(nb_code,
+                 sprintf('prepare_by_group_trend_graph(df, "%s", "%s", "%s")$plot',
+                         lts_id$name, uc$bgtg_byvar, uc$bgtg_var),
+                 "```", " ", " ")
+
+    nb_code
+  })
+
+
   if(comp == "corrplot") return({
     nb_code <- c(
       "### Correlation Graph", " ",

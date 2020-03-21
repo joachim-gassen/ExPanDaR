@@ -68,6 +68,9 @@ default_config <- list(
   quantile_trend_graph_var = "None",
   quantile_trend_graph_quantiles = c("0.05", "0.25", "0.50", "0.75", "0.95"),
   quantile_trend_graph_group_by = "All",
+  bgtg_group_by = "All",
+  bgtg_var = "None",
+  bgtg_byvar = "None",
   corrplot_group_by = "All",
   scatter_x = "None",
   scatter_y = "None",
@@ -172,6 +175,8 @@ create_config <- function(s, v, ds_id) {
     quantile_trend_graph_var = v$var_name[v$ds_id == ds_id & v$type == "numeric"][1],
     quantile_trend_graph_quantiles = c("0.05", "0.25", "0.50", "0.75", "0.95"),
     quantile_trend_graph_group_by = "All",
+    bgtg_var = v$var_name[v$ds_id == ds_id & v$type == "numeric"][1],
+    bgtg_byvar = select_factor(s[s$ds_id == ds_id, v$var_name[v$ds_id == ds_id & v$type != "cs_id" & v$type != "ts_id"], drop = FALSE]),
     corrplot_group_by = "All",
     scatter_x = v$var_name[v$ds_id == ds_id & v$type == "numeric"][1],
     scatter_y = v$var_name[v$ds_id == ds_id & v$type == "numeric"][2],
@@ -318,7 +323,7 @@ function(input, output, session) {
         if (cross_sec_data())
           shiny_components[!names(shiny_components) %in%
                              c("missing_values", "trend_graph",
-                               "quantile_trend_graph")]
+                               "quantile_trend_graph", "by_group_trend_graph")]
         else shiny_components
       }
     }
@@ -588,6 +593,7 @@ function(input, output, session) {
       uc$ext_obs_group_by <<- "All"
       uc$trend_graph_group_by <<- "All"
       uc$quantile_trend_graph_group_by <<- "All"
+      uc$bgtg_group_by <<- "All"
       uc$corrplot_group_by <<- "All"
       uc$scatter_group_by <<- "All"
       if (length(uc$udvars) > 0) create_udv_sample()
@@ -618,6 +624,7 @@ function(input, output, session) {
       uc$ext_obs_group_by <<- "All"
       uc$trend_graph_group_by <<- "All"
       uc$quantile_trend_graph_group_by <<- "All"
+      uc$bgtg_group_by <<- "All"
       uc$corrplot_group_by <<- "All"
       uc$scatter_group_by <<- "All"
     }
@@ -655,6 +662,9 @@ function(input, output, session) {
   observe({uc$quantile_trend_graph_var <<- req(input$quantile_trend_graph_var)})
   observe({uc$quantile_trend_graph_quantiles <<- req(input$quantile_trend_graph_quantiles)})
   observe({uc$quantile_trend_graph_group_by <<- req(input$quantile_trend_graph_group_by)})
+  observe({uc$bgtg_group_by <<- req(input$bgtg_group_by)})
+  observe({uc$bgtg_var <<- req(input$bgtg_var)})
+  observe({uc$bgtg_byvar <<- req(input$bgtg_byvar)})
   observe({uc$corrplot_group_by <<- req(input$corrplot_group_by)})
   observe({uc$scatter_x <<- req(input$scatter_x)})
   observe({uc$scatter_y <<- req(input$scatter_y)})

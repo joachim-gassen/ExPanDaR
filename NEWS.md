@@ -19,6 +19,9 @@ with fixed effects
 
 Minor Issues:
 
+* Removed `tidyquant` package from Suggests as it depends on a package that
+requires R >= 3.5.0
+
 * Spelling
 
 

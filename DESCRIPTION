@@ -25,5 +25,5 @@ Imports:
     rio, zip, rlang
 RoxygenNote: 6.1.1
 Suggests:
-    gapminder, rmarkdown, htmltools, knitr, devtools, tidyquant, wbstats
+    gapminder, rmarkdown, htmltools, knitr, devtools, wbstats
 VignetteBuilder: knitr

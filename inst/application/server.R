@@ -196,17 +196,6 @@ create_config <- function(s, v, ds_id) {
   return(c)
 }
 
-check_whether_data_is_valid <- function(v) {
-  if (length(which(v$type == "numeric")) < 2) {
-    if (DEBUG) warning("Less than two numerical variables in data")
-    session$sendCustomMessage(type = 'testmessage',
-                              message = paste0('Your data contains less than two numerical variables. At least two are required.'))
-    return(FALSE)
-  }
-  return(TRUE)
-}
-
-
 # Define the server for the Shiny app
 function(input, output, session) {
   uc <- reactiveValues()
@@ -227,7 +216,17 @@ function(input, output, session) {
   source("server_dynamic_ui.R", local = TRUE)
   source("server_utility_functions.R", local = TRUE)
 
-  if (server_side_data) {
+  check_whether_data_is_valid <- function(v) {
+    if (length(which(v$type == "numeric")) < 2) {
+      if (DEBUG) warning("Less than two numerical variables in data")
+      session$sendCustomMessage(type = 'testmessage',
+                                message = paste0('Your data contains less than two numerical variables. At least two are required.'))
+      return(FALSE)
+    }
+    return(TRUE)
+  }
+
+    if (server_side_data) {
     if (is.data.frame(shiny_df)) {
       shiny_df <- list(shiny_df)
       if (!is.null(shiny_df_def)) shiny_df_def <- list(shiny_df_def)

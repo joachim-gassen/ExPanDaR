@@ -4,7 +4,9 @@
 \name{russell_3000_data_def}
 \alias{russell_3000_data_def}
 \title{Data Definitions for \code{russell_3000} Data Set}
-\format{An object of class \code{"data.frame"}.}
+\format{
+An object of class \code{"data.frame"}.
+}
 \usage{
 data(russell_3000_data_def)
 }

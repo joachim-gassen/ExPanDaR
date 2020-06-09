@@ -4,19 +4,30 @@
 \alias{ExPanD}
 \title{Explore Your Data (ExPanD)}
 \usage{
-ExPanD(df = NULL, cs_id = NULL, ts_id = NULL, df_def = NULL,
-  var_def = NULL, config_list = NULL,
-  title = "ExPanD - Explore your data!", abstract = NULL,
-  df_name = deparse(substitute(df)), long_def = TRUE,
-  factor_cutoff = 10L, components = c(sample_selection = TRUE,
-  subset_factor = TRUE, grouping = TRUE, bar_chart = TRUE, missing_values =
-  TRUE, udvars = TRUE, descriptive_table = TRUE, histogram = TRUE, ext_obs
-  = TRUE, by_group_bar_graph = TRUE, by_group_violin_graph = TRUE,
-  trend_graph = TRUE, quantile_trend_graph = TRUE, by_group_trend_graph =
-  TRUE, corrplot = TRUE, scatter_plot = TRUE, regression = TRUE),
-  html_blocks = NULL, export_nb_option = FALSE,
-  store_encrypted = FALSE, key_phrase = "What a wonderful key",
-  debug = FALSE, ...)
+ExPanD(
+  df = NULL,
+  cs_id = NULL,
+  ts_id = NULL,
+  df_def = NULL,
+  var_def = NULL,
+  config_list = NULL,
+  title = "ExPanD - Explore your data!",
+  abstract = NULL,
+  df_name = deparse(substitute(df)),
+  long_def = TRUE,
+  factor_cutoff = 10L,
+  components = c(sample_selection = TRUE, subset_factor = TRUE, grouping = TRUE,
+    bar_chart = TRUE, missing_values = TRUE, udvars = TRUE, descriptive_table = TRUE,
+    histogram = TRUE, ext_obs = TRUE, by_group_bar_graph = TRUE, by_group_violin_graph =
+    TRUE, trend_graph = TRUE, quantile_trend_graph = TRUE, by_group_trend_graph = TRUE,
+    corrplot = TRUE, scatter_plot = TRUE, regression = TRUE),
+  html_blocks = NULL,
+  export_nb_option = FALSE,
+  store_encrypted = FALSE,
+  key_phrase = "What a wonderful key",
+  debug = FALSE,
+  ...
+)
 }
 \arguments{
 \item{df}{A data frame or a list of data frames containing the data that

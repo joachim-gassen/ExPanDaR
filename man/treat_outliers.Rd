@@ -4,8 +4,7 @@
 \alias{treat_outliers}
 \title{Treats Outliers in Numerical Data}
 \usage{
-treat_outliers(x, percentile = 0.01, truncate = FALSE, by = NULL,
-  ...)
+treat_outliers(x, percentile = 0.01, truncate = FALSE, by = NULL, ...)
 }
 \arguments{
 \item{x}{Data that is coercible into a numeric vector or matrix.

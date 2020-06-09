@@ -23,7 +23,7 @@ Imports:
     tidyr, dplyr, ggplot2, corrplot, lfe, multiwayvcov, lmtest,
     stargazer, scales, shiny, DT, openssl, tictoc, shinycssloaders, kableExtra, 
     rio, zip, rlang
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 Suggests:
     gapminder, rmarkdown, htmltools, knitr, devtools, wbstats
 VignetteBuilder: knitr

@@ -4,7 +4,9 @@
 \name{worldbank_data_def}
 \alias{worldbank_data_def}
 \title{Data Definitions for \code{worldbank} Data Set}
-\format{An object of class \code{"data.frame"}.}
+\format{
+An object of class \code{"data.frame"}.
+}
 \usage{
 data(worldbank_data_def)
 }

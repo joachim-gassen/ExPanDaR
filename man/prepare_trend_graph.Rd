@@ -4,8 +4,11 @@
 \alias{prepare_trend_graph}
 \title{Prepares a Trend Graph}
 \usage{
-prepare_trend_graph(df, ts_id, var = colnames(df[sapply(df, is.numeric) &
-  colnames(df) != ts_id]))
+prepare_trend_graph(
+  df,
+  ts_id,
+  var = colnames(df[sapply(df, is.numeric) & colnames(df) != ts_id])
+)
 }
 \arguments{
 \item{df}{Data frame containing the ordered factor and a set of numerical variables

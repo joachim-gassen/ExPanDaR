@@ -4,8 +4,14 @@
 \alias{prepare_by_group_bar_graph}
 \title{Prepares a by Group Bar Graph}
 \usage{
-prepare_by_group_bar_graph(df, by_var, var, stat_fun = mean,
-  order_by_stat = FALSE, color = "red")
+prepare_by_group_bar_graph(
+  df,
+  by_var,
+  var,
+  stat_fun = mean,
+  order_by_stat = FALSE,
+  color = "red"
+)
 }
 \arguments{
 \item{df}{Data frame containing the grouping factor and the numerical variable

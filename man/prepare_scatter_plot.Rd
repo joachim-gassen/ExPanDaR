@@ -4,8 +4,15 @@
 \alias{prepare_scatter_plot}
 \title{Prepares a Scatter Plot}
 \usage{
-prepare_scatter_plot(df, x, y, color = "", size = "", loess = 0,
-  alpha = min(1, 1/((1 + (max(0, log(nrow(df)) - log(100)))))))
+prepare_scatter_plot(
+  df,
+  x,
+  y,
+  color = "",
+  size = "",
+  loess = 0,
+  alpha = min(1, 1/((1 + (max(0, log(nrow(df)) - log(100))))))
+)
 }
 \arguments{
 \item{df}{Data frame containing the data}

@@ -4,8 +4,14 @@
 \alias{prepare_by_group_trend_graph}
 \title{Prepares a By Group Trend Graph}
 \usage{
-prepare_by_group_trend_graph(df, ts_id, group_var, var, points = TRUE,
-  error_bars = FALSE)
+prepare_by_group_trend_graph(
+  df,
+  ts_id,
+  group_var,
+  var,
+  points = TRUE,
+  error_bars = FALSE
+)
 }
 \arguments{
 \item{df}{Data frame containing the ordered factor and a set of numerical variables

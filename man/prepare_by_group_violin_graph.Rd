@@ -4,8 +4,14 @@
 \alias{prepare_by_group_violin_graph}
 \title{Prepares a by Group Violin Graph}
 \usage{
-prepare_by_group_violin_graph(df, by_var, var, order_by_mean = FALSE,
-  group_on_y = TRUE, ...)
+prepare_by_group_violin_graph(
+  df,
+  by_var,
+  var,
+  order_by_mean = FALSE,
+  group_on_y = TRUE,
+  ...
+)
 }
 \arguments{
 \item{df}{Data frame containing the grouping factor and the numerical variable

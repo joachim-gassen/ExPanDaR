@@ -4,7 +4,9 @@
 \name{ExPanD_config_worldbank}
 \alias{ExPanD_config_worldbank}
 \title{Default Configuration to Use with ExPanD and the \code{worldbank} Data Set}
-\format{An object of class \code{"list"}.}
+\format{
+An object of class \code{"list"}.
+}
 \usage{
 data(ExPanD_config_worldbank)
 }

@@ -4,7 +4,9 @@
 \name{worldbank}
 \alias{worldbank}
 \title{A Snapshot of Macroeconomic Data as Provided by the World Bank API (1960 - 2018)}
-\format{An object of class \code{"data.frame"}.}
+\format{
+An object of class \code{"data.frame"}.
+}
 \source{
 Has been collected using the \code{\link[wbstats]{wb}} function
  from the World Bank API in Jan 2020.

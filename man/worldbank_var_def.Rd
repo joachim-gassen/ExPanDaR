@@ -4,7 +4,9 @@
 \name{worldbank_var_def}
 \alias{worldbank_var_def}
 \title{Variable Definitions to Construct an Analysis Sample Based on the \code{worldbank} Data Set}
-\format{An object of class \code{"data.frame"}.}
+\format{
+An object of class \code{"data.frame"}.
+}
 \usage{
 data(worldbank_var_def)
 }

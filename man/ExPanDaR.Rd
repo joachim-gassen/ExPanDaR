@@ -3,7 +3,6 @@
 \docType{package}
 \name{ExPanDaR}
 \alias{ExPanDaR}
-\alias{ExPanDaR-package}
 \title{ExPanDaR: Explore Panel Data with R}
 \description{
 ExPanDaR provides the code base for the ExPanD web app.

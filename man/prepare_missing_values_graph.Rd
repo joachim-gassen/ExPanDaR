@@ -4,8 +4,7 @@
 \alias{prepare_missing_values_graph}
 \title{Prepares a Graph Displaying Missing Values in Panel Data}
 \usage{
-prepare_missing_values_graph(df, ts_id, no_factors = FALSE,
-  binary = FALSE)
+prepare_missing_values_graph(df, ts_id, no_factors = FALSE, binary = FALSE)
 }
 \arguments{
 \item{df}{Data frame containing the data.}

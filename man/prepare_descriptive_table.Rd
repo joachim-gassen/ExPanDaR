@@ -4,8 +4,11 @@
 \alias{prepare_descriptive_table}
 \title{Prepares a Table of Descriptive Statistics}
 \usage{
-prepare_descriptive_table(df, digits = c(0, 3, 3, 3, 3, 3, 3, 3),
-  format = "html")
+prepare_descriptive_table(
+  df,
+  digits = c(0, 3, 3, 3, 3, 3, 3, 3),
+  format = "html"
+)
 }
 \arguments{
 \item{df}{Data frame containing at least one variable that is either numeric

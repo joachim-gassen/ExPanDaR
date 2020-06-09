@@ -4,7 +4,9 @@
 \name{ExPanD_config_russell_3000}
 \alias{ExPanD_config_russell_3000}
 \title{Default Configuration to use with ExPanD and the Russell 3000 Data Set}
-\format{An object of class \code{"list"}.}
+\format{
+An object of class \code{"list"}.
+}
 \usage{
 data(ExPanD_config_russell_3000)
 }

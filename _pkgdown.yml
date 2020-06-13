@@ -27,7 +27,6 @@ reference:
   - download_wbank_data
   - download_merged_data
 - title: Visualization function
-  desc: A customizable function to display the spread of Covid-19, inspired by
-  the displays by John Burn-Murdoch from the Financial Times
+  desc: A customizable function to display the spread of Covid-19, inspired by the displays by John Burn-Murdoch from the Financial Times
   contents:
   - plot_covid19_spread

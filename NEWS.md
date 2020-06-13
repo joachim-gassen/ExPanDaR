@@ -10,6 +10,8 @@ grouping variable
 
 Bug fixes:
 
+* Fixed notebook code for sub sampling (failed on sampling variables containing `NA`s) 
+
 * Fixed a small issue in the Notebook generation code for the time trend and
 quantile trend chunks
 

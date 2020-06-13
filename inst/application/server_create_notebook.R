@@ -44,7 +44,7 @@ create_nb_code_for_component <- function(comp) {
       nb_code <- c(nb_code,
                    " ",
                    "  # Subset the analysis as requested in ExPanD()",
-                   sprintf('  df <- df[df$%s == "%s", ]', uc$subset_factor, uc$subset_value))
+                   sprintf('  df <- df[which(df$%s == "%s"), ]', uc$subset_factor, uc$subset_value))
 
     if (uc$balanced_panel)
       nb_code <- c(nb_code,

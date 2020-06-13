@@ -144,7 +144,7 @@ create_udv_sample <- function() {
       if (is.numeric(udv_sample[,ncol(udv_sample)])) type <- "numeric"
       else if (is.logical(udv_sample[,ncol(udv_sample)])) type <- "logical"
       else type <- "factor"
-      new_def <- cbind(x[1], x[2], type, 1)
+      new_def <- list(x[1], x[2], type, TRUE)
       if (shiny_long_def && server_side_data && any(base_variable$var_def != "")) {
         tokens <- getParseData(parse(text = x[2], keep.source = TRUE))
         vars <- tokens$text[tokens$token == "SYMBOL"]
@@ -152,7 +152,7 @@ create_udv_sample <- function() {
         var_def <- paste(var_defs, paste0(vars, ": ",
                                           bs_definition$var_def[match(vars, bs_definition$var_name)]),
                          collapse = "\n", sep = "\n")
-        new_def <- cbind(x[1], var_def, type, 1)
+        new_def <- list(x[1], var_def, type, TRUE)
       }
       if (is.null(udv_definition)) udv_definition <<- data.frame(new_def, stringsAsFactors = FALSE)
       else udv_definition <<- rbind(udv_definition, new_def)

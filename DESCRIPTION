@@ -20,10 +20,11 @@ BugReports: https://github.com/joachim-gassen/ExPanDaR/issues
 Encoding: UTF-8
 LazyData: true
 Imports:
-    tidyr, dplyr, ggplot2, corrplot, lfe, multiwayvcov, lmtest,
+    tidyr, dplyr, ggplot2, corrplot, multiwayvcov, lmtest, lfe,
     stargazer, scales, shiny, DT, openssl, tictoc, shinycssloaders, kableExtra, 
     rio, zip, rlang
 RoxygenNote: 7.1.0
 Suggests:
     gapminder, rmarkdown, htmltools, knitr, devtools, wbstats
+Remote: nset-ornl/wbstats, sgaure/lfe
 VignetteBuilder: knitr

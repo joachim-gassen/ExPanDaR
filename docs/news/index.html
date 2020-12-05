@@ -73,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2</span>
       </span>
     </div>
 
@@ -141,9 +141,32 @@
       
     </div>
 
+    <div id="expandar-0-5-2" class="section level1">
+<h1 class="page-header">
+<a href="#expandar-0-5-2" class="anchor"></a>ExPanDaR 0.5.2<small> Unreleased </small>
+</h1>
+<p>Extensions:</p>
+<ul>
+<li><p>Added a <code><a href="../reference/prepare_by_group_trend_graph.html">prepare_by_group_trend_graph()</a></code> function to plot time trends by grouping variable</p></li>
+<li><p>Included grouped time trend plots in <code><a href="../reference/ExPanD.html">ExPanD()</a></code></p></li>
+</ul>
+<p>Bug fixes:</p>
+<ul>
+<li><p>Fixed notebook code for sub sampling (failed on sampling variables containing <code>NA</code>s)</p></li>
+<li><p>Fixed a small issue in the Notebook generation code for the time trend and quantile trend chunks</p></li>
+<li><p>Fixed display of <code><a href="../reference/prepare_regression_table.html">prepare_regression_table()</a></code> for logit model by group tables with fixed effects</p></li>
+</ul>
+<p>Minor Issues:</p>
+<ul>
+<li><p>Replaced <code>lfe</code> with <code>plm</code> package for fixed effect models as <code>lfe</code> has been removed from CRAN</p></li>
+<li><p>Removed <code>wbstats</code> from Suggests as it is currently not on CRAN</p></li>
+<li><p>Removed <code>tidyquant</code> package from Suggests as it depends on a package that requires R &gt;= 3.5.0</p></li>
+<li><p>Spelling</p></li>
+</ul>
+</div>
     <div id="expandar-0-5-1" class="section level1">
 <h1 class="page-header">
-<a href="#expandar-0-5-1" class="anchor"></a>ExPanDaR 0.5.1<small> Unreleased </small>
+<a href="#expandar-0-5-1" class="anchor"></a>ExPanDaR 0.5.1<small> 2020-01-29 </small>
 </h1>
 <p>Extensions:</p>
 <ul>
@@ -157,7 +180,7 @@
 <ul>
 <li><p>Updated World Bank data</p></li>
 <li><p>Allowed <code><a href="../reference/ExPanD.html">ExPanD()</a></code> to be called with <code>ts_id == NULL</code> and <code>cs_id != NULL</code> so that data frame variables can be specified as cross-sectional identifiers in the cross-sectional mode</p></li>
-<li><p>Removed some artefacts in cross-sectional mode where cross-sectional and time series indentifiers were still provided as variable options in the <code><a href="../reference/ExPanD.html">ExPanD()</a></code> app</p></li>
+<li><p>Removed some artefacts in cross-sectional mode where cross-sectional and time series identifiers were still provided as variable options in the <code><a href="../reference/ExPanD.html">ExPanD()</a></code> app</p></li>
 <li><p>Included manual zip package import in <code>NAMESPACE</code> to make <code>devtoools::check()</code> happy on various CRAN systems</p></li>
 <li><p>Changed shinyapps.io URLs in vignettes to plain HTTP as win-builder seems to have an issue with the SSL handshake of shinyapps.io</p></li>
 </ul>
@@ -228,7 +251,7 @@
 <li><p>Added packages used by <code><a href="../reference/ExPanD.html">ExPanD()</a></code> to <code>NAMESPACE</code> to make CRAN checks happy</p></li>
 <li><p>UI cleanups</p></li>
 <li><p>Fixed the definition of <code>oint_ta</code> in <code>r3</code> dataset</p></li>
-<li><p>Added a check to verify that <code>ts_ids</code> provided as ordered vectors</p></li>
+<li><p>Added a check to verify that <code>ts_id</code> is provided as an ordered vector</p></li>
 <li><p>Fixed a typo in <code>worldbank_var_def</code></p></li>
 <li><p>Removed the <code>drop_undersore</code> parameter in <code><a href="../reference/prepare_regression_table.html">prepare_regression_table()</a></code> (no longer needed)</p></li>
 <li><p>Work-around for special characters in stargazer <code>column.labels</code></p></li>
@@ -251,6 +274,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#expandar-0-5-2">0.5.2</a></li>
         <li><a href="#expandar-0-5-1">0.5.1</a></li>
         <li><a href="#expandar-0-5-0">0.5.0</a></li>
         <li><a href="#expandar-0-4-0">0.4.0</a></li>

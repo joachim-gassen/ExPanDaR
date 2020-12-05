@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2</span>
       </span>
     </div>
 
@@ -103,7 +103,7 @@
       <h1>Customize ExPanD</h1>
                         <h4 class="author">Joachim Gassen</h4>
             
-            <h4 class="date">2020-01-29</h4>
+            <h4 class="date">2020-12-05</h4>
       
       
       <div class="hidden name"><code>customize_ExPanD.Rmd</code></div>
@@ -193,14 +193,18 @@
 <td align="left">A graph that visualizes the distribution of one chosen variable over time</td>
 </tr>
 <tr class="even">
+<td align="left"><code>by_group_trend_graph</code></td>
+<td align="left">A grouped time trend graph that visualizes the development of one variable across groups over time</td>
+</tr>
+<tr class="odd">
 <td align="left"><code>corrplot</code></td>
 <td align="left">A visual representation of Spearman and Pearson correlations of the numerical and logical variables in the sample. Exact correlations are displayed when you hover above the respective cell with your mouse</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>scatter_plot</code></td>
 <td align="left">A scatter plot, where you can present up to 4 dimensions of your data (x, y, size, color). You can choose whether you want a LOESS line to be displayed and whether you want your sample to be limited to 1,000 observations</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>regression</code></td>
 <td align="left">A regression component where you can estimate a linear or logit regression, with up to two fixed effect levels and standard error clustering</td>
 </tr>
@@ -488,7 +492,7 @@
 <a class="sourceLine" id="cb9-78" data-line-number="78">       <span class="dt">df_def =</span> df_def,</a>
 <a class="sourceLine" id="cb9-79" data-line-number="79">       <span class="dt">config_list =</span> clist,</a>
 <a class="sourceLine" id="cb9-80" data-line-number="80">       <span class="dt">html_blocks =</span> html_blocks)</a></code></pre></div>
-<p>This is it. Now we have a customized version of ExPanD focusing on communicating the robustness of the Preston Curve. If you do not want to run the code yourself, you can take a quick look at the customized version <a href="http://jgassen.shinyapps.io/expand_gapminder">here</a>.</p>
+<p>This is it. Now we have a customized version of ExPanD focusing on communicating the robustness of the Preston Curve. If you do not want to run the code yourself, you can take a quick look at the customized version <a href="https://jgassen.shinyapps.io/expand_gapminder">here</a>.</p>
 <p>If you want to take customization to the next level, you can always fork the code of the ‘ExPanDaR’ package on GitHub. The code for the shiny app is in the <code>inst/app</code> folder of the package.</p>
 <p>Enjoy.</p>
 </div>

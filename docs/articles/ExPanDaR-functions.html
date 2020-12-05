@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2</span>
       </span>
     </div>
 
@@ -97,13 +97,14 @@
 <!--/.navbar -->
 
       
-      </header><script src="ExPanDaR-functions_files/kePrint-0.0.1/kePrint.js"></script><div class="row">
+      </header><script src="ExPanDaR-functions_files/kePrint-0.0.1/kePrint.js"></script><link href="ExPanDaR-functions_files/lightable-0.0.1/lightable.css" rel="stylesheet">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Using the functions of the ExPanDaR package</h1>
                         <h4 class="author">Joachim Gassen</h4>
             
-            <h4 class="date">2020-01-29</h4>
+            <h4 class="date">2020-12-05</h4>
       
       
       <div class="hidden name"><code>ExPanDaR-functions.Rmd</code></div>
@@ -1118,7 +1119,7 @@ E: return
 </tr>
 </tbody>
 <tfoot><tr>
-<td style="padding: 0; border: 0;" colspan="100%">
+<td style="padding: 0; " colspan="100%">
 <sup></sup> This table reports Pearson correlations above and Spearman correlations below the diagonal. The number of observations ranges from 6002 to 6643. Correlations with significance levels below 1% appear in bold print.
 </td>
 </tr></tfoot>
@@ -1138,9 +1139,13 @@ E: return
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">graph &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prepare_quantile_trend_graph.html">prepare_quantile_trend_graph</a></span>(r3win[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"period"</span>, <span class="st">"return"</span>)], <span class="st">"period"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.05</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.95</span>))</a>
 <a class="sourceLine" id="cb16-2" data-line-number="2">graph<span class="op">$</span>plot</a></code></pre></div>
 <p><img src="ExPanDaR-functions_files/figure-html/quantile_plot-1.png" width="576" style="display: block; margin: auto;"></p>
-<p>Nothing special going on here (not really surprising, given the short time span that the sample covers).</p>
-<p>Finally, <code><a href="../reference/prepare_scatter_plot.html">prepare_scatter_plot()</a></code> produces the mother of all plots, the scatter plot.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw"><a href="../reference/prepare_scatter_plot.html">prepare_scatter_plot</a></span>(r3win, <span class="dt">x=</span><span class="st">"nioa"</span>, <span class="dt">y=</span><span class="st">"return"</span>, <span class="dt">color=</span><span class="st">"sector"</span>, <span class="dt">size=</span><span class="st">"toas"</span>, <span class="dt">loess =</span> <span class="dv">1</span>)</a></code></pre></div>
+<p>Nothing special going on here (not really surprising, given the short time span that the sample covers). Let’s see how profitability varies across sectors by using the<br><code><a href="../reference/prepare_by_group_trend_graph.html">prepare_by_group_trend_graph()</a></code> function.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">graph &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prepare_by_group_trend_graph.html">prepare_by_group_trend_graph</a></span>(r3win, <span class="st">"period"</span>, <span class="st">"sector"</span>, <span class="st">"nioa"</span>)</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">graph<span class="op">$</span>plot</a></code></pre></div>
+<p><img src="ExPanDaR-functions_files/figure-html/bgtg_plot-1.png" width="576" style="display: block; margin: auto;"></p>
+<p>The health sector is clearly less profitable compared to the others, which can be explained by small growing firms. Finally, <code><a href="../reference/prepare_scatter_plot.html">prepare_scatter_plot()</a></code> produces the mother of all plots, the scatter plot.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw"><a href="../reference/prepare_scatter_plot.html">prepare_scatter_plot</a></span>(r3win, <span class="dt">x=</span><span class="st">"nioa"</span>, <span class="dt">y=</span><span class="st">"return"</span>, <span class="dt">color=</span><span class="st">"sector"</span>, <span class="dt">size=</span><span class="st">"toas"</span>, <span class="dt">loess =</span> <span class="dv">1</span>)</a></code></pre></div>
+<pre><code>## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'</code></pre>
 <p><img src="ExPanDaR-functions_files/figure-html/scatter_plot-1.png" width="672" style="display: block; margin: auto;"></p>
 <p>Do you see the structural break around nioa == 0? Researchers in the area of accounting tend to like that kind of stuff.</p>
 </div>
@@ -1149,18 +1154,18 @@ E: return
 <a href="#regression-tables" class="anchor"></a>Regression Tables</h2>
 <p>Finally, if you happen to be a fan of starred numbers, you can also quickly produce regression tables by using the function <code><a href="../reference/prepare_regression_table.html">prepare_regression_table()</a></code> that calls <code><a href="https://www.rdocumentation.org/packages/lfe/topics/felm">lfe::felm()</a></code> for OLS and <code><a href="https://www.rdocumentation.org/packages/stats/topics/glm">glm()</a></code> for binary logit models. The tables are then constructed by calling <code><a href="https://www.rdocumentation.org/packages/stargazer/topics/stargazer">stargazer::stargazer()</a></code>, allowing for plain text, html and latex output.</p>
 <p>You can construct tables by mixing different models…</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">dvs &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"return"</span>, <span class="st">"return"</span>, <span class="st">"return"</span>, <span class="st">"return"</span>, <span class="st">"return"</span>, <span class="st">"return"</span>)</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">idvs &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"nioa"</span>), </a>
-<a class="sourceLine" id="cb18-3" data-line-number="3">             <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"cfoa"</span>), </a>
-<a class="sourceLine" id="cb18-4" data-line-number="4">             <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"accoa"</span>), </a>
-<a class="sourceLine" id="cb18-5" data-line-number="5">             <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"cfoa"</span>, <span class="st">"accoa"</span>), </a>
-<a class="sourceLine" id="cb18-6" data-line-number="6">             <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"nioa"</span>, <span class="st">"accoa"</span>), </a>
-<a class="sourceLine" id="cb18-7" data-line-number="7">             <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"nioa"</span>, <span class="st">"accoa"</span>)) </a>
-<a class="sourceLine" id="cb18-8" data-line-number="8">feffects &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="st">"period"</span>, <span class="st">"period"</span>, <span class="st">"period"</span>, </a>
-<a class="sourceLine" id="cb18-9" data-line-number="9">                 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"period"</span>, <span class="st">"coid"</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"period"</span>, <span class="st">"coid"</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"period"</span>, <span class="st">"coid"</span>))</a>
-<a class="sourceLine" id="cb18-10" data-line-number="10">clusters &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="st">""</span>, <span class="st">""</span>, <span class="st">""</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"coid"</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"coid"</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"period"</span>, <span class="st">"coid"</span>))</a>
-<a class="sourceLine" id="cb18-11" data-line-number="11">t &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prepare_regression_table.html">prepare_regression_table</a></span>(r3win, dvs, idvs, feffects, clusters)</a>
-<a class="sourceLine" id="cb18-12" data-line-number="12">htmltools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/htmltools/topics/HTML">HTML</a></span>(t<span class="op">$</span>table)</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">dvs &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"return"</span>, <span class="st">"return"</span>, <span class="st">"return"</span>, <span class="st">"return"</span>, <span class="st">"return"</span>, <span class="st">"return"</span>)</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">idvs &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"nioa"</span>), </a>
+<a class="sourceLine" id="cb20-3" data-line-number="3">             <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"cfoa"</span>), </a>
+<a class="sourceLine" id="cb20-4" data-line-number="4">             <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"accoa"</span>), </a>
+<a class="sourceLine" id="cb20-5" data-line-number="5">             <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"cfoa"</span>, <span class="st">"accoa"</span>), </a>
+<a class="sourceLine" id="cb20-6" data-line-number="6">             <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"nioa"</span>, <span class="st">"accoa"</span>), </a>
+<a class="sourceLine" id="cb20-7" data-line-number="7">             <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"nioa"</span>, <span class="st">"accoa"</span>)) </a>
+<a class="sourceLine" id="cb20-8" data-line-number="8">feffects &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="st">"period"</span>, <span class="st">"period"</span>, <span class="st">"period"</span>, </a>
+<a class="sourceLine" id="cb20-9" data-line-number="9">                 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"coid"</span>, <span class="st">"period"</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"coid"</span>, <span class="st">"period"</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"coid"</span>, <span class="st">"period"</span>))</a>
+<a class="sourceLine" id="cb20-10" data-line-number="10">clusters &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="st">""</span>, <span class="st">""</span>, <span class="st">""</span>, <span class="st">"coid"</span>, <span class="st">"coid"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"coid"</span>, <span class="st">"period"</span>))</a>
+<a class="sourceLine" id="cb20-11" data-line-number="11">t &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prepare_regression_table.html">prepare_regression_table</a></span>(r3win, dvs, idvs, feffects, clusters)</a>
+<a class="sourceLine" id="cb20-12" data-line-number="12">htmltools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/htmltools/topics/HTML">HTML</a></span>(t<span class="op">$</span>table)</a></code></pre></div>
  <table class="table">
 <tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr>
 <tr>
@@ -1199,7 +1204,7 @@ E: return
 <td></td>
 <td>1.794<sup>***</sup>
 </td>
-<td>1.794<sup>**</sup>
+<td>1.794<sup>***</sup>
 </td>
 </tr>
 <tr>
@@ -1259,7 +1264,8 @@ E: return
 </td>
 <td>-0.890<sup>***</sup>
 </td>
-<td>-0.890</td>
+<td>-0.890<sup>**</sup>
+</td>
 </tr>
 <tr>
 <td style="text-align:left"></td>
@@ -1268,7 +1274,7 @@ E: return
 <td>(0.116)</td>
 <td>(0.303)</td>
 <td>(0.314)</td>
-<td>(0.440)</td>
+<td>(0.439)</td>
 </tr>
 <tr>
 <td style="text-align:left"></td>
@@ -1294,9 +1300,9 @@ E: return
 <td>period</td>
 <td>period</td>
 <td>period</td>
-<td>period, coid</td>
-<td>period, coid</td>
-<td>period, coid</td>
+<td>coid, period</td>
+<td>coid, period</td>
+<td>coid, period</td>
 </tr>
 <tr>
 <td style="text-align:left">Std. errors clustered</td>
@@ -1305,7 +1311,7 @@ E: return
 <td>No</td>
 <td>coid</td>
 <td>coid</td>
-<td>period, coid</td>
+<td>coid, period</td>
 </tr>
 <tr>
 <td style="text-align:left">Observations</td>
@@ -1319,22 +1325,22 @@ E: return
 <tr>
 <td style="text-align:left">R<sup>2</sup>
 </td>
-<td>0.054</td>
-<td>0.047</td>
-<td>0.035</td>
-<td>0.341</td>
-<td>0.344</td>
-<td>0.344</td>
+<td>0.023</td>
+<td>0.015</td>
+<td>0.004</td>
+<td>0.013</td>
+<td>0.018</td>
+<td>0.018</td>
 </tr>
 <tr>
 <td style="text-align:left">Adjusted R<sup>2</sup>
 </td>
-<td>0.054</td>
-<td>0.046</td>
-<td>0.035</td>
-<td>-0.044</td>
-<td>-0.039</td>
-<td>-0.039</td>
+<td>0.023</td>
+<td>0.015</td>
+<td>0.003</td>
+<td>-0.564</td>
+<td>-0.556</td>
+<td>-0.556</td>
 </tr>
 <tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr>
 <tr>
@@ -1344,161 +1350,9 @@ E: return
 </tr>
 </table>
 <p>… or by applying one model on different sub-samples.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">t &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prepare_regression_table.html">prepare_regression_table</a></span>(r3win, <span class="st">"return"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"nioa"</span>, <span class="st">"accoa"</span>), <span class="dt">byvar=</span><span class="st">"period"</span>)</a>
-<a class="sourceLine" id="cb19-2" data-line-number="2">htmltools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/htmltools/topics/HTML">HTML</a></span>(t<span class="op">$</span>table)</a></code></pre></div>
- <table class="table">
-<tr><td colspan="5" style="border-bottom: 1px solid black"></td></tr>
-<tr>
-<td style="text-align:left"></td>
-<td colspan="4"><em>Dependent variable:</em></td>
-</tr>
-<tr>
-<td></td>
-<td colspan="4" style="border-bottom: 1px solid black"></td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td colspan="4">return</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td>Full Sample</td>
-<td>FY2014</td>
-<td>FY2015</td>
-<td>FY2016</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td>(1)</td>
-<td>(2)</td>
-<td>(3)</td>
-<td>(4)</td>
-</tr>
-<tr><td colspan="5" style="border-bottom: 1px solid black"></td></tr>
-<tr>
-<td style="text-align:left">nioa</td>
-<td>0.801<sup>***</sup>
-</td>
-<td>0.234<sup>*</sup>
-</td>
-<td>0.607<sup>***</sup>
-</td>
-<td>1.375<sup>***</sup>
-</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td>(0.074)</td>
-<td>(0.139)</td>
-<td>(0.123)</td>
-<td>(0.119)</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:left">accoa</td>
-<td>-0.067</td>
-<td>0.014</td>
-<td>0.638<sup>***</sup>
-</td>
-<td>-1.224<sup>***</sup>
-</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td>(0.132)</td>
-<td>(0.240)</td>
-<td>(0.205)</td>
-<td>(0.233)</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:left">Constant</td>
-<td>0.082<sup>***</sup>
-</td>
-<td>0.130<sup>***</sup>
-</td>
-<td>0.014</td>
-<td>0.096<sup>***</sup>
-</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td>(0.006)</td>
-<td>(0.011)</td>
-<td>(0.011)</td>
-<td>(0.011)</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr><td colspan="5" style="border-bottom: 1px solid black"></td></tr>
-<tr>
-<td style="text-align:left">Estimator</td>
-<td>ols</td>
-<td>ols</td>
-<td>ols</td>
-<td>ols</td>
-</tr>
-<tr>
-<td style="text-align:left">Fixed effects</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr>
-<td style="text-align:left">Std. errors clustered</td>
-<td>No</td>
-<td>No</td>
-<td>No</td>
-<td>No</td>
-</tr>
-<tr>
-<td style="text-align:left">Observations</td>
-<td>6,002</td>
-<td>1,817</td>
-<td>2,033</td>
-<td>2,152</td>
-</tr>
-<tr>
-<td style="text-align:left">R<sup>2</sup>
-</td>
-<td>0.023</td>
-<td>0.002</td>
-<td>0.033</td>
-<td>0.058</td>
-</tr>
-<tr>
-<td style="text-align:left">Adjusted R<sup>2</sup>
-</td>
-<td>0.023</td>
-<td>0.001</td>
-<td>0.032</td>
-<td>0.057</td>
-</tr>
-<tr><td colspan="5" style="border-bottom: 1px solid black"></td></tr>
-<tr>
-<td style="text-align:left"><em>Note:</em></td>
-<td colspan="4" style="text-align:right">
-<sup>*</sup>p&lt;0.1; <sup>**</sup>p&lt;0.05; <sup>***</sup>p&lt;0.01</td>
-</tr>
-</table>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">t &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prepare_regression_table.html">prepare_regression_table</a></span>(r3win, <span class="st">"return"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"nioa"</span>, <span class="st">"accoa"</span>), <span class="dt">byvar=</span><span class="st">"period"</span>)</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2">htmltools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/htmltools/topics/HTML">HTML</a></span>(t<span class="op">$</span>table)</a></code></pre></div>
+ % Error: Unrecognized object type. % Error: Unrecognized object type. % Error: Unrecognized object type. % Error: Unrecognized object type.
 </div>
 <div id="conclusion" class="section level2">
 <h2 class="hasAnchor">

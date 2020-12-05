@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Prepares a by Group Bar Graph — prepare_by_group_bar_graph • ExPanDaR</title>
+<title>Prepares a By Group Trend Graph — prepare_by_group_trend_graph • ExPanDaR</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +30,10 @@
 
 
 
-<meta property="og:title" content="Prepares a by Group Bar Graph — prepare_by_group_bar_graph" />
+<meta property="og:title" content="Prepares a By Group Trend Graph — prepare_by_group_trend_graph" />
 
-<meta property="og:description" content="Reads a data frame containing a grouping factor and a numerical variable
-and plots a bar graph of a given statistic of the variable
-by the grouping factor." />
+<meta property="og:description" content="Reads a data frame and line plots the selected variables (which need to be numeric)
+ by group and an ordered factor (normally the time-series indicator)." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -141,26 +140,25 @@ by the grouping factor." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Prepares a by Group Bar Graph</h1>
+    <h1>Prepares a By Group Trend Graph</h1>
     
-    <div class="hidden name"><code>prepare_by_group_bar_graph.Rd</code></div>
+    <div class="hidden name"><code>prepare_by_group_trend_graph.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Reads a data frame containing a grouping factor and a numerical variable
-and plots a bar graph of a given statistic of the variable
-by the grouping factor.</p>
+    <p>Reads a data frame and line plots the selected variables (which need to be numeric)
+ by group and an ordered factor (normally the time-series indicator).</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>prepare_by_group_bar_graph</span>(
+    <pre class="usage"><span class='fu'>prepare_by_group_trend_graph</span>(
   <span class='no'>df</span>,
-  <span class='no'>by_var</span>,
+  <span class='no'>ts_id</span>,
+  <span class='no'>group_var</span>,
   <span class='no'>var</span>,
-  <span class='kw'>stat_fun</span> <span class='kw'>=</span> <span class='no'>mean</span>,
-  <span class='kw'>order_by_stat</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"red"</span>
+  <span class='kw'>points</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>error_bars</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -168,46 +166,46 @@ by the grouping factor.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>df</th>
-      <td><p>Data frame containing the grouping factor and the numerical variable
-to be plotted</p></td>
+      <td><p>Data frame containing the ordered factor and a set of numerical variables
+to be plotted.</p></td>
     </tr>
     <tr>
-      <th>by_var</th>
-      <td><p>a string containing the column name of the grouping factor</p></td>
+      <th>ts_id</th>
+      <td><p>a string containing the column name of the ordered factor
+(normally the time-series indicator).</p></td>
+    </tr>
+    <tr>
+      <th>group_var</th>
+      <td><p>a variable coercible into a factor to group the data on.</p></td>
     </tr>
     <tr>
       <th>var</th>
-      <td><p>a string containing the column name of the numerical variable</p></td>
+      <td><p>The name of the variable that you want to plot.</p></td>
     </tr>
     <tr>
-      <th>stat_fun</th>
-      <td><p>a function to be called on the numerical variable.
-Will be called with <code>na.rm = TRUE</code> to ignore missing values</p></td>
+      <th>points</th>
+      <td><p>Do you want points to indicate the observations? Defaults to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
-      <th>order_by_stat</th>
-      <td><p>a logical value indicating whether you want your bars to be ordered
-the value of the statistic (defaults to FALSE)</p></td>
-    </tr>
-    <tr>
-      <th>color</th>
-      <td><p>bar color</p></td>
+      <th>error_bars</th>
+      <td><p>Do you want error bars to be plotted? Defaults to <code>FALSE</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list containing two items:</p><dl class='dl-horizontal'>
- <dt>"df"</dt><dd><p>A data frame containing the statistics by group</p></dd>
- <dt>"plot"</dt><dd><p>The plot as returned by <code>ggplot</code></p></dd>
+ <dt>"df"</dt><dd><p>A data frame containing the plotted means and standard errors by group</p></dd>
+ <dt>"plot</dt><dd><p>The plot as returned by <code>ggplot</code></p></dd>
 </dl>
 
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>russell_3000</span>)
-<span class='no'>graph</span> <span class='kw'>&lt;-</span> <span class='fu'>prepare_by_group_bar_graph</span>(<span class='no'>russell_3000</span>, <span class='st'>"sector"</span>, <span class='st'>"ni_sales"</span>, <span class='no'>median</span>)
-<span class='no'>graph</span>$<span class='no'>plot</span></div><div class='img'><img src='prepare_by_group_bar_graph-1.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='no'>worldbank</span>
+<span class='no'>df</span>$<span class='no'>gdp_capita</span> <span class='kw'>&lt;-</span> <span class='no'>worldbank</span>$<span class='no'>NY.GDP.PCAP.KD</span>
+<span class='no'>graph</span> <span class='kw'>&lt;-</span> <span class='fu'>prepare_by_group_trend_graph</span>(<span class='no'>df</span>, <span class='st'>"year"</span>, <span class='st'>"region"</span>, <span class='st'>"gdp_capita"</span>)
+<span class='no'>graph</span>$<span class='no'>plot</span></div><div class='img'><img src='prepare_by_group_trend_graph-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

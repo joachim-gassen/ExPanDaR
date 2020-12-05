@@ -77,7 +77,7 @@ simple cross-sectional data as well." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2</span>
       </span>
     </div>
 
@@ -154,18 +154,30 @@ simple cross-sectional data as well.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>ExPanD</span>(<span class='kw'>df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cs_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ts_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>df_def</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>var_def</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>config_list</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"ExPanD - Explore your data!"</span>, <span class='kw'>abstract</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>df_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/deparse'>deparse</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substitute'>substitute</a></span>(<span class='no'>df</span>)), <span class='kw'>long_def</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>factor_cutoff</span> <span class='kw'>=</span> <span class='fl'>10L</span>, <span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>sample_selection</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>subset_factor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>grouping</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>bar_chart</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>missing_values</span> <span class='kw'>=</span>
-  <span class='fl'>TRUE</span>, <span class='kw'>udvars</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>descriptive_table</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>histogram</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ext_obs</span>
-  <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>by_group_bar_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>by_group_violin_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>trend_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>quantile_trend_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>corrplot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>scatter_plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>regression</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>html_blocks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>export_nb_option</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>store_encrypted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>key_phrase</span> <span class='kw'>=</span> <span class='st'>"What a wonderful key"</span>, <span class='kw'>debug</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>ExPanD</span>(
+  <span class='kw'>df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>cs_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>ts_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>df_def</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>var_def</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>config_list</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"ExPanD - Explore your data!"</span>,
+  <span class='kw'>abstract</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>df_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/deparse'>deparse</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substitute'>substitute</a></span>(<span class='no'>df</span>)),
+  <span class='kw'>long_def</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>factor_cutoff</span> <span class='kw'>=</span> <span class='fl'>10L</span>,
+  <span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>sample_selection</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>subset_factor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>grouping</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <span class='kw'>bar_chart</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>missing_values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>udvars</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>descriptive_table</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <span class='kw'>histogram</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ext_obs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>by_group_bar_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>by_group_violin_graph</span> <span class='kw'>=</span>
+    <span class='fl'>TRUE</span>, <span class='kw'>trend_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>quantile_trend_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>by_group_trend_graph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <span class='kw'>corrplot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>scatter_plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>regression</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
+  <span class='kw'>html_blocks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>export_nb_option</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>store_encrypted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>key_phrase</span> <span class='kw'>=</span> <span class='st'>"What a wonderful key"</span>,
+  <span class='kw'>debug</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>...</span>
+)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -192,7 +204,7 @@ If you provide a time series indicator that already is an ordered vector,
 ExPanD will verify that it has the same levels for each data frame
 and throw an error otherwise. If <code>cs_id</code> and <code>ts_id</code> are not
 provided either directly of by <code>df_def</code>, the data is treated as
-cross-sectional,observations are identifed by row names and
+cross-sectional,observations are identified by row names and
 only appropriate displays are included. <code>df_def</code> overrides if
 provided.</p></td>
     </tr>
@@ -295,7 +307,7 @@ Probably not.</p></td>
     <tr>
       <th>...</th>
       <td><p>Additional parameters that are passed on to
-<code><a href='https://www.rdocumentation.org/packages/shiny/topics/runApp'>runApp</a></code>.</p></td>
+<code><a href='https://shiny.rstudio.com/reference/shiny/latest/runApp.html'>runApp</a></code>.</p></td>
     </tr>
     </table>
     

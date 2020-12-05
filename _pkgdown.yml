@@ -12,21 +12,68 @@ navbar:
     href: reference/index.html
   - text: News
     href: news/index.html
+  - text: Articles
+    menu:
+    - text: ExPanD
+    - text: Using ExPanD for Panel Data Exploration
+      href: articles/use_ExPanD.html
+    - text: Customize ExPanD
+      href: articles/customize_ExPanD.html
+    - text: Using the ExPanD Notebook function
+      href: articles/ExPanD_notebook.html
+    - text: -------
+    - text: "'ExPanDaR' functions"
+    - text: Using the functions of the 'ExPanDaR' package
+      href: articles/ExPanDaR-functions.html
   right:
   - text: Code repository
     icon: fa-github
-    href: https://www.github.com/joachim-gassen/tidycovid19
+    href: https://www.github.com/joachim-gassen/ExPanDaR
+
+articles:
+- title: ExPanD
+  desc: These vignettes describe how to use and customize the ExPanD app
+  contents:
+  - use_ExPanD
+  - customize_ExPanD
+  - ExPanD_notebook
+- title: "'ExPanDaR' Functions"
+  desc: A vignette that features the underlying functions included in the 'ExPanDaR' package
+  contents:
+  - ExPanDaR-functions
 
 reference:
-- title: Data functions
-  desc: Functions to download Covid-19 related data from authorative sources
+- title: ExPanD app
+  desc:  Shiny-based app for interactive exploratory data analysis
   contents:
-  - download_jhu_csse_covid19_data
-  - download_acaps_npi_data
-  - download_google_trends_data
-  - download_wbank_data
-  - download_merged_data
-- title: Visualization function
-  desc: A customizable function to display the spread of Covid-19, inspired by the displays by John Burn-Murdoch from the Financial Times
+  - ExPanD
+- title: Workflow functions
+  desc: Functions, mostly also used by ExPanD, that facilitate a typical exploratory data analysis workflow
   contents:
-  - plot_covid19_spread
+  - prepare_missing_values_graph
+  - treat_outliers
+  - prepare_descriptive_table
+  - prepare_ext_obs_table
+  - prepare_by_group_bar_graph
+  - prepare_by_group_trend_graph
+  - prepare_by_group_violin_graph
+  - prepare_trend_graph
+  - prepare_quantile_trend_graph
+  - prepare_correlation_table
+  - prepare_correlation_graph
+  - prepare_scatter_plot
+  - prepare_regression_table
+- title: Data
+  desc: Data set used to showcase the functionality of ExPanD.
+    'russell_3000' is a set of financial accounting and stock return data
+    for a sample of U.S. firms that are members of the Russell 3000 index.
+    'worldbank' is a country year panel of macro-economic data provided
+    by the World Bank API.
+  contents:
+  - russell_3000
+  - russell_3000_data_def
+  - ExPanD_config_russell_3000
+  - worldbank
+  - worldbank_data_def
+  - worldbank_var_def
+  - ExPanD_config_worldbank

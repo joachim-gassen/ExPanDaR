@@ -2,6 +2,10 @@
 #
 # This code generates the Worldbank dataset.
 
+# The package {wbstats} is currently not available from CRAN so it needs to
+# be installed from Github
+# remotes::install_github("nset-ornl/wbstats")
+
 library(dplyr)
 library(tidyr)
 library(wbstats)

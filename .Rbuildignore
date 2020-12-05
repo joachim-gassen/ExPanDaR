@@ -8,6 +8,7 @@
 ^index*
 ^shinyapps.R
 ^ExPanDaR_examples.R
+^reg_se_clustering.R
 ^IMDb_ExPanD.RDS
 ^logo.png
 ^cran-comments.md

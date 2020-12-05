@@ -8,8 +8,8 @@
 An object of class \code{"data.frame"}.
 }
 \source{
-Has been collected using the \code{\link[wbstats]{wb}} function
- from the World Bank API in Jan 2020.
+Has been collected using the \code{wbstats::wb()} function
+ from the World Bank API in Dec 2020.
  The code to generate this data is available in the
  \href{https://github.com/joachim-gassen/ExPanDaR}{github repository} of this package.
  Use in scientific studies is not advised without prior cleaning/checking.

@@ -8,7 +8,7 @@
 An object of class \code{"data.frame"}.
 }
 \source{
-Has been collected using the \code{\link[tidyquant]{tq_get}} function family in Summer 2017.
+Has been collected using the \code{tidyquant::tq_get} function family in Summer 2017.
  The code to generate this data is available in the
  \href{https://github.com/joachim-gassen/ExPanDaR}{github repository} of this package.
  As the Google Finance API providing financial statement data is currently unavailable,

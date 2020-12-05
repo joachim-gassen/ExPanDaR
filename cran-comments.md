@@ -1,17 +1,8 @@
 ## Info
 
-This is a minor release that also addresses the following spurious NOTE in CRAN 
-checks:
-
-Check: dependencies in R code 
-Result: NOTE 
-    Namespace in Imports field not imported from: ‘zip’
-     All declared Imports should be used. 
-Flavors: r-devel-linux-x86_64-fedora-clang, r-devel-linux-x86_64-fedora-gcc, r-patched-solaris-x86, r-release-osx-x86_64, r-oldrel-osx-x86_64
-
-This is triggered by calls to the zip package in inst/app directory not being
-captured by 'R cmd check', I guess. Fixed by including 'importFrom(zip, zip)' 
-call in 'NAMESPACE'.
+This is a minor release that, besides some small tweaks mentioned in NEWS.md,
+has removed the dependencies to wbstats and lfe as these packages were removed 
+from CRAN and this caused ExPanDaR to be removed from CRAN as well.
 
 
 ## Test environments

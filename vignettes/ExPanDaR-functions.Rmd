@@ -181,8 +181,8 @@ idvs <- list(c("nioa"),
              c("nioa", "accoa"), 
              c("nioa", "accoa")) 
 feffects <- list("period", "period", "period", 
-                 c("period", "coid"), c("period", "coid"), c("period", "coid"))
-clusters <- list("", "", "", c("coid"), c("coid"), c("period", "coid"))
+                 c("coid", "period"), c("coid", "period"), c("coid", "period"))
+clusters <- list("", "", "", "coid", "coid", c("coid", "period"))
 t <- prepare_regression_table(r3win, dvs, idvs, feffects, clusters)
 htmltools::HTML(t$table)
 ```

@@ -15,16 +15,15 @@ Description: Provides a shiny-based front end (the 'ExPanD' app) and
     the functions of this package.
 Depends: R (>= 3.3.0)
 License: MIT + file LICENSE
-URL: https://joachim-gassen.github.io/ExPanDaR
+URL: https://joachim-gassen.github.io/ExPanDaR/
 BugReports: https://github.com/joachim-gassen/ExPanDaR/issues
 Encoding: UTF-8
 LazyData: true
 Imports:
-    tidyr, dplyr, ggplot2, corrplot, multiwayvcov, lmtest, lfe,
+    tidyr, dplyr, ggplot2, corrplot, multiwayvcov, lmtest, plm,
     stargazer, scales, shiny, DT, openssl, tictoc, shinycssloaders, kableExtra, 
     rio, zip, rlang
 RoxygenNote: 7.1.0
 Suggests:
-    gapminder, rmarkdown, htmltools, knitr, devtools, wbstats
-Remotes: nset-ornl/wbstats, sgaure/lfe
+    gapminder, rmarkdown, htmltools, knitr, devtools
 VignetteBuilder: knitr

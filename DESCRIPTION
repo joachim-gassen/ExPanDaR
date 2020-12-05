@@ -26,5 +26,5 @@ Imports:
 RoxygenNote: 7.1.0
 Suggests:
     gapminder, rmarkdown, htmltools, knitr, devtools, wbstats
-Remote: nset-ornl/wbstats, sgaure/lfe
+Remotes: nset-ornl/wbstats, sgaure/lfe
 VignetteBuilder: knitr

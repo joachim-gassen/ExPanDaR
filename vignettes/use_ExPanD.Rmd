@@ -52,7 +52,7 @@ ExPanD()
 ```
 
 Alternatively, you can simply access the online hosted version of the ExPanD app 
-[here](http://jgassen.shinyapps.io/expand/) (no R required).
+[here](https://jgassen.shinyapps.io/expand/) (no R required).
 
 After starting ExPanD, you will be greeted with a bare bones file upload dialog.
 

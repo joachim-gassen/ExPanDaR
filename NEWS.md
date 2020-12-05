@@ -1,4 +1,4 @@
-# ExPanDaR 0.5.1.9000
+# ExPanDaR 0.5.2
 
 Extensions:
 
@@ -20,6 +20,11 @@ with fixed effects
 
 
 Minor Issues:
+
+* Replaced `lfe` with `plm` package for fixed effect models as `lfe` has been
+removed from CRAN
+
+* Removed `wbstats` from Suggests as it is currently not on CRAN
 
 * Removed `tidyquant` package from Suggests as it depends on a package that
 requires R >= 3.5.0

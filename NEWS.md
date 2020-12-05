@@ -55,7 +55,7 @@ that data frame variables can be specified as cross-sectional identifiers
 in the cross-sectional mode
 
 * Removed some artefacts in cross-sectional mode where cross-sectional and
-time series indentifiers were still provided as variable options in the 
+time series identifiers were still provided as variable options in the 
 `ExPanD()` app
 
 * Included manual zip package import in `NAMESPACE` to make `devtoools::check()` 

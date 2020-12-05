@@ -46,7 +46,7 @@ If you provide a time series indicator that already is an ordered vector,
 ExPanD will verify that it has the same levels for each data frame
 and throw an error otherwise. If \code{cs_id} and \code{ts_id} are not
 provided either directly of by \code{df_def}, the data is treated as
-cross-sectional,observations are identifed by row names and
+cross-sectional,observations are identified by row names and
 only appropriate displays are included. \code{df_def} overrides if
 provided.}
 

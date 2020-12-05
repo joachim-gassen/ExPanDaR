@@ -69,11 +69,12 @@ estimate_model <- function(df, dl) {
     } else {
       # plm() is much faster when the dimension with more units is the first
       # index member. Why I have no idea.
-      if (
-        length(feffects) > 1 &
-        length(unique(df[ ,feffects[2]])) > length(unique(df[ ,feffects[1]]))
-      ) {
-        feffects <- c(feffects[2], feffects[1])
+      if (length(feffects) > 1) {
+        if (
+          length(unique(df[, feffects[2]])) > length(unique(df[ ,feffects[1]]))
+        ) {
+          feffects <- c(feffects[2], feffects[1])
+        }
       }
       df <- plm::pdata.frame(df, feffects)
       if (length(feffects) == 1) {

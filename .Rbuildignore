@@ -14,3 +14,5 @@
 ^cran-comments.md
 ^vignettes/hq_figures$
 ^CRAN-RELEASE$
+^cran_submission_process.R$
+^vehicles.csv$

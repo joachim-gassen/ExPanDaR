@@ -4,5 +4,6 @@
 .Ruserdata
 .DS_Store
 inst/application/shiny_data.Rda
+vehicles.csv
 *.Rproj
 inst/doc

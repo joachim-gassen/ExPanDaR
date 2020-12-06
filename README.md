@@ -40,6 +40,11 @@ an instance of ExPanD that hosts World Bank data or click
 [here](https://jgassen.shinyapps.io/expand_r3/) for a financial
 accounting and stock returns dataset of U.S. firms.
 
+To see how ExPanD can be customized, take a look at [this blog
+post](https://joachim-gassen.github.io/2019/04/customize-your-interactive-eda-explore-the-fuel-economy-of-the-u.s.-car-market/)
+that generates [this display of the development of fuel economy in the
+U.S. car market](https://jgassen.shinyapps.io/expand_fuel_economy).
+
 If you want to analyze your own data instead, you can also access a
 variant of ExPanD app [here](https://jgassen.shinyapps.io/expand/) that
 allows user-side data uploads. No worries: Your data won’t be stored on
@@ -108,6 +113,14 @@ ExPanD(df = russell_3000,
 
 Some additional information on how to use ExPanD can be found in the
 code file `ExPanDaR_examples.R` in the root directory.
+
+## Use ExPanDaR functions in your own EDA workflow
+
+Besides providing the ExPanD app, ExPanDaR comes with a set of functions
+that might be helpful in your own exploratory data analysis workflow,
+e.g., functions to quicky produce standard tables and plots. See [this
+vignette](https://joachim-gassen.github.io/ExPanDaR/articles/ExPanDaR-functions.html)
+for a quick walk-trough.
 
 ## Further Information
 

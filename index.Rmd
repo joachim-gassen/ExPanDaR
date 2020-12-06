@@ -17,6 +17,7 @@ library(knitr)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ExPanDaR)](https://cran.r-project.org/package=ExPanDaR)
 [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/grand-total/ExPanDaR)](https://cran.r-project.org/package=ExPanDaR)
 
+
 ## Overview
 
 This is the documentation of the ExPanDaR (Explore Panel Data with R) package. ExPanDaR provides the code base for the ExPanD web app. ExPanD is a shiny based app supporting interactive exploratory data analysis.
@@ -37,6 +38,8 @@ knitr::include_graphics("vignettes/figures/ExPanD_simple_03.jpg")
 
 If you are interested to see what ExPanD has to offer without diving into R, click [here](https://jgassen.shinyapps.io/expand_wb/) to explore an instance of ExPanD that hosts World Bank data or click
 [here](https://jgassen.shinyapps.io/expand_r3/) for a financial accounting and stock returns dataset of U.S. firms.
+
+To see how ExPanD can be customized, take a look at [this blog post](https://joachim-gassen.github.io/2019/04/customize-your-interactive-eda-explore-the-fuel-economy-of-the-u.s.-car-market/) that generates [this display of the development of fuel economy in the U.S. car market](https://jgassen.shinyapps.io/expand_fuel_economy).
 
 If you want to analyze your own data instead, you can also access a variant of ExPanD app [here](https://jgassen.shinyapps.io/expand/) that allows user-side data uploads. No worries: Your data won't be stored on the server and will get erased from memory as soon as you close the web connection. 
 
@@ -99,8 +102,18 @@ ExPanD(df = russell_3000,
        export_nb_option = TRUE)
 ````
 
+
+## Use ExPanDaR functions in your own EDA workflow
+
+Besides providing the ExPanD app, ExPanDaR comes with a set of functions that 
+might be helpful in your own exploratory data analysis workflow, e.g., functions
+to quicky produce standard tables and plots. See the article "Using the 
+functions of the ExPanDaR package" on this page for a quick walk-trough.
+
+
 ## Further Information
 
-For further information, please refer to the articles and function call references available on this page.
+For further information, please refer to the articles and function call
+references available on this page.
 
 Enjoy!

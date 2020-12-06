@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ExPanDaR</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.5.1.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.5.2.9000</span>
       </span>
     </div>
 
@@ -104,7 +104,7 @@
       <h1>Using ExPanD for Panel Data Exploration</h1>
                         <h4 class="author">Joachim Gassen</h4>
             
-            <h4 class="date">2020-03-21</h4>
+            <h4 class="date">2020-12-06</h4>
       
       
       <div class="hidden name"><code>use_ExPanD.Rmd</code></div>
@@ -120,7 +120,7 @@
 <li>provide users the opportunity to assess the robustness of your findings without providing them access to the underlying data.</li>
 </ul>
 <p>This vignette will guide you through the process of using ExPanD by discussing three use cases. While the first two use macro-economic data to explore the association of gross domestic production (GDP) per capita with life expectancy at birth, the last use case explores the association between financial accounting performance measures and concurrent stock returns.</p>
-<p>If you do not use R you can still use the ExPanD app to explore panel data! In this case, access the hosted variant of the ExPanD app <a href="http://jgassen.shinyapps.io/expand/">here</a> and follow the advice below on how to upload a suitable panel data file for online exploration. No worries: Your data won’t be stored on the server and will be deleted from memory once the connection to the server is closed.</p>
+<p>If you do not use R you can still use the ExPanD app to explore panel data! In this case, access the hosted variant of the ExPanD app <a href="https://jgassen.shinyapps.io/expand/">here</a> and follow the advice below on how to upload a suitable panel data file for online exploration. No worries: Your data won’t be stored on the server and will be deleted from memory once the connection to the server is closed.</p>
 <div id="starting-expand-to-upload-a-local-file-containing-panel-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#starting-expand-to-upload-a-local-file-containing-panel-data" class="anchor"></a>Starting ExPanD to upload a local file containing panel data</h2>
@@ -130,7 +130,7 @@
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ExPanDaR)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw"><a href="../reference/ExPanD.html">ExPanD</a></span>()</a></code></pre></div>
-<p>Alternatively, you can simply access the online hosted version of the ExPanD app <a href="http://jgassen.shinyapps.io/expand/">here</a> (no R required).</p>
+<p>Alternatively, you can simply access the online hosted version of the ExPanD app <a href="https://jgassen.shinyapps.io/expand/">here</a> (no R required).</p>
 <p>After starting ExPanD, you will be greeted with a bare bones file upload dialog.</p>
 <p><img src="figures/ExPanD_file_01.jpg" width="90%" style="display: block; margin: auto;"></p>
 <p>Now you need a file to explore. Feel free to use whatever you want but for our first use case I will use the well-known <code>gapminder</code> dataset provided by the gapminder package (click <a href="https://www.gapminder.org">here</a> if you do not know the gapminder initiative).</p>
@@ -180,7 +180,7 @@
 <p><img src="figures/ExPanD_simple_01.jpg" width="90%" style="display: block; margin: auto;"></p>
 <p>As can be seen by the bar chart, the gapminder dataset provides a balanced panel of 142 countries with 12 observations per country. The missing values graph shows no missing data across all variables. When you scroll down, you will see that the dataset contains three numerical variables. Play around with the histogram and the extreme observation table to learn more about these. The time trend graph and the quantile time trend communicate good news: the life expectancy is increasing over time world-wide. You can verify that the same holds true for the population of the sample countries and for their GDP per capita. You will also notice that for the latter two the cross-country distribution widens over time.</p>
 <p>The gapminder dataset is often used to document the strong positive association between GDP per capita and life expectancy. You can see this association in the correlation plot. The blue ellipsoid above (below) the diagonal visualizes the positive Pearson (Spearman) correlation of the two variables. If you are interested in the exact correlation values, hover over the ellipsoid with your mouse.</p>
-<p>The scatter plot and the regression analysis section allow you to explore this association in a little bit more detail. Below you will see a screenshot where I prepared a “Hans Rosling” scatter plot (click <a href="https://www.ted.com/talks/hans_rosling_shows_the_best_stats_you_ve_ever_seen">here</a> if you do not know the name). In addition, I estimated a by region OLS model with country fixed effects and standard errors clustered by country to verify that the association is not just driven by unobservable time-constant country heterogeneity.</p>
+<p>The scatter plot and the regression analysis section allow you to explore this association in a little bit more detail. Below you will see a screenshot where I prepared a “Hans Rosling” scatter plot (click <a href="https://www.ted.com/talks/hans_rosling_the_best_stats_you_ve_ever_seen">here</a> if you do not know the name). In addition, I estimated a by region OLS model with country fixed effects and standard errors clustered by country to verify that the association is not just driven by unobservable time-constant country heterogeneity.</p>
 <p><img src="figures/ExPanD_simple_02.jpg" width="90%" style="display: block; margin: auto;"></p>
 <p>Looking at the scatter plot you notice that there are some observations with extremely high GDP per capita that trigger the LOESS smoother line to get a negative slope. If you hover over the dots with your mouse you will see that these are observations from Kuwait. To what extent are our regression results affected by these extreme observations? To figure this out, scroll up and select to winsorize your data at the 1 % level. After doing this, the figure from above now looks like this.</p>
 <p><img src="figures/ExPanD_simple_03.jpg" width="90%" style="display: block; margin: auto;"></p>
@@ -287,7 +287,7 @@
 <h2 class="hasAnchor">
 <a href="#making-expand-available-to-users-without-providing-them-raw-data-access" class="anchor"></a>Making ExPanD available to users without providing them raw data access</h2>
 <p>In many instances, you as a researcher want to provide readers, editors and/or reviewers the opportunity to assess the robustness of your findings but are unable to provide them with the underlying data as this data is subject to commercial licensing or other usage restrictions. By uploading your ExPanD instance on a public server, you can make your results accessible without sharing the data. As shiny apps can be hosted on dedicated servers, this is easily achieved. Maybe you noticed the “Publish” icon in the top-right corner of your ExPanD window. Click on it to learn more about your options.</p>
-<p>As an example, you can access an ExPanD-based extension of a current working paper of our team <a href="http://jgassen.shinyapps.io/expacc/">here</a>.</p>
+<p>As an example, you can access an ExPanD-based extension of a current working paper of our team <a href="https://jgassen.shinyapps.io/expacc/">here</a>.</p>
 </div>
   </div>
 

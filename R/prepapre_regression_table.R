@@ -51,7 +51,9 @@ estimate_model <- function(df, dl) {
     }
   }
   if (type_str == "logit") {
-    model <- glm(f, family = "binomial", df)
+    model <- stats::glm(f, family = "binomial", df)
+    # Stargazer might identify glm models based on call (wout package)
+    model$call[1] <- parse(text = "glm()")[[1]]
     model$pseudo_r2 <- 1 - model$deviance / model$null.deviance
     model$success <- levels(as.factor(df[, dv]))[2]
     if (clusters[1] != "") {
@@ -66,6 +68,8 @@ estimate_model <- function(df, dl) {
   } else {
     if (feffects[1] == "") {
       model <- stats::lm(f, data=df)
+      # Stargazer identifies lm models based on call (wout package) ... sigh
+      model$call[1] <- parse(text = "lm()")[[1]]
     } else {
       # plm() is much faster when the dimension with more units is the first
       # index member. Why I have no idea.

@@ -1353,7 +1353,159 @@ E: return
 <p>… or by applying one model on different sub-samples.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">t &lt;-<span class="st"> </span><span class="kw"><a href="../reference/prepare_regression_table.html">prepare_regression_table</a></span>(r3win, <span class="st">"return"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"nioa"</span>, <span class="st">"accoa"</span>), <span class="dt">byvar=</span><span class="st">"period"</span>)</a>
 <a class="sourceLine" id="cb21-2" data-line-number="2">htmltools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/htmltools/topics/HTML">HTML</a></span>(t<span class="op">$</span>table)</a></code></pre></div>
- % Error: Unrecognized object type. % Error: Unrecognized object type. % Error: Unrecognized object type. % Error: Unrecognized object type.
+ <table class="table">
+<tr><td colspan="5" style="border-bottom: 1px solid black"></td></tr>
+<tr>
+<td style="text-align:left"></td>
+<td colspan="4"><em>Dependent variable:</em></td>
+</tr>
+<tr>
+<td></td>
+<td colspan="4" style="border-bottom: 1px solid black"></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td colspan="4">return</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td>Full Sample</td>
+<td>FY2014</td>
+<td>FY2015</td>
+<td>FY2016</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td>(1)</td>
+<td>(2)</td>
+<td>(3)</td>
+<td>(4)</td>
+</tr>
+<tr><td colspan="5" style="border-bottom: 1px solid black"></td></tr>
+<tr>
+<td style="text-align:left">nioa</td>
+<td>0.801<sup>***</sup>
+</td>
+<td>0.234<sup>*</sup>
+</td>
+<td>0.607<sup>***</sup>
+</td>
+<td>1.375<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td>(0.074)</td>
+<td>(0.139)</td>
+<td>(0.123)</td>
+<td>(0.119)</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">accoa</td>
+<td>-0.067</td>
+<td>0.014</td>
+<td>0.638<sup>***</sup>
+</td>
+<td>-1.224<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td>(0.132)</td>
+<td>(0.240)</td>
+<td>(0.205)</td>
+<td>(0.233)</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">Constant</td>
+<td>0.082<sup>***</sup>
+</td>
+<td>0.130<sup>***</sup>
+</td>
+<td>0.014</td>
+<td>0.096<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td>(0.006)</td>
+<td>(0.011)</td>
+<td>(0.011)</td>
+<td>(0.011)</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr><td colspan="5" style="border-bottom: 1px solid black"></td></tr>
+<tr>
+<td style="text-align:left">Estimator</td>
+<td>ols</td>
+<td>ols</td>
+<td>ols</td>
+<td>ols</td>
+</tr>
+<tr>
+<td style="text-align:left">Fixed effects</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td style="text-align:left">Std. errors clustered</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td style="text-align:left">Observations</td>
+<td>6,002</td>
+<td>1,817</td>
+<td>2,033</td>
+<td>2,152</td>
+</tr>
+<tr>
+<td style="text-align:left">R<sup>2</sup>
+</td>
+<td>0.023</td>
+<td>0.002</td>
+<td>0.033</td>
+<td>0.058</td>
+</tr>
+<tr>
+<td style="text-align:left">Adjusted R<sup>2</sup>
+</td>
+<td>0.023</td>
+<td>0.001</td>
+<td>0.032</td>
+<td>0.057</td>
+</tr>
+<tr><td colspan="5" style="border-bottom: 1px solid black"></td></tr>
+<tr>
+<td style="text-align:left"><em>Note:</em></td>
+<td colspan="4" style="text-align:right">
+<sup>*</sup>p&lt;0.1; <sup>**</sup>p&lt;0.05; <sup>***</sup>p&lt;0.01</td>
+</tr>
+</table>
 </div>
 <div id="conclusion" class="section level2">
 <h2 class="hasAnchor">

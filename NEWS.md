@@ -1,5 +1,9 @@
 # ExPanDaR 0.5.2.9000
 
+Bug fixes:
+
+* Fixed bug that caused stargazer not to render plain OLS models
+
 
 # ExPanDaR 0.5.2
 

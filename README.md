@@ -118,7 +118,7 @@ code file `ExPanDaR_examples.R` in the root directory.
 
 Besides providing the ExPanD app, ExPanDaR comes with a set of functions
 that might be helpful in your own exploratory data analysis workflow,
-e.g., functions to quicky produce standard tables and plots. See [this
+e.g., functions to quickly produce standard tables and plots. See [this
 vignette](https://joachim-gassen.github.io/ExPanDaR/articles/ExPanDaR-functions.html)
 for a quick walk-trough.
 

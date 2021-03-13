@@ -1,7 +1,8 @@
 # ExPanDaR 0.5.3.9000
 
-Vesion bump: Nothing new yet
+Minor Issues:
 
+* Switched back to `lfe` for `prepare_regression_table()` OLS regressions. `lfe`is back on CRAN and allows for multiple fixed effects and multi-level clustering. It is now being run with `cmethod='reghdfe'` to make clustered standard errors consistent with Stata's `reghdfe`
 
 # ExPanDaR 0.5.3
 

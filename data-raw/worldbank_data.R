@@ -1,10 +1,6 @@
-# (C) Joachim Gassen 2020, gassen@wiwi.hu-berlin.de, see LICENSE file for details
+# (C) Joachim Gassen 2021, gassen@wiwi.hu-berlin.de, see LICENSE file for details
 #
 # This code generates the Worldbank dataset.
-
-# The package {wbstats} is currently not available from CRAN so it needs to
-# be installed from Github
-# remotes::install_github("nset-ornl/wbstats")
 
 library(dplyr)
 library(tidyr)

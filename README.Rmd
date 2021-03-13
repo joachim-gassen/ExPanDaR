@@ -103,7 +103,7 @@ Some additional information on how to use ExPanD can be found in the code file `
 
 ## Use ExPanDaR functions in your own EDA workflow
 
-Besides providing the ExPanD app, ExPanDaR comes with a set of functions that might be helpful in your own exploratory data analysis workflow, e.g., functions to quicky produce standard tables and plots. See [this vignette](https://joachim-gassen.github.io/ExPanDaR/articles/ExPanDaR-functions.html) for a quick walk-trough.
+Besides providing the ExPanD app, ExPanDaR comes with a set of functions that might be helpful in your own exploratory data analysis workflow, e.g., functions to quickly produce standard tables and plots. See [this vignette](https://joachim-gassen.github.io/ExPanDaR/articles/ExPanDaR-functions.html) for a quick walk-trough.
 
 
 ## Further Information

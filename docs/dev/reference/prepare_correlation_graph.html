@@ -8,21 +8,36 @@
 
 <title>Prepares a Correlation Graph — prepare_correlation_graph • ExPanDaR</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,14 +45,13 @@
 
 
 
-<meta property="og:title" content="Prepares a Correlation Graph — prepare_correlation_graph" />
 
+<meta property="og:title" content="Prepares a Correlation Graph — prepare_correlation_graph" />
 <meta property="og:description" content="Reads a data frame and presents Pearson correlations above
 and Spearman correlations the diagonal using a fancy graph prepared
 by the package corrplot." />
-
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
+
 
 <meta name="robots" content="noindex">
 
@@ -61,9 +75,10 @@ by the package corrplot." />
   gtag('config', 'UA-119053376-1');
 </script>
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -85,7 +100,7 @@ by the package corrplot." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -120,11 +135,10 @@ by the package corrplot." />
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://www.github.com/joachim-gassen/ExPanDaR">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
     Code repository
   </a>
@@ -136,26 +150,25 @@ by the package corrplot." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Prepares a Correlation Graph</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/joachim-gassen/ExPanDaR/blob/master/R/prepapre_correlation_graph.R'><code>R/prepapre_correlation_graph.R</code></a></small>
     <div class="hidden name"><code>prepare_correlation_graph.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>Reads a data frame and presents Pearson correlations above
 and Spearman correlations the diagonal using a fancy graph prepared
 by the package <code>corrplot</code>.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>prepare_correlation_graph</span>(<span class='no'>df</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>prepare_correlation_graph</span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span></pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -165,20 +178,21 @@ by the package <code>corrplot</code>.</p>
 or logical and at least five observations.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The function directly renders the graph as produced by <code>corrplot</code>.
-In addition, it returns a list containing three items:</p><dl class='dl-horizontal'>
+In addition, it returns a list containing three items:</p><dl>
  <dt>"df_corr"</dt><dd><p>A data frame containing the correlations</p></dd>
  <dt>"df_prob"</dt><dd><p>A data frame containing the p-values of the correlations</p></dd>
  <dt>"df_n"</dt><dd><p>A data frame containing the number of observations used for the correlations</p></dd>
+
 </dl>
 
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>prepare_correlation_graph</span>(<span class='no'>mtcars</span>)</div><div class='img'><img src='prepare_correlation_graph-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; $df_corr
+    <pre class="examples"><div class='input'><span class='fu'>prepare_correlation_graph</span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>
+</div><div class='img'><img src='prepare_correlation_graph-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; $df_corr
 #&gt;             mpg        cyl       disp         hp        drat         wt
 #&gt; mpg   1.0000000 -0.8521620 -0.8475514 -0.7761684  0.68117191 -0.8676594
 #&gt; cyl  -0.9108013  1.0000000  0.9020329  0.8324475 -0.69993811  0.7824958
@@ -257,18 +271,13 @@ In addition, it returns a list containing three items:</p><dl class='dl-horizont
 #&gt; carb  32  32   32 32   32 32   32 32 32   32   32
 #&gt; </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -276,13 +285,16 @@ In addition, it returns a list containing three items:</p><dl class='dl-horizont
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

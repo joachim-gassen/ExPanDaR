@@ -24,13 +24,6 @@ estimate_model <- function(df, dl) {
   se <- NULL
   p <- NULL
   omit_vars <- NULL
-
-  if (length(feffects) > 2)
-    stop("Only up to two-dimensional fixed effect structures are supported")
-
-  if (clusters[1] != "" & any(! clusters %in% feffects))
-    stop("Only fixed effect variables can be used as clusters.")
-
   if (type_str == "auto") {
     if(!(is.factor(df[,dv]) | is.logical(df[,dv]))) type_str <- "ols"
     else type_str <- "logit"
@@ -39,7 +32,18 @@ estimate_model <- function(df, dl) {
     df[,feffects] <- lapply(as.data.frame(df[,feffects]), function (x) factor(x, ordered = FALSE))
   }
   if(type_str == "ols") {
-    f <- stats::as.formula(paste(dv, "~", paste(idvs, collapse = " + ")))
+    if (feffects[1] != "" & clusters[1] != "") {
+      f <- stats::as.formula(paste(dv, "~", paste(idvs, collapse = " + "), " | ",
+                                   paste(feffects, collapse = " + "), " | 0 | ", paste(clusters, collapse = " + ")))
+    } else if (feffects[1] != "") {
+      f <- stats::as.formula(paste(dv, "~", paste(idvs, collapse = " + "), " | ",
+                                   paste(feffects, collapse = " + ")))
+    } else if (clusters[1] != "") {
+      f <- stats::as.formula(paste(dv, "~", paste(idvs, collapse = " + "), " | 0 | 0 | ",
+                                   paste(clusters, collapse = " + ")))
+    } else {
+      f <- stats::as.formula(paste(dv, "~", paste(idvs, collapse = " + ")))
+    }
   } else if (nlevels(as.factor(df[,dv])) > 2) {
     stop("multinomial logit is not implemented. Sorry.")
   } else {
@@ -51,9 +55,7 @@ estimate_model <- function(df, dl) {
     }
   }
   if (type_str == "logit") {
-    model <- stats::glm(f, family = "binomial", df)
-    # Stargazer might identify glm models based on call (wout package)
-    model$call[1] <- parse(text = "glm()")[[1]]
+    model <- glm(f, family = "binomial", df)
     model$pseudo_r2 <- 1 - model$deviance / model$null.deviance
     model$success <- levels(as.factor(df[, dv]))[2]
     if (clusters[1] != "") {
@@ -63,50 +65,11 @@ estimate_model <- function(df, dl) {
       p <- test[,4]
     }
     if (feffects[1] != "") {
-        omit_vars <- names(model$coefficients)[! names(model$coefficients) %in% idvs]
+      omit_vars <- names(model$coefficients)[! names(model$coefficients) %in% idvs]
     }
   } else {
-    if (feffects[1] == "") {
-      model <- stats::lm(f, data=df)
-      # Stargazer identifies lm models based on call (wout package) ... sigh
-      model$call[1] <- parse(text = "lm()")[[1]]
-    } else {
-      # plm() is much faster when the dimension with more units is the first
-      # index member. Why I have no idea.
-      if (length(feffects) > 1) {
-        if (
-          length(unique(df[, feffects[2]])) > length(unique(df[ ,feffects[1]]))
-        ) {
-          feffects <- c(feffects[2], feffects[1])
-        }
-      }
-      df <- plm::pdata.frame(df, feffects)
-      if (length(feffects) == 1) {
-        model <- plm::plm(f, df, model = "within", effect = "individual")
-        if (clusters[1] != "") {
-          vcov <- plm::vcovHC(model, type="sss", cluster="group")
-          test <- lmtest::coeftest(model, vcov)
-          se <- test[,2]
-          p <- test[,4]
-        }
-      } else {
-        model <- plm::plm(f, df, model = "within", effect = "twoways")
-        if (clusters[1] != "") {
-          if (length(clusters) == 2) {
-            vcov <- plm::vcovDC(model, type="sss")
-          } else if (clusters[1] == feffects[1]) {
-            vcov <- plm::vcovHC(model, type="sss", cluster="group")
-          } else vcov <- plm::vcovHC(model, type="sss", cluster="time")
-          test <- lmtest::coeftest(model, vcov)
-          se <- test[,2]
-          p <- test[,4]
-        }
-      }
-      # Stargazer identifies plm models based on call (wout package) ... sigh
-      model$call[1] <- parse(text = "plm()")[[1]]
-    }
+    model <- lfe::felm(f, data=df, psdef=FALSE, cmethod='reghdfe')
   }
-
   list(
     model = model, type_str = type_str, fe_str = fe_str, cl_str = cl_str,
     p = p, se = se, omit_vars = omit_vars
@@ -136,20 +99,17 @@ estimate_model <- function(df, dl) {
 #' }
 #'
 #' @details
-#' This is a wrapper function calling the stargazer package. For numeric
-#'   dependent variables the models are estimated using \code{\link[stats]{lm}}
-#'   for models without and \code{\link[plm]{plm}} for models with fixed
-#'   effects. Binary dependent variable models are estimated using
-#'   \code{\link[stats]{glm}} (with \code{family = binomial(link="logit")}).
-#'   You can override this behavior by specifying the model with the
-#'   \code{models} parameter. Multinomial logit models are not supported.
-#'   Clustered standard errors are estimated using \code{plm}'s robust
-#'   covariance matrix estimators for OLS and
-#'   \code{\link[multiwayvcov]{cluster.vcov}} for logit models.
-#'   Only up to two dimensions are supported for fixed effects and standard
-#'   error clusters need to be also present as fixed effects.
-#'   If run with \code{byvar}, only levels that have more observations than
-#'   coefficients are estimated.
+#' This is a wrapper function calling the stargazer package. Depending on whether the dependent variable
+#'   is numeric, logical or a factor with two levels, the models are estimated
+#'   using \code{\link[lfe]{felm}} (for numeric dependent variables)
+#'   or \code{\link[stats]{glm}} (with \code{family = binomial(link="logit")}) (for two-level factors or logical variables).
+#'   You can override this behavior by specifying the model with the \code{models} parameter.
+#'   Multinomial logit models are not supported.
+#'   For \code{\link[stats]{glm}}, clustered standard errors are estimated using
+#'   \code{\link[multiwayvcov]{cluster.vcov}}.
+#'   For \code{\link[lfe]{felm}}, it is being run with \code{cmethod='reghdfe'}
+#'   to make clustered standard errors consistent with Stata's 'reghdfe'.
+#'   If run with \code{byvar}, only levels that have more observations than coefficients are estimated.
 #'
 #'
 #' @examples
@@ -179,7 +139,6 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
   if ((length(dvs) > 1) &&
       ((length(dvs) != length(idvs)) | (length(dvs) != length(feffects)) | (length(dvs) != length(clusters) | (length(dvs) != length(models)))))
     stop("'dvs', 'idvs', 'feffects', 'clusters' and 'models' need to be of equal lenghth.")
-
   datalist <- list()
   if (byvar != "") {
     datalist <- list(dvs = dvs,
@@ -250,18 +209,12 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
     if (models[[i]]$cl_str != "")  cl_str <- c(cl_str, models[[i]]$cl_str)
     else cl_str <- c(cl_str, "No")
 
-    n_str <- c(n_str, format(stats::nobs(m[[i]]), big.mark = ","))
+    n_str <- c(n_str, format(m[[i]]$N, big.mark = ","))
 
     if (models[[i]]$type_str == "ols") {
       ols_present <- TRUE
-      if (models[[i]]$fe_str == "") {
-        r2_str <- c(r2_str, sprintf("%.3f", summary(m[[i]])$r.squared))
-        adjr2_str <- c(adjr2_str, sprintf("%.3f", summary(m[[i]])$adj.r.squared))
-      } else {
-        r2_str <- c(r2_str, sprintf("%.3f", summary(m[[i]])$r.squared)[1])
-        adjr2_str <- c(adjr2_str, sprintf("%.3f", summary(m[[i]])$r.squared)[2])
-      }
-
+      r2_str <- c(r2_str, sprintf("%.3f", summary(m[[i]])$r.squared))
+      adjr2_str <- c(adjr2_str, sprintf("%.3f", summary(m[[i]])$adj.r.squared))
       success_str <- c(success_str, "")
       pr2_str <- c(pr2_str, "")
     }
@@ -309,26 +262,21 @@ prepare_regression_table <- function(df, dvs, idvs, feffects = rep("", length(dv
     labels <- gsub("&", "+", labels, fixed = TRUE)
     labels <- gsub("_", "\\_", labels, fixed = TRUE)
     labels <- gsub("$", "USD", labels, fixed = TRUE)
-    htmlout <- utils::capture.output(stargazer::stargazer(m,
-                                                   type=format,
-                                                   column.labels = labels,
-                                                   dep.var.labels = dvs,
-                                                   model.names = FALSE,
-                                                   omit.stat = "all",
-                                                   omit = omit_vars,
-                                                   se = se,
-                                                   p = p,
-                                                   add.lines = add.lines))
-  } else htmlout <- utils::capture.output(stargazer::stargazer(m,
-                                         type=format,
-                                         dep.var.labels = dvs,
-                                         model.names = FALSE,
-                                         multicolumn = FALSE,
-                                         omit.stat = "all",
-                                         omit = omit_vars,
-                                         se = se,
-                                         p = p,
-                                         add.lines = add.lines))
-
+    htmlout <- utils::capture.output(
+      stargazer::stargazer(
+        m, type = format, column.labels = labels, dep.var.labels = dvs,
+        model.names = FALSE, omit.stat = "all", omit = omit_vars,
+        se = se, p = p, add.lines = add.lines
+      )
+    )
+  } else {
+    htmlout <- utils::capture.output(
+      stargazer::stargazer(
+        m, type=format, dep.var.labels = dvs, model.names = FALSE,
+        multicolumn = FALSE, omit.stat = "all", omit = omit_vars,
+        se = se, p = p, add.lines = add.lines
+      )
+    )
+  }
   list(models = ret, table = htmlout)
 }

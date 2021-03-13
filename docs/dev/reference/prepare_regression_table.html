@@ -8,21 +8,36 @@
 
 <title>Prepares a Regression Table — prepare_regression_table • ExPanDaR</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,12 +45,11 @@
 
 
 
+
 <meta property="og:title" content="Prepares a Regression Table — prepare_regression_table" />
-
 <meta property="og:description" content="Builds a regression table based on a set of user-specified models or a single model and a partitioning variable." />
-
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
+
 
 <meta name="robots" content="noindex">
 
@@ -59,9 +73,10 @@
   gtag('config', 'UA-119053376-1');
 </script>
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -83,7 +98,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -118,11 +133,10 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://www.github.com/joachim-gassen/ExPanDaR">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
     Code repository
   </a>
@@ -134,33 +148,32 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Prepares a Regression Table</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/joachim-gassen/ExPanDaR/blob/master/R/prepapre_regression_table.R'><code>R/prepapre_regression_table.R</code></a></small>
     <div class="hidden name"><code>prepare_regression_table.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>Builds a regression table based on a set of user-specified models or a single model and a partitioning variable.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>prepare_regression_table</span>(
-  <span class='no'>df</span>,
-  <span class='no'>dvs</span>,
-  <span class='no'>idvs</span>,
-  <span class='kw'>feffects</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='st'>""</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>dvs</span>)),
-  <span class='kw'>clusters</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='st'>""</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>dvs</span>)),
-  <span class='kw'>models</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='st'>"auto"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>dvs</span>)),
-  <span class='kw'>byvar</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"html"</span>
-)</pre>
-    
+    <pre class="usage"><span class='fu'>prepare_regression_table</span><span class='op'>(</span>
+  <span class='va'>df</span>,
+  <span class='va'>dvs</span>,
+  <span class='va'>idvs</span>,
+  feffects <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>""</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>dvs</span><span class='op'>)</span><span class='op'>)</span>,
+  clusters <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>""</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>dvs</span><span class='op'>)</span><span class='op'>)</span>,
+  models <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"auto"</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>dvs</span><span class='op'>)</span><span class='op'>)</span>,
+  byvar <span class='op'>=</span> <span class='st'>""</span>,
+  format <span class='op'>=</span> <span class='st'>"html"</span>
+<span class='op'>)</span></pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -194,49 +207,46 @@
     </tr>
     <tr>
       <th>format</th>
-      <td><p>A character scalar that is passed on <code><a href='https://www.rdocumentation.org/packages/stargazer/topics/stargazer'>stargazer</a></code> as <code>type</code> to determine the presentation
+      <td><p>A character scalar that is passed on <code><a href='https://rdrr.io/pkg/stargazer/man/stargazer.html'>stargazer</a></code> as <code>type</code> to determine the presentation
 format ("html", "text", or "latex").</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list containing two items</p><dl class='dl-horizontal'>
+    <p>A list containing two items</p><dl>
  <dt>"models"</dt><dd><p>A list containing the model results and by values if appropriate</p></dd>
- <dt>"table"</dt><dd><p>The output of <code><a href='https://www.rdocumentation.org/packages/stargazer/topics/stargazer'>stargazer</a></code> containing the table</p></dd>
+ <dt>"table"</dt><dd><p>The output of <code><a href='https://rdrr.io/pkg/stargazer/man/stargazer.html'>stargazer</a></code> containing the table</p></dd>
+
 </dl>
 
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This is a wrapper function calling the stargazer package. For numeric
-  dependent variables the models are estimated using <code><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></code>
-  for models without and <code><a href='https://www.rdocumentation.org/packages/plm/topics/plm'>plm</a></code> for models with fixed
-  effects. Binary dependent variable models are estimated using
-  <code><a href='https://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></code> (with <code>family = binomial(link="logit")</code>).
-  You can override this behavior by specifying the model with the
-  <code>models</code> parameter. Multinomial logit models are not supported.
-  Clustered standard errors are estimated using <code>plm</code>'s robust
-  covariance matrix estimators for OLS and
-  <code><a href='https://www.rdocumentation.org/packages/multiwayvcov/topics/cluster.vcov'>cluster.vcov</a></code> for logit models.
-  Only up to two dimensions are supported for fixed effects and standard
-  error clusters need to be also present as fixed effects.
-  If run with <code>byvar</code>, only levels that have more observations than
-  coefficients are estimated.</p>
-    
+    <p>This is a wrapper function calling the stargazer package. Depending on whether the dependent variable
+  is numeric, logical or a factor with two levels, the models are estimated
+  using <code><a href='https://rdrr.io/pkg/lfe/man/felm.html'>felm</a></code> (for numeric dependent variables)
+  or <code><a href='https://rdrr.io/r/stats/glm.html'>glm</a></code> (with <code>family = binomial(link="logit")</code>) (for two-level factors or logical variables).
+  You can override this behavior by specifying the model with the <code>models</code> parameter.
+  Multinomial logit models are not supported.
+  For <code><a href='https://rdrr.io/r/stats/glm.html'>glm</a></code>, clustered standard errors are estimated using
+  <code><a href='https://rdrr.io/pkg/multiwayvcov/man/cluster.vcov.html'>cluster.vcov</a></code>.
+  For <code><a href='https://rdrr.io/pkg/lfe/man/felm.html'>felm</a></code>, it is being run with <code>cmethod='reghdfe'</code>
+  to make clustered standard errors consistent with Stata's 'reghdfe'.
+  If run with <code>byvar</code>, only levels that have more observations than coefficients are estimated.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>as.factor</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Round'>floor</a></span>(<span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/time'>time</a></span>(<span class='kw pkg'>datasets</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/datasets/topics/EuStockMarkets'>EuStockMarkets</a></span>))),
-                 <span class='kw pkg'>datasets</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/datasets/topics/EuStockMarkets'>EuStockMarkets</a></span>)
-<span class='no'>dvs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"DAX"</span>, <span class='st'>"SMI"</span>, <span class='st'>"CAC"</span>, <span class='st'>"FTSE"</span>)
-<span class='no'>idvs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"SMI"</span>, <span class='st'>"CAC"</span>, <span class='st'>"FTSE"</span>),
-            <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"DAX"</span>, <span class='st'>"CAC"</span>, <span class='st'>"FTSE"</span>),
-            <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"SMI"</span>, <span class='st'>"DAX"</span>, <span class='st'>"FTSE"</span>),
-            <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"SMI"</span>, <span class='st'>"CAC"</span>, <span class='st'>"DAX"</span>))
-<span class='no'>feffects</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='st'>"year"</span>, <span class='st'>"year"</span>, <span class='st'>"year"</span>, <span class='st'>"year"</span>)
-<span class='no'>clusters</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='st'>"year"</span>, <span class='st'>"year"</span>, <span class='st'>"year"</span>, <span class='st'>"year"</span>)
-<span class='no'>t</span> <span class='kw'>&lt;-</span> <span class='fu'>prepare_regression_table</span>(<span class='no'>df</span>, <span class='no'>dvs</span>, <span class='no'>idvs</span>, <span class='no'>feffects</span>, <span class='no'>clusters</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"text"</span>)
-<span class='no'>t</span>$<span class='no'>table</span></div><div class='output co'>#&gt;  [1] ""                                                         
+    <pre class="examples"><div class='input'><span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>year <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Round.html'>floor</a></span><span class='op'>(</span><span class='fu'>stats</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/stats/time.html'>time</a></span><span class='op'>(</span><span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/EuStockMarkets.html'>EuStockMarkets</a></span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
+                 <span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/EuStockMarkets.html'>EuStockMarkets</a></span><span class='op'>)</span>
+<span class='va'>dvs</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"DAX"</span>, <span class='st'>"SMI"</span>, <span class='st'>"CAC"</span>, <span class='st'>"FTSE"</span><span class='op'>)</span>
+<span class='va'>idvs</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"SMI"</span>, <span class='st'>"CAC"</span>, <span class='st'>"FTSE"</span><span class='op'>)</span>,
+            <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"DAX"</span>, <span class='st'>"CAC"</span>, <span class='st'>"FTSE"</span><span class='op'>)</span>,
+            <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"SMI"</span>, <span class='st'>"DAX"</span>, <span class='st'>"FTSE"</span><span class='op'>)</span>,
+            <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"SMI"</span>, <span class='st'>"CAC"</span>, <span class='st'>"DAX"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>feffects</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"year"</span>, <span class='st'>"year"</span>, <span class='st'>"year"</span>, <span class='st'>"year"</span><span class='op'>)</span>
+<span class='va'>clusters</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"year"</span>, <span class='st'>"year"</span>, <span class='st'>"year"</span>, <span class='st'>"year"</span><span class='op'>)</span>
+<span class='va'>t</span> <span class='op'>&lt;-</span> <span class='fu'>prepare_regression_table</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>dvs</span>, <span class='va'>idvs</span>, <span class='va'>feffects</span>, <span class='va'>clusters</span>, format <span class='op'>=</span> <span class='st'>"text"</span><span class='op'>)</span>
+<span class='va'>t</span><span class='op'>$</span><span class='va'>table</span>
+</div><div class='output co'>#&gt;  [1] ""                                                         
 #&gt;  [2] "========================================================="
 #&gt;  [3] "                              Dependent variable:        "
 #&gt;  [4] "                      -----------------------------------"
@@ -249,7 +259,7 @@ format ("html", "text", or "latex").</p></td>
 #&gt; [11] "DAX                            0.864*** 0.664***  -0.188 "
 #&gt; [12] "                               (0.169)  (0.141)  (0.180) "
 #&gt; [13] "                                                         "
-#&gt; [14] "CAC                   0.735***  -0.204            0.188* "
+#&gt; [14] "CAC                   0.735***  -0.204            0.188  "
 #&gt; [15] "                      (0.111)  (0.218)           (0.102) "
 #&gt; [16] "                                                         "
 #&gt; [17] "FTSE                   -0.124  0.722***  0.112           "
@@ -260,11 +270,12 @@ format ("html", "text", or "latex").</p></td>
 #&gt; [22] "Fixed effects           year     year     year     year  "
 #&gt; [23] "Std. errors clustered   year     year     year     year  "
 #&gt; [24] "Observations           1,860    1,860    1,860    1,860  "
-#&gt; [25] "R2                     0.900    0.885    0.811    0.747  "
-#&gt; [26] "Adjusted R2            0.900    0.884    0.810    0.746  "
+#&gt; [25] "R2                     0.994    0.995    0.981    0.989  "
+#&gt; [26] "Adjusted R2            0.994    0.995    0.981    0.989  "
 #&gt; [27] "========================================================="
-#&gt; [28] "Note:                         *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01"</div><div class='input'><span class='no'>t</span> <span class='kw'>&lt;-</span> <span class='fu'>prepare_regression_table</span>(<span class='no'>df</span>, <span class='st'>"DAX"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"SMI"</span>, <span class='st'>"CAC"</span>, <span class='st'>"FTSE"</span>), <span class='kw'>byvar</span><span class='kw'>=</span><span class='st'>"year"</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"text"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>t</span>$<span class='no'>table</span>)</div><div class='output co'>#&gt;  [1] ""                                                                                                                                  
+#&gt; [28] "Note:                         *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01"</div><div class='input'><span class='va'>t</span> <span class='op'>&lt;-</span> <span class='fu'>prepare_regression_table</span><span class='op'>(</span><span class='va'>df</span>, <span class='st'>"DAX"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"SMI"</span>, <span class='st'>"CAC"</span>, <span class='st'>"FTSE"</span><span class='op'>)</span>, byvar<span class='op'>=</span><span class='st'>"year"</span>, format <span class='op'>=</span> <span class='st'>"text"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>t</span><span class='op'>$</span><span class='va'>table</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] ""                                                                                                                                  
 #&gt;  [2] "=================================================================================================================================="
 #&gt;  [3] "                                                                  Dependent variable:                                             "
 #&gt;  [4] "                      ------------------------------------------------------------------------------------------------------------"
@@ -294,20 +305,13 @@ format ("html", "text", or "latex").</p></td>
 #&gt; [28] "=================================================================================================================================="
 #&gt; [29] "Note:                                                                                                  *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01"</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -315,13 +319,16 @@ format ("html", "text", or "latex").</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

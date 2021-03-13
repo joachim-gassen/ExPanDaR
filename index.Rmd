@@ -107,7 +107,7 @@ ExPanD(df = russell_3000,
 
 Besides providing the ExPanD app, ExPanDaR comes with a set of functions that 
 might be helpful in your own exploratory data analysis workflow, e.g., functions
-to quicky produce standard tables and plots. See the article "Using the 
+to quickly produce standard tables and plots. See the article "Using the 
 functions of the ExPanDaR package" on this page for a quick walk-trough.
 
 

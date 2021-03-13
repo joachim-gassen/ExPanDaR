@@ -12,7 +12,7 @@
 # In other words: You cannot replicate the worldscope_3000
 # dataset by running this code.
 #
-# Obviuously this code assumes no copyright on the obtained data.
+# Obviously this code assumes no copyright on the obtained data.
 # Copyright remains with the original data producers.
 
 # clear workspace

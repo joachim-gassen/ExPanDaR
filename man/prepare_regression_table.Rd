@@ -44,20 +44,17 @@ A list containing two items
 Builds a regression table based on a set of user-specified models or a single model and a partitioning variable.
 }
 \details{
-This is a wrapper function calling the stargazer package. For numeric
-  dependent variables the models are estimated using \code{\link[stats]{lm}}
-  for models without and \code{\link[plm]{plm}} for models with fixed
-  effects. Binary dependent variable models are estimated using
-  \code{\link[stats]{glm}} (with \code{family = binomial(link="logit")}).
-  You can override this behavior by specifying the model with the
-  \code{models} parameter. Multinomial logit models are not supported.
-  Clustered standard errors are estimated using \code{plm}'s robust
-  covariance matrix estimators for OLS and
-  \code{\link[multiwayvcov]{cluster.vcov}} for logit models.
-  Only up to two dimensions are supported for fixed effects and standard
-  error clusters need to be also present as fixed effects.
-  If run with \code{byvar}, only levels that have more observations than
-  coefficients are estimated.
+This is a wrapper function calling the stargazer package. Depending on whether the dependent variable
+  is numeric, logical or a factor with two levels, the models are estimated
+  using \code{\link[lfe]{felm}} (for numeric dependent variables)
+  or \code{\link[stats]{glm}} (with \code{family = binomial(link="logit")}) (for two-level factors or logical variables).
+  You can override this behavior by specifying the model with the \code{models} parameter.
+  Multinomial logit models are not supported.
+  For \code{\link[stats]{glm}}, clustered standard errors are estimated using
+  \code{\link[multiwayvcov]{cluster.vcov}}.
+  For \code{\link[lfe]{felm}}, it is being run with \code{cmethod='reghdfe'}
+  to make clustered standard errors consistent with Stata's 'reghdfe'.
+  If run with \code{byvar}, only levels that have more observations than coefficients are estimated.
 }
 \examples{
 df <- data.frame(year = as.factor(floor(stats::time(datasets::EuStockMarkets))),

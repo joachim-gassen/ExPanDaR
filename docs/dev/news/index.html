@@ -8,21 +8,36 @@
 
 <title>Changelog • ExPanDaR</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,10 +45,10 @@
 
 
 
-<meta property="og:title" content="Changelog" />
 
+<meta property="og:title" content="Changelog" />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
+
 
 <meta name="robots" content="noindex">
 
@@ -57,9 +72,10 @@
   gtag('config', 'UA-119053376-1');
 </script>
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -81,7 +97,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -116,11 +132,10 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://www.github.com/joachim-gassen/ExPanDaR">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
     Code repository
   </a>
@@ -132,33 +147,38 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
-      
+      <h1 data-toc-skip>Changelog <small></small></h1>
+      <small>Source: <a href='https://github.com/joachim-gassen/ExPanDaR/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="expandar-0-5-3-9000" class="section level1">
-<h1 class="page-header">
-<a href="#expandar-0-5-3-9000" class="anchor"></a>ExPanDaR 0.5.3.9000<small> Unreleased </small>
+    <div id="expandar-0539000" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.3.9000">
+<a href="#expandar-0539000" class="anchor"></a>ExPanDaR 0.5.3.9000<small> Unreleased </small>
 </h1>
-<p>Vesion bump: Nothing new yet</p>
+<p>Minor Issues:</p>
+<ul>
+<li>Switched back to <code>lfe</code> for <code><a href="../reference/prepare_regression_table.html">prepare_regression_table()</a></code> OLS regressions. <code>lfe</code>is back on CRAN and allows for multiple fixed effects and multi-level clustering. It is now being run with <code>cmethod='reghdfe'</code> to make clustered standard errors consistent with Stata’s <code>reghdfe</code>
+</li>
+</ul>
 </div>
-    <div id="expandar-0-5-3" class="section level1">
-<h1 class="page-header">
-<a href="#expandar-0-5-3" class="anchor"></a>ExPanDaR 0.5.3<small> 2020-12-06 </small>
+    <div id="expandar-053" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.3">
+<a href="#expandar-053" class="anchor"></a>ExPanDaR 0.5.3<small> 2020-12-06 </small>
 </h1>
 <p>Bug fixes:</p>
 <ul>
 <li>Fixed bug that caused stargazer not to render plain OLS models</li>
 </ul>
 </div>
-    <div id="expandar-0-5-2" class="section level1">
-<h1 class="page-header">
-<a href="#expandar-0-5-2" class="anchor"></a>ExPanDaR 0.5.2<small> 2020-12-05 </small>
+    <div id="expandar-052" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.2">
+<a href="#expandar-052" class="anchor"></a>ExPanDaR 0.5.2<small> 2020-12-05 </small>
 </h1>
 <p>Extensions:</p>
 <ul>
@@ -179,9 +199,9 @@
 <li><p>Spelling</p></li>
 </ul>
 </div>
-    <div id="expandar-0-5-1" class="section level1">
-<h1 class="page-header">
-<a href="#expandar-0-5-1" class="anchor"></a>ExPanDaR 0.5.1<small> 2020-01-29 </small>
+    <div id="expandar-051" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.1">
+<a href="#expandar-051" class="anchor"></a>ExPanDaR 0.5.1<small> 2020-01-29 </small>
 </h1>
 <p>Extensions:</p>
 <ul>
@@ -200,9 +220,9 @@
 <li><p>Changed shinyapps.io URLs in vignettes to plain HTTP as win-builder seems to have an issue with the SSL handshake of shinyapps.io</p></li>
 </ul>
 </div>
-    <div id="expandar-0-5-0" class="section level1">
-<h1 class="page-header">
-<a href="#expandar-0-5-0" class="anchor"></a>ExPanDaR 0.5.0<small> 2020-01-10 </small>
+    <div id="expandar-050" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.0">
+<a href="#expandar-050" class="anchor"></a>ExPanDaR 0.5.0<small> 2020-01-10 </small>
 </h1>
 <p>Extensions:</p>
 <ul>
@@ -215,9 +235,9 @@
 <li><p>Typo fixes</p></li>
 </ul>
 </div>
-    <div id="expandar-0-4-0" class="section level1">
-<h1 class="page-header">
-<a href="#expandar-0-4-0" class="anchor"></a>ExPanDaR 0.4.0<small> 2019-04-06 </small>
+    <div id="expandar-040" class="section level1">
+<h1 class="page-header" data-toc-text="0.4.0">
+<a href="#expandar-040" class="anchor"></a>ExPanDaR 0.4.0<small> 2019-04-06 </small>
 </h1>
 <p>Extensions:</p>
 <ul>
@@ -241,15 +261,15 @@
 <li><p>Marginally improved error checking for config upload</p></li>
 </ul>
 </div>
-    <div id="expandar-0-3-0" class="section level1">
-<h1 class="page-header">
-<a href="#expandar-0-3-0" class="anchor"></a>ExPanDaR 0.3.0<small> 2018-10-12 </small>
+    <div id="expandar-030" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.0">
+<a href="#expandar-030" class="anchor"></a>ExPanDaR 0.3.0<small> 2018-10-12 </small>
 </h1>
 <p>Extensions:</p>
 <ul>
 <li><p>Removed the requirement for at least one non-numerical variable</p></li>
 <li><p>Added by group violin plot</p></li>
-<li><p>Included <code>!</code> and <code><a href="https://www.rdocumentation.org/packages/base/topics/NA">is.na()</a></code> as allowed functions for user defined variables</p></li>
+<li><p>Included <code><a href="https://rdrr.io/r/base/Logic.html">!</a></code> and <code><a href="https://rdrr.io/r/base/NA.html">is.na()</a></code> as allowed functions for user defined variables</p></li>
 <li><p>Introduced the option to change the order of reported components and to exclude selected components</p></li>
 <li><p>Added clustered standard errors and fixed effects for logit models in <code><a href="../reference/prepare_regression_table.html">prepare_regression_table()</a></code></p></li>
 <li><p>Implemented binary response logit models in <code><a href="../reference/ExPanD.html">ExPanD()</a></code></p></li>
@@ -271,13 +291,13 @@
 <li><p>Removed the <code>drop_undersore</code> parameter in <code><a href="../reference/prepare_regression_table.html">prepare_regression_table()</a></code> (no longer needed)</p></li>
 <li><p>Work-around for special characters in stargazer <code>column.labels</code></p></li>
 <li><p>Marginally improved error handling for user provided data files</p></li>
-<li><p>Allowed <code><a href="../reference/treat_outliers.html">treat_outliers()</a></code> to route parameters through to <code><a href="https://www.rdocumentation.org/packages/stats/topics/quantile">stats::quantile()</a></code> (needed for type parameter)</p></li>
+<li><p>Allowed <code><a href="../reference/treat_outliers.html">treat_outliers()</a></code> to route parameters through to <code><a href="https://rdrr.io/r/stats/quantile.html">stats::quantile()</a></code> (needed for type parameter)</p></li>
 <li><p>Changed <code>NA</code> handling in <code>prepare_graph</code> type functions</p></li>
 </ul>
 </div>
-    <div id="expandar-0-2-0" class="section level1">
-<h1 class="page-header">
-<a href="#expandar-0-2-0" class="anchor"></a>ExPanDaR 0.2.0<small> 2018-05-11 </small>
+    <div id="expandar-020" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.0">
+<a href="#expandar-020" class="anchor"></a>ExPanDaR 0.2.0<small> 2018-05-11 </small>
 </h1>
 <ul>
 <li>Initial version on CRAN</li>
@@ -285,23 +305,14 @@
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#expandar-0-5-3-9000">0.5.3.9000</a></li>
-        <li><a href="#expandar-0-5-3">0.5.3</a></li>
-        <li><a href="#expandar-0-5-2">0.5.2</a></li>
-        <li><a href="#expandar-0-5-1">0.5.1</a></li>
-        <li><a href="#expandar-0-5-0">0.5.0</a></li>
-        <li><a href="#expandar-0-4-0">0.4.0</a></li>
-        <li><a href="#expandar-0-3-0">0.3.0</a></li>
-        <li><a href="#expandar-0-2-0">0.2.0</a></li>
-      </ul>
-    </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -309,13 +320,16 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

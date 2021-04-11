@@ -66,13 +66,13 @@ devtools::check_rhub(platforms = c(
 # Once you are happy with the check feedback is it time to commit the
 # release candidate to Github.
 
-# After commiting, pull the release candidate to your other development
+# After committing, pull the release candidate to your other development
 # environments and run local checks there. Document the success in
 # cran-comments.md.
 
 devtools::check(args = c('--as-cran'))
 
-# Wait to hear what Trevis has to say and document the success in
+# Wait to hear what Travis has to say and document the success in
 # cran-comments.md.
 
 # Time to release!
@@ -81,7 +81,7 @@ devtools::release()
 
 # After the release was accepted to CRAN, tag the GitHub commit.
 
-# Then delete CRAN-RELEASE file created by 'devools' and version bumb
+# Then delete CRAN-RELEASE file created by 'devools' and version bump
 # DESCRIPTION and NEWS.md to their development version (add .9000) and prepare
 # the documentation for the new development version.
 

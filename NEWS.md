@@ -1,5 +1,10 @@
 # ExPanDaR 0.5.3.9000
 
+Extensions:
+
+* Added a `save_settings_option` to `ExPanD()` defaulting to `TRUE` so that users can start the app without the settings dialog at the bottom (issue #8)
+
+
 Minor Issues:
 
 * Switched back to `lfe` for `prepare_regression_table()` OLS regressions. `lfe`is back on CRAN and allows for multiple fixed effects and multi-level clustering. It is now being run with `cmethod='reghdfe'` to make clustered standard errors consistent with Stata's `reghdfe`

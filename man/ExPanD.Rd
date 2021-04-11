@@ -23,6 +23,7 @@ ExPanD(
     corrplot = TRUE, scatter_plot = TRUE, regression = TRUE),
   html_blocks = NULL,
   export_nb_option = FALSE,
+  save_settings_option = TRUE,
   store_encrypted = FALSE,
   key_phrase = "What a wonderful key",
   debug = FALSE,
@@ -105,6 +106,10 @@ ExPanD report.}
 \item{export_nb_option}{Do you want to give the user the option to download your
 data and an R notebook containing code for the analyses that \code{ExPanD} displays?
 Defaults to \code{FALSE}.}
+
+\item{save_settings_option}{Do you want to give the user the option to save
+and/or load the settings of the ExPanD app to their local environment?
+Defaults to \code{TRUE}.}
 
 \item{store_encrypted}{Do you want the user-side saved config files to be
 encrypted? A security measure to avoid that users can inject arbitrary code

@@ -16,3 +16,4 @@
 ^CRAN-RELEASE$
 ^cran_submission_process.R$
 ^vehicles.csv$
+^pkgdown$

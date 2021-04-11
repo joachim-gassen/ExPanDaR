@@ -161,6 +161,10 @@
 <h1 class="page-header" data-toc-text="0.5.3.9000">
 <a href="#expandar-0539000" class="anchor"></a>ExPanDaR 0.5.3.9000<small> Unreleased </small>
 </h1>
+<p>Extensions:</p>
+<ul>
+<li>Added a <code>save_settings_option</code> to <code><a href="../reference/ExPanD.html">ExPanD()</a></code> defaulting to <code>TRUE</code> so that users can start the app without the settings dialog at the bottom (issue <a href='https://github.com/joachim-gassen/ExPanDaR/issues/8'>#8</a>)</li>
+</ul>
 <p>Minor Issues:</p>
 <ul>
 <li>Switched back to <code>lfe</code> for <code><a href="../reference/prepare_regression_table.html">prepare_regression_table()</a></code> OLS regressions. <code>lfe</code>is back on CRAN and allows for multiple fixed effects and multi-level clustering. It is now being run with <code>cmethod='reghdfe'</code> to make clustered standard errors consistent with Stata’s <code>reghdfe</code>

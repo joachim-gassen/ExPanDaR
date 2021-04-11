@@ -1,5 +1,5 @@
 # --- Header -------------------------------------------------------------------
-# (C) Joachim Gassen 2020, gassen@wiwi.hu-berlin.de, see LICENSE for license
+# (C) Joachim Gassen 2021, gassen@wiwi.hu-berlin.de, see LICENSE for license
 #
 # This file contains some simple use cases for the ExPanDaR package.
 # It is not a part of the package itself.
@@ -16,6 +16,12 @@ ExPanD(export_nb_option = TRUE)
 library(ExPanDaR)
 
 ExPanD(mtcars, export_nb_option = TRUE)
+
+# --- Use ExPanD without settings and export option-----------------------------
+
+library(ExPanDaR)
+
+ExPanD(mtcars, save_settings_option = TRUE)
 
 
 # --- Use ExPanD on a condensed Worldbank data set -----------------------------

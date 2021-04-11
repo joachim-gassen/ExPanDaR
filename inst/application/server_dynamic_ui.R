@@ -265,7 +265,7 @@ output$download <- downloadHandler(
 
 expand_footer <- reactive({
   expand_footer <- list()
-  if(length(components()) > 1) {
+  if(shiny_save_settings_option && length(components()) > 1) {
     expand_footer <- c(
       expand_footer,
       list(
@@ -309,7 +309,7 @@ expand_footer <- reactive({
              "<a href=https://www.wiwi.hu-berlin.de/rewe>",
              "Humboldt-Universität zu Berlin</a> and",
              "<a href=https://www.accounting-for-transparency.de>",
-             "TRR 266 Accounting for Transparency</a>, 2020<p>")
+             "TRR 266 Accounting for Transparency</a>, 2021<p>")
       )
     )
   ))

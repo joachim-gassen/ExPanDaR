@@ -66,6 +66,9 @@
 #' @param export_nb_option Do you want to give the user the option to download your
 #'   data and an R notebook containing code for the analyses that \code{ExPanD} displays?
 #'   Defaults to \code{FALSE}.
+#' @param save_settings_option Do you want to give the user the option to save
+#'   and/or load the settings of the ExPanD app to their local environment?
+#'   Defaults to \code{TRUE}.
 #' @param store_encrypted Do you want the user-side saved config files to be
 #'   encrypted? A security measure to avoid that users can inject arbitrary code
 #'   in the config list. Probably a good idea when you are hosting sensitive data
@@ -206,6 +209,7 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
                                   regression = TRUE),
                    html_blocks = NULL,
                    export_nb_option = FALSE,
+                   save_settings_option = TRUE,
                    store_encrypted = FALSE,
                    key_phrase = "What a wonderful key",
                    debug = FALSE, ...) {
@@ -357,8 +361,10 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
                                  "quantile_trend_graph", "by_group_trend_graph")]
   }
 
-  if (!is.logical(export_nb_option))
+  if (!is.logical(export_nb_option) || length(export_nb_option) > 1)
     stop("export_nb_option needs to be a logical value")
+  if (!is.logical(save_settings_option) || length(save_settings_option) > 1)
+    stop("save_settings_option needs to be a logical value")
 
   if(!is.null(var_def)) var_def[1:3] <- lapply(var_def[1:3], as.character)
 
@@ -385,6 +391,7 @@ ExPanD <- function(df = NULL, cs_id = NULL, ts_id = NULL,
   shiny_components <- components[components]
   shiny_html_blocks <- html_blocks
   shiny_export_nb_option <- export_nb_option
+  shiny_save_settings_option <- save_settings_option
 
   pkg_app_dir <- system.file("application", package = "ExPanDaR")
   file.copy(pkg_app_dir, tempdir(), recursive=TRUE)

@@ -21,7 +21,7 @@ ExPanD(mtcars, export_nb_option = TRUE)
 
 library(ExPanDaR)
 
-ExPanD(mtcars, save_settings_option = TRUE)
+ExPanD(mtcars, save_settings_option = FALSE)
 
 
 # --- Use ExPanD on a condensed Worldbank data set -----------------------------

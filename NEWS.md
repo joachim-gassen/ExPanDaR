@@ -7,7 +7,8 @@ Extensions:
 
 Minor Issues:
 
-* Switched back to `lfe` for `prepare_regression_table()` OLS regressions. `lfe`is back on CRAN and allows for multiple fixed effects and multi-level clustering. It is now being run with `cmethod='reghdfe'` to make clustered standard errors consistent with Stata's `reghdfe`
+* Moved to `fixest` and `modelsummary` for `prepare_regression_table()`. Both packages are faster, more versatile and more actively supported than their predecessors `lfe` and `stargazer`. Please note that the move to `modelsummary` implies changes in the table layout, meaning that it might break downstream code that depends on the table structure, e.g. code that customizes latex output. 
+
 
 # ExPanDaR 0.5.3
 

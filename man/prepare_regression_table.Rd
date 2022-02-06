@@ -12,49 +12,67 @@ prepare_regression_table(
   clusters = rep("", length(dvs)),
   models = rep("auto", length(dvs)),
   byvar = "",
-  format = "html"
+  fmt = function(x) {     if (is.integer(x))          format(x, big.mark = ",")    
+    else format(round(x, 3), nsmall = 3, big.mark = ",") },
+  output = "html",
+  format = NULL
 )
 }
 \arguments{
 \item{df}{Data frame containing the data to estimate the models on.}
 
-\item{dvs}{A character vector containing the variable names for the dependent variable(s).}
+\item{dvs}{A character vector containing the variable names for the dependent
+variable(s).}
 
-\item{idvs}{A character vector or a a list of character vectors containing the variable names of the independent variables.}
+\item{idvs}{A character vector or a a list of character vectors containing
+the variable names of the independent variables.}
 
-\item{feffects}{A character vector or a a list of character vectors containing the variable names of the fixed effects.}
+\item{feffects}{A character vector or a a list of character vectors
+containing the variable names of the fixed effects.}
 
-\item{clusters}{A character vector or a a list of character vectors containing the variable names of the cluster variables.}
+\item{clusters}{A character vector or a a list of character vectors
+containing the variable names of the cluster variables.}
 
-\item{models}{A character vector indicating the model types to be estimated ('ols', 'logit', or 'auto')}
+\item{models}{A character vector indicating the model types to be estimated
+('ols', 'logit', or 'auto')}
 
-\item{byvar}{A factorial variable to estimate the model on (only possible if only one model is being estimated).}
+\item{byvar}{A factorial variable to estimate the model on (only possible if
+only one model is being estimated).}
 
-\item{format}{A character scalar that is passed on \code{\link[stargazer]{stargazer}} as \code{type} to determine the presentation
-format ("html", "text", or "latex").}
+\item{fmt}{A formatting function for numeric values in the table. Applied to
+all coefficients, standard errors and goodness-of-fit statistics.}
+
+\item{output}{A character scalar that is passed on
+\code{\link[modelsummary]{modelsummary}}  to determine
+the presentation format (e.g., "html", "text", or "latex"). "text" is
+converted to "markdown". The old parameter \code{format} is now depreciated
+and converted to \code{output} with a warning.}
+
+\item{format}{Deprecated. See 'output'.}
 }
 \value{
 A list containing two items
 \describe{
- \item{"models"}{A list containing the model results and by values if appropriate}
- \item{"table"}{The output of \code{\link[stargazer]{stargazer}} containing the table}
+ \item{"models"}{A list containing the model results and by values if
+ appropriate}
+ \item{"table"}{The output of \code{\link[modelsummary]{modelsummary}}
+ containing the table}
 }
 }
 \description{
-Builds a regression table based on a set of user-specified models or a single model and a partitioning variable.
+Builds a regression table based on a set of user-specified models or a single
+model and a partitioning variable.
 }
 \details{
-This is a wrapper function calling the stargazer package. Depending on whether the dependent variable
-  is numeric, logical or a factor with two levels, the models are estimated
-  using \code{\link[lfe]{felm}} (for numeric dependent variables)
-  or \code{\link[stats]{glm}} (with \code{family = binomial(link="logit")}) (for two-level factors or logical variables).
-  You can override this behavior by specifying the model with the \code{models} parameter.
-  Multinomial logit models are not supported.
-  For \code{\link[stats]{glm}}, clustered standard errors are estimated using
-  \code{\link[multiwayvcov]{cluster.vcov}}.
-  For \code{\link[lfe]{felm}}, it is being run with \code{cmethod='reghdfe'}
-  to make clustered standard errors consistent with Stata's 'reghdfe'.
-  If run with \code{byvar}, only levels that have more observations than coefficients are estimated.
+This is a wrapper function calling \code{\link[modelsummary]{modelsummary}}.
+Depending on whether the dependent variable is numeric, logical or a factor
+with two levels, the models are estimated using \code{\link[fixest]{feols}}
+(for numeric dependent variables) or \code{\link[fixest]{feglm}} (with
+\code{family = binomial(link="logit")}) (for two-level factors or logical
+variables). You can override this behavior by specifying the model with the
+\code{models} parameter. Multinomial logit models are not supported.
+If run with \code{byvar}, only levels that have more observations than
+coefficients are estimated.
 }
 \examples{
 df <- data.frame(year = as.factor(floor(stats::time(datasets::EuStockMarkets))),
